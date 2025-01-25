@@ -1,19 +1,13 @@
 type CardType = "flat" | "float";
 type CardSize = "default" | "extended";
 
-interface CardProps
-  extends Omit<
-    React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLDivElement>,
-      HTMLDivElement
-    >,
-    "children"
-  > {
-  type: CardType;
+interface CardProps extends Omit<React.ComponentProps<"div">, "children"> {
+  type?: CardType;
   size?: CardSize;
   title: string;
   text: string;
   image?: string;
+  icon?: string;
   actions?: JSX.Element;
   subtitle?: JSX.Element;
   titleMaxLines?: 1 | 2 | 3 | 4 | 5 | 6;
@@ -21,11 +15,12 @@ interface CardProps
 
 export function Card(props: CardProps) {
   const {
-    type,
+    type = "float",
     size = "default",
     title,
     text,
     image,
+    icon,
     subtitle,
     actions,
     titleMaxLines,
@@ -37,9 +32,20 @@ export function Card(props: CardProps) {
     titleMaxLines !== null && titleMaxLines !== undefined;
 
   return (
-    <div className={`bg-white rounded-3xl overflow-hidden ${typeStyles[type]}`}>
-      {image && <img src={image} alt={title} className="w-full h-[236px]" />}
+    <CardContainer type={type}>
+      {image && (
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-[236px] object-cover"
+        />
+      )}
       <div className={`flex flex-col gap-4 p-8 pt-6 ${sizeClass.card}`}>
+        {icon && (
+          <div className="w-[120px] h-[120px] bg-primary-lighter flex items-center justify-center rounded-3xl">
+            {icon}
+          </div>
+        )}
         <span
           className={`text-h4 text-gray-950 font-medium ${sizeClass.title} ${
             hasTitleMaxLines ? `line-clamp-${titleMaxLines}` : ""
@@ -51,6 +57,17 @@ export function Card(props: CardProps) {
         <span className={`text-gray-700 ${sizeClass.text}`}>{text}</span>
         {actions}
       </div>
+    </CardContainer>
+  );
+}
+
+export function CardContainer({
+  type = "float",
+  children,
+}: Pick<CardProps, "type"> & React.ComponentProps<"div">) {
+  return (
+    <div className={`bg-white rounded-3xl overflow-hidden ${typeStyles[type]}`}>
+      {children}
     </div>
   );
 }
@@ -73,5 +90,5 @@ const sizeStyles: Record<
 
 const typeStyles: Record<CardType, string> = {
   flat: "border border-gray-300",
-  float: "shadow-lg",
+  float: "shadow-custom-1",
 };

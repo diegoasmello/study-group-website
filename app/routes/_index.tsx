@@ -2,52 +2,72 @@ import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
+import { Container } from "~/components/Container";
+import { NewsletterBanner } from "~/components/NewsletterBanner";
 
 import cardImage from "~/images/card-image.png";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
+    { title: "study-group-site" },
     { name: "description", content: "Welcome to Remix!" },
   ];
 };
 
 export default function Index() {
   return (
-    <main>
+    <main className="pt-8 pb-20">
       {/* carousel */}
-      <section className="container mx-auto">
-        <div className="flex flex-col gap-8 items-start">
-          <div className="flex flex-col gap-4">
-            <span>Ação</span>
-            <span className="text-h1-display">
-              Curso de Letras realiza palestras e encontros on-line
-            </span>
-            <p className="text-lead-1">
-              Confira a programação de atividades já prevista para o mês de
-              dezembro e outros encontros que ainda estão sendo preparados.{" "}
-            </p>
-          </div>
-          <Button>Saiba mais</Button>
-          <nav className="flex flex-row gap-4">
-            <Button size="md">prev</Button>
-            <Button size="md">next</Button>
-          </nav>
-        </div>
+      <section className="w-full relative">
+        <Container>
+          <section className="grid grid-cols-12 gap-8">
+            <div className="col-span-4">
+              <div className="flex flex-col gap-8 items-start">
+                <div className="flex flex-col gap-4">
+                  <span className="text-primary font-medium">Ação</span>
+                  <span className="text-h1-display">
+                    Curso de Letras realiza palestras e encontros on-line
+                  </span>
+                  <p className="text-lead-1 text-gray-800">
+                    Confira a programação de atividades já prevista para o mês
+                    de dezembro e outros encontros que ainda estão sendo
+                    preparados.{" "}
+                  </p>
+                </div>
+                <Button>Saiba mais</Button>
+                <nav className="flex flex-row gap-4">
+                  <Button size="md">prev</Button>
+                  <Button size="md">next</Button>
+                </nav>
+              </div>
+            </div>
+          </section>
+        </Container>
+        <img
+          src={cardImage}
+          alt={"dawdwa"}
+          className="h-[506px] w-[50vw] object-cover absolute top-0 right-0 rounded-l-[56px]"
+        />
       </section>
 
       {/* about section */}
-      <section className="container mx-auto">
-        <div className="grid grid-cols-2 gap-8">
-          <img src="" alt="Sobre o grupo" />
+      <Container className="pt-14 pb-20">
+        <div className="grid grid-cols-12 gap-8 items-center">
+          <div className="col-span-6">
+            <img
+              src={cardImage}
+              alt="Sobre o grupo"
+              className="w-full rounded-3xl"
+            />
+          </div>
 
-          <div className="flex flex-col gap-6">
+          <div className="col-span-5 flex flex-col gap-6">
             <div className="flex flex-col gap-4">
-              <span className="text-primary text-gray-">Sobre o grupo</span>
+              <span className="text-primary font-medium">Sobre o grupo</span>
               <span className="text-h2">
                 Novos rumos para o ensino de língua em tempos de globalização
               </span>
-              <p>
+              <p className="text-gray-800">
                 Unimos pesquisadores e entusiastas para compreender como a
                 diversidade linguística e a interculturalidade influenciam a
                 criação, tradução e recepção das narrativas, enriquecendo a
@@ -63,36 +83,41 @@ export default function Index() {
             </nav>
           </div>
         </div>
-      </section>
+      </Container>
 
       {/* research section */}
-      <section className="container mx-auto flex flex-col gap-8 pb-16">
+      <Container className="flex flex-col gap-8 pb-16">
         <h2 className="text-h3 text-center">Áreas de pesquisa</h2>
         <div className="grid grid-cols-3 gap-8">
           <Card
             type="flat"
             title="Leitura e Escrita"
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            icon={"a"}
           />
           <Card
             type="flat"
             title="Multilinguismo"
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            icon={"a"}
           />
           <Card
             type="flat"
             title="Transculturalidade"
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            icon={"a"}
           />
         </div>
-      </section>
+        <Link to={`/events`} className="text-center text-primary underline">
+          Saiba mais sobre nossa pesquisa
+        </Link>
+      </Container>
 
       {/* events carousel */}
-      <section className="container mx-auto flex flex-col gap-8 pb-16">
+      <Container className="flex flex-col gap-8 pb-16">
         <h2 className="text-h3 text-center">Eventos e Cursos</h2>
         <div className="grid grid-cols-3 gap-8">
           <Card
-            type="float"
             image={cardImage}
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
@@ -104,7 +129,6 @@ export default function Index() {
             }
           />
           <Card
-            type="float"
             image={cardImage}
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
@@ -116,7 +140,6 @@ export default function Index() {
             }
           />
           <Card
-            type="float"
             image={cardImage}
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
@@ -131,16 +154,15 @@ export default function Index() {
         <Link to={`/events`} className="text-center text-primary underline">
           Ver todos eventos
         </Link>
-      </section>
+      </Container>
 
       {/* last publications */}
-      <section className="container mx-auto flex flex-col gap-8 pb-16">
-        <h2 className="text-h3 text-center">Últimas publicações</h2>
+      <Container className="flex flex-col gap-8 pb-16">
+        <h2 className="text-h3 text-left">Últimas publicações</h2>
         <div className="grid grid-cols-4 grid-rows-2 gap-8">
           <div className="col-span-2 row-span-2">
             <Card
               size="extended"
-              type="float"
               title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
               titleMaxLines={2}
@@ -156,7 +178,6 @@ export default function Index() {
           </div>
           <div className="col-start-3">
             <Card
-              type="float"
               title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
               titleMaxLines={3}
@@ -169,7 +190,6 @@ export default function Index() {
           </div>
           <div className="col-start-3 row-start-2">
             <Card
-              type="float"
               title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
               titleMaxLines={3}
@@ -182,7 +202,6 @@ export default function Index() {
           </div>
           <div className="col-start-4 row-start-1">
             <Card
-              type="float"
               title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
               titleMaxLines={3}
@@ -195,7 +214,6 @@ export default function Index() {
           </div>
           <div className="col-start-4 row-start-2">
             <Card
-              type="float"
               title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
               titleMaxLines={3}
@@ -213,16 +231,16 @@ export default function Index() {
         >
           Ver todas publicações
         </Link>
-      </section>
+      </Container>
 
       {/* actions carousel */}
-      <section className="container mx-auto flex flex-col gap-8 pb-16">
+      <Container className="flex flex-col gap-8 pb-16">
         <h2 className="text-h3 text-center">Últimas ações</h2>
         <div className="grid grid-cols-3 gap-8">
           <Card
-            type="float"
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            image={cardImage}
             titleMaxLines={3}
             actions={
               <Button skin="ghost" size="md">
@@ -231,9 +249,9 @@ export default function Index() {
             }
           />
           <Card
-            type="float"
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            image={cardImage}
             titleMaxLines={3}
             actions={
               <Button skin="ghost" size="md">
@@ -242,9 +260,9 @@ export default function Index() {
             }
           />
           <Card
-            type="float"
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+            image={cardImage}
             titleMaxLines={3}
             actions={
               <Button skin="ghost" size="md">
@@ -256,16 +274,11 @@ export default function Index() {
         <Link to={`/actions`} className="text-center text-primary underline">
           Ver todas ações
         </Link>
-      </section>
+      </Container>
 
-      {/* newsletter section */}
-      <section className="container mx-auto pb-20">
-        <div className="flex flex-col gap-6 items-start">
-          <span className="text-h3">Participe do nosso grupo!</span>
-          <input type="text" placeholder="Digite seu e-mail" />
-          <Button>Enviar</Button>
-        </div>
-      </section>
+      <Container>
+        <NewsletterBanner />
+      </Container>
     </main>
   );
 }

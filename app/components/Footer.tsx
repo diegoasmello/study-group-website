@@ -1,7 +1,9 @@
+import { Container } from "./Container";
+
 export function Footer() {
   return (
     <footer className="bg-primary-light text-white pt-20 pb-24">
-      <div className="container mx-auto">
+      <Container>
         {/* <img src="" alt="Logo" /> */}
         <nav>
           <ul>
@@ -12,7 +14,7 @@ export function Footer() {
             </li>
           </ul>
         </nav>
-      </div>
+      </Container>
     </footer>
   );
 }

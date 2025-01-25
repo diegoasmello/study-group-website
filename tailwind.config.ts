@@ -87,6 +87,8 @@ export default {
       },
       boxShadow: {
         focus: `0 0 0 1px white, 0 0 0 3px #273782`,
+        "custom-1": "0px 8px 40px 0px rgba(0, 0, 0, 4%)",
+        "custom-2": "",
       },
     },
   },

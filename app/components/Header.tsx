@@ -1,40 +1,53 @@
 import { Link, NavLink } from "@remix-run/react";
 import { Button } from "./Button";
+import { Container } from "./Container";
 
 export function Header() {
   return (
-    <header className="container mx-auto flex flex-row items-center justify-between h-20">
-      <Link to="./">
-        <img src="" alt="Logo" />
-      </Link>
+    <header className="flex items-center justify-center h-20">
+      <Container>
+        <div className="flex flex-row items-center justify-between">
+          <Link to="./">
+            <img src="" alt="Logo" />
+          </Link>
 
-      <nav>
-        <ul className="flex flex-row items-center gap-8">
-          {navLinks.map((navLink) => (
-            <li key={navLink.href}>
-              <NavLink
-                className={({ isActive, isPending }) =>
-                  isActive ? "text-primary" : isPending ? "pending" : ""
-                }
-                to={navLink.href}
-              >
-                {navLink.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
+          <nav>
+            <ul className="flex flex-row items-center gap-8">
+              {navLinks.map((navLink) => (
+                <li key={navLink.href} className="font-medium">
+                  {navLink.isButton ? (
+                    <button>{navLink.label}</button>
+                  ) : (
+                    <NavLink
+                      className={({ isActive, isPending }) =>
+                        isActive
+                          ? "text-primary border-primary border-b-2 pb-1"
+                          : isPending
+                          ? "pending"
+                          : ""
+                      }
+                      to={navLink.href!}
+                    >
+                      {navLink.label}
+                    </NavLink>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-      <nav>
-        <ul className="flex flex-row items-center gap-2">
-          <li>
-            <Button>search</Button>
-          </li>
-          <li>
-            <Button>lang</Button>
-          </li>
-        </ul>
-      </nav>
+          <nav>
+            <ul className="flex flex-row items-center gap-2">
+              <li>
+                <Button>search</Button>
+              </li>
+              <li>
+                <Button>lang</Button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </Container>
     </header>
   );
 }
@@ -46,7 +59,7 @@ const navLinks = [
   },
   {
     label: "Sobre",
-    href: "./",
+    isButton: true,
   },
   {
     label: "Publicações",
