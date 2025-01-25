@@ -3,6 +3,8 @@ import { Link } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
 
+import cardImage from "~/images/card-image.png";
+
 export const meta: MetaFunction = () => {
   return [
     { title: "New Remix App" },
@@ -91,6 +93,7 @@ export default function Index() {
         <div className="grid grid-cols-3 gap-8">
           <Card
             type="float"
+            image={cardImage}
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
             titleMaxLines={3}
@@ -102,6 +105,7 @@ export default function Index() {
           />
           <Card
             type="float"
+            image={cardImage}
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
             titleMaxLines={3}
@@ -113,6 +117,7 @@ export default function Index() {
           />
           <Card
             type="float"
+            image={cardImage}
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
             titleMaxLines={3}
