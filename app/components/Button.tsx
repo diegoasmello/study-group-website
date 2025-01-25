@@ -9,19 +9,23 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export function Button(props: Props) {
   const { skin = "primary", size = "lg", ...rest } = props;
 
-  const skinClass = skinStyles[skin];
-  const sizeClass = sizeStyles[size];
-
-  return <button className={`${skinClass} ${sizeClass}`} {...rest} />;
+  return (
+    <button
+      className={`inline-flex items-center justify-center rounded-xl font-medium focus:shadow-focus focus:outline-none ${skinClasses[skin]} ${sizeClasses[size]}`}
+      {...rest}
+    />
+  );
 }
 
-const skinStyles: Record<ButtonSkin, string> = {
-  primary: "bg-primary text-white",
-  outline: "bg-white text-primary border border-primary",
-  ghost: "",
+const skinClasses: Record<ButtonSkin, string> = {
+  primary: "bg-primary text-white hover:bg-primary-dark active:bg-primary-dark",
+  outline:
+    "bg-white text-primary border border-primary hover:bg-primary hover:text-white active:bg-primary-darker active:text-white",
+  ghost:
+    "bg-primary-lighter text-primary hover:bg-primary-200 active:bg-primary-300",
 };
 
-const sizeStyles: Record<ButtonSize, string> = {
+const sizeClasses: Record<ButtonSize, string> = {
   lg: "px-8 py-4",
   md: "px-6 py-3",
 };
