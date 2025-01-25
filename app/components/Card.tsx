@@ -13,7 +13,7 @@ interface Props
   size?: CardSize;
   title: string;
   text: string;
-  actions: JSX.Element;
+  actions?: JSX.Element;
   subtitle?: JSX.Element;
   titleMaxLines?: 1 | 2 | 3 | 4 | 5 | 6;
 }
@@ -35,16 +35,18 @@ export function Card(props: Props) {
     titleMaxLines !== null && titleMaxLines !== undefined;
 
   return (
-    <div className={`flex flex-col gap-4 p-8 pt-6 shadow-lg ${sizeClass.card}`}>
+    <div
+      className={`flex flex-col gap-4 p-8 pt-6 rounded-3xl shadow-lg ${sizeClass.card}`}
+    >
       <span
-        className={`text-2xl font-medium ${sizeClass.title} ${
+        className={`text-h4 text-gray-950 font-medium ${sizeClass.title} ${
           hasTitleMaxLines ? `line-clamp-${titleMaxLines}` : ""
         }`}
       >
         {title}
       </span>
       {subtitle}
-      <span className={`${sizeClass.text}`}>{text}</span>
+      <span className={`text-gray-700 ${sizeClass.text}`}>{text}</span>
       {actions}
     </div>
   );

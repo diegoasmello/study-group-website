@@ -15,17 +15,23 @@ export default function Index() {
     <main>
       {/* carousel */}
       <section className="container mx-auto">
-        <span>Ação</span>
-        <span className="text-5xl">
-          Curso de Letras realiza palestras e encontros on-line
-        </span>
-        <p>
-          Confira a programação de atividades já prevista para o mês de dezembro
-          e outros encontros que ainda estão sendo preparados.{" "}
-        </p>
-        <Button>Saiba mais</Button>
-        <Button size="md">prev</Button>
-        <Button size="md">next</Button>
+        <div className="flex flex-col gap-8 items-start">
+          <div className="flex flex-col gap-4">
+            <span>Ação</span>
+            <span className="text-h1-display">
+              Curso de Letras realiza palestras e encontros on-line
+            </span>
+            <p className="text-lead-1">
+              Confira a programação de atividades já prevista para o mês de
+              dezembro e outros encontros que ainda estão sendo preparados.{" "}
+            </p>
+          </div>
+          <Button>Saiba mais</Button>
+          <nav className="flex flex-row gap-4">
+            <Button size="md">prev</Button>
+            <Button size="md">next</Button>
+          </nav>
+        </div>
       </section>
 
       {/* about section */}
@@ -35,8 +41,8 @@ export default function Index() {
 
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
-              <span>Sobre o grupo</span>
-              <span>
+              <span className="text-primary text-gray-">Sobre o grupo</span>
+              <span className="text-h2">
                 Novos rumos para o ensino de língua em tempos de globalização
               </span>
               <p>
@@ -49,7 +55,7 @@ export default function Index() {
               </p>
             </div>
 
-            <nav>
+            <nav className="flex flex-row gap-4">
               <Button>História</Button>
               <Button skin="outline">Equipe</Button>
             </nav>
@@ -58,48 +64,63 @@ export default function Index() {
       </section>
 
       {/* research section */}
-      <section className="container mx-auto flex flex-col gap-8">
-        <h2 className="text-3xl	text-center">Áreas de pesquisa</h2>
+      <section className="container mx-auto flex flex-col gap-8 pb-16">
+        <h2 className="text-h3 text-center">Áreas de pesquisa</h2>
         <div className="grid grid-cols-3 gap-8">
-          <div>
-            <h3>Leitura e Escrita</h3>
-            <p>Lorem ipsum</p>
-          </div>
-          <div>
-            <h3>Multilinguismo</h3>
-            <p>Lorem ipsum</p>
-          </div>
-          <div>
-            <h3>Transculturalidade</h3>
-            <p>Lorem ipsum</p>
-          </div>
+          <Card
+            type="flat"
+            title="Leitura e Escrita"
+            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+          />
+          <Card
+            type="flat"
+            title="Multilinguismo"
+            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+          />
+          <Card
+            type="flat"
+            title="Transculturalidade"
+            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+          />
         </div>
       </section>
 
       {/* events carousel */}
-      <section className="container mx-auto flex flex-col gap-8">
-        <h2 className="text-3xl	text-center">Eventos e Cursos</h2>
+      <section className="container mx-auto flex flex-col gap-8 pb-16">
+        <h2 className="text-h3 text-center">Eventos e Cursos</h2>
         <div className="grid grid-cols-3 gap-8">
           <Card
             type="float"
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            actions={<Button>Saiba mais</Button>}
             titleMaxLines={3}
+            actions={
+              <Button skin="ghost" size="md">
+                Saiba mais
+              </Button>
+            }
           />
           <Card
             type="float"
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            actions={<Button>Saiba mais</Button>}
             titleMaxLines={3}
+            actions={
+              <Button skin="ghost" size="md">
+                Saiba mais
+              </Button>
+            }
           />
           <Card
             type="float"
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            actions={<Button>Saiba mais</Button>}
             titleMaxLines={3}
+            actions={
+              <Button skin="ghost" size="md">
+                Saiba mais
+              </Button>
+            }
           />
         </div>
         <Link to={`/events`} className="text-center text-primary underline">
@@ -108,8 +129,8 @@ export default function Index() {
       </section>
 
       {/* last publications */}
-      <section className="container mx-auto flex flex-col gap-8">
-        <h2 className="text-3xl	text-center">Últimas publicações</h2>
+      <section className="container mx-auto flex flex-col gap-8 pb-16">
+        <h2 className="text-h3 text-center">Últimas publicações</h2>
         <div className="grid grid-cols-4 grid-rows-2 gap-8">
           <div className="col-span-2 row-span-2">
             <Card
@@ -117,8 +138,15 @@ export default function Index() {
               type="float"
               title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-              actions={<Button>Ver mais</Button>}
               titleMaxLines={2}
+              actions={
+                <nav className="flex items-start gap-2">
+                  <Button size="md">Ver mais</Button>
+                  <Button skin="ghost" size="md">
+                    Ler
+                  </Button>
+                </nav>
+              }
             />
           </div>
           <div className="col-start-3">
@@ -126,8 +154,12 @@ export default function Index() {
               type="float"
               title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-              actions={<Button>Ver mais</Button>}
               titleMaxLines={3}
+              actions={
+                <Button skin="ghost" size="md">
+                  Ver mais
+                </Button>
+              }
             />
           </div>
           <div className="col-start-3 row-start-2">
@@ -135,8 +167,12 @@ export default function Index() {
               type="float"
               title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-              actions={<Button>Ver mais</Button>}
               titleMaxLines={3}
+              actions={
+                <Button skin="ghost" size="md">
+                  Ver mais
+                </Button>
+              }
             />
           </div>
           <div className="col-start-4 row-start-1">
@@ -144,8 +180,12 @@ export default function Index() {
               type="float"
               title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-              actions={<Button>Ver mais</Button>}
               titleMaxLines={3}
+              actions={
+                <Button skin="ghost" size="md">
+                  Ver mais
+                </Button>
+              }
             />
           </div>
           <div className="col-start-4 row-start-2">
@@ -153,8 +193,12 @@ export default function Index() {
               type="float"
               title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
               text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-              actions={<Button>Ver mais</Button>}
               titleMaxLines={3}
+              actions={
+                <Button skin="ghost" size="md">
+                  Ver mais
+                </Button>
+              }
             />
           </div>
         </div>
@@ -167,29 +211,41 @@ export default function Index() {
       </section>
 
       {/* actions carousel */}
-      <section className="container mx-auto flex flex-col gap-8">
-        <h2 className="text-3xl	text-center">Últimas ações</h2>
+      <section className="container mx-auto flex flex-col gap-8 pb-16">
+        <h2 className="text-h3 text-center">Últimas ações</h2>
         <div className="grid grid-cols-3 gap-8">
           <Card
             type="float"
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            actions={<Button>Saiba mais</Button>}
             titleMaxLines={3}
+            actions={
+              <Button skin="ghost" size="md">
+                Saiba mais
+              </Button>
+            }
           />
           <Card
             type="float"
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            actions={<Button>Saiba mais</Button>}
             titleMaxLines={3}
+            actions={
+              <Button skin="ghost" size="md">
+                Saiba mais
+              </Button>
+            }
           />
           <Card
             type="float"
             title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            actions={<Button>Saiba mais</Button>}
             titleMaxLines={3}
+            actions={
+              <Button skin="ghost" size="md">
+                Saiba mais
+              </Button>
+            }
           />
         </div>
         <Link to={`/actions`} className="text-center text-primary underline">
@@ -198,13 +254,13 @@ export default function Index() {
       </section>
 
       {/* newsletter section */}
-      <section className="container mx-auto">
-        <span>Participe do nosso grupo!</span>
-        <input type="text" placeholder="Digite seu e-mail" />
-        <Button>Enviar</Button>
+      <section className="container mx-auto pb-20">
+        <div className="flex flex-col gap-6 items-start">
+          <span className="text-h3">Participe do nosso grupo!</span>
+          <input type="text" placeholder="Digite seu e-mail" />
+          <Button>Enviar</Button>
+        </div>
       </section>
-
-      {/* footer */}
     </main>
   );
 }
