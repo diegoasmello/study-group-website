@@ -1,6 +1,7 @@
 import { Link, NavLink } from "@remix-run/react";
 import { Button } from "./Button";
 import { Container } from "./Container";
+import logo from "~/images/logo-dark.png";
 
 export function Header() {
   return (
@@ -8,7 +9,7 @@ export function Header() {
       <Container>
         <div className="flex flex-row items-center justify-between">
           <Link to="./">
-            <img src="" alt="Logo" />
+            <img src={logo} alt="Logo" className="h-[40px]" />
           </Link>
 
           <nav>
