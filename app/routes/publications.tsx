@@ -1,6 +1,7 @@
 import { Button } from "~/components/Button";
 import { Card, CardContainer } from "~/components/Card";
 import { Container } from "~/components/Container";
+import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 
 export default function Publications() {
@@ -37,6 +38,9 @@ export default function Publications() {
           <div className="col-span-4 flex flex-col gap-6">
             <CardContainer>teste</CardContainer>
             <CardContainer>teste</CardContainer>
+          </div>
+          <div className="col-span-12">
+            <NewsletterBanner />
           </div>
         </section>
       </Container>
