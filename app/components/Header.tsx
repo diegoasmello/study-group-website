@@ -2,6 +2,7 @@ import { Link, NavLink } from "@remix-run/react";
 import { Button } from "./Button";
 import { Container } from "./Container";
 import logo from "~/images/logo-dark.png";
+import { MdArrowForwardIos, MdSearch } from "react-icons/md";
 
 export function Header() {
   return (
@@ -40,10 +41,15 @@ export function Header() {
           <nav>
             <ul className="flex flex-row items-center gap-2">
               <li>
-                <Button>search</Button>
+                <Button size="md" skin="ghost" className="gap-2 px-3">
+                  <span>PT</span>
+                  <MdArrowForwardIos className="rotate-90" size={16} />
+                </Button>
               </li>
               <li>
-                <Button>lang</Button>
+                <Button size="md" skin="ghost" className="w-[44px] px-0">
+                  <MdSearch size={24} />
+                </Button>
               </li>
             </ul>
           </nav>

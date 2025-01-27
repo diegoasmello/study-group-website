@@ -1,15 +1,17 @@
-type CardType = "flat" | "float";
-type CardSize = "default" | "extended";
+export type CardType = "flat" | "float";
+export type CardSize = "default" | "extended";
 
 interface CardProps extends Omit<React.ComponentProps<"div">, "children"> {
   type?: CardType;
   size?: CardSize;
   title: string;
-  text: string;
+  text?: string;
   image?: string;
-  icon?: string;
-  actions?: JSX.Element;
-  subtitle?: JSX.Element;
+  icon?: JSX.Element | string;
+  imageAsIcon?: boolean;
+  actions?: JSX.Element | null;
+  subtitle?: JSX.Element | null;
+  label?: JSX.Element | null;
   titleMaxLines?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
@@ -21,9 +23,12 @@ export function Card(props: CardProps) {
     text,
     image,
     icon,
+    imageAsIcon,
     subtitle,
+    label,
     actions,
     titleMaxLines,
+    className,
   } = props;
 
   const sizeClass = sizeStyles[size];
@@ -32,20 +37,28 @@ export function Card(props: CardProps) {
     titleMaxLines !== null && titleMaxLines !== undefined;
 
   return (
-    <CardContainer type={type}>
-      {image && (
+    <CardContainer type={type} className={className}>
+      {image && !imageAsIcon && (
         <img
           src={image}
           alt={title}
           className="w-full h-[236px] object-cover"
         />
       )}
-      <div className={`flex flex-col gap-4 p-8 pt-6 ${sizeClass.card}`}>
+      <div className={`flex flex-col gap-4 p-6 ${sizeClass.card}`}>
         {icon && (
           <div className="w-[120px] h-[120px] bg-primary-lighter flex items-center justify-center rounded-3xl">
             {icon}
           </div>
         )}
+        {image && imageAsIcon && (
+          <img
+            src={image}
+            alt={title}
+            className="w-[120px] h-[120px] rounded-3xl object-cover"
+          />
+        )}
+        {label}
         <span
           className={`text-h4 text-gray-950 font-medium ${sizeClass.title} ${
             hasTitleMaxLines ? `line-clamp-${titleMaxLines}` : ""
@@ -54,7 +67,9 @@ export function Card(props: CardProps) {
           {title}
         </span>
         {subtitle}
-        <span className={`text-gray-700 ${sizeClass.text}`}>{text}</span>
+        {text && (
+          <span className={`text-gray-700 ${sizeClass.text}`}>{text}</span>
+        )}
         {actions}
       </div>
     </CardContainer>
@@ -64,9 +79,12 @@ export function Card(props: CardProps) {
 export function CardContainer({
   type = "float",
   children,
+  className,
 }: Pick<CardProps, "type"> & React.ComponentProps<"div">) {
   return (
-    <div className={`bg-white rounded-3xl overflow-hidden ${typeStyles[type]}`}>
+    <div
+      className={`${className} bg-white rounded-3xl overflow-hidden ${typeStyles[type]}`}
+    >
       {children}
     </div>
   );

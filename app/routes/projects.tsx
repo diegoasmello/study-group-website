@@ -1,4 +1,8 @@
+import { CardProject } from "~/components/CardProject";
+import { Container } from "~/components/Container";
+import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
+import cardImage from "~/images/card-image.png";
 
 export default function Projects() {
   return (
@@ -8,6 +12,26 @@ export default function Projects() {
         text="Confira as publicações do nosso grupo e mergulhe em um oceano de conhecimento."
         className="mb-8"
       />
+      <Container>
+        <section className="grid grid-cols-12 gap-x-8 gap-y-6">
+          {Array(9)
+            .fill(null)
+            .map((_, index) => (
+              <div key={index} className="col-span-4">
+                <CardProject
+                  project={{
+                    title: "Lorem ipsum",
+                    image: cardImage,
+                    link: "/",
+                  }}
+                />
+              </div>
+            ))}
+          <div className="col-span-12">
+            <NewsletterBanner />
+          </div>
+        </section>
+      </Container>
     </main>
   );
 }

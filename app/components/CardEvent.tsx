@@ -1,0 +1,53 @@
+import { MdOutlineCalendarMonth, MdPlace } from "react-icons/md";
+import { Card, CardSize } from "./Card";
+import { Button } from "./Button";
+import { Link } from "@remix-run/react";
+
+interface CardEventProps {
+  size: CardSize;
+  event: {
+    title: string;
+    image: string;
+    date: Date;
+    locale: string;
+  };
+}
+
+export function CardEvent(props: CardEventProps) {
+  const { event, size } = props;
+
+  const hasInscricao = true;
+
+  return (
+    <Card
+      size={size}
+      title={event.title}
+      titleMaxLines={3}
+      image={event.image}
+      label={
+        <div className="flex items-center gap-4 text-h5 text-gray-700 fill-gray-700">
+          <div className="flex items-center gap-2">
+            <MdOutlineCalendarMonth size={16} />
+            {event.date.toLocaleDateString("pt-BR")}
+          </div>
+          <div className="flex items-center gap-2">
+            <MdPlace size={16} />
+            {event.date.toLocaleDateString("pt-BR")}
+          </div>
+        </div>
+      }
+      actions={
+        <nav className="flex items-center gap-2">
+          <Link to={`/events/1`}>
+            <Button skin={hasInscricao ? "primary" : "ghost"} size="md">
+              Saiba mais
+            </Button>
+          </Link>
+          <Button skin="ghost" size="md">
+            Inscrever-se
+          </Button>
+        </nav>
+      }
+    />
+  );
+}

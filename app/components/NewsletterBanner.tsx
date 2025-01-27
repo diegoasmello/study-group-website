@@ -1,4 +1,5 @@
 import { Button } from "./Button";
+import { TextInput } from "./form-fields/TextInput";
 
 export function NewsletterBanner() {
   return (
@@ -9,7 +10,7 @@ export function NewsletterBanner() {
           <br />
           nosso grupo!
         </span>
-        <input type="text" placeholder="Digite seu e-mail" />
+        <TextInput name="a" placeholder="Digite seu e-mail" />
         <Button skin="outline">Enviar</Button>
       </div>
     </div>

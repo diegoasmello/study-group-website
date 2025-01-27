@@ -1,8 +1,17 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { MdArrowForward, MdArrowRightAlt } from "react-icons/md";
 import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
+import { CardAction } from "~/components/CardAction";
+import { CardEvent } from "~/components/CardEvent";
+import { CardPublication } from "~/components/CardPublication";
 import { Container } from "~/components/Container";
+import { IconMultilinguism } from "~/components/icons/IconMultilinguism";
+import { IconReadinWriting } from "~/components/icons/IconReadinWriting";
+import { IconTranculturality } from "~/components/icons/IconTranculturality";
+import { Link } from "~/components/Link";
+import { Link as RemixLink } from "@remix-run/react";
+
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 
 import cardImage from "~/images/card-image.png";
@@ -36,8 +45,12 @@ export default function Index() {
                 </div>
                 <Button>Saiba mais</Button>
                 <nav className="flex flex-row gap-4">
-                  <Button size="md">prev</Button>
-                  <Button size="md">next</Button>
+                  <button>
+                    <MdArrowRightAlt size={32} />
+                  </button>
+                  <button>
+                    <MdArrowRightAlt size={32} />
+                  </button>
                 </nav>
               </div>
             </div>
@@ -78,201 +91,167 @@ export default function Index() {
             </div>
 
             <nav className="flex flex-row gap-4">
-              <Button>História</Button>
-              <Button skin="outline">Equipe</Button>
+              <RemixLink to={"/history"}>
+                <Button>História</Button>
+              </RemixLink>
+              <RemixLink to={"/team"}>
+                <Button skin="outline">Equipe</Button>
+              </RemixLink>
             </nav>
           </div>
         </div>
       </Container>
 
       {/* research section */}
-      <Container className="flex flex-col gap-8 pb-16">
-        <h2 className="text-h3 text-center">Áreas de pesquisa</h2>
+      <Container className="flex flex-col gap-8 pb-16 items-center">
+        <h2 className="text-h3">Áreas de pesquisa</h2>
         <div className="grid grid-cols-3 gap-8">
           <Card
             type="flat"
             title="Leitura e Escrita"
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            icon={"a"}
+            icon={<IconReadinWriting className="fill-primary" />}
           />
           <Card
             type="flat"
             title="Multilinguismo"
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            icon={"a"}
+            icon={<IconMultilinguism className="fill-primary" />}
           />
           <Card
             type="flat"
             title="Transculturalidade"
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            icon={"a"}
+            icon={<IconTranculturality className="fill-primary" />}
           />
         </div>
-        <Link to={`/events`} className="text-center text-primary underline">
-          Saiba mais sobre nossa pesquisa
+        <Link to={`/events`} className="text-center">
+          Saiba mais sobre nossa pesquisa <MdArrowForward size={18} />
         </Link>
       </Container>
 
       {/* events carousel */}
-      <Container className="flex flex-col gap-8 pb-16">
-        <h2 className="text-h3 text-center">Eventos e Cursos</h2>
+      <Container className="flex flex-col gap-8 pb-16 items-center">
+        <h2 className="text-h3">Eventos e Cursos</h2>
         <div className="grid grid-cols-3 gap-8">
-          <Card
-            image={cardImage}
-            title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            titleMaxLines={3}
-            actions={
-              <Button skin="ghost" size="md">
-                Saiba mais
-              </Button>
-            }
-          />
-          <Card
-            image={cardImage}
-            title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            titleMaxLines={3}
-            actions={
-              <Button skin="ghost" size="md">
-                Saiba mais
-              </Button>
-            }
-          />
-          <Card
-            image={cardImage}
-            title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            titleMaxLines={3}
-            actions={
-              <Button skin="ghost" size="md">
-                Saiba mais
-              </Button>
-            }
-          />
+          {Array(3)
+            .fill(null)
+            .map((_, index) => (
+              <CardEvent
+                key={index}
+                size="default"
+                event={{
+                  title:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                  image: cardImage,
+                  date: new Date(),
+                  locale: "Online",
+                }}
+              />
+            ))}
         </div>
-        <Link to={`/events`} className="text-center text-primary underline">
-          Ver todos eventos
+        <Link to={`/events`} className="text-center">
+          Ver todos eventos <MdArrowForward size={18} />
         </Link>
       </Container>
 
       {/* last publications */}
-      <Container className="flex flex-col gap-8 pb-16">
-        <h2 className="text-h3 text-left">Últimas publicações</h2>
+      <Container className="flex flex-col gap-8 pb-16 items-center">
+        <h2 className="text-h3 text-left w-full">Últimas publicações</h2>
         <div className="grid grid-cols-4 grid-rows-2 gap-8">
           <div className="col-span-2 row-span-2">
-            <Card
+            <CardPublication
+              className="h-full"
               size="extended"
-              title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-              text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-              titleMaxLines={2}
-              actions={
-                <nav className="flex items-start gap-2">
-                  <Button size="md">Ver mais</Button>
-                  <Button skin="ghost" size="md">
-                    Ler
-                  </Button>
-                </nav>
-              }
+              publication={{
+                title:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                description:
+                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                author: "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
+                date: new Date(),
+              }}
             />
           </div>
           <div className="col-start-3">
-            <Card
-              title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-              text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-              titleMaxLines={3}
-              actions={
-                <Button skin="ghost" size="md">
-                  Ver mais
-                </Button>
-              }
+            <CardPublication
+              size="default"
+              publication={{
+                title:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                description:
+                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                author: "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
+                date: new Date(),
+              }}
             />
           </div>
           <div className="col-start-3 row-start-2">
-            <Card
-              title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-              text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-              titleMaxLines={3}
-              actions={
-                <Button skin="ghost" size="md">
-                  Ver mais
-                </Button>
-              }
+            <CardPublication
+              size="default"
+              publication={{
+                title:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                description:
+                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                author: "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
+                date: new Date(),
+              }}
             />
           </div>
           <div className="col-start-4 row-start-1">
-            <Card
-              title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-              text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-              titleMaxLines={3}
-              actions={
-                <Button skin="ghost" size="md">
-                  Ver mais
-                </Button>
-              }
+            <CardPublication
+              size="default"
+              publication={{
+                title:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                description:
+                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                author: "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
+                date: new Date(),
+              }}
             />
           </div>
           <div className="col-start-4 row-start-2">
-            <Card
-              title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-              text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-              titleMaxLines={3}
-              actions={
-                <Button skin="ghost" size="md">
-                  Ver mais
-                </Button>
-              }
+            <CardPublication
+              size="default"
+              publication={{
+                title:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                description:
+                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                author: "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
+                date: new Date(),
+              }}
             />
           </div>
         </div>
-        <Link
-          to={`/publications`}
-          className="text-center text-primary underline"
-        >
-          Ver todas publicações
+        <Link to={`/publications`} className="text-center">
+          Ver todas publicações <MdArrowForward size={18} />
         </Link>
       </Container>
 
       {/* actions carousel */}
-      <Container className="flex flex-col gap-8 pb-16">
-        <h2 className="text-h3 text-center">Últimas ações</h2>
+      <Container className="flex flex-col gap-8 pb-16 items-center">
+        <h2 className="text-h3">Últimas ações</h2>
         <div className="grid grid-cols-3 gap-8">
-          <Card
-            title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            image={cardImage}
-            titleMaxLines={3}
-            actions={
-              <Button skin="ghost" size="md">
-                Saiba mais
-              </Button>
-            }
-          />
-          <Card
-            title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            image={cardImage}
-            titleMaxLines={3}
-            actions={
-              <Button skin="ghost" size="md">
-                Saiba mais
-              </Button>
-            }
-          />
-          <Card
-            title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            image={cardImage}
-            titleMaxLines={3}
-            actions={
-              <Button skin="ghost" size="md">
-                Saiba mais
-              </Button>
-            }
-          />
+          {Array(3)
+            .fill(null)
+            .map((_, index) => (
+              <CardAction
+                key={index}
+                size="default"
+                action={{
+                  title:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                  image: cardImage,
+                  date: new Date(),
+                }}
+              />
+            ))}
         </div>
-        <Link to={`/actions`} className="text-center text-primary underline">
-          Ver todas ações
+        <Link to={`/actions`} className="text-center">
+          Ver todas ações <MdArrowForward size={18} />
         </Link>
       </Container>
 

@@ -1,0 +1,39 @@
+import { MdOutlineCalendarMonth } from "react-icons/md";
+import { Card, CardSize } from "./Card";
+import { Button } from "./Button";
+import { Link } from "@remix-run/react";
+
+interface CardActionProps {
+  size: CardSize;
+  action: {
+    title: string;
+    image: string;
+    date: Date;
+  };
+}
+
+export function CardAction(props: CardActionProps) {
+  const { action, size } = props;
+
+  return (
+    <Card
+      size={size}
+      title={action.title}
+      titleMaxLines={3}
+      image={action.image}
+      label={
+        <div className="flex items-center gap-2 text-h5 text-gray-700 fill-gray-700">
+          <MdOutlineCalendarMonth size={16} />
+          {action.date.toLocaleDateString("pt-BR")}
+        </div>
+      }
+      actions={
+        <Link to={`/actions/1`}>
+          <Button skin={size === "extended" ? "primary" : "ghost"} size="md">
+            Saiba mais
+          </Button>
+        </Link>
+      }
+    />
+  );
+}
