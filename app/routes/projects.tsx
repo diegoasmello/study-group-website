@@ -2,6 +2,7 @@ import { CardProject } from "~/components/CardProject";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
+import { Paginator } from "~/components/Paginator";
 import cardImage from "~/images/card-image.png";
 import projectsIllustration from "~/images/illustrations/projects.svg";
 
@@ -35,6 +36,9 @@ export default function Projects() {
                 />
               </div>
             ))}
+          <div className="col-span-12 flex justify-center mt-8 mb-10">
+            <Paginator />
+          </div>
           <div className="col-span-12">
             <NewsletterBanner />
           </div>

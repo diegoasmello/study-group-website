@@ -2,6 +2,7 @@ import { CardEvent } from "~/components/CardEvent";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
+import { Paginator } from "~/components/Paginator";
 import cardImage from "~/images/card-image.png";
 import eventsIllustration from "~/images/illustrations/events.svg";
 
@@ -42,7 +43,9 @@ export default function Events() {
               </div>
             ))}
 
-          <div className="col-span-12">{/* pagination */}</div>
+          <div className="col-span-12 flex justify-center mt-8 mb-10">
+            <Paginator />
+          </div>
 
           <div className="col-span-12">
             <NewsletterBanner />

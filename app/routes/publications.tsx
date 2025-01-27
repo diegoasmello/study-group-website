@@ -6,6 +6,7 @@ import { FormControl } from "~/components/form-fields/FormControl";
 import { TextInput } from "~/components/form-fields/TextInput";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
+import { Paginator } from "~/components/Paginator";
 import publicationsIllustration from "~/images/illustrations/publications.svg";
 
 export default function Publications() {
@@ -24,7 +25,7 @@ export default function Publications() {
         className="mb-8"
       />
       <Container>
-        <section className="grid grid-cols-12 gap-8">
+        <section className="grid grid-cols-12 gap-6">
           <div className="col-span-8 flex flex-col gap-6">
             {Array(5)
               .fill(null)
@@ -81,6 +82,9 @@ export default function Publications() {
                 Saiba mais
               </Button>
             </CardContainer>
+          </div>
+          <div className="col-span-12 flex justify-center mt-8 mb-10">
+            <Paginator />
           </div>
           <div className="col-span-12">
             <NewsletterBanner />
