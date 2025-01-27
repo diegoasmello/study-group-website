@@ -1,14 +1,23 @@
+import { MetaFunction } from "@remix-run/react";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
+import data from "~/data";
 import researchIllustration from "~/images/illustrations/research.svg";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: data.research.title + " | " + data.site.title },
+    { name: "description", content: data.research.description },
+  ];
+};
 
 export default function Research() {
   return (
     <main className="pb-20">
       <PageBanner
-        title="Nossa pesquisa"
-        text="Saiba mais sobre a nossa pesquisa e aprofunde-se nesse mundo de conhecimento e descobertas!"
+        title={data.research.title}
+        text={data.research.description}
         illustration={
           <img
             src={researchIllustration}

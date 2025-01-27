@@ -1,18 +1,27 @@
+import { MetaFunction } from "@remix-run/react";
 import { CardAction } from "~/components/CardAction";
 import { Container } from "~/components/Container";
 import { TextInput } from "~/components/form-fields/TextInput";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
+import data from "~/data";
 import cardImage from "~/images/card-image.png";
 import actionsIllustration from "~/images/illustrations/actions.svg";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: data.actions.title + " | " + data.site.title },
+    { name: "description", content: data.actions.description },
+  ];
+};
 
 export default function Actions() {
   return (
     <main className="pb-20">
       <PageBanner
-        title="Ações"
-        text="Confira as publicações do nosso grupo e mergulhe em um oceano de conhecimento."
+        title={data.actions.title}
+        text={data.actions.description}
         illustration={
           <img
             src={actionsIllustration}

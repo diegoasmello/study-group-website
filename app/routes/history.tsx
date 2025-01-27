@@ -1,8 +1,17 @@
+import { MetaFunction } from "@remix-run/react";
 import { MdArrowForward } from "react-icons/md";
 import { Container } from "~/components/Container";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import data from "~/data";
 import historyIllustration from "~/images/illustrations/history.svg";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: data.history.title + " | " + data.site.title },
+    { name: "description", content: data.history.description },
+  ];
+};
 
 export default function History() {
   return (
@@ -11,13 +20,12 @@ export default function History() {
         <Container className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="col-span-6" />
           <div className="flex flex-col gap-2 col-span-4">
-            <h1 className="text-primary font-medium">Nossa história</h1>
+            <h1 className="text-primary font-medium">{data.history.title}</h1>
             <span className="text-h2">
               Novos rumos para o ensino de língua em tempos de globalização
             </span>
             <p className="text-lead-1 text-gray-800">
-              Conheça nossa história e compreenda a jornada que moldou nossa
-              identidade.
+              {data.history.description}
             </p>
           </div>
         </Container>

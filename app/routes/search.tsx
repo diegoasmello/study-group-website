@@ -1,3 +1,4 @@
+import { MetaFunction } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
@@ -8,13 +9,18 @@ import { TextInput } from "~/components/form-fields/TextInput";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
+import data from "~/data";
 import searchIllustration from "~/images/illustrations/search.svg";
+
+export const meta: MetaFunction = () => {
+  return [{ title: data.search.title + " | " + data.site.title }];
+};
 
 export default function Search() {
   return (
     <main className="pb-20">
       <PageBanner
-        title="Busca"
+        title={data.search.title}
         text="Exibindo 3 resultados para “aprendizado”:"
         illustration={
           <img

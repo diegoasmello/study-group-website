@@ -1,17 +1,26 @@
+import { MetaFunction } from "@remix-run/react";
 import { CardTeamMember } from "~/components/CardTeamMember";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
+import data from "~/data";
 import cardImage from "~/images/card-image.png";
 import teamIllustration from "~/images/illustrations/team.svg";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: data.team.title + " | " + data.site.title },
+    { name: "description", content: data.team.description },
+  ];
+};
 
 export default function Team() {
   return (
     <main className="pb-20">
       <PageBanner
-        title="Nossa equipe"
-        text="Conheça nossa equipe e as mentes apaixonadas por trás do nosso trabalho!"
+        title={data.team.title}
+        text={data.team.description}
         illustration={
           <img
             src={teamIllustration}

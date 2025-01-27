@@ -15,11 +15,12 @@ import { Link as RemixLink } from "@remix-run/react";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 
 import cardImage from "~/images/card-image.png";
+import data from "~/data";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "study-group-site" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: data.site.title },
+    { name: "description", content: data.site.description },
   ];
 };
 

@@ -1,17 +1,26 @@
+import { MetaFunction } from "@remix-run/react";
 import { CardProject } from "~/components/CardProject";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
+import data from "~/data";
 import cardImage from "~/images/card-image.png";
 import projectsIllustration from "~/images/illustrations/projects.svg";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: data.projects.title + " | " + data.site.title },
+    { name: "description", content: data.projects.description },
+  ];
+};
 
 export default function Projects() {
   return (
     <main className="pb-20">
       <PageBanner
-        title="Projetos"
-        text="Confira as publicações do nosso grupo e mergulhe em um oceano de conhecimento."
+        title={data.projects.title}
+        text={data.projects.description}
         illustration={
           <img
             src={projectsIllustration}

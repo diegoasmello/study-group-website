@@ -1,18 +1,27 @@
+import { MetaFunction } from "@remix-run/react";
 import { CardEvent } from "~/components/CardEvent";
 import { Container } from "~/components/Container";
 import { TextInput } from "~/components/form-fields/TextInput";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
+import data from "~/data";
 import cardImage from "~/images/card-image.png";
 import eventsIllustration from "~/images/illustrations/events.svg";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: data.events.title + " | " + data.site.title },
+    { name: "description", content: data.events.description },
+  ];
+};
 
 export default function Events() {
   return (
     <main className="pb-20">
       <PageBanner
-        title="Eventos e Cursos"
-        text="Confira as publicações do nosso grupo e mergulhe em um oceano de conhecimento."
+        title={data.events.title}
+        text={data.events.description}
         illustration={
           <img
             src={eventsIllustration}

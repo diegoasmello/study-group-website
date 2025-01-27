@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-no-undef */
+import { MetaFunction } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
@@ -9,14 +10,22 @@ import { TextInput } from "~/components/form-fields/TextInput";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
+import data from "~/data";
 import publicationsIllustration from "~/images/illustrations/publications.svg";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: data.publications.title + " | " + data.site.title },
+    { name: "description", content: data.publications.description },
+  ];
+};
 
 export default function Publications() {
   return (
     <main className="pb-20">
       <PageBanner
-        title="Publicações"
-        text="Confira as publicações do nosso grupo e mergulhe em um oceano de conhecimento."
+        title={data.publications.title}
+        text={data.publications.description}
         illustration={
           <img
             src={publicationsIllustration}
