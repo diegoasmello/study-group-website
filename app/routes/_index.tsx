@@ -16,6 +16,7 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 
 import cardImage from "~/images/card-image.png";
 import data from "~/data";
+import { Carousel } from "~/components/Carousel";
 
 export const meta: MetaFunction = () => {
   return [
@@ -151,6 +152,11 @@ export default function Index() {
                 }}
               />
             ))}
+        </div>
+        <div className="grid grid-cols-12">
+          <div className="col-span-12">
+            <Carousel />
+          </div>
         </div>
         <Link to={`/events`} className="text-center">
           Ver todos eventos <MdArrowForward size={18} />

@@ -12,10 +12,11 @@ interface CardEventProps {
     locale: string;
   };
   hideLocale?: boolean;
+  hideShadow?: boolean;
 }
 
 export function CardEvent(props: CardEventProps) {
-  const { event, size, hideLocale } = props;
+  const { event, size, hideLocale, hideShadow } = props;
 
   const hasInscricao = true;
 
@@ -25,6 +26,7 @@ export function CardEvent(props: CardEventProps) {
       title={event.title}
       titleMaxLines={3}
       image={event.image}
+      hideShadow={hideShadow}
       label={
         <div className="flex items-center gap-4 text-h5 text-gray-700 fill-gray-700">
           <div className="flex items-center gap-2">

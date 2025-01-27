@@ -13,6 +13,7 @@ interface CardProps extends Omit<React.ComponentProps<"div">, "children"> {
   subtitle?: JSX.Element | null;
   label?: JSX.Element | null;
   titleMaxLines?: 1 | 2 | 3 | 4 | 5 | 6;
+  hideShadow?: boolean;
 }
 
 export function Card(props: CardProps) {
@@ -29,6 +30,7 @@ export function Card(props: CardProps) {
     actions,
     titleMaxLines,
     className,
+    hideShadow,
   } = props;
 
   const sizeClass = sizeStyles[size];
@@ -37,7 +39,7 @@ export function Card(props: CardProps) {
     titleMaxLines !== null && titleMaxLines !== undefined;
 
   return (
-    <CardContainer type={type} className={className}>
+    <CardContainer type={type} hideShadow={hideShadow} className={className}>
       {image && !imageAsIcon && (
         <img
           src={image}
@@ -78,12 +80,15 @@ export function Card(props: CardProps) {
 
 export function CardContainer({
   type = "float",
+  hideShadow,
   children,
   className,
-}: Pick<CardProps, "type"> & React.ComponentProps<"div">) {
+}: Pick<CardProps, "type" | "hideShadow"> & React.ComponentProps<"div">) {
   return (
     <div
-      className={`${className} bg-white rounded-3xl overflow-hidden ${typeStyles[type]}`}
+      className={`${className ?? ""} bg-white rounded-3xl overflow-hidden ${
+        !hideShadow ? typeStyles[type] : ""
+      }`}
     >
       {children}
     </div>

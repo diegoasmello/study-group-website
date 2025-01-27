@@ -16,8 +16,9 @@ export function CardTeamMember(props: CardTeamMemberProps) {
 
   return (
     <Card
+      type="flat"
       title={teamMember.name}
-      subtitle={<span>{teamMember.label}</span>}
+      subtitle={<span className="text-gray-900">{teamMember.label}</span>}
       image={teamMember.image}
       imageAsIcon
       actions={
