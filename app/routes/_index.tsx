@@ -125,7 +125,7 @@ export default function Index() {
             icon={<IconTranculturality className="fill-primary" />}
           />
         </div>
-        <Link to={`/events`} className="text-center">
+        <Link to={`/research`} className="text-center">
           Saiba mais sobre nossa pesquisa <MdArrowForward size={18} />
         </Link>
       </Container>

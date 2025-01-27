@@ -3,6 +3,7 @@ import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import cardImage from "~/images/card-image.png";
+import eventsIllustration from "~/images/illustrations/events.svg";
 
 export default function Events() {
   return (
@@ -10,6 +11,13 @@ export default function Events() {
       <PageBanner
         title="Eventos e Cursos"
         text="Confira as publicações do nosso grupo e mergulhe em um oceano de conhecimento."
+        illustration={
+          <img
+            src={eventsIllustration}
+            alt=""
+            className="h-[472px] max-w-max absolute top-[-58px] right-[-100px]"
+          />
+        }
         className="mb-8"
       />
       <Container>

@@ -3,6 +3,7 @@ import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import cardImage from "~/images/card-image.png";
+import teamIllustration from "~/images/illustrations/team.svg";
 
 export default function Team() {
   return (
@@ -10,6 +11,13 @@ export default function Team() {
       <PageBanner
         title="Nossa equipe"
         text="Conheça nossa equipe e as mentes apaixonadas por trás do nosso trabalho!"
+        illustration={
+          <img
+            src={teamIllustration}
+            alt=""
+            className="h-[515px] max-w-max absolute top-[-95px] right-[-108px]"
+          />
+        }
         className="mb-8"
       />
       <Container>

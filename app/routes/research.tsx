@@ -1,6 +1,7 @@
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
+import researchIllustration from "~/images/illustrations/research.svg";
 
 export default function Research() {
   return (
@@ -8,6 +9,13 @@ export default function Research() {
       <PageBanner
         title="Nossa pesquisa"
         text="Saiba mais sobre a nossa pesquisa e aprofunde-se nesse mundo de conhecimento e descobertas!"
+        illustration={
+          <img
+            src={researchIllustration}
+            alt=""
+            className="h-[515px] max-w-max absolute top-[-65px] right-[-78px]"
+          />
+        }
         className="mb-8"
       />
       <Container>

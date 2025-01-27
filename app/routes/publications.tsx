@@ -6,6 +6,7 @@ import { FormControl } from "~/components/form-fields/FormControl";
 import { TextInput } from "~/components/form-fields/TextInput";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
+import publicationsIllustration from "~/images/illustrations/publications.svg";
 
 export default function Publications() {
   return (
@@ -13,6 +14,13 @@ export default function Publications() {
       <PageBanner
         title="Publicações"
         text="Confira as publicações do nosso grupo e mergulhe em um oceano de conhecimento."
+        illustration={
+          <img
+            src={publicationsIllustration}
+            alt=""
+            className="h-[605px] max-w-max absolute top-[-160px] right-[-120px]"
+          />
+        }
         className="mb-8"
       />
       <Container>

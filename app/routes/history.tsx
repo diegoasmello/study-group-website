@@ -2,11 +2,12 @@ import { MdArrowForward } from "react-icons/md";
 import { Container } from "~/components/Container";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import historyIllustration from "~/images/illustrations/history.svg";
 
 export default function History() {
   return (
     <main className="pb-20">
-      <div className="bg-primary-lighter pt-14 pb-16 mb-8">
+      <div className="bg-primary-lighter pt-14 pb-16 mb-8 relative overflow-hidden">
         <Container className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="col-span-6" />
           <div className="flex flex-col gap-2 col-span-4">
@@ -14,12 +15,17 @@ export default function History() {
             <span className="text-h2">
               Novos rumos para o ensino de língua em tempos de globalização
             </span>
-            <p className="text-lead-1 text-gray-900">
+            <p className="text-lead-1 text-gray-800">
               Conheça nossa história e compreenda a jornada que moldou nossa
               identidade.
             </p>
           </div>
         </Container>
+        <img
+          src={historyIllustration}
+          alt=""
+          className="h-[574px] max-w-max absolute top-[-110px] left-[-66px]"
+        />
       </div>
       <Container className="grid grid-cols-12 gap-x-8 gap-y-6">
         <div className="flex flex-col gap-6 col-span-6">

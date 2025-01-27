@@ -3,6 +3,7 @@ import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import cardImage from "~/images/card-image.png";
+import actionsIllustration from "~/images/illustrations/actions.svg";
 
 export default function Actions() {
   return (
@@ -10,6 +11,13 @@ export default function Actions() {
       <PageBanner
         title="Ações"
         text="Confira as publicações do nosso grupo e mergulhe em um oceano de conhecimento."
+        illustration={
+          <img
+            src={actionsIllustration}
+            alt=""
+            className="h-[552px] max-w-max absolute top-[-74px] right-[-120px]"
+          />
+        }
         className="mb-8"
       />
       <Container>
