@@ -1,5 +1,6 @@
 import { CardEvent } from "~/components/CardEvent";
 import { Container } from "~/components/Container";
+import { TextInput } from "~/components/form-fields/TextInput";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
@@ -23,7 +24,13 @@ export default function Events() {
       />
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
-          <div className="col-span-12">{/* filters */}</div>
+          <div className="col-span-12 flex gap-8">
+            <TextInput
+              name="a"
+              placeholder="Pesquise por título, data ou palavras-chave"
+              className="w-[34vw]"
+            />
+          </div>
 
           {Array(6)
             .fill(null)

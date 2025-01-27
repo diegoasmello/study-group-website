@@ -31,7 +31,7 @@ export default function Projects() {
                   project={{
                     title: "Lorem ipsum",
                     image: cardImage,
-                    link: "/",
+                    link: "/projects/1",
                   }}
                 />
               </div>

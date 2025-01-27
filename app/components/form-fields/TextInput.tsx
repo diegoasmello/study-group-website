@@ -13,7 +13,13 @@ export function TextInput(props: TextInputProps) {
     <FormControl label={label} htmlFor={name}>
       <input
         name={name}
-        className={`${className} h-[44px] border rounded-2xl border-gray-200 text-gray-950 placeholder:text-gray-200`}
+        className={`${className} h-[44px] border rounded-xl px-4
+        border-gray-200 text-gray-950
+        hover:border-gray-300
+        active:border-primary
+        focus:outline-none focus:shadow-focus
+        disabled:border-gray-100 disabled:bg-gray-200
+        placeholder:text-gray-300 placeholder:italic`}
         {...rest}
       />
     </FormControl>

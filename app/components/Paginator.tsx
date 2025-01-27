@@ -1,9 +1,9 @@
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
 import { Button } from "./Button";
 
-interface PaginatorProps {}
+// interface PaginatorProps {}
 
-export function Paginator(props: PaginatorProps) {
+export function Paginator(/*props: PaginatorProps*/) {
   return (
     <nav className="flex gap-4">
       <Button skin="outline" size="md" className="w-[44px] px-0">

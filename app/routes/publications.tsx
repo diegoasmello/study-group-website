@@ -1,6 +1,8 @@
+/* eslint-disable react/jsx-no-undef */
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
+import { CardResearch } from "~/components/CardResearch";
 import { Container } from "~/components/Container";
 import { FormControl } from "~/components/form-fields/FormControl";
 import { TextInput } from "~/components/form-fields/TextInput";
@@ -72,16 +74,7 @@ export default function Publications() {
               />
               <Button size="md">Buscar</Button>
             </CardContainer>
-            <CardContainer className="p-6 flex flex-col items-start gap-4">
-              <span className="text-h4 text-gray-950">Nossa pesquisa</span>
-              <p className="mb-2">
-                Saiba mais sobre a nossa pesquisa e aprofunde-se no mundo de
-                descobertas e conhecimento!
-              </p>
-              <Button skin="ghost" size="md">
-                Saiba mais
-              </Button>
-            </CardContainer>
+            <CardResearch />
           </div>
           <div className="col-span-12 flex justify-center mt-8 mb-10">
             <Paginator />

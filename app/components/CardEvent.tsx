@@ -11,10 +11,11 @@ interface CardEventProps {
     date: Date;
     locale: string;
   };
+  hideLocale?: boolean;
 }
 
 export function CardEvent(props: CardEventProps) {
-  const { event, size } = props;
+  const { event, size, hideLocale } = props;
 
   const hasInscricao = true;
 
@@ -30,10 +31,12 @@ export function CardEvent(props: CardEventProps) {
             <MdOutlineCalendarMonth size={16} />
             {event.date.toLocaleDateString("pt-BR")}
           </div>
-          <div className="flex items-center gap-2">
-            <MdPlace size={16} />
-            {event.date.toLocaleDateString("pt-BR")}
-          </div>
+          {!hideLocale && (
+            <div className="flex items-center gap-2">
+              <MdPlace size={16} />
+              {event.date.toLocaleDateString("pt-BR")}
+            </div>
+          )}
         </div>
       }
       actions={

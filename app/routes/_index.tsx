@@ -140,6 +140,7 @@ export default function Index() {
               <CardEvent
                 key={index}
                 size="default"
+                hideLocale
                 event={{
                   title:
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
