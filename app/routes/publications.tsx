@@ -48,7 +48,7 @@ export default function Publications() {
               ))}
           </div>
           <div className="col-span-4 flex flex-col gap-6">
-            <CardContainer className="p-6 flex flex-col gap-6">
+            <CardContainer className="p-6 flex flex-col items-start gap-6">
               <TextInput
                 name={"a"}
                 placeholder="Pesquisa por título ou autor"

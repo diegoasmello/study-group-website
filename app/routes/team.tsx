@@ -2,6 +2,7 @@ import { CardTeamMember } from "~/components/CardTeamMember";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
+import { Paginator } from "~/components/Paginator";
 import cardImage from "~/images/card-image.png";
 import teamIllustration from "~/images/illustrations/team.svg";
 
@@ -36,6 +37,9 @@ export default function Team() {
                 />
               </div>
             ))}
+          <div className="col-span-12 flex justify-center mt-8 mb-10">
+            <Paginator />
+          </div>
           <div className="col-span-12">
             <NewsletterBanner />
           </div>
