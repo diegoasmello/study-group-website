@@ -32,14 +32,7 @@ export function Carousel({ children }: CarouselProps) {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  const isSlideInView = (index: number) => {
-    console.log({
-      index,
-      currentSlidesInView,
-      includes: currentSlidesInView.includes(index),
-    });
-    return currentSlidesInView.includes(index);
-  };
+  const isSlideInView = (index: number) => currentSlidesInView.includes(index);
 
   const onSlidesInView = useCallback(() => {
     const slidesInView = emblaApi?.slidesInView() ?? [];
