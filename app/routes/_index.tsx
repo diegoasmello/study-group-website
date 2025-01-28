@@ -1,6 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
 import { MdArrowForward } from "react-icons/md";
-import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
 import { CardAction } from "~/components/CardAction";
 import { CardEvent } from "~/components/CardEvent";
@@ -10,7 +9,6 @@ import { IconMultilinguism } from "~/components/icons/IconMultilinguism";
 import { IconReadinWriting } from "~/components/icons/IconReadinWriting";
 import { IconTranculturality } from "~/components/icons/IconTranculturality";
 import { Link } from "~/components/Link";
-import { Link as RemixLink } from "@remix-run/react";
 
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 
@@ -18,6 +16,7 @@ import cardImage from "~/images/card-image.png";
 import data from "~/data";
 import { Carousel } from "~/components/Carousel";
 import { CarouselHome } from "~/components/CarouselHome";
+import { ButtonLink } from "~/components/ButtonLink";
 
 export const meta: MetaFunction = () => {
   return [
@@ -59,12 +58,13 @@ export default function Index() {
             </div>
 
             <nav className="flex flex-row gap-4">
-              <RemixLink to={"/history"}>
-                <Button>História</Button>
-              </RemixLink>
-              <RemixLink to={"/team"}>
-                <Button skin="outline">Equipe</Button>
-              </RemixLink>
+              <ButtonLink to={"/history"}>História</ButtonLink>
+              <ButtonLink to={"/team"} skin="outline">
+                Equipe
+              </ButtonLink>
+              <ButtonLink to={"/team"} skin="ghost">
+                Equipe
+              </ButtonLink>
             </nav>
           </div>
         </div>
