@@ -62,9 +62,6 @@ export default function Index() {
               <ButtonLink to={"/team"} skin="outline">
                 Equipe
               </ButtonLink>
-              <ButtonLink to={"/team"} skin="ghost">
-                Equipe
-              </ButtonLink>
             </nav>
           </div>
         </div>

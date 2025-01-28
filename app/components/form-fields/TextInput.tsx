@@ -18,7 +18,7 @@ export function TextInput(props: TextInputProps) {
         hover:border-gray-300
         active:border-primary
         focus:outline-none focus:shadow-focus
-        disabled:border-gray-100 disabled:bg-gray-200
+        disabled:border-gray-200 disabled:bg-gray-100
         placeholder:text-gray-300 placeholder:italic`}
         {...rest}
       />
