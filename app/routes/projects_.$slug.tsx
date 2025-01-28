@@ -1,7 +1,9 @@
 import { MdArrowForward } from "react-icons/md";
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
+import { CardProject } from "~/components/CardProject";
 import { CardResearch } from "~/components/CardResearch";
+import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
@@ -78,8 +80,31 @@ export default function ViewProject() {
             </CardContainer>
             <CardResearch />
           </div>
-          <div className="col-span-12 mb-8">
+          <div className="col-span-12 flex flex-col gap-6 mb-8">
             <h2 className="text-h3 text-gray-950">Outros projetos</h2>
+            <div className="w-full">
+              <Carousel>
+                {(isSlideInView) =>
+                  Array(9)
+                    .fill(null)
+                    .map((_, index) => (
+                      <div
+                        key={index}
+                        className="embla__slide flex flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                      >
+                        <CardProject
+                          project={{
+                            title: "Lorem ipsum",
+                            image: cardImage,
+                            link: "/projects/1",
+                          }}
+                          hideShadow={!isSlideInView(index)}
+                        />
+                      </div>
+                    ))
+                }
+              </Carousel>
+            </div>
           </div>
           <div className="col-span-12">
             <NewsletterBanner />

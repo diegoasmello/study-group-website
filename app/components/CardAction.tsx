@@ -1,9 +1,9 @@
 import { MdOutlineCalendarMonth } from "react-icons/md";
-import { Card, CardSize } from "./Card";
+import { Card, CardProps, CardSize } from "./Card";
 import { Button } from "./Button";
 import { Link } from "@remix-run/react";
 
-interface CardActionProps {
+interface CardActionProps extends Pick<CardProps, "hideShadow"> {
   size: CardSize;
   action: {
     title: string;
@@ -13,7 +13,7 @@ interface CardActionProps {
 }
 
 export function CardAction(props: CardActionProps) {
-  const { action, size } = props;
+  const { action, size, hideShadow } = props;
 
   return (
     <Card
@@ -21,6 +21,7 @@ export function CardAction(props: CardActionProps) {
       title={action.title}
       titleMaxLines={3}
       image={action.image}
+      hideShadow={hideShadow}
       label={
         <div className="flex items-center gap-2 text-h5 text-gray-700 fill-gray-700">
           <MdOutlineCalendarMonth size={16} />

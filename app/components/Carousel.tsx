@@ -1,17 +1,20 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
-import { CardEvent } from "./CardEvent";
-import cardImage from "~/images/card-image.png";
 import { EmblaCarouselType } from "embla-carousel";
 import { DotButton, useDotButton } from "./CarouselDotButton";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 
-export function Carousel() {
+interface CarouselProps {
+  children: (isSlideInView: (index: number) => boolean) => React.ReactNode;
+}
+
+export function Carousel({ children }: CarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     loop: true,
     containScroll: "trimSnaps",
     slidesToScroll: "auto",
+    duration: 36,
   });
 
   const [currentSlidesInView, setCurrentSlidesInView] = useState<number[]>([
@@ -20,6 +23,14 @@ export function Carousel() {
 
   const { selectedIndex, scrollSnaps, onDotButtonClick } =
     useDotButton(emblaApi);
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
 
   const isSlideInView = (index: number) => {
     console.log({
@@ -39,40 +50,12 @@ export function Carousel() {
     if (emblaApi) emblaApi.on("slidesInView", onSlidesInView);
   }, [emblaApi, onSlidesInView]);
 
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
-
   return (
     <div className="relative -mx-4 px-4">
       <section className="embla overflow-x-hidden relative -mx-6 px-6">
         <div className="embla__viewport" ref={emblaRef}>
           <div className="embla__container flex ml-[-32px]">
-            {Array(9)
-              .fill(null)
-              .map((_, index) => (
-                <div
-                  key={index}
-                  className="embla__slide flex flex-[0_0_33.3333%] pl-[32px] min-w-0 "
-                >
-                  <CardEvent
-                    size="default"
-                    hideLocale
-                    hideShadow={!isSlideInView(index)}
-                    event={{
-                      title:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                      image: cardImage,
-                      date: new Date(),
-                      locale: "Online",
-                    }}
-                  />
-                </div>
-              ))}
+            {children(isSlideInView)}
           </div>
         </div>
         <nav className="flex justify-center w-full gap-6 mt-6">

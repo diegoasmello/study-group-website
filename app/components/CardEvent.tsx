@@ -1,9 +1,9 @@
 import { MdOutlineCalendarMonth, MdPlace } from "react-icons/md";
-import { Card, CardSize } from "./Card";
+import { Card, CardProps, CardSize } from "./Card";
 import { Button } from "./Button";
 import { Link } from "@remix-run/react";
 
-interface CardEventProps {
+interface CardEventProps extends Pick<CardProps, "hideShadow"> {
   size: CardSize;
   event: {
     title: string;
@@ -12,7 +12,6 @@ interface CardEventProps {
     locale: string;
   };
   hideLocale?: boolean;
-  hideShadow?: boolean;
 }
 
 export function CardEvent(props: CardEventProps) {

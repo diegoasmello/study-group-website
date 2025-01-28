@@ -1,7 +1,8 @@
 export type CardType = "flat" | "float";
 export type CardSize = "default" | "extended";
 
-interface CardProps extends Omit<React.ComponentProps<"div">, "children"> {
+export interface CardProps
+  extends Omit<React.ComponentProps<"div">, "children"> {
   type?: CardType;
   size?: CardSize;
   title: string;
@@ -86,7 +87,9 @@ export function CardContainer({
 }: Pick<CardProps, "type" | "hideShadow"> & React.ComponentProps<"div">) {
   return (
     <div
-      className={`${className ?? ""} bg-white rounded-3xl overflow-hidden ${
+      className={`${
+        className ?? ""
+      } w-full bg-white rounded-3xl overflow-hidden ${
         !hideShadow ? typeStyles[type] : ""
       }`}
     >

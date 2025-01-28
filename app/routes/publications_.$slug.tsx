@@ -1,6 +1,8 @@
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
+import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
+import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 
@@ -88,8 +90,36 @@ export default function ViewPublication() {
             </CardContainer>
             <CardResearch />
           </div>
-          <div className="col-span-12 mb-8">
+          <div className="col-span-12 flex flex-col gap-6 mb-8">
             <h2 className="text-h3 text-gray-950">Publicações relacionadas</h2>
+            <div className="w-full">
+              <Carousel>
+                {(isSlideInView) =>
+                  Array(9)
+                    .fill(null)
+                    .map((_, index) => (
+                      <div
+                        key={index}
+                        className="embla__slide flex flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                      >
+                        <CardPublication
+                          size="default"
+                          hideShadow={!isSlideInView(index)}
+                          publication={{
+                            title:
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                            description:
+                              "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                            author:
+                              "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
+                            date: new Date(),
+                          }}
+                        />
+                      </div>
+                    ))
+                }
+              </Carousel>
+            </div>
           </div>
           <div className="col-span-12">
             <NewsletterBanner />

@@ -1,10 +1,11 @@
 import { MdOutlineCalendarMonth, MdSignLanguage } from "react-icons/md";
-import { Card, CardSize } from "./Card";
+import { Card, CardProps, CardSize } from "./Card";
 import { Button } from "./Button";
 import { Link } from "@remix-run/react";
 
 interface CardPublicationProps
-  extends Pick<React.ComponentProps<"div">, "className"> {
+  extends Pick<React.ComponentProps<"div">, "className">,
+    Pick<CardProps, "hideShadow"> {
   size: CardSize;
   publication: {
     title: string;
@@ -15,7 +16,7 @@ interface CardPublicationProps
 }
 
 export function CardPublication(props: CardPublicationProps) {
-  const { size, publication, className } = props;
+  const { size, publication, hideShadow, className } = props;
 
   return (
     <Card
@@ -23,6 +24,7 @@ export function CardPublication(props: CardPublicationProps) {
       size={size}
       title={publication.title}
       titleMaxLines={3}
+      hideShadow={hideShadow}
       subtitle={
         size === "extended" ? (
           <div className="flex items-center gap-4 text-h5 text-gray-700 fill-gray-700">

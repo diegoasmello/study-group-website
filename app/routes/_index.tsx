@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { MdArrowForward, MdArrowRightAlt } from "react-icons/md";
+import { MdArrowForward } from "react-icons/md";
 import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
 import { CardAction } from "~/components/CardAction";
@@ -17,6 +17,7 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import cardImage from "~/images/card-image.png";
 import data from "~/data";
 import { Carousel } from "~/components/Carousel";
+import { CarouselHome } from "~/components/CarouselHome";
 
 export const meta: MetaFunction = () => {
   return [
@@ -28,42 +29,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <main className="pt-8 pb-20">
-      {/* carousel */}
-      <section className="w-full relative">
-        <Container>
-          <section className="grid grid-cols-12 gap-8">
-            <div className="col-span-4">
-              <div className="flex flex-col gap-8 items-start">
-                <div className="flex flex-col gap-4">
-                  <span className="text-primary font-medium">Ação</span>
-                  <span className="text-h1-display">
-                    Curso de Letras realiza palestras e encontros on-line
-                  </span>
-                  <p className="text-lead-1 text-gray-800">
-                    Confira a programação de atividades já prevista para o mês
-                    de dezembro e outros encontros que ainda estão sendo
-                    preparados.{" "}
-                  </p>
-                </div>
-                <Button>Saiba mais</Button>
-                <nav className="flex flex-row gap-4">
-                  <button>
-                    <MdArrowRightAlt size={32} />
-                  </button>
-                  <button>
-                    <MdArrowRightAlt size={32} />
-                  </button>
-                </nav>
-              </div>
-            </div>
-          </section>
-        </Container>
-        <img
-          src={cardImage}
-          alt={"dawdwa"}
-          className="h-[506px] w-[50vw] object-cover absolute top-0 right-0 rounded-l-[56px]"
-        />
-      </section>
+      <CarouselHome />
 
       {/* about section */}
       <Container className="pt-14 pb-20">
@@ -135,28 +101,32 @@ export default function Index() {
       {/* events carousel */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
         <h2 className="text-h3">Eventos e Cursos</h2>
-        <div className="grid grid-cols-3 gap-8">
-          {Array(3)
-            .fill(null)
-            .map((_, index) => (
-              <CardEvent
-                key={index}
-                size="default"
-                hideLocale
-                event={{
-                  title:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                  image: cardImage,
-                  date: new Date(),
-                  locale: "Online",
-                }}
-              />
-            ))}
-        </div>
-        <div className="grid grid-cols-12">
-          <div className="col-span-12">
-            <Carousel />
-          </div>
+        <div className="w-full">
+          <Carousel>
+            {(isSlideInView) =>
+              Array(9)
+                .fill(null)
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className="embla__slide flex flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                  >
+                    <CardEvent
+                      size="default"
+                      hideShadow={!isSlideInView(index)}
+                      hideLocale
+                      event={{
+                        title:
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        image: cardImage,
+                        date: new Date(),
+                        locale: "Online",
+                      }}
+                    />
+                  </div>
+                ))
+            }
+          </Carousel>
         </div>
         <Link to={`/events`} className="text-center">
           Ver todos eventos <MdArrowForward size={18} />
@@ -242,21 +212,30 @@ export default function Index() {
       {/* actions carousel */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
         <h2 className="text-h3">Últimas ações</h2>
-        <div className="grid grid-cols-3 gap-8">
-          {Array(3)
-            .fill(null)
-            .map((_, index) => (
-              <CardAction
-                key={index}
-                size="default"
-                action={{
-                  title:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                  image: cardImage,
-                  date: new Date(),
-                }}
-              />
-            ))}
+        <div className="w-full">
+          <Carousel>
+            {(isSlideInView) =>
+              Array(9)
+                .fill(null)
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className="embla__slide flex flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                  >
+                    <CardAction
+                      size="default"
+                      action={{
+                        title:
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        image: cardImage,
+                        date: new Date(),
+                      }}
+                      hideShadow={!isSlideInView(index)}
+                    />
+                  </div>
+                ))
+            }
+          </Carousel>
         </div>
         <Link to={`/actions`} className="text-center">
           Ver todas ações <MdArrowForward size={18} />
