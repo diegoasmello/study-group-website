@@ -41,13 +41,13 @@ export function CarouselHome() {
           <button className="embla__prev group" onClick={scrollPrev}>
             <MdArrowRightAlt
               size={32}
-              className="fill-gray-950 group-disabled:fill-gray-300"
+              className="fill-gray-950 group-disabled:fill-gray-300 group-hover:fill-primary"
             />
           </button>
           <button className="embla__next group" onClick={scrollNext}>
             <MdArrowRightAlt
               size={32}
-              className="fill-gray-950 group-disabled:fill-gray-300"
+              className="fill-gray-950 group-disabled:fill-gray-300 group-hover:fill-primary"
             />
           </button>
         </nav>

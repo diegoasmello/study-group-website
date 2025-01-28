@@ -45,7 +45,7 @@ export function Carousel({ children }: CarouselProps) {
 
   return (
     <div className="relative -mx-4 px-4">
-      <section className="embla overflow-x-hidden relative -mx-6 px-6">
+      <section className="embla overflow-x-hidden relative -mx-6 px-6 pb-2 -mb-2">
         <div className="embla__viewport" ref={emblaRef}>
           <div className="embla__container flex ml-[-32px]">
             {children(isSlideInView)}

@@ -1,7 +1,7 @@
 import { MdOutlineCalendarMonth, MdPlace } from "react-icons/md";
 import { Card, CardProps, CardSize } from "./Card";
 import { Button } from "./Button";
-import { Link } from "@remix-run/react";
+import { ButtonLink } from "./ButtonLink";
 
 interface CardEventProps extends Pick<CardProps, "hideShadow"> {
   size: CardSize;
@@ -42,11 +42,13 @@ export function CardEvent(props: CardEventProps) {
       }
       actions={
         <nav className="flex items-center gap-2">
-          <Link to={`/events/1`}>
-            <Button skin={hasInscricao ? "primary" : "ghost"} size="md">
-              Saiba mais
-            </Button>
-          </Link>
+          <ButtonLink
+            to={`/events/1`}
+            skin={hasInscricao ? "primary" : "ghost"}
+            size="md"
+          >
+            Saiba mais
+          </ButtonLink>
           <Button skin="ghost" size="md">
             Inscrever-se
           </Button>

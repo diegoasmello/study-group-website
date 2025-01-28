@@ -26,7 +26,7 @@ export function Header() {
                           ? "text-primary border-primary border-b-2 pb-1"
                           : isPending
                           ? "pending"
-                          : ""
+                          : "text-gray-950 hover:text-primary"
                       }
                       to={navLink.href!}
                     >

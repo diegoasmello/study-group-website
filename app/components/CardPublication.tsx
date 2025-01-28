@@ -1,7 +1,7 @@
 import { MdOutlineCalendarMonth, MdSignLanguage } from "react-icons/md";
 import { Card, CardProps, CardSize } from "./Card";
 import { Button } from "./Button";
-import { Link } from "@remix-run/react";
+import { ButtonLink } from "./ButtonLink";
 
 interface CardPublicationProps
   extends Pick<React.ComponentProps<"div">, "className">,
@@ -43,21 +43,17 @@ export function CardPublication(props: CardPublicationProps) {
       actions={
         size === "extended" ? (
           <nav className="flex items-center gap-2">
-            <Link to={`/publications/1`}>
-              <Button skin="primary" size="md">
-                Ver mais
-              </Button>
-            </Link>
+            <ButtonLink to={`/publications/1`} skin="primary" size="md">
+              Ver mais
+            </ButtonLink>
             <Button skin="ghost" size="md">
               Ler
             </Button>
           </nav>
         ) : (
-          <Link to={`/publications/1`}>
-            <Button skin="ghost" size="md">
-              Ver mais
-            </Button>
-          </Link>
+          <ButtonLink to={`/publications/1`} skin="ghost" size="md">
+            Ver mais
+          </ButtonLink>
         )
       }
     />

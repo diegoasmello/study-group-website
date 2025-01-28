@@ -1,6 +1,5 @@
-import { Link } from "@remix-run/react";
-import { Button } from "./Button";
 import { Card, CardProps } from "./Card";
+import { ButtonLink } from "./ButtonLink";
 
 interface CardProjectProps extends Pick<CardProps, "hideShadow"> {
   project: {
@@ -20,11 +19,9 @@ export function CardProject(props: CardProjectProps) {
       imageAsIcon
       hideShadow={hideShadow}
       actions={
-        <Link to={project.link}>
-          <Button skin="ghost" size="md">
-            Saiba mais
-          </Button>
-        </Link>
+        <ButtonLink to={project.link} skin="ghost" size="md">
+          Saiba mais
+        </ButtonLink>
       }
     />
   );

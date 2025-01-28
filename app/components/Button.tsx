@@ -1,7 +1,7 @@
 type ButtonSkin = "primary" | "outline" | "ghost";
 type ButtonSize = "lg" | "md";
 
-interface ButtonProps extends React.ComponentProps<"button"> {
+export interface ButtonProps extends React.ComponentProps<"button"> {
   skin?: ButtonSkin;
   size?: ButtonSize;
 }

@@ -1,7 +1,6 @@
-import { Link } from "@remix-run/react";
-import { Button } from "./Button";
 import { CardContainer } from "./Card";
 import researchCardIllustration from "~/images/illustrations/research-card.svg";
+import { ButtonLink } from "./ButtonLink";
 
 export function CardResearch() {
   return (
@@ -18,11 +17,9 @@ export function CardResearch() {
             Saiba mais sobre a nossa pesquisa e aprofunde-se no mundo de
             descobertas e conhecimento!
           </p>
-          <Link to="/research">
-            <Button skin="ghost" size="md">
-              Saiba mais
-            </Button>
-          </Link>
+          <ButtonLink to="/research" skin="ghost" size="md">
+            Saiba mais
+          </ButtonLink>
         </div>
       </section>
     </CardContainer>

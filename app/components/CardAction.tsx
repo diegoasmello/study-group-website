@@ -1,7 +1,6 @@
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import { Card, CardProps, CardSize } from "./Card";
-import { Button } from "./Button";
-import { Link } from "@remix-run/react";
+import { ButtonLink } from "./ButtonLink";
 
 interface CardActionProps extends Pick<CardProps, "hideShadow"> {
   size: CardSize;
@@ -29,11 +28,13 @@ export function CardAction(props: CardActionProps) {
         </div>
       }
       actions={
-        <Link to={`/actions/1`}>
-          <Button skin={size === "extended" ? "primary" : "ghost"} size="md">
-            Saiba mais
-          </Button>
-        </Link>
+        <ButtonLink
+          to={`/actions/1`}
+          skin={size === "extended" ? "primary" : "ghost"}
+          size="md"
+        >
+          Saiba mais
+        </ButtonLink>
       }
     />
   );
