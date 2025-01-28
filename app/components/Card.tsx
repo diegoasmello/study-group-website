@@ -62,13 +62,13 @@ export function Card(props: CardProps) {
           />
         )}
         {label}
-        <span
+        <div
           className={`text-h4 text-gray-950 font-medium ${sizeClass.title} ${
             hasTitleMaxLines ? `line-clamp-${titleMaxLines}` : ""
           }`}
         >
           {title}
-        </span>
+        </div>
         {subtitle}
         {text && (
           <span className={`text-gray-700 ${sizeClass.text}`}>{text}</span>
