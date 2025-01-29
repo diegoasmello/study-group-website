@@ -8,7 +8,9 @@ export function Footer() {
       <Container>
         <div className="flex items-start justify-between">
           <div className="flex flex-col gap-10 items-start">
-            <img src={logo} alt="Logo" className="h-[92px]" />
+            <Link to="./">
+              <img src={logo} alt="Logo" className="h-[92px]" />
+            </Link>
             <nav>
               <ul>
                 <li>

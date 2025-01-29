@@ -5,9 +5,9 @@ import { CardAction } from "~/components/CardAction";
 import { CardEvent } from "~/components/CardEvent";
 import { CardPublication } from "~/components/CardPublication";
 import { Container } from "~/components/Container";
-import { IconMultilinguism } from "~/components/icons/IconMultilinguism";
-import { IconReadinWriting } from "~/components/icons/IconReadinWriting";
-import { IconTranculturality } from "~/components/icons/IconTranculturality";
+import iconTranculturality from "~/images/icons/icon-transculturality.svg";
+import iconMultilinguism from "~/images/icons/icon-multilinguism.svg";
+import iconReadingWriting from "~/images/icons/icon-reading-writing.svg";
 import { Link } from "~/components/Link";
 
 import { NewsletterBanner } from "~/components/NewsletterBanner";
@@ -75,19 +75,37 @@ export default function Index() {
             type="flat"
             title="Leitura e Escrita"
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            icon={<IconReadinWriting className="fill-primary" />}
+            icon={
+              <img
+                src={iconReadingWriting}
+                alt=""
+                className="w-[72px] h-[72px]"
+              />
+            }
           />
           <Card
             type="flat"
             title="Multilinguismo"
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            icon={<IconMultilinguism className="fill-primary" />}
+            icon={
+              <img
+                src={iconMultilinguism}
+                alt=""
+                className="w-[68px] h-[68px]"
+              />
+            }
           />
           <Card
             type="flat"
             title="Transculturalidade"
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            icon={<IconTranculturality className="fill-primary" />}
+            icon={
+              <img
+                src={iconTranculturality}
+                alt=""
+                className="w-[72px] h-[72px]"
+              />
+            }
           />
         </div>
         <Link to={`/research`} className="text-center">

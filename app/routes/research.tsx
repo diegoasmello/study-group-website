@@ -5,11 +5,11 @@ import { PageBanner } from "~/components/PageBanner";
 import data from "~/data";
 import researchIllustration from "~/images/illustrations/research.svg";
 import cardImage from "~/images/card-image.png";
-import { IconReadinWriting } from "~/components/icons/IconReadinWriting";
 import { Carousel } from "~/components/Carousel";
 import { CardProject } from "~/components/CardProject";
-import { IconTranculturality } from "~/components/icons/IconTranculturality";
-import { IconMultilinguism } from "~/components/icons/IconMultilinguism";
+import iconTranculturality from "~/images/icons/icon-transculturality.svg";
+import iconMultilinguism from "~/images/icons/icon-multilinguism.svg";
+import iconReadingWriting from "~/images/icons/icon-reading-writing.svg";
 
 export const meta: MetaFunction = () => {
   return [
@@ -52,7 +52,7 @@ export default function Research() {
 }
 
 const IconWrapper = ({ children }: { children: JSX.Element }) => (
-  <div className="w-[64px] h-[64px] bg-primary-lighter flex items-center justify-center rounded-3xl">
+  <div className="w-[64px] h-[64px] bg-primary-lighter flex items-center justify-center rounded-2xl">
     {children}
   </div>
 );
@@ -74,7 +74,7 @@ const researchAreas: ResearchArea[] = [
   {
     title: "Leitura e Escrita",
     text: "Essa área se dedica ao estudo dos processos cognitivos e sociais envolvidos na habilidade de ler e escrever. Engloba uma ampla gama de investigações, desde a análise das habilidades de decodificação de letras e palavras até a compreensão e interpretação de textos complexos. Explora como os indivíduos adquirem competências linguísticas ao longo do desenvolvimento, como a leitura e a escrita são ensinadas e aprendidas em diferentes contextos educacionais, e como fatores sociais, culturais e psicológicos influenciam a proficiência nesses aspectos. Além disso, busca entender como a tecnologia e as mudanças sociais impactam a leitura e escrita, bem como desenvolver estratégias eficazes para promover a alfabetização e a expressão escrita.",
-    icon: <IconReadinWriting className="fill-primary" />,
+    icon: <img src={iconReadingWriting} alt="" className="w-[44px] h-[44px]" />,
     projects: Array(9)
       .fill(null)
       .map(() => ({
@@ -86,7 +86,7 @@ const researchAreas: ResearchArea[] = [
   {
     title: "Multilinguismo",
     text: "Essa área se dedica ao estudo dos processos cognitivos e sociais envolvidos na habilidade de ler e escrever. Engloba uma ampla gama de investigações, desde a análise das habilidades de decodificação de letras e palavras até a compreensão e interpretação de textos complexos. Explora como os indivíduos adquirem competências linguísticas ao longo do desenvolvimento, como a leitura e a escrita são ensinadas e aprendidas em diferentes contextos educacionais, e como fatores sociais, culturais e psicológicos influenciam a proficiência nesses aspectos. Além disso, busca entender como a tecnologia e as mudanças sociais impactam a leitura e escrita, bem como desenvolver estratégias eficazes para promover a alfabetização e a expressão escrita.",
-    icon: <IconMultilinguism className="fill-primary" />,
+    icon: <img src={iconMultilinguism} alt="" className="w-[44px] h-[44px]" />,
     projects: Array(9)
       .fill(null)
       .map(() => ({
@@ -98,7 +98,9 @@ const researchAreas: ResearchArea[] = [
   {
     title: "Transculturalidade",
     text: "Essa área se dedica ao estudo dos processos cognitivos e sociais envolvidos na habilidade de ler e escrever. Engloba uma ampla gama de investigações, desde a análise das habilidades de decodificação de letras e palavras até a compreensão e interpretação de textos complexos. Explora como os indivíduos adquirem competências linguísticas ao longo do desenvolvimento, como a leitura e a escrita são ensinadas e aprendidas em diferentes contextos educacionais, e como fatores sociais, culturais e psicológicos influenciam a proficiência nesses aspectos. Além disso, busca entender como a tecnologia e as mudanças sociais impactam a leitura e escrita, bem como desenvolver estratégias eficazes para promover a alfabetização e a expressão escrita.",
-    icon: <IconTranculturality className="fill-primary" />,
+    icon: (
+      <img src={iconTranculturality} alt="" className="w-[44px] h-[44px]" />
+    ),
     projects: Array(9)
       .fill(null)
       .map(() => ({
@@ -133,9 +135,7 @@ const ResearchItemSection = ({
             <div className="col-span-12 grid grid-cols-12">
               {isOdd && <div className="col-span-6" />}
               <div className={`col-span-6  flex flex-col gap-y-4 py-10`}>
-                <IconWrapper>
-                  <IconTranculturality className="fill-primary" />
-                </IconWrapper>
+                <IconWrapper>{item.icon}</IconWrapper>
                 <h2 className="text-h3 text-gray-950">{item.title}</h2>
                 <p className="text-gray-800">{item.text}</p>
               </div>

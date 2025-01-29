@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge";
+
 type ButtonSkin = "primary" | "outline" | "ghost";
 type ButtonSize = "lg" | "md";
 
@@ -11,7 +13,10 @@ export function Button(props: ButtonProps) {
 
   return (
     <button
-      className={`${className} transition inline-flex items-center justify-center rounded-xl font-medium focus:shadow-focus focus:outline-none ${skinClasses[skin]} ${sizeClasses[size]}`}
+      className={twMerge(
+        `transition inline-flex items-center justify-center rounded-xl font-medium focus:shadow-focus focus:outline-none ${skinClasses[skin]} ${sizeClasses[size]}`,
+        className
+      )}
       {...rest}
     />
   );
