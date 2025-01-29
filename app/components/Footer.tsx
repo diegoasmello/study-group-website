@@ -1,7 +1,6 @@
 import { Link } from "@remix-run/react";
 import { Container } from "./Container";
 import logo from "~/images/logo-light.png";
-import iconFacebook from "~/images/icons/icon-facebook.svg";
 import { IconYoutube } from "./icons/IconYoutube";
 import { IconInstagram } from "./icons/IconInstagram";
 import { IconFacebook } from "./icons/IconFacebook";
