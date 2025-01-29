@@ -1,10 +1,34 @@
-import { Link, NavLink } from "@remix-run/react";
+import { Link, NavLink, useLocation } from "@remix-run/react";
 import { Button } from "./Button";
 import { Container } from "./Container";
 import logo from "~/images/logo-dark.png";
 import { MdArrowForwardIos, MdSearch } from "react-icons/md";
+import { useEffect, useRef, useState } from "react";
 
 export function Header() {
+  const location = useLocation();
+  const navRef = useRef<HTMLDivElement | null>(null);
+  const [indicatorStyle, setIndicatorStyle] = useState({});
+
+  useEffect(() => {
+    const updateIndicator = () => {
+      const activeLink = navRef.current?.querySelector(
+        ".active"
+      ) as HTMLElement;
+
+      if (activeLink) {
+        setIndicatorStyle({
+          width: `${activeLink.offsetWidth}px`,
+          left: `${activeLink.offsetLeft}px`,
+        });
+      }
+    };
+
+    updateIndicator();
+    window.addEventListener("resize", updateIndicator);
+    return () => window.removeEventListener("resize", updateIndicator);
+  }, [location.pathname]);
+
   return (
     <header className="flex items-center justify-center h-20">
       <Container>
@@ -13,7 +37,7 @@ export function Header() {
             <img src={logo} alt="Logo" className="h-[40px]" />
           </Link>
 
-          <nav>
+          <nav className="relative" ref={navRef}>
             <ul className="flex flex-row items-center gap-8">
               {navLinks.map((navLink) => (
                 <li key={navLink.href} className="font-medium">
@@ -21,11 +45,9 @@ export function Header() {
                     <button>{navLink.label}</button>
                   ) : (
                     <NavLink
-                      className={({ isActive, isPending }) =>
+                      className={({ isActive }) =>
                         isActive
-                          ? "text-primary border-primary border-b-2 pb-1"
-                          : isPending
-                          ? "pending"
+                          ? "active text-primary border-primary"
                           : "text-gray-950 hover:text-primary"
                       }
                       to={navLink.href!}
@@ -36,6 +58,10 @@ export function Header() {
                 </li>
               ))}
             </ul>
+            <div
+              className={`absolute bottom-[-6px] h-[2px] bg-primary transition-all duration-300 ease-in-out `}
+              style={indicatorStyle}
+            />
           </nav>
 
           <nav>

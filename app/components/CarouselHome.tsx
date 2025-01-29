@@ -7,7 +7,6 @@ import cardImage from "~/images/card-image.png";
 import { useCallback } from "react";
 import Autoplay from "embla-carousel-autoplay";
 
-// todo: add autoplay
 export function CarouselHome() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 38 }, [
     Autoplay({ delay: 3000, stopOnMouseEnter: true, stopOnInteraction: false }),
