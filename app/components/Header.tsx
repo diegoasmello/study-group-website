@@ -7,8 +7,11 @@ import { useEffect, useRef, useState } from "react";
 
 export function Header() {
   const location = useLocation();
-  const navRef = useRef<HTMLDivElement | null>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({});
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [isPageOnTop, setIsPageOnTop] = useState(true);
+  const navRef = useRef<HTMLDivElement | null>(null);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const updateIndicator = () => {
@@ -29,8 +32,36 @@ export function Header() {
     return () => window.removeEventListener("resize", updateIndicator);
   }, [location.pathname]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      setIsPageOnTop(currentScrollY === 0);
+
+      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+        setIsHeaderVisible(false);
+      } else {
+        setIsHeaderVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="flex items-center justify-center h-20">
+    <header
+      className={`flex items-center justify-center w-full h-20 z-10 fixed top-0 left-0 bg-white
+        ${isHeaderVisible ? "translate-y-0" : "-translate-y-full"}
+        ${
+          !isPageOnTop
+            ? "shadow-custom-1 transition-transform duration-300"
+            : ""
+        }
+      `}
+    >
       <Container>
         <div className="flex flex-row items-center justify-between">
           <Link to="./">
