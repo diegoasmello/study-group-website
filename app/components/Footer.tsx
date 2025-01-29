@@ -1,6 +1,10 @@
 import { Link } from "@remix-run/react";
 import { Container } from "./Container";
 import logo from "~/images/logo-light.png";
+import iconFacebook from "~/images/icons/icon-facebook.svg";
+import { IconYoutube } from "./icons/IconYoutube";
+import { IconInstagram } from "./icons/IconInstagram";
+import { IconFacebook } from "./icons/IconFacebook";
 
 export function Footer() {
   return (
@@ -12,11 +16,33 @@ export function Footer() {
               <img src={logo} alt="Logo" className="h-[92px]" />
             </Link>
             <nav>
-              <ul>
+              <ul className="flex gap-6">
                 <li>
-                  <a href="./">Facebook</a>
-                  <a href="./">Instagram</a>
-                  <a href="./">Youtube</a>
+                  <a href="./" className="group">
+                    <IconFacebook
+                      width={36}
+                      height={36}
+                      className="fill-white group-hover:fill-gray-200 transition-all"
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a href="./" className="group">
+                    <IconInstagram
+                      width={36}
+                      height={36}
+                      className="fill-white group-hover:fill-gray-200 transition-all"
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a href="./" className="group">
+                    <IconYoutube
+                      width={36}
+                      height={36}
+                      className="fill-white group-hover:fill-gray-200 transition-all"
+                    />
+                  </a>
                 </li>
               </ul>
             </nav>
