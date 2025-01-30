@@ -90,6 +90,9 @@ export default {
         "custom-1": "0px 8px 40px 0px rgba(0, 0, 0, 4%)",
         "custom-2": "",
       },
+      backgroundImage: {
+        page: "linear-gradient(rgba(217, 217, 217, 0%) 0%, rgba(217, 217, 217, 14%) 100%)",
+      },
     },
   },
   plugins: [],

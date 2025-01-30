@@ -23,7 +23,7 @@ export const meta: MetaFunction = () => {
 
 export default function Publications() {
   return (
-    <main className="pb-20">
+    <main className="pb-20 bg-page">
       <PageBanner
         title={data.publications.title}
         text={data.publications.description}

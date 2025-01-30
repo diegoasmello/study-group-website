@@ -7,7 +7,7 @@ import cardImage from "~/images/card-image.png";
 
 export default function ViewAction() {
   return (
-    <main className="pb-20">
+    <main className="pb-20  bg-page">
       <img
         src={cardImage}
         alt=""

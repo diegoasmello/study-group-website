@@ -9,7 +9,7 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 
 export default function ViewPublication() {
   return (
-    <main className="pt-12 pb-20">
+    <main className="pt-12 pb-20 bg-page">
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="col-span-8">

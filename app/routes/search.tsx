@@ -18,7 +18,7 @@ export const meta: MetaFunction = () => {
 
 export default function Search() {
   return (
-    <main className="pb-20">
+    <main className="pb-20 bg-page">
       <PageBanner
         title={data.search.title}
         text="Exibindo 3 resultados para “aprendizado”:"

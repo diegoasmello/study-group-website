@@ -19,7 +19,7 @@ export const meta: MetaFunction = () => {
 
 export default function Events() {
   return (
-    <main className="pb-20">
+    <main className="pb-20 bg-page">
       <PageBanner
         title={data.events.title}
         text={data.events.description}

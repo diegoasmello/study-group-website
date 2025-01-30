@@ -28,7 +28,7 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <main className="pt-8 pb-20">
+    <main className="pt-8 pb-20  bg-page">
       <CarouselHome />
 
       {/* about section */}

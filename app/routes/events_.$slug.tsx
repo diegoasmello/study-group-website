@@ -10,7 +10,7 @@ import cardImage from "~/images/card-image.png";
 
 export default function ViewEvent() {
   return (
-    <main className="pb-20">
+    <main className="pb-20  bg-page">
       <img
         src={cardImage}
         alt=""

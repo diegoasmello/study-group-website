@@ -18,7 +18,7 @@ export const meta: MetaFunction = () => {
 
 export default function History() {
   return (
-    <main className="pb-20">
+    <main className="pb-20 bg-page">
       <div className="bg-primary-lighter pt-14 pb-16 mb-12 relative overflow-hidden">
         <Container className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="col-span-6" />

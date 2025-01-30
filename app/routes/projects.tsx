@@ -17,7 +17,7 @@ export const meta: MetaFunction = () => {
 
 export default function Projects() {
   return (
-    <main className="pb-20">
+    <main className="pb-20 bg-page">
       <PageBanner
         title={data.projects.title}
         text={data.projects.description}
