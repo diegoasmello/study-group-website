@@ -5,7 +5,6 @@ import { twMerge } from "tailwind-merge";
 interface TextInputProps
   extends React.ComponentProps<"input">,
     Omit<FormControlProps, "children" | "htmlFor"> {
-  name: string;
   Icon?: React.ComponentType<SVGProps<SVGSVGElement>>;
 }
 

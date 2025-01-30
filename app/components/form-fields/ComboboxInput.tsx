@@ -15,10 +15,11 @@ interface ComboboxInputProps
   extends Omit<FormControlProps, "children" | "htmlFor"> {
   name: string;
   items: ComboboxItem[];
+  immediate?: boolean;
 }
 
 export function ComboboxInput(props: ComboboxInputProps) {
-  const { items, name, label, required } = props;
+  const { items, name, label, required, immediate } = props;
 
   const [query, setQuery] = useState("");
 
@@ -34,6 +35,7 @@ export function ComboboxInput(props: ComboboxInputProps) {
       <Combobox
         //   value={selectedPerson}
         //   onChange={setSelectedPerson}
+        immediate={immediate}
         onClose={() => setQuery("")}
       >
         <div className="relative w-full">

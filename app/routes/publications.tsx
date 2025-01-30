@@ -1,10 +1,10 @@
-/* eslint-disable react/jsx-no-undef */
 import { MetaFunction } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
 import { Container } from "~/components/Container";
+import { CheckboxInput } from "~/components/form-fields/CheckboxInput";
 import { ComboboxInput } from "~/components/form-fields/ComboboxInput";
 import { DateRangeInput } from "~/components/form-fields/DateRangeInput";
 import { FormControl } from "~/components/form-fields/FormControl";
@@ -69,14 +69,15 @@ export default function Publications() {
               />
               <FormControl label="Áreas de pesquisa">
                 <div className="flex flex-col gap-2">
-                  <input type="checkbox" />
-                  <input type="checkbox" />
-                  <input type="checkbox" />
+                  <CheckboxInput label="Leitura e Escrita" />
+                  <CheckboxInput label="Multilinguismo" />
+                  <CheckboxInput label="Transculturalidade" />
                 </div>
               </FormControl>
               <ComboboxInput
                 name="b"
                 label="Autores"
+                immediate
                 items={[
                   { label: "Harry Potter", value: "hp" },
                   { label: "Hermione Granger", value: "hg" },
