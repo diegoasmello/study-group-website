@@ -100,11 +100,7 @@ export function Header() {
                         )}
                       >
                         {navLink.label}
-                        <IconChevronDown
-                          width={24}
-                          height={24}
-                          className="-mr-2"
-                        />
+                        <IconChevronDown className="size-6 -mr-2" />
                       </DropdownButton>
                       <DropdownMenu anchorGap={18}>
                         {navLink.dropdown.map((dropdown) => (
@@ -146,7 +142,7 @@ export function Header() {
                     {/* {({ active }) => ( */}
                     <Button size="md" skin="ghost" className="gap-2 px-3">
                       <span>PT</span>
-                      <IconChevronDown width={24} height={24} />
+                      <IconChevronDown className="size-6" />
                     </Button>
                     {/* )} */}
                   </DropdownButton>
@@ -161,7 +157,7 @@ export function Header() {
                 <Popover className="relative">
                   <PopoverButton>
                     <Button size="md" skin="ghost" className="w-[44px] px-0">
-                      <IconSearch width={24} height={24} />
+                      <IconSearch className="size-6" />
                     </Button>
                   </PopoverButton>
                   <PopoverPanel

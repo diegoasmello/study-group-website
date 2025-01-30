@@ -23,7 +23,7 @@ export function CardAction(props: CardActionProps) {
       hideShadow={hideShadow}
       label={
         <div className="flex items-center gap-2 text-h5 text-gray-700 fill-gray-700">
-          <IconCalendar width={16} height={16} />
+          <IconCalendar className="size-4" />
           {action.date.toLocaleDateString("pt-BR")}
         </div>
       }

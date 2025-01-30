@@ -19,11 +19,11 @@ export default function ViewPublication() {
             </h1>
             <ul className="flex flex-col gap-2 mb-8">
               <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
-                <IconCalendar width={16} height={16} />
+                <IconCalendar className="size-4" />
                 <span>item</span>
               </li>
               <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
-                <IconSignature width={16} height={16} />
+                <IconSignature className="size-4" />
                 <span>item</span>
               </li>
             </ul>

@@ -73,7 +73,7 @@ export default function ViewProject() {
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <Link to="/">
-                  <IconArrowForward width={18} height={18} /> Visitar projeto
+                  <IconArrowForward className="size-5" /> Visitar projeto
                 </Link>
               </div>
             </CardContainer>

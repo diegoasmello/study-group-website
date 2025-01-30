@@ -24,7 +24,7 @@ export function CardTeamMember(props: CardTeamMemberProps) {
       hideShadow={hideShadow}
       actions={
         <Link to={teamMember.link}>
-          Lattes <IconArrowForward width={18} height={18} />
+          Lattes <IconArrowForward className="size-5" />
         </Link>
       }
     />

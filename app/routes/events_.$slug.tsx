@@ -86,8 +86,8 @@ export default function ViewEvent() {
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <Link to="/">
-                  <IconArrowForward width={18} height={18} /> Clique aqui para
-                  se inscrever
+                  <IconArrowForward className="size-5" /> Clique aqui para se
+                  inscrever
                 </Link>
               </div>
             </CardContainer>

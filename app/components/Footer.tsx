@@ -18,29 +18,17 @@ export function Footer() {
               <ul className="flex gap-6">
                 <li>
                   <a href="./" className="group">
-                    <IconFacebook
-                      width={36}
-                      height={36}
-                      className="fill-white group-hover:fill-gray-200 transition-all"
-                    />
+                    <IconFacebook className="size-9 fill-white group-hover:fill-gray-200 transition-all" />
                   </a>
                 </li>
                 <li>
                   <a href="./" className="group">
-                    <IconInstagram
-                      width={36}
-                      height={36}
-                      className="fill-white group-hover:fill-gray-200 transition-all"
-                    />
+                    <IconInstagram className="size-9 fill-white group-hover:fill-gray-200 transition-all" />
                   </a>
                 </li>
                 <li>
                   <a href="./" className="group">
-                    <IconYoutube
-                      width={36}
-                      height={36}
-                      className="fill-white group-hover:fill-gray-200 transition-all"
-                    />
+                    <IconYoutube className="size-9 fill-white group-hover:fill-gray-200 transition-all" />
                   </a>
                 </li>
               </ul>

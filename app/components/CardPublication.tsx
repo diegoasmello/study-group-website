@@ -29,11 +29,11 @@ export function CardPublication(props: CardPublicationProps) {
         size === "extended" ? (
           <div className="flex items-center gap-4 text-h5 text-gray-700 fill-gray-700">
             <div className="flex items-center gap-2">
-              <IconCalendar width={16} height={16} />
+              <IconCalendar className="size-4" />
               {publication.date.toLocaleDateString("pt-BR")}
             </div>
             <div className="flex items-center gap-2">
-              <IconSignature width={16} height={16} />
+              <IconSignature className="size-4" />
               {publication.author}
             </div>
           </div>

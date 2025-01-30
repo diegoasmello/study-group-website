@@ -65,13 +65,13 @@ export function Carousel({ children }: CarouselProps) {
         className="embla__prev absolute top-[calc(50%-16px)] left-[-56px]"
         onClick={scrollPrev}
       >
-        <IconChevronLeft width={32} height={32} className="fill-gray-600" />
+        <IconChevronLeft className="size-8 text-gray-600" />
       </button>
       <button
         className="embla__next absolute top-[calc(50%-16px)] right-[-56px]"
         onClick={scrollNext}
       >
-        <IconChevronRight width={32} height={32} className="fill-gray-600" />
+        <IconChevronRight className="size-8 text-gray-600" />
       </button>
     </div>
   );

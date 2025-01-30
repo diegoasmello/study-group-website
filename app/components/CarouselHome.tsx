@@ -41,18 +41,10 @@ export function CarouselHome() {
       <Container className="flex items-center justify-between mt-6">
         <nav className="flex flex-row gap-4">
           <button className="embla__prev group" onClick={scrollPrev}>
-            <IconArrowAltBack
-              width={32}
-              height={32}
-              className="fill-gray-950 group-disabled:fill-gray-300 group-hover:fill-primary"
-            />
+            <IconArrowAltBack className="size-8 text-gray-950 group-disabled:text-gray-300 group-hover:text-primary" />
           </button>
           <button className="embla__next group" onClick={scrollNext}>
-            <IconArrowAltForward
-              width={32}
-              height={32}
-              className="fill-gray-950 group-disabled:fill-gray-300 group-hover:fill-primary"
-            />
+            <IconArrowAltForward className="size-8 text-gray-950 group-disabled:text-gray-300 group-hover:text-primary" />
           </button>
         </nav>
         <nav className="flex justify-center w-full gap-6">

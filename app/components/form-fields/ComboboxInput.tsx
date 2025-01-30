@@ -53,7 +53,7 @@ export function ComboboxInput(props: ComboboxInputProps) {
             transition"
           />
           <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5 text-gray-400 data-[hover]:text-primary">
-            <IconChevronDown width={24} height={24} />
+            <IconChevronDown className="size-6" />
           </ComboboxButton>
         </div>
         <ComboboxOptions

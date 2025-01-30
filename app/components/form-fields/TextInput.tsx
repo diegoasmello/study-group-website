@@ -16,7 +16,7 @@ export function TextInput(props: TextInputProps) {
       <div className="relative w-full">
         {Icon && (
           <div className="absolute h-[44px] w-[44px] flex items-center justify-center text-gray-400">
-            <Icon width={24} height={24} />
+            <Icon className="size-6" />
           </div>
         )}
         <input

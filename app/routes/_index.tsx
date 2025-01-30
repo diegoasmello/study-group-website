@@ -111,7 +111,7 @@ export default function Index() {
         </div>
         <Link to={`/research`} className="text-center">
           Saiba mais sobre nossa pesquisa{" "}
-          <IconArrowForward width={18} height={18} />
+          <IconArrowForward className="size-5" />
         </Link>
       </Container>
 
@@ -146,7 +146,7 @@ export default function Index() {
           </Carousel>
         </div>
         <Link to={`/events`} className="text-center">
-          Ver todos eventos <IconArrowForward width={18} height={18} />
+          Ver todos eventos <IconArrowForward className="size-5" />
         </Link>
       </Container>
 
@@ -222,7 +222,7 @@ export default function Index() {
           </div>
         </div>
         <Link to={`/publications`} className="text-center">
-          Ver todas publicações <IconArrowForward width={18} height={18} />
+          Ver todas publicações <IconArrowForward className="size-5" />
         </Link>
       </Container>
 
@@ -255,7 +255,7 @@ export default function Index() {
           </Carousel>
         </div>
         <Link to={`/actions`} className="text-center">
-          Ver todas ações <IconArrowForward width={18} height={18} />
+          Ver todas ações <IconArrowForward className="size-5" />
         </Link>
       </Container>
 

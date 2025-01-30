@@ -83,7 +83,7 @@ export default function History() {
             </div>
             <div className="flex flex-col items-center">
               <Link to="/team">
-                Veja toda a equipe <IconArrowForward width={18} height={18} />
+                Veja toda a equipe <IconArrowForward className="size-5" />
               </Link>
             </div>
           </div>
