@@ -10,7 +10,7 @@ export function FormControl(props: FormControlProps) {
   const { htmlFor, label, children, required, error } = props;
 
   return (
-    <div className="flex flex-col gap-2 items-start">
+    <div className="flex flex-col gap-2 items-start self-stretch w-full">
       {label && (
         <label
           htmlFor={htmlFor}

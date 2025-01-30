@@ -6,6 +6,7 @@ import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
 import { Container } from "~/components/Container";
 import { ComboboxInput } from "~/components/form-fields/ComboboxInput";
+import { DateRangeInput } from "~/components/form-fields/DateRangeInput";
 import { FormControl } from "~/components/form-fields/FormControl";
 import { TextInput } from "~/components/form-fields/TextInput";
 import { IconSearch } from "~/components/icons";
@@ -82,18 +83,7 @@ export default function Publications() {
                   { label: "Rony Weasley", value: "rw" },
                 ]}
               />
-              <FormControl label="Autores">
-                <div className="flex flex-col gap-2">
-                  <select>
-                    <option>Todos</option>
-                  </select>
-                </div>
-              </FormControl>
-              <TextInput
-                label="Período de publicação"
-                name={"a"}
-                placeholder="Pesquisa por título ou autor"
-              />
+              <DateRangeInput label="Período da publicação" />
               <Button size="md">Buscar</Button>
             </CardContainer>
             <CardResearch />
