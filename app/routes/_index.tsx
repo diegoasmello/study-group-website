@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { MdArrowForward } from "react-icons/md";
+
 import { Card } from "~/components/Card";
 import { CardAction } from "~/components/CardAction";
 import { CardEvent } from "~/components/CardEvent";
@@ -9,6 +9,7 @@ import iconTranculturality from "~/images/icons/icon-transculturality.svg";
 import iconMultilinguism from "~/images/icons/icon-multilinguism.svg";
 import iconReadingWriting from "~/images/icons/icon-reading-writing.svg";
 import { Link } from "~/components/Link";
+import { IconArrowForward } from "~/components/icons/IconArrowForward";
 
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 
@@ -109,7 +110,8 @@ export default function Index() {
           />
         </div>
         <Link to={`/research`} className="text-center">
-          Saiba mais sobre nossa pesquisa <MdArrowForward size={18} />
+          Saiba mais sobre nossa pesquisa{" "}
+          <IconArrowForward width={18} height={18} />
         </Link>
       </Container>
 
@@ -144,7 +146,7 @@ export default function Index() {
           </Carousel>
         </div>
         <Link to={`/events`} className="text-center">
-          Ver todos eventos <MdArrowForward size={18} />
+          Ver todos eventos <IconArrowForward width={18} height={18} />
         </Link>
       </Container>
 
@@ -220,7 +222,7 @@ export default function Index() {
           </div>
         </div>
         <Link to={`/publications`} className="text-center">
-          Ver todas publicações <MdArrowForward size={18} />
+          Ver todas publicações <IconArrowForward width={18} height={18} />
         </Link>
       </Container>
 
@@ -253,7 +255,7 @@ export default function Index() {
           </Carousel>
         </div>
         <Link to={`/actions`} className="text-center">
-          Ver todas ações <MdArrowForward size={18} />
+          Ver todas ações <IconArrowForward width={18} height={18} />
         </Link>
       </Container>
 

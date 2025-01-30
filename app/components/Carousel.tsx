@@ -2,7 +2,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import { EmblaCarouselType } from "embla-carousel";
 import { DotButton, useDotButton } from "./CarouselDotButton";
-import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
+import { IconChevronLeft, IconChevronRight } from "./icons";
 
 interface CarouselProps {
   children: (isSlideInView: (index: number) => boolean) => React.ReactNode;
@@ -65,16 +65,14 @@ export function Carousel({ children }: CarouselProps) {
         className="embla__prev absolute top-[calc(50%-16px)] left-[-56px]"
         onClick={scrollPrev}
       >
-        <MdArrowBackIos size={32} className="fill-gray-600" />
+        <IconChevronLeft width={32} height={32} className="fill-gray-600" />
       </button>
       <button
         className="embla__next absolute top-[calc(50%-16px)] right-[-56px]"
         onClick={scrollNext}
       >
-        <MdArrowForwardIos size={32} className="fill-gray-600" />
+        <IconChevronRight width={32} height={32} className="fill-gray-600" />
       </button>
-      {/* <div className="absolute top-0 left-0 w-4 h-full bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
-      <div className="absolute top-0 right-0 w-4 h-full bg-gradient-to-l from-white to-transparent pointer-events-none"></div> */}
     </div>
   );
 }

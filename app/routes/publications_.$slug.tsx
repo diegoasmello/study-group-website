@@ -4,6 +4,7 @@ import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
+import { IconCalendar, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 
 export default function ViewPublication() {
@@ -17,11 +18,13 @@ export default function ViewPublication() {
               venezuelanos em sala de aula de língua portuguesa
             </h1>
             <ul className="flex flex-col gap-2 mb-8">
-              <li className="flex gap-4">
-                i <span>item</span>
+              <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
+                <IconCalendar width={16} height={16} />
+                <span>item</span>
               </li>
-              <li className="flex gap-4">
-                i <span>item</span>
+              <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
+                <IconSignature width={16} height={16} />
+                <span>item</span>
               </li>
             </ul>
             <h2 className="text-h4 text-gray-950 mb-2">Resumo</h2>

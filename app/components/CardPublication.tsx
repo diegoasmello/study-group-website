@@ -1,7 +1,7 @@
-import { MdOutlineCalendarMonth, MdSignLanguage } from "react-icons/md";
 import { Card, CardProps, CardSize } from "./Card";
 import { Button } from "./Button";
 import { ButtonLink } from "./ButtonLink";
+import { IconCalendar, IconSignature } from "./icons";
 
 interface CardPublicationProps
   extends Pick<React.ComponentProps<"div">, "className">,
@@ -29,11 +29,11 @@ export function CardPublication(props: CardPublicationProps) {
         size === "extended" ? (
           <div className="flex items-center gap-4 text-h5 text-gray-700 fill-gray-700">
             <div className="flex items-center gap-2">
-              <MdOutlineCalendarMonth size={16} />
+              <IconCalendar width={16} height={16} />
               {publication.date.toLocaleDateString("pt-BR")}
             </div>
             <div className="flex items-center gap-2">
-              <MdSignLanguage size={16} />
+              <IconSignature width={16} height={16} />
               {publication.author}
             </div>
           </div>

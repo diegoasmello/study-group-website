@@ -1,5 +1,5 @@
-import { MdArrowForward } from "react-icons/md";
 import { Card, CardProps } from "./Card";
+import { IconArrowForward } from "./icons";
 import { Link } from "./Link";
 
 interface CardTeamMemberProps extends Pick<CardProps, "hideShadow" | "type"> {
@@ -24,7 +24,7 @@ export function CardTeamMember(props: CardTeamMemberProps) {
       hideShadow={hideShadow}
       actions={
         <Link to={teamMember.link}>
-          Lattes <MdArrowForward size={18} />
+          Lattes <IconArrowForward width={18} height={18} />
         </Link>
       }
     />

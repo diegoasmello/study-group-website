@@ -2,8 +2,8 @@ import { Link, NavLink, useLocation } from "@remix-run/react";
 import { Button } from "./Button";
 import { Container } from "./Container";
 import logo from "~/images/logo-dark.png";
-import { MdArrowForwardIos, MdSearch } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
+import { IconSearch, IconChevronDown } from "./icons";
 
 export function Header() {
   const location = useLocation();
@@ -100,12 +100,12 @@ export function Header() {
               <li>
                 <Button size="md" skin="ghost" className="gap-2 px-3">
                   <span>PT</span>
-                  <MdArrowForwardIos className="rotate-90" size={16} />
+                  <IconChevronDown width={24} height={24} />
                 </Button>
               </li>
               <li>
                 <Button size="md" skin="ghost" className="w-[44px] px-0">
-                  <MdSearch size={24} />
+                  <IconSearch width={24} height={24} />
                 </Button>
               </li>
             </ul>

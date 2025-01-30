@@ -1,9 +1,9 @@
-import { MdArrowForward } from "react-icons/md";
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
 import { CardEvent } from "~/components/CardEvent";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
+import { IconArrowForward } from "~/components/icons";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import cardImage from "~/images/card-image.png";
@@ -86,8 +86,8 @@ export default function ViewEvent() {
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <Link to="/">
-                  {/* todo: fix icon */}
-                  <MdArrowForward size={18} /> Clique aqui para se inscrever
+                  <IconArrowForward width={18} height={18} /> Clique aqui para
+                  se inscrever
                 </Link>
               </div>
             </CardContainer>

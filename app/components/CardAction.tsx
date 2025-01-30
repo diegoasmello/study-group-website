@@ -1,6 +1,6 @@
-import { MdOutlineCalendarMonth } from "react-icons/md";
 import { Card, CardProps, CardSize } from "./Card";
 import { ButtonLink } from "./ButtonLink";
+import { IconCalendar } from "./icons";
 
 interface CardActionProps extends Pick<CardProps, "hideShadow"> {
   size: CardSize;
@@ -23,7 +23,7 @@ export function CardAction(props: CardActionProps) {
       hideShadow={hideShadow}
       label={
         <div className="flex items-center gap-2 text-h5 text-gray-700 fill-gray-700">
-          <MdOutlineCalendarMonth size={16} />
+          <IconCalendar width={16} height={16} />
           {action.date.toLocaleDateString("pt-BR")}
         </div>
       }

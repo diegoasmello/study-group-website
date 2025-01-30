@@ -2,10 +2,10 @@ import useEmblaCarousel from "embla-carousel-react";
 import { DotButton, useDotButton } from "./CarouselDotButton";
 import { Container } from "./Container";
 import { Button } from "./Button";
-import { MdArrowRightAlt } from "react-icons/md";
 import cardImage from "~/images/card-image.png";
 import { useCallback } from "react";
 import Autoplay from "embla-carousel-autoplay";
+import { IconArrowAltBack, IconArrowAltForward } from "./icons";
 
 export function CarouselHome() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 38 }, [
@@ -38,22 +38,24 @@ export function CarouselHome() {
           </div>
         </div>
       </div>
-      <Container className="flex items-center justify-between">
+      <Container className="flex items-center justify-between mt-6">
         <nav className="flex flex-row gap-4">
           <button className="embla__prev group" onClick={scrollPrev}>
-            <MdArrowRightAlt
-              size={32}
+            <IconArrowAltBack
+              width={32}
+              height={32}
               className="fill-gray-950 group-disabled:fill-gray-300 group-hover:fill-primary"
             />
           </button>
           <button className="embla__next group" onClick={scrollNext}>
-            <MdArrowRightAlt
-              size={32}
+            <IconArrowAltForward
+              width={32}
+              height={32}
               className="fill-gray-950 group-disabled:fill-gray-300 group-hover:fill-primary"
             />
           </button>
         </nav>
-        <nav className="flex justify-center w-full gap-6 mt-6">
+        <nav className="flex justify-center w-full gap-6">
           {scrollSnaps.map((_, index) => (
             <DotButton
               key={index}

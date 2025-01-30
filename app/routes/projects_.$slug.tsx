@@ -1,10 +1,10 @@
-import { MdArrowForward } from "react-icons/md";
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
 import { CardProject } from "~/components/CardProject";
 import { CardResearch } from "~/components/CardResearch";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
+import { IconArrowForward } from "~/components/icons";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import cardImage from "~/images/card-image.png";
@@ -73,8 +73,7 @@ export default function ViewProject() {
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <Link to="/">
-                  {/* todo: fix icon */}
-                  <MdArrowForward size={18} /> Visitar projeto
+                  <IconArrowForward width={18} height={18} /> Visitar projeto
                 </Link>
               </div>
             </CardContainer>

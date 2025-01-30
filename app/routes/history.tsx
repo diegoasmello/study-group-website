@@ -1,5 +1,4 @@
 import { MetaFunction } from "@remix-run/react";
-import { MdArrowForward } from "react-icons/md";
 import { CardTeamMember } from "~/components/CardTeamMember";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
@@ -8,6 +7,7 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import data from "~/data";
 import historyIllustration from "~/images/illustrations/history.svg";
 import cardImage from "~/images/card-image.png";
+import { IconArrowForward } from "~/components/icons";
 
 export const meta: MetaFunction = () => {
   return [
@@ -83,7 +83,7 @@ export default function History() {
             </div>
             <div className="flex flex-col items-center">
               <Link to="/team">
-                Veja toda a equipe <MdArrowForward size={18} />
+                Veja toda a equipe <IconArrowForward width={18} height={18} />
               </Link>
             </div>
           </div>
