@@ -7,6 +7,7 @@ import { CardResearch } from "~/components/CardResearch";
 import { Container } from "~/components/Container";
 import { FormControl } from "~/components/form-fields/FormControl";
 import { TextInput } from "~/components/form-fields/TextInput";
+import { IconSearch } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
@@ -61,6 +62,8 @@ export default function Publications() {
               <TextInput
                 name={"a"}
                 placeholder="Pesquisa por título ou autor"
+                Icon={IconSearch}
+                className="w-full"
               />
               <FormControl label="Áreas de pesquisa">
                 <div className="flex flex-col gap-2">

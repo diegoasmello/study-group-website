@@ -11,7 +11,7 @@ export function NewsletterBanner() {
           <br />
           nosso grupo!
         </span>
-        <TextInput name="a" placeholder="Digite seu e-mail" />
+        <TextInput name="a" type="email" placeholder="Digite seu e-mail" />
         <Button skin="outline">Enviar</Button>
       </div>
       <img

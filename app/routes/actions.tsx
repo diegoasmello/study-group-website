@@ -2,6 +2,7 @@ import { MetaFunction } from "@remix-run/react";
 import { CardAction } from "~/components/CardAction";
 import { Container } from "~/components/Container";
 import { TextInput } from "~/components/form-fields/TextInput";
+import { IconSearch } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
@@ -38,6 +39,7 @@ export default function Actions() {
               name="a"
               placeholder="Pesquise por título, data ou palavras-chave"
               className="w-[34vw]"
+              Icon={IconSearch}
             />
           </div>
 

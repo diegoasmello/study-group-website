@@ -1,27 +1,38 @@
+import { SVGProps } from "react";
 import { FormControl, FormControlProps } from "./FormControl";
 
 interface TextInputProps
   extends React.ComponentProps<"input">,
     Omit<FormControlProps, "children" | "htmlFor"> {
   name: string;
+  Icon?: React.ComponentType<SVGProps<SVGSVGElement>>;
 }
 
 export function TextInput(props: TextInputProps) {
-  const { name, label, className, ...rest } = props;
+  const { name, Icon, label, className, ...rest } = props;
 
   return (
     <FormControl label={label} htmlFor={name}>
-      <input
-        name={name}
-        className={`${className} h-[44px] border rounded-xl px-4
-        border-gray-200 text-gray-950
-        hover:border-gray-300
-        active:border-primary
-        focus:outline-none focus:shadow-focus
-        disabled:border-gray-200 disabled:bg-gray-100
-        placeholder:text-gray-300 placeholder:italic`}
-        {...rest}
-      />
+      <div className="relative">
+        {Icon && (
+          <div className="absolute h-[44px] w-[44px] flex items-center justify-center text-gray-400">
+            <Icon width={24} height={24} />
+          </div>
+        )}
+        <input
+          name={name}
+          className={`${className} h-[44px] border rounded-xl px-4
+            border-gray-300 text-gray-950
+            hover:border-gray-400
+            active:border-primary
+            focus:outline-none focus:shadow-focus
+            disabled:border-gray-200 disabled:bg-gray-100
+            placeholder:text-gray-400 placeholder:italic
+            transition
+            ${Icon ? "pl-[44px]" : ""}`}
+          {...rest}
+        />
+      </div>
     </FormControl>
   );
 }
