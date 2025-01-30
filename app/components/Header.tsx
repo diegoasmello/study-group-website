@@ -4,6 +4,7 @@ import { Container } from "./Container";
 import logo from "~/images/logo-dark.png";
 import { useEffect, useRef, useState } from "react";
 import { IconSearch, IconChevronDown } from "./icons";
+import { Dropdown, DropdownItemLink } from "./Dropdown";
 
 export function Header() {
   const location = useLocation();
@@ -12,6 +13,13 @@ export function Header() {
   const [isPageOnTop, setIsPageOnTop] = useState(true);
   const navRef = useRef<HTMLDivElement | null>(null);
   const lastScrollY = useRef(0);
+  const [isAboutNavLinkActive, setIsAboutNavLinkActive] = useState(
+    checkIsAboutNavLinkActive(location.pathname)
+  );
+
+  useEffect(() => {
+    setIsAboutNavLinkActive(checkIsAboutNavLinkActive(location.pathname));
+  }, [location.pathname]);
 
   useEffect(() => {
     const updateIndicator = () => {
@@ -30,7 +38,7 @@ export function Header() {
     updateIndicator();
     window.addEventListener("resize", updateIndicator);
     return () => window.removeEventListener("resize", updateIndicator);
-  }, [location.pathname]);
+  }, [location.pathname, isAboutNavLinkActive]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,8 +80,24 @@ export function Header() {
             <ul className="flex flex-row items-center gap-8">
               {navLinks.map((navLink) => (
                 <li key={navLink.href} className="font-medium">
-                  {navLink.isButton ? (
-                    <button>{navLink.label}</button>
+                  {navLink.dropdown ? (
+                    <Dropdown
+                      label={navLink.label}
+                      className={
+                        isAboutNavLinkActive
+                          ? "active text-primary border-primary"
+                          : "text-gray-950 hover:text-primary"
+                      }
+                    >
+                      {navLink.dropdown.map((dropdown) => (
+                        <DropdownItemLink
+                          key={dropdown.href}
+                          to={dropdown.href}
+                        >
+                          {dropdown.label}
+                        </DropdownItemLink>
+                      ))}
+                    </Dropdown>
                   ) : (
                     <NavLink
                       className={({ isActive }) =>
@@ -116,6 +140,10 @@ export function Header() {
   );
 }
 
+function checkIsAboutNavLinkActive(pathname: string) {
+  return ["/history", "/research", "/team"].includes(pathname);
+}
+
 const navLinks = [
   {
     label: "Início",
@@ -123,7 +151,20 @@ const navLinks = [
   },
   {
     label: "Sobre",
-    isButton: true,
+    dropdown: [
+      {
+        label: "História",
+        href: "./history",
+      },
+      {
+        label: "Pesquisa",
+        href: "./research",
+      },
+      {
+        label: "Equipe",
+        href: "./team",
+      },
+    ],
   },
   {
     label: "Publicações",
