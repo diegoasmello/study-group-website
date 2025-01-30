@@ -9,10 +9,10 @@ interface TextInputProps
 }
 
 export function TextInput(props: TextInputProps) {
-  const { name, Icon, label, className, ...rest } = props;
+  const { name, Icon, label, className, required, ...rest } = props;
 
   return (
-    <FormControl label={label} htmlFor={name}>
+    <FormControl label={label} htmlFor={name} required={required}>
       <div className="relative">
         {Icon && (
           <div className="absolute h-[44px] w-[44px] flex items-center justify-center text-gray-400">
@@ -30,6 +30,7 @@ export function TextInput(props: TextInputProps) {
             placeholder:text-gray-400 placeholder:italic
             transition
             ${Icon ? "pl-[44px]" : ""}`}
+          required={required}
           {...rest}
         />
       </div>

@@ -5,6 +5,7 @@ import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
 import { Container } from "~/components/Container";
+import { ComboboxInput } from "~/components/form-fields/ComboboxInput";
 import { FormControl } from "~/components/form-fields/FormControl";
 import { TextInput } from "~/components/form-fields/TextInput";
 import { IconSearch } from "~/components/icons";
@@ -72,6 +73,15 @@ export default function Publications() {
                   <input type="checkbox" />
                 </div>
               </FormControl>
+              <ComboboxInput
+                name="b"
+                label="Autores"
+                items={[
+                  { label: "Harry Potter", value: "hp" },
+                  { label: "Hermione Granger", value: "hg" },
+                  { label: "Rony Weasley", value: "rw" },
+                ]}
+              />
               <FormControl label="Autores">
                 <div className="flex flex-col gap-2">
                   <select>

@@ -4,7 +4,16 @@ import { Container } from "./Container";
 import logo from "~/images/logo-dark.png";
 import { useEffect, useRef, useState } from "react";
 import { IconSearch, IconChevronDown } from "./icons";
-import { Dropdown, DropdownItemLink } from "./Dropdown";
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownItemButton,
+  DropdownItemLink,
+  DropdownMenu,
+} from "./Dropdown";
+import { twMerge } from "tailwind-merge";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { TextInput } from "./form-fields/TextInput";
 
 export function Header() {
   const location = useLocation();
@@ -81,22 +90,32 @@ export function Header() {
               {navLinks.map((navLink) => (
                 <li key={navLink.href} className="font-medium">
                   {navLink.dropdown ? (
-                    <Dropdown
-                      label={navLink.label}
-                      className={
-                        isAboutNavLinkActive
-                          ? "active text-primary border-primary"
-                          : "text-gray-950 hover:text-primary"
-                      }
-                    >
-                      {navLink.dropdown.map((dropdown) => (
-                        <DropdownItemLink
-                          key={dropdown.href}
-                          to={dropdown.href}
-                        >
-                          {dropdown.label}
-                        </DropdownItemLink>
-                      ))}
+                    <Dropdown>
+                      <DropdownButton
+                        className={twMerge(
+                          `inline-flex items-center gap-1 focus:outline-none data-[hover]:text-primary data-[open]:text-primary data-[focus]:outline-1 data-[focus]:outline-white`,
+                          isAboutNavLinkActive
+                            ? "active text-primary border-primary"
+                            : "text-gray-950 hover:text-primary"
+                        )}
+                      >
+                        {navLink.label}
+                        <IconChevronDown
+                          width={24}
+                          height={24}
+                          className="-mr-2"
+                        />
+                      </DropdownButton>
+                      <DropdownMenu anchorGap={18}>
+                        {navLink.dropdown.map((dropdown) => (
+                          <DropdownItemLink
+                            key={dropdown.href}
+                            to={dropdown.href}
+                          >
+                            {dropdown.label}
+                          </DropdownItemLink>
+                        ))}
+                      </DropdownMenu>
                     </Dropdown>
                   ) : (
                     <NavLink
@@ -122,15 +141,40 @@ export function Header() {
           <nav>
             <ul className="flex flex-row items-center gap-2">
               <li>
-                <Button size="md" skin="ghost" className="gap-2 px-3">
-                  <span>PT</span>
-                  <IconChevronDown width={24} height={24} />
-                </Button>
+                <Dropdown>
+                  <DropdownButton>
+                    {/* {({ active }) => ( */}
+                    <Button size="md" skin="ghost" className="gap-2 px-3">
+                      <span>PT</span>
+                      <IconChevronDown width={24} height={24} />
+                    </Button>
+                    {/* )} */}
+                  </DropdownButton>
+                  <DropdownMenu>
+                    <DropdownItemButton>Português</DropdownItemButton>
+                    <DropdownItemButton>English</DropdownItemButton>
+                    <DropdownItemButton>Español</DropdownItemButton>
+                  </DropdownMenu>
+                </Dropdown>
               </li>
               <li>
-                <Button size="md" skin="ghost" className="w-[44px] px-0">
-                  <IconSearch width={24} height={24} />
-                </Button>
+                <Popover className="relative">
+                  <PopoverButton>
+                    <Button size="md" skin="ghost" className="w-[44px] px-0">
+                      <IconSearch width={24} height={24} />
+                    </Button>
+                  </PopoverButton>
+                  <PopoverPanel
+                    anchor="bottom end"
+                    className={`z-20 rounded-xl p-4 bg-white shadow-custom-2 flex transition duration-100 ease-out [--anchor-gap:8px]`}
+                  >
+                    <TextInput
+                      name="a"
+                      Icon={IconSearch}
+                      placeholder="Busque pelo site"
+                    />
+                  </PopoverPanel>
+                </Popover>
               </li>
             </ul>
           </nav>

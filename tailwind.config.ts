@@ -88,7 +88,7 @@ export default {
       boxShadow: {
         focus: `0 0 0 1px white, 0 0 0 3px #273782`,
         "custom-1": "0px 8px 40px 0px rgba(0, 0, 0, 4%)",
-        "custom-2": "",
+        "custom-2": "0px 8px 24px 0px rgba(0, 0, 0, 16%)",
       },
       backgroundImage: {
         page: "linear-gradient(rgba(217, 217, 217, 0%) 0%, rgba(217, 217, 217, 14%) 100%)",
