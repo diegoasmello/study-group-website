@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 type ButtonSkin = "primary" | "outline" | "ghost";
@@ -9,20 +10,31 @@ export interface ButtonProps extends React.ComponentProps<"button"> {
   hasIcon?: boolean;
 }
 
-export function Button(props: ButtonProps) {
-  const { skin = "primary", size = "lg", className, hasIcon, ...rest } = props;
+export const Button = forwardRef(
+  (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
+    const {
+      skin = "primary",
+      size = "lg",
+      className,
+      hasIcon,
+      ...rest
+    } = props;
 
-  return (
-    <button
-      className={twMerge(
-        `transition inline-flex items-center justify-center rounded-xl font-medium focus:shadow-focus focus:outline-none ${skinClasses[skin]} ${sizeClasses[size]}`,
-        hasIcon && "gap-2 px-3",
-        className
-      )}
-      {...rest}
-    />
-  );
-}
+    return (
+      <button
+        className={twMerge(
+          `transition inline-flex items-center justify-center rounded-xl font-medium focus:shadow-focus focus:outline-none ${skinClasses[skin]} ${sizeClasses[size]}`,
+          hasIcon && "gap-2 px-3",
+          className
+        )}
+        ref={ref}
+        {...rest}
+      />
+    );
+  }
+);
+
+Button.displayName = "Button";
 
 const skinClasses: Record<ButtonSkin, string> = {
   primary:

@@ -6,6 +6,7 @@ import {
   MenuItemsProps,
 } from "@headlessui/react";
 import { LinkProps, NavLink } from "@remix-run/react";
+import { Fragment } from "react/jsx-runtime";
 
 interface DropdownMenuProps extends Pick<MenuItemsProps, "children"> {
   anchorGap?: number;
@@ -58,7 +59,7 @@ export function DropdownItemButton({
   children,
 }: DropdownItemButtonProps) {
   return (
-    <MenuItem>
+    <MenuItem as={Fragment}>
       <button
         onClick={onClick}
         className="h-[40px] flex items-center px-4 rounded-lg data-[focus]:bg-primary-lighter transition"

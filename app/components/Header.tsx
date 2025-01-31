@@ -1,7 +1,7 @@
 import { Link, NavLink, useLocation } from "@remix-run/react";
 import { Button } from "./Button";
 import { Container } from "./Container";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { IconSearch, IconChevronDown } from "./icons";
 import {
   Dropdown,
@@ -86,8 +86,8 @@ export function Header() {
 
           <nav className="relative" ref={navRef}>
             <ul className="flex flex-row items-center gap-8">
-              {navLinks.map((navLink) => (
-                <li key={navLink.href} className="font-medium">
+              {navLinks.map((navLink, index) => (
+                <li key={index} className="font-medium">
                   {navLink.dropdown ? (
                     <Dropdown>
                       <DropdownButton
@@ -137,7 +137,7 @@ export function Header() {
             <ul className="flex flex-row items-center gap-2">
               <li>
                 <Dropdown>
-                  <DropdownButton>
+                  <DropdownButton as={Fragment}>
                     <Button size="md" skin="ghost" hasIcon>
                       <span>PT</span>
                       <IconChevronDown className="size-6" />
@@ -152,7 +152,7 @@ export function Header() {
               </li>
               <li>
                 <Popover className="relative">
-                  <PopoverButton>
+                  <PopoverButton as={Fragment}>
                     <Button size="md" skin="ghost" className="w-[44px] px-0">
                       <IconSearch className="size-6" />
                     </Button>
