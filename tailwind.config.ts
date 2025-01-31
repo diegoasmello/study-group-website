@@ -98,6 +98,26 @@ export default {
           dark: "#A4151E",
           darker: "#790C14",
         },
+        facebook: {
+          DEFAULT: "#1778F2",
+          idle: "#C8DFFC",
+        },
+        twitter: {
+          DEFAULT: "#1DA1F2",
+          idle: "#C9E9FC",
+        },
+        instagram: {
+          DEFAULT: "#D62976",
+          idle: "#F5CCDE",
+        },
+        whatsapp: {
+          DEFAULT: "#25D366",
+          idle: "#CBF5DA",
+        },
+        telegram: {
+          DEFAULT: "#028ACA",
+          idle: "#C2E3F2",
+        },
       },
       boxShadow: {
         focus: `0 0 0 1px white, 0 0 0 3px #273782`,

@@ -1,4 +1,4 @@
-import { Button } from "~/components/Button";
+import { ButtonShare } from "~/components/ButtonShare";
 import { CardAction } from "~/components/CardAction";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
@@ -54,7 +54,7 @@ export default function ViewAction() {
               </p>
             </div>
             <nav className="flex gap-4 mb-6">
-              <Button>Compartilhar</Button>
+              <ButtonShare urlToShare="rwada">Compartilhar</ButtonShare>
             </nav>
           </div>
           <div className="col-span-12 flex flex-col gap-6 mb-8">

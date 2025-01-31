@@ -1,4 +1,5 @@
 import { Button } from "~/components/Button";
+import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
 import { CardEvent } from "~/components/CardEvent";
 import { Carousel } from "~/components/Carousel";
@@ -58,7 +59,9 @@ export default function ViewEvent() {
             </div>
             <nav className="flex gap-4 mb-6">
               <Button>Inscrever-se</Button>
-              <Button skin="ghost">Compartilhar</Button>
+              <ButtonShare urlToShare="rwada" skin="ghost">
+                Compartilhar
+              </ButtonShare>
             </nav>
           </div>
           <div className="col-span-4">

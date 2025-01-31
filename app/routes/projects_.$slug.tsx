@@ -1,4 +1,5 @@
 import { Button } from "~/components/Button";
+import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
 import { CardProject } from "~/components/CardProject";
 import { CardResearch } from "~/components/CardResearch";
@@ -52,7 +53,9 @@ export default function ViewProject() {
             </div>
             <nav className="flex gap-4 mb-6">
               <Button>Visitar projeto</Button>
-              <Button skin="ghost">Compartilhar</Button>
+              <ButtonShare urlToShare="rwada" skin="ghost">
+                Compartilhar
+              </ButtonShare>
             </nav>
           </div>
           <div className="col-span-4 flex flex-col gap-6">

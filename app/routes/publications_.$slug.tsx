@@ -1,4 +1,5 @@
 import { Button } from "~/components/Button";
+import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
@@ -59,7 +60,9 @@ export default function ViewPublication() {
             </div>
             <nav className="flex gap-4 mb-6">
               <Button>Ler</Button>
-              <Button skin="ghost">Compartilhar</Button>
+              <ButtonShare urlToShare="rwada" skin="ghost">
+                Compartilhar
+              </ButtonShare>
             </nav>
           </div>
           <div className="col-span-4 flex flex-col gap-6">
