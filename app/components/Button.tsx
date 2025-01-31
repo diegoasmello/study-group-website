@@ -6,15 +6,17 @@ type ButtonSize = "lg" | "md";
 export interface ButtonProps extends React.ComponentProps<"button"> {
   skin?: ButtonSkin;
   size?: ButtonSize;
+  hasIcon?: boolean;
 }
 
 export function Button(props: ButtonProps) {
-  const { skin = "primary", size = "lg", className, ...rest } = props;
+  const { skin = "primary", size = "lg", className, hasIcon, ...rest } = props;
 
   return (
     <button
       className={twMerge(
         `transition inline-flex items-center justify-center rounded-xl font-medium focus:shadow-focus focus:outline-none ${skinClasses[skin]} ${sizeClasses[size]}`,
+        hasIcon && "gap-2 px-3",
         className
       )}
       {...rest}

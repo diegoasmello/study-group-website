@@ -11,7 +11,7 @@ export function Link(props: LinkProps) {
 
   return (
     <RemixLink
-      className={`${className} flex items-center gap-1 underline text-primary fill-primary-100 hover:text-primary-dark hover:fill-primary-dark active:text-primary-darker active:fill-primary-darker focus:outline-none focus:border focus:border-primary`}
+      className={`${className} flex items-center gap-1 rounded-lg underline text-primary fill-primary-100 hover:text-primary-dark hover:fill-primary-dark active:text-primary-darker active:fill-primary-darker focus:outline-none focus:shadow-focus`}
       {...rest}
     />
   );

@@ -5,7 +5,7 @@ import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
-import { IconCalendar, IconSignature } from "~/components/icons";
+import { IconCalendar, IconContract, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 
 export default function ViewPublication() {
@@ -89,7 +89,8 @@ export default function ViewPublication() {
                   <span className="text-gray-950">Lorem Ipsum.</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
-                <Button skin="ghost" size="md">
+                <Button skin="ghost" size="md" hasIcon>
+                  <IconContract className="size-4" />
                   Citar
                 </Button>
               </div>

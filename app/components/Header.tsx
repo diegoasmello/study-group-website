@@ -138,12 +138,10 @@ export function Header() {
               <li>
                 <Dropdown>
                   <DropdownButton>
-                    {/* {({ active }) => ( */}
-                    <Button size="md" skin="ghost" className="gap-2 px-3">
+                    <Button size="md" skin="ghost" hasIcon>
                       <span>PT</span>
                       <IconChevronDown className="size-6" />
                     </Button>
-                    {/* )} */}
                   </DropdownButton>
                   <DropdownMenu>
                     <DropdownItemButton>Português</DropdownItemButton>
