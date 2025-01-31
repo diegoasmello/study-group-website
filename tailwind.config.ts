@@ -84,6 +84,20 @@ export default {
           800: "#1F2C68",
           900: "#1F2C68",
         },
+        success: {
+          lighter: "#E1F6DF",
+          light: "#40A42B",
+          DEFAULT: "#217B00",
+          dark: "#166000",
+          darker: "#0E4700",
+        },
+        danger: {
+          lighter: "#FEECED",
+          light: "#F75B60",
+          DEFAULT: "#D01E29",
+          dark: "#A4151E",
+          darker: "#790C14",
+        },
       },
       boxShadow: {
         focus: `0 0 0 1px white, 0 0 0 3px #273782`,
