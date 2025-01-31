@@ -1,7 +1,6 @@
 import { Link, NavLink, useLocation } from "@remix-run/react";
 import { Button } from "./Button";
 import { Container } from "./Container";
-import logo from "~/images/logo-dark.png";
 import { useEffect, useRef, useState } from "react";
 import { IconSearch, IconChevronDown } from "./icons";
 import {
@@ -82,7 +81,7 @@ export function Header() {
       <Container>
         <div className="flex flex-row items-center justify-between">
           <Link to="./">
-            <img src={logo} alt="Logo" className="h-[40px]" />
+            <img src="/assets/logo-dark.png" alt="Logo" className="h-[40px]" />
           </Link>
 
           <nav className="relative" ref={navRef}>

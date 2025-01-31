@@ -5,7 +5,6 @@ import { Container } from "~/components/Container";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import data from "~/data";
-import historyIllustration from "~/images/illustrations/history.svg";
 import cardImage from "~/images/card-image.png";
 import { IconArrowForward } from "~/components/icons";
 
@@ -33,7 +32,7 @@ export default function History() {
           </div>
         </Container>
         <img
-          src={historyIllustration}
+          src="/assets/illustrations/history.svg"
           alt=""
           className="h-[574px] max-w-max absolute top-[-110px] left-[-66px]"
         />
@@ -157,31 +156,31 @@ const historySections: HistorySection[] = [
     title: "Origens inspiradoras",
     description:
       "O GELT teve seu início a partir de uma visão compartilhada entre um grupo entusiasmado de acadêmicos. Unidos pela paixão à literatura e pelo fascínio que as múltiplas línguas e culturas exercem sobre a palavra escrita, esse grupo visionário decidiu criar um espaço acadêmico dedicado a explorar tais interações complexas.",
-    illustration1: historyIllustration,
+    illustration1: "/assets/illustrations/history.svg",
   },
   {
     title: "Os primeiros passos",
     description:
       "Nos primeiros encontros informais do GELT, a troca intensa de ideias e a devoção à literatura eram evidentes. À medida que essas reuniões evoluíram e ganharam estrutura, ficou claro que a investigação aprofundada em literatura, multilinguismo e transculturalidade seria o propósito central do grupo.",
-    illustration1: historyIllustration,
+    illustration1: "/assets/illustrations/history.svg",
   },
   {
     title: "Compromisso com a profundidade",
     description:
       "Ao longo dos anos, o GELT investiu esforços incansáveis para investigar a fundo esses temas. Desde análises críticas de obras literárias traduzidas até estudos sobre a influência da cultura de origem na produção literária, cada pesquisa representou um mergulho mais profundo no vasto oceano da literatura, multilinguismo e transculturalidade.",
-    illustration1: historyIllustration,
+    illustration1: "/assets/illustrations/history.svg",
   },
   {
     title: "Colaboração e crescimento",
     description:
       "O GELT se tornou um espaço de colaboração intelectual e aprendizado mútuo. Reunindo pesquisadores, estudantes e entusiastas, o grupo valoriza a diversidade de experiências e perspectivas que cada membro traz consigo. As discussões enriquecedoras e a partilha de conhecimento moldaram a identidade única do GELT.",
-    illustration1: historyIllustration,
+    illustration1: "/assets/illustrations/history.svg",
   },
   {
     title: "Vislumbrando o futuro",
     description:
       "A história do GELT continua a ser escrita, o grupo está ansioso para o que o futuro reserva, enquanto continuamos a trilhar o caminho da exploração e descobrimento no mundo vasto e enriquecedor da literatura, multilinguismo e transculturalidade. Estamos comprometidos em expandir nossas fronteiras acadêmicas e, através disso, contribuir para um diálogo global mais rico e informado sobre esses temas fundamentais.",
-    illustration1: historyIllustration,
-    illustration2: historyIllustration,
+    illustration1: "/assets/illustrations/history.svg",
+    illustration2: "/assets/illustrations/history.svg",
   },
 ];

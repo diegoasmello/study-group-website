@@ -5,9 +5,6 @@ import { CardAction } from "~/components/CardAction";
 import { CardEvent } from "~/components/CardEvent";
 import { CardPublication } from "~/components/CardPublication";
 import { Container } from "~/components/Container";
-import iconTranculturality from "~/images/icons/icon-transculturality.svg";
-import iconMultilinguism from "~/images/icons/icon-multilinguism.svg";
-import iconReadingWriting from "~/images/icons/icon-reading-writing.svg";
 import { Link } from "~/components/Link";
 import { IconArrowForward } from "~/components/icons/IconArrowForward";
 
@@ -78,7 +75,7 @@ export default function Index() {
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
             icon={
               <img
-                src={iconReadingWriting}
+                src="/assets/icons/icon-reading-writing.svg"
                 alt=""
                 className="w-[72px] h-[72px]"
               />
@@ -90,7 +87,7 @@ export default function Index() {
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
             icon={
               <img
-                src={iconMultilinguism}
+                src="/assets/icons/icon-multilinguism.svg"
                 alt=""
                 className="w-[68px] h-[68px]"
               />
@@ -102,7 +99,7 @@ export default function Index() {
             text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
             icon={
               <img
-                src={iconTranculturality}
+                src="/assets/icons/icon-transculturality.svg"
                 alt=""
                 className="w-[72px] h-[72px]"
               />

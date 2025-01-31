@@ -1,6 +1,5 @@
 import { Link } from "@remix-run/react";
 import { Container } from "./Container";
-import logo from "~/images/logo-light.png";
 import { IconYoutube } from "./icons/IconYoutube";
 import { IconInstagram } from "./icons/IconInstagram";
 import { IconFacebook } from "./icons/IconFacebook";
@@ -12,7 +11,11 @@ export function Footer() {
         <div className="flex items-start justify-between">
           <div className="flex flex-col gap-10 items-start">
             <Link to="./">
-              <img src={logo} alt="Logo" className="h-[92px]" />
+              <img
+                src="/assets/logo-light.png"
+                alt="Logo"
+                className="h-[92px]"
+              />
             </Link>
             <nav>
               <ul className="flex gap-6">

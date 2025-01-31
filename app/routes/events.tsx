@@ -8,7 +8,6 @@ import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import data from "~/data";
 import cardImage from "~/images/card-image.png";
-import eventsIllustration from "~/images/illustrations/events.svg";
 
 export const meta: MetaFunction = () => {
   return [
@@ -25,7 +24,7 @@ export default function Events() {
         text={data.events.description}
         illustration={
           <img
-            src={eventsIllustration}
+            src="/assets/illustrations/events.svg"
             alt=""
             className="h-[472px] max-w-max absolute top-[-58px] right-[-100px]"
           />

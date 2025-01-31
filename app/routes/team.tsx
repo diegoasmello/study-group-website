@@ -6,7 +6,6 @@ import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import data from "~/data";
 import cardImage from "~/images/card-image.png";
-import teamIllustration from "~/images/illustrations/team.svg";
 
 export const meta: MetaFunction = () => {
   return [
@@ -23,7 +22,7 @@ export default function Team() {
         text={data.team.description}
         illustration={
           <img
-            src={teamIllustration}
+            src="/assets/illustrations/team.svg"
             alt=""
             className="h-[515px] max-w-max absolute top-[-95px] right-[-108px]"
           />

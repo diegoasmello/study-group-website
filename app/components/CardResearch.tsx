@@ -1,12 +1,11 @@
 import { CardContainer } from "./Card";
-import researchCardIllustration from "~/images/illustrations/research-card.svg";
 import { ButtonLink } from "./ButtonLink";
 
 export function CardResearch() {
   return (
     <CardContainer className="p-6 relative">
       <img
-        src={researchCardIllustration}
+        src="/assets/illustrations/research-card.svg"
         alt=""
         className="h-[296px] max-w-max absolute bottom-[-120px] right-[-100px]"
       />

@@ -14,7 +14,6 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import data from "~/data";
-import publicationsIllustration from "~/images/illustrations/publications.svg";
 
 export const meta: MetaFunction = () => {
   return [
@@ -31,7 +30,7 @@ export default function Publications() {
         text={data.publications.description}
         illustration={
           <img
-            src={publicationsIllustration}
+            src="/assets/illustrations/publications.svg"
             alt=""
             className="h-[605px] max-w-max absolute top-[-160px] right-[-120px]"
           />

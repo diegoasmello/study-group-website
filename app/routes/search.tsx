@@ -10,7 +10,6 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import data from "~/data";
-import searchIllustration from "~/images/illustrations/search.svg";
 
 export const meta: MetaFunction = () => {
   return [{ title: data.search.title + " | " + data.site.title }];
@@ -24,7 +23,7 @@ export default function Search() {
         text="Exibindo 3 resultados para “aprendizado”:"
         illustration={
           <img
-            src={searchIllustration}
+            src="/assets/illustrations/search.svg"
             alt=""
             className="h-[445px] max-w-max absolute top-[-56px] right-[-78px]"
           />

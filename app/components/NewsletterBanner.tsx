@@ -6,7 +6,6 @@ import {
 } from "@headlessui/react";
 import { Button } from "./Button";
 import { TextInput } from "./form-fields/TextInput";
-import newsletterIllustration from "~/images/illustrations/newsletter.svg";
 import { useState } from "react";
 import { IconSuccess } from "./icons/IconSuccess";
 import { IconCancel } from "./icons/IconCancel";
@@ -28,7 +27,7 @@ export function NewsletterBanner() {
         </Button>
       </div>
       <img
-        src={newsletterIllustration}
+        src="/assets/illustrations/newsletter.svg"
         alt=""
         className="h-[545px] max-w-max absolute top-[-75px] right-[-102px]"
       />
