@@ -1,8 +1,19 @@
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 import { Button } from "./Button";
 import { TextInput } from "./form-fields/TextInput";
 import newsletterIllustration from "~/images/illustrations/newsletter.svg";
+import { useState } from "react";
+import { IconSuccess } from "./icons/IconSuccess";
+import { IconCancel } from "./icons/IconCancel";
 
 export function NewsletterBanner() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="bg-primary-lighter py-10 px-16 rounded-[3.25rem] relative overflow-hidden">
       <div className="flex flex-col gap-6 items-start">
@@ -12,13 +23,65 @@ export function NewsletterBanner() {
           nosso grupo!
         </span>
         <TextInput name="a" type="email" placeholder="Digite seu e-mail" />
-        <Button skin="outline">Enviar</Button>
+        <Button skin="outline" onClick={() => setIsModalOpen((prev) => !prev)}>
+          Enviar
+        </Button>
       </div>
       <img
         src={newsletterIllustration}
         alt=""
         className="h-[545px] max-w-max absolute top-[-75px] right-[-102px]"
       />
+      <NewsletterFeedbackModal
+        status="error"
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
+  );
+}
+
+function NewsletterFeedbackModal({
+  open,
+  status,
+  onClose,
+}: {
+  open: boolean;
+  status: "success" | "error";
+  onClose: () => void;
+}) {
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogBackdrop className="fixed inset-0 bg-black/20" />
+      <div className="fixed inset-0 w-screen overflow-y-auto p-4">
+        <div className="flex min-h-full items-center justify-center">
+          <DialogPanel className="max-w-lg flex flex-col items-center gap-6 bg-white p-6 rounded-[32px] shadow-custom-2">
+            {status === "success" && (
+              <IconSuccess className="size-20 text-success" />
+            )}
+            {status === "error" && (
+              <IconCancel className="size-20 text-danger" />
+            )}
+            <div className="flex flex-col items-center gap-4">
+              <DialogTitle
+                className={`text-h4 ${
+                  status === "success" ? "text-success" : "text-danger"
+                }`}
+              >
+                Só esperar!
+              </DialogTitle>
+              <p className="text-center text-gray-700 mx-[64px]">
+                Seu e-mail foi salvo, em breve você
+                <br />
+                reberá um e-mail com mais informações.
+              </p>
+            </div>
+            <Button skin="ghost" size="md" onClick={onClose}>
+              Fechar
+            </Button>
+          </DialogPanel>
+        </div>
+      </div>
+    </Dialog>
   );
 }
