@@ -3,7 +3,7 @@ import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import data from "~/data";
-import cardImage from "~/images/card-image.png";
+
 import { Carousel } from "~/components/Carousel";
 import { CardProject } from "~/components/CardProject";
 
@@ -81,7 +81,7 @@ const researchAreas: ResearchArea[] = [
       .fill(null)
       .map(() => ({
         title: "Lorem ipsum",
-        image: cardImage,
+        image: "/assets/card-image.png",
         link: "/projects/1",
       })),
   },
@@ -99,7 +99,7 @@ const researchAreas: ResearchArea[] = [
       .fill(null)
       .map(() => ({
         title: "Lorem ipsum",
-        image: cardImage,
+        image: "/assets/card-image.png",
         link: "/projects/1",
       })),
   },
@@ -117,7 +117,7 @@ const researchAreas: ResearchArea[] = [
       .fill(null)
       .map(() => ({
         title: "Lorem ipsum",
-        image: cardImage,
+        image: "/assets/card-image.png",
         link: "/projects/1",
       })),
   },
@@ -136,7 +136,7 @@ const ResearchItemSection = ({
     <div className="flex flex-col gap-14">
       <div className="relative">
         <img
-          src={cardImage}
+          src="/assets/card-image.png"
           alt=""
           className={`h-full w-[calc(50vw-4rem)] ${
             isOdd ? "rounded-r-[32px]" : "rounded-l-[32px]"
@@ -170,7 +170,7 @@ const ResearchItemSection = ({
                       <CardProject
                         project={{
                           title: "Lorem ipsum",
-                          image: cardImage,
+                          image: "/assets/card-image.png",
                           link: "/projects/1",
                         }}
                         type="flat"

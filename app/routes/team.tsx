@@ -5,7 +5,6 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import data from "~/data";
-import cardImage from "~/images/card-image.png";
 
 export const meta: MetaFunction = () => {
   return [
@@ -39,7 +38,7 @@ export default function Team() {
                   teamMember={{
                     name: "Harry Potter",
                     label: "Auror",
-                    image: cardImage,
+                    image: "/assets/card-image.png",
                     link: "/",
                   }}
                 />

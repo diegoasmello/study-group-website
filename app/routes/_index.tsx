@@ -10,7 +10,6 @@ import { IconArrowForward } from "~/components/icons/IconArrowForward";
 
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 
-import cardImage from "~/images/card-image.png";
 import data from "~/data";
 import { Carousel } from "~/components/Carousel";
 import { CarouselHome } from "~/components/CarouselHome";
@@ -33,7 +32,7 @@ export default function Index() {
         <div className="grid grid-cols-12 gap-8 items-center">
           <div className="col-span-6">
             <img
-              src={cardImage}
+              src="/assets/card-image.png"
               alt="Sobre o grupo"
               className="w-full rounded-3xl"
             />
@@ -132,7 +131,7 @@ export default function Index() {
                       event={{
                         title:
                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                        image: cardImage,
+                        image: "/assets/card-image.png",
                         date: new Date(),
                         locale: "Online",
                       }}
@@ -241,7 +240,7 @@ export default function Index() {
                       action={{
                         title:
                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                        image: cardImage,
+                        image: "/assets/card-image.png",
                         date: new Date(),
                       }}
                       hideShadow={!isSlideInView(index)}

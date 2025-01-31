@@ -7,7 +7,6 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import data from "~/data";
-import cardImage from "~/images/card-image.png";
 
 export const meta: MetaFunction = () => {
   return [
@@ -52,7 +51,7 @@ export default function Actions() {
                   action={{
                     title:
                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                    image: cardImage,
+                    image: "/assets/card-image.png",
                     date: new Date(),
                   }}
                 />

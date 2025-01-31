@@ -7,13 +7,12 @@ import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
-import cardImage from "~/images/card-image.png";
 
 export default function ViewEvent() {
   return (
     <main className="pb-20  bg-page">
       <img
-        src={cardImage}
+        src="/assets/card-image.png"
         alt=""
         className="h-[600px] w-full object-cover mb-12"
       />
@@ -114,7 +113,7 @@ export default function ViewEvent() {
                           event={{
                             title:
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                            image: cardImage,
+                            image: "/assets/card-image.png",
                             date: new Date(),
                             locale: "Online",
                           }}

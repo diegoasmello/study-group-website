@@ -8,7 +8,6 @@ import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
-import cardImage from "~/images/card-image.png";
 
 export default function ViewProject() {
   return (
@@ -17,7 +16,7 @@ export default function ViewProject() {
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="col-span-8">
             <img
-              src={cardImage}
+              src="/assets/card-image.png"
               alt=""
               className="w-[180px] h-[180px] rounded-3xl object-cover mb-6"
             />
@@ -97,7 +96,7 @@ export default function ViewProject() {
                         <CardProject
                           project={{
                             title: "Lorem ipsum",
-                            image: cardImage,
+                            image: "/assets/card-image.png",
                             link: "/projects/1",
                           }}
                           hideShadow={!isSlideInView(index)}

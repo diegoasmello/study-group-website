@@ -2,7 +2,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { DotButton, useDotButton } from "./CarouselDotButton";
 import { Container } from "./Container";
 import { Button } from "./Button";
-import cardImage from "~/images/card-image.png";
+
 import { useCallback } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { IconArrowAltBack, IconArrowAltForward } from "./icons";
@@ -84,7 +84,7 @@ const Item = () => {
         </section>
       </Container>
       <img
-        src={cardImage}
+        src="/assets/card-image.png"
         alt={"dawdwa"}
         className="h-[554px] w-[50vw] object-cover absolute top-0 right-0 rounded-l-[56px]"
         // className="h-[554px] w-[calc(50vw+32px)] object-cover absolute top-0 right-[-32px] rounded-[56px]"

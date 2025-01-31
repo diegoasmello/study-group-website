@@ -5,7 +5,7 @@ import { Container } from "~/components/Container";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import data from "~/data";
-import cardImage from "~/images/card-image.png";
+
 import { IconArrowForward } from "~/components/icons";
 
 export const meta: MetaFunction = () => {
@@ -70,7 +70,7 @@ export default function History() {
                             teamMember={{
                               name: "Harry Potter",
                               label: "Auror",
-                              image: cardImage,
+                              image: "/assets/card-image.png",
                               link: "/",
                             }}
                           />
