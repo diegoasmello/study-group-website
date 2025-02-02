@@ -78,12 +78,25 @@ const Item = () => {
             <div className="flex flex-col gap-8 items-start">
               <div className="flex flex-col gap-4">
                 <span className="text-primary font-medium">Ação</span>
-                <span className="text-h1-display">
-                  Curso de Letras realiza palestras e encontros on-line
+                <span className="text-h1-display line-clamp-4">
+                  Curso de Letras realiza palestras e encontros on-line curso de
+                  Letras realiza palestras e encontros on-line curso de Letras
+                  realiza palestras e encontros on-line curso de Letras realiza
+                  palestras e encontros on-line
                 </span>
-                <p className="text-lead-1 text-gray-800">
+                <p className="text-lead-1 text-gray-800 line-clamp-5">
                   Confira a programação de atividades já prevista para o mês de
-                  dezembro e outros encontros que ainda estão sendo preparados.{" "}
+                  dezembro e outros encontros que ainda estão sendo preparados.
+                  Confira a programação de atividades já prevista para o mês de
+                  dezembro e outros encontros que ainda estão sendo preparados.
+                  Confira a programação de atividades já prevista para o mês de
+                  dezembro e outros encontros que ainda estão sendo preparados.
+                  Confira a programação de atividades já prevista para o mês de
+                  dezembro e outros encontros que ainda estão sendo preparados.
+                  Confira a programação de atividades já prevista para o mês de
+                  dezembro e outros encontros que ainda estão sendo preparados.
+                  Confira a programação de atividades já prevista para o mês de
+                  dezembro e outros encontros que ainda estão sendo preparados.
                 </p>
               </div>
               <Button>Saiba mais</Button>

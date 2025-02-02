@@ -34,27 +34,27 @@ export function CardPublication(props: CardPublicationProps) {
             </div>
             <div className="flex items-center gap-2">
               <IconSignature className="size-4" />
-              {publication.author}
+              <span className="line-clamp-1">{publication.author}</span>
             </div>
           </div>
         ) : null
       }
       text={size === "default" ? publication.author : publication.description}
       actions={
-        size === "extended" ? (
-          <nav className="flex items-center gap-2">
-            <ButtonLink to={`/publications/1`} skin="primary" size="md">
-              Ver mais
-            </ButtonLink>
+        <nav className="flex items-center gap-2">
+          <ButtonLink
+            to={`/publications/1`}
+            skin={size === "extended" ? "primary" : "ghost"}
+            size="md"
+          >
+            Ver mais
+          </ButtonLink>
+          {size === "extended" && (
             <Button skin="ghost" size="md">
               Ler
             </Button>
-          </nav>
-        ) : (
-          <ButtonLink to={`/publications/1`} skin="ghost" size="md">
-            Ver mais
-          </ButtonLink>
-        )
+          )}
+        </nav>
       }
     />
   );
