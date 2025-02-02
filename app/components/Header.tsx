@@ -23,6 +23,7 @@ import {
 } from "@headlessui/react";
 import { TextInput } from "./form-fields/TextInput";
 import { IconMenu } from "./icons/IconMenu";
+import clsx from "clsx";
 
 export function Header() {
   const location = useLocation();
@@ -81,14 +82,13 @@ export function Header() {
 
   return (
     <header
-      className={`flex items-center justify-center w-full h-20 z-10 fixed top-0 left-0 bg-white
-        ${isHeaderVisible ? "translate-y-0" : "-translate-y-full"}
-        ${
-          !isPageOnTop
-            ? "shadow-custom-1 transition-transform duration-300"
-            : ""
-        }
-      `}
+      className={twMerge(
+        clsx(
+          "flex items-center justify-center w-full h-20 z-10 fixed top-0 left-0 bg-white",
+          isHeaderVisible ? "translate-y-0" : "-translate-y-full",
+          !isPageOnTop && "shadow-custom-1 transition-transform duration-300"
+        )
+      )}
     >
       <Container>
         <div className="flex flex-row items-center justify-between">

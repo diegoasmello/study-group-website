@@ -1,6 +1,7 @@
 import { SVGProps } from "react";
 import { FormControl, FormControlProps } from "./FormControl";
 import { twMerge } from "tailwind-merge";
+import clsx from "clsx";
 
 interface TextInputProps
   extends React.ComponentProps<"input">,
@@ -22,16 +23,18 @@ export function TextInput(props: TextInputProps) {
         <input
           name={name}
           className={twMerge(
-            `h-[44px] border rounded-xl px-4
-            border-gray-300 text-gray-950
-            hover:border-gray-400
-            active:border-primary
-            focus:outline-none focus:shadow-focus
-            disabled:border-gray-200 disabled:bg-gray-100
-            placeholder:text-gray-400 placeholder:italic
-            transition
-            ${Icon ? "pl-[44px]" : ""}`,
-            className
+            clsx(
+              `h-[44px] border rounded-xl px-4
+              border-gray-300 text-gray-950
+              hover:border-gray-400
+              active:border-primary
+              focus:outline-none focus:shadow-focus
+              disabled:border-gray-200 disabled:bg-gray-100
+              placeholder:text-gray-400 placeholder:italic
+              transition`,
+              Icon && "pl-[44px]",
+              className
+            )
           )}
           required={required}
           {...rest}

@@ -6,6 +6,8 @@ import data from "~/data";
 
 import { Carousel } from "~/components/Carousel";
 import { CardProject } from "~/components/CardProject";
+import clsx from "clsx";
+import { twJoin } from "tailwind-merge";
 
 export const meta: MetaFunction = () => {
   return [
@@ -138,17 +140,19 @@ const ResearchItemSection = ({
         <img
           src="/assets/card-image.png"
           alt=""
-          className={`hidden lg:block h-full w-[calc(50vw-4rem)] ${
-            isOdd ? "rounded-r-[32px]" : "rounded-l-[32px]"
-          } object-cover absolute ${isOdd ? "left" : "right"}-0`}
+          className={twJoin(
+            "hidden lg:block h-full w-[calc(50vw-4rem)] object-cover absolute",
+            isOdd ? "rounded-r-[32px] left-0" : "rounded-l-[32px] right-0"
+          )}
         />
         <Container>
           <section className="grid grid-cols-12 gap-x-8 gap-y-6">
             <div className="col-span-12 grid grid-cols-12">
               <div
-                className={`${
-                  isOdd ? "lg:col-start-7" : ""
-                } col-span-12 lg:col-span-6 flex flex-col gap-y-4 lg:py-10`}
+                className={clsx(
+                  "col-span-12 lg:col-span-6 flex flex-col gap-y-4 lg:py-10",
+                  isOdd && "lg:col-start-7"
+                )}
               >
                 <IconWrapper>{item.icon}</IconWrapper>
                 <h2 className="text-h3 text-gray-950">{item.title}</h2>

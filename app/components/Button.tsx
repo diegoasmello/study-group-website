@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -23,9 +24,13 @@ export const Button = forwardRef(
     return (
       <button
         className={twMerge(
-          `transition inline-flex items-center justify-center rounded-xl font-medium focus:shadow-focus focus:outline-none ${skinClasses[skin]} ${sizeClasses[size]}`,
-          hasIcon && "gap-2 px-3",
-          className
+          clsx(
+            "transition inline-flex items-center justify-center rounded-xl font-medium focus:shadow-focus focus:outline-none",
+            skinClasses[skin],
+            sizeClasses[size],
+            hasIcon && "gap-2 px-3",
+            className
+          )
         )}
         ref={ref}
         {...rest}

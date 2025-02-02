@@ -9,6 +9,7 @@ import { TextInput } from "./form-fields/TextInput";
 import { useState } from "react";
 import { IconSuccess } from "./icons/IconSuccess";
 import { IconCancel } from "./icons/IconCancel";
+import { twJoin } from "tailwind-merge";
 
 export function NewsletterBanner() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,9 +66,10 @@ function NewsletterFeedbackModal({
             )}
             <div className="flex flex-col items-center gap-4">
               <DialogTitle
-                className={`text-h4 ${
+                className={twJoin(
+                  "text-h4",
                   status === "success" ? "text-success" : "text-danger"
-                }`}
+                )}
               >
                 Só esperar!
               </DialogTitle>

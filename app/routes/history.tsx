@@ -7,6 +7,7 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import data from "~/data";
 
 import { IconArrowForward } from "~/components/icons";
+import clsx from "clsx";
 
 export const meta: MetaFunction = () => {
   return [
@@ -123,9 +124,10 @@ const HistorySection = (props: {
   return (
     <div className="grid grid-cols-12 gap-y-8 lg:gap-y-0 gap-x-4">
       <div
-        className={`col-span-12 lg:col-span-6 flex items-center justify-center ${
+        className={clsx(
+          "col-span-12 lg:col-span-6 flex items-center justify-center",
           align === "left" ? "lg:order-1" : "lg:order-2"
-        }`}
+        )}
       >
         <img
           src={section.illustration1}
@@ -134,9 +136,10 @@ const HistorySection = (props: {
         />
       </div>
       <div
-        className={`col-span-12 lg:col-span-6 flex flex-col justify-center gap-6 py-4 ${
+        className={clsx(
+          "col-span-12 lg:col-span-6 flex flex-col justify-center gap-6 py-4",
           align === "left" ? "lg:order-2" : "lg:order-1"
-        }`}
+        )}
       >
         <h2 className="text-h2 text-gray-950 text-center lg:text-left">
           {section.title}

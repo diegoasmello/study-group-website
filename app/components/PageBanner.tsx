@@ -1,3 +1,4 @@
+import { twMerge } from "tailwind-merge";
 import { Container } from "./Container";
 
 interface PageBannerProps
@@ -12,7 +13,10 @@ export function PageBanner(props: PageBannerProps) {
 
   return (
     <div
-      className={`bg-primary-lighter pt-14 pb-16 relative overflow-hidden ${className}`}
+      className={twMerge(
+        "bg-primary-lighter pt-14 pb-16 relative overflow-hidden",
+        className
+      )}
       {...rest}
     >
       <Container className="grid grid-cols-12 gap-x-8 gap-y-6">

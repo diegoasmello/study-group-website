@@ -1,3 +1,6 @@
+import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
+
 export type CardType = "flat" | "float";
 export type CardSize = "default" | "extended";
 
@@ -29,15 +32,15 @@ export function Card(props: CardProps) {
     subtitle,
     label,
     actions,
-    titleMaxLines,
+    // titleMaxLines,
     className,
     hideShadow,
   } = props;
 
   const sizeClass = sizeStyles[size];
 
-  const hasTitleMaxLines =
-    titleMaxLines !== null && titleMaxLines !== undefined;
+  // const hasTitleMaxLines =
+  //   titleMaxLines !== null && titleMaxLines !== undefined;
 
   return (
     <CardContainer type={type} hideShadow={hideShadow} className={className}>
@@ -48,7 +51,7 @@ export function Card(props: CardProps) {
           className="w-full h-[236px] object-cover"
         />
       )}
-      <div className={`flex flex-col gap-4 p-6 ${sizeClass.card}`}>
+      <div className={twMerge("flex flex-col gap-4 p-6", sizeClass.card)}>
         {icon && (
           <div className="w-[120px] h-[120px] bg-primary-lighter flex items-center justify-center rounded-3xl">
             {icon}
@@ -63,17 +66,20 @@ export function Card(props: CardProps) {
         )}
         {label}
         <div
-          className={`text-h4 text-gray-950 font-medium ${
-            sizeClass.title
-          } line-clamp-3 ${
-            hasTitleMaxLines ? `line-clamp-${titleMaxLines}` : ""
-          }`}
+          className={twMerge(
+            clsx(
+              "text-h4 text-gray-950 font-medium line-clamp-3",
+              sizeClass.title
+            )
+          )}
         >
           {title}
         </div>
         {subtitle}
         {text && (
-          <span className={`text-gray-700 ${sizeClass.text}`}>{text}</span>
+          <span className={twMerge("text-gray-700", sizeClass.text)}>
+            {text}
+          </span>
         )}
         {actions}
       </div>
@@ -89,11 +95,13 @@ export function CardContainer({
 }: Pick<CardProps, "type" | "hideShadow"> & React.ComponentProps<"div">) {
   return (
     <div
-      className={`${
-        className ?? ""
-      } w-full bg-white rounded-3xl overflow-hidden ${
-        !hideShadow ? typeStyles[type] : ""
-      }`}
+      className={twMerge(
+        clsx(
+          "w-full bg-white rounded-3xl overflow-hidden",
+          !hideShadow && typeStyles[type],
+          className
+        )
+      )}
     >
       {children}
     </div>

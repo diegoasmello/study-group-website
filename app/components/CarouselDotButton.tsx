@@ -5,6 +5,7 @@ import React, {
   useState,
 } from "react";
 import { EmblaCarouselType } from "embla-carousel";
+import { twJoin } from "tailwind-merge";
 
 type UseDotButtonType = {
   selectedIndex: number;
@@ -58,11 +59,13 @@ export const DotButton: React.FC<DotButtonProps> = ({ isActive, ...props }) => {
   return (
     <button
       type="button"
-      className={`w-2 h-2 rounded-full 
+      className={twJoin(
+        `w-2 h-2 rounded-full 
         hover:bg-gray-300
         active:bg-gray-300
-        focus:shadow-focus
-        ${isActive ? "bg-gray-300" : "bg-gray-200"}`}
+        focus:shadow-focus`,
+        isActive ? "bg-gray-300" : "bg-gray-200"
+      )}
       {...props}
     />
   );

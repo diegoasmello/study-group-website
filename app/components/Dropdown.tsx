@@ -7,6 +7,7 @@ import {
 } from "@headlessui/react";
 import { LinkProps, NavLink } from "@remix-run/react";
 import { Fragment } from "react/jsx-runtime";
+import { twJoin } from "tailwind-merge";
 
 interface DropdownMenuProps extends Pick<MenuItemsProps, "children"> {
   anchorGap?: number;
@@ -41,11 +42,12 @@ export function DropdownItemLink({ to, children }: DropdownItemLinkProps) {
       <NavLink
         to={to}
         className={({ isActive }) =>
-          `h-[40px] flex items-center px-4 rounded-lg font-medium transition ${
+          twJoin(
+            "h-[40px] flex items-center px-4 rounded-lg font-medium transition",
             isActive
               ? "bg-primary-light text-white data-[focus]:bg-primary-light"
               : "bg-white text-gray-950 data-[focus]:bg-primary-lighter"
-          }`
+          )
         }
       >
         {children}
