@@ -16,11 +16,11 @@ export function PageBanner(props: PageBannerProps) {
       {...rest}
     >
       <Container className="grid grid-cols-12 gap-x-8 gap-y-6">
-        <div className="flex flex-col gap-2 col-span-3">
+        <div className="flex flex-col gap-2 col-span-10 lg:col-span-3">
           <h1 className="text-h1 text-primary text-nowrap">{title}</h1>
           <p className="text-lead-1 text-gray-900">{text}</p>
         </div>
-        {illustration}
+        <div className="hidden lg:block">{illustration}</div>
       </Container>
     </div>
   );

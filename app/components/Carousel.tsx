@@ -62,13 +62,13 @@ export function Carousel({ children }: CarouselProps) {
         </nav>
       </section>
       <button
-        className="embla__prev absolute top-[calc(50%-16px)] left-[-56px]"
+        className="embla__prev absolute top-[calc(50%-16px)] left-[-56px] hidden lg:block"
         onClick={scrollPrev}
       >
         <IconChevronLeft className="size-8 text-gray-600" />
       </button>
       <button
-        className="embla__next absolute top-[calc(50%-16px)] right-[-56px]"
+        className="embla__next absolute top-[calc(50%-16px)] right-[-56px] hidden lg:block"
         onClick={scrollNext}
       >
         <IconChevronRight className="size-8 text-gray-600" />

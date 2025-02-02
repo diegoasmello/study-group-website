@@ -39,7 +39,7 @@ export default function Publications() {
       />
       <Container>
         <section className="grid grid-cols-12 gap-6">
-          <div className="col-span-8 flex flex-col gap-6">
+          <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
             {Array(5)
               .fill(null)
               .map((_, index) => (
@@ -58,7 +58,7 @@ export default function Publications() {
                 />
               ))}
           </div>
-          <div className="col-span-4 flex flex-col gap-6">
+          <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
             <CardContainer className="p-6 flex flex-col items-start gap-6">
               <TextInput
                 name={"a"}

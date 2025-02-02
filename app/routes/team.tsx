@@ -33,7 +33,7 @@ export default function Team() {
           {Array(9)
             .fill(null)
             .map((_, index) => (
-              <div key={index} className="col-span-4">
+              <div key={index} className="col-span-12 lg:col-span-4">
                 <CardTeamMember
                   teamMember={{
                     name: "Harry Potter",

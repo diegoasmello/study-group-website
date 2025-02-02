@@ -33,7 +33,7 @@ export default function Projects() {
           {Array(9)
             .fill(null)
             .map((_, index) => (
-              <div key={index} className="col-span-4">
+              <div key={index} className="col-span-12 lg:col-span-4">
                 <CardProject
                   project={{
                     title: "Lorem ipsum",

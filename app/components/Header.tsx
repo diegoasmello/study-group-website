@@ -13,6 +13,7 @@ import {
 import { twMerge } from "tailwind-merge";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { TextInput } from "./form-fields/TextInput";
+import { IconMenu } from "./icons/IconMenu";
 
 export function Header() {
   const location = useLocation();
@@ -80,11 +81,15 @@ export function Header() {
     >
       <Container>
         <div className="flex flex-row items-center justify-between">
+          <button className="lg:hidden">
+            <IconMenu />
+          </button>
+
           <Link to="./">
             <img src="/assets/logo-dark.png" alt="Logo" className="h-[40px]" />
           </Link>
 
-          <nav className="relative" ref={navRef}>
+          <nav className="relative hidden lg:block" ref={navRef}>
             <ul className="flex flex-row items-center gap-8">
               {navLinks.map((navLink, index) => (
                 <li key={index} className="font-medium">
@@ -133,7 +138,7 @@ export function Header() {
             />
           </nav>
 
-          <nav>
+          <nav className="hidden lg:block">
             <ul className="flex flex-row items-center gap-2">
               <li>
                 <Dropdown>

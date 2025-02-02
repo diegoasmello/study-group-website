@@ -20,8 +20,7 @@ export default function History() {
     <main className="pb-20 bg-page">
       <div className="bg-primary-lighter pt-14 pb-16 mb-12 relative overflow-hidden">
         <Container className="grid grid-cols-12 gap-x-8 gap-y-6">
-          <div className="col-span-6" />
-          <div className="flex flex-col gap-2 col-span-4">
+          <div className="flex flex-col gap-2 col-span-12 col-start-1 lg:col-span-4 lg:col-start-7">
             <h1 className="text-primary font-medium">{data.history.title}</h1>
             <span className="text-h2">
               Novos rumos para o ensino de língua em tempos de globalização
@@ -34,7 +33,7 @@ export default function History() {
         <img
           src="/assets/illustrations/history.svg"
           alt=""
-          className="h-[574px] max-w-max absolute top-[-110px] left-[-66px]"
+          className="h-[574px] max-w-max absolute top-[-50px] left-[-270px] 2xl:top-[-110px] 2xl:left-[-66px] hidden lg:block"
         />
       </div>
 
@@ -62,7 +61,7 @@ export default function History() {
                       .map((_, index) => (
                         <div
                           key={index}
-                          className="embla__slide flex flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                          className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[32px] min-w-0 "
                         >
                           <CardTeamMember
                             type="float"
@@ -110,14 +109,14 @@ const HistorySection = (props: {
   if (isLastItem)
     return (
       <div className="grid grid-cols-12 gap-x-8">
-        <div className="col-span-3 flex items-center justify-center">
+        <div className="col-span-12 lg:col-span-3 flex items-center justify-center">
           <img src={section.illustration1} alt={section.title + " - 1"} />
         </div>
-        <div className="col-span-6 flex flex-col gap-6">
+        <div className="col-span-12 lg:col-span-6 flex flex-col gap-6">
           <h2 className="text-h2 text-gray-950 text-center">{section.title}</h2>
           <p className="text-gray-800 text-center">{section.description}</p>
         </div>
-        <div className="col-span-3 flex items-center justify-center">
+        <div className="col-span-12 lg:col-span-3 flex items-center justify-center">
           <img src={section.illustration1} alt={section.title + " - 2"} />
         </div>
       </div>
@@ -126,7 +125,7 @@ const HistorySection = (props: {
   return (
     <div className="grid grid-cols-12 gap-x-4">
       {align === "left" && (
-        <div className="col-span-6 flex items-center justify-center">
+        <div className="col-span-12 lg:col-span-6 flex items-center justify-center">
           <img
             src={section.illustration1}
             alt={section.title}
@@ -134,12 +133,12 @@ const HistorySection = (props: {
           />
         </div>
       )}
-      <div className="col-span-6 flex flex-col justify-center gap-6 py-4">
+      <div className="col-span-12 lg:col-span-6 flex flex-col justify-center gap-6 py-4">
         <h2 className="text-h2 text-gray-950">{section.title}</h2>
         <p className="text-gray-800">{section.description}</p>
       </div>
       {align === "right" && (
-        <div className="col-span-6 flex items-center justify-center">
+        <div className="col-span-12 lg:col-span-6 flex items-center justify-center">
           <img
             src={section.illustration1}
             alt={section.title}

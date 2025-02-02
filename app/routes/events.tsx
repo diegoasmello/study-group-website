@@ -36,7 +36,7 @@ export default function Events() {
             <TextInput
               name="a"
               placeholder="Pesquise por título, data ou palavras-chave"
-              className="w-[34vw]"
+              className="w-full lg:w-[34vw]"
               Icon={IconSearch}
             />
           </div>
@@ -44,7 +44,7 @@ export default function Events() {
           {Array(6)
             .fill(null)
             .map((_, index) => (
-              <div key={index} className="col-span-6">
+              <div key={index} className="col-span-12 lg:col-span-6">
                 <CardEvent
                   key={index}
                   size="extended"

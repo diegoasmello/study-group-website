@@ -14,7 +14,7 @@ export function NewsletterBanner() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="bg-primary-lighter py-10 px-16 rounded-[3.25rem] relative overflow-hidden">
+    <div className="bg-primary-lighter py-10 px-6 lg:px-16 rounded-[3.25rem] relative overflow-hidden">
       <div className="flex flex-col gap-6 items-start">
         <span className="text-h3 text-primary">
           Participe de
@@ -26,11 +26,13 @@ export function NewsletterBanner() {
           Enviar
         </Button>
       </div>
-      <img
-        src="/assets/illustrations/newsletter.svg"
-        alt=""
-        className="h-[545px] max-w-max absolute top-[-75px] right-[-102px]"
-      />
+      <div className="hidden lg:block">
+        <img
+          src="/assets/illustrations/newsletter.svg"
+          alt=""
+          className="h-[545px] max-w-max absolute top-[-75px] right-[-102px]"
+        />
+      </div>
       <NewsletterFeedbackModal
         status="error"
         open={isModalOpen}

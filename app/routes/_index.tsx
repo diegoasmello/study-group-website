@@ -30,7 +30,7 @@ export default function Index() {
       {/* about section */}
       <Container className="pt-14 pb-20">
         <div className="grid grid-cols-12 gap-8 items-center">
-          <div className="col-span-6">
+          <div className="col-span-12 lg:col-span-6">
             <img
               src="/assets/card-image.png"
               alt="Sobre o grupo"
@@ -38,7 +38,7 @@ export default function Index() {
             />
           </div>
 
-          <div className="col-span-5 flex flex-col gap-6">
+          <div className="col-span-12 lg:col-span-5 flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <span className="text-primary font-medium">Sobre o grupo</span>
               <span className="text-h2">
@@ -67,7 +67,7 @@ export default function Index() {
       {/* research section */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
         <h2 className="text-h3">Áreas de pesquisa</h2>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <Card
             type="flat"
             title="Leitura e Escrita"
@@ -122,7 +122,7 @@ export default function Index() {
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="embla__slide flex flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                    className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[32px] min-w-0 "
                   >
                     <CardEvent
                       size="default"
@@ -233,7 +233,7 @@ export default function Index() {
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="embla__slide flex flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                    className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[32px] min-w-0 "
                   >
                     <CardAction
                       size="default"
