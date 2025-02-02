@@ -12,8 +12,8 @@ export default function ViewPublication() {
   return (
     <main className="pt-12 pb-20 bg-page">
       <Container>
-        <section className="grid grid-cols-12 gap-x-8 gap-y-6">
-          <div className="col-span-8">
+        <section className="grid grid-cols-12 gap-x-8 gap-y-10 lg:gap-y-6">
+          <div className="col-span-12 lg:col-span-8">
             <h1 className="text-h2 text-gray-950 mb-6">
               Práticas translíngues como recurso no acolhimento de migrantes
               venezuelanos em sala de aula de língua portuguesa
@@ -58,14 +58,14 @@ export default function ViewPublication() {
                 Portuguesa.
               </p>
             </div>
-            <nav className="flex gap-4 mb-6">
+            <nav className="flex gap-4 lg:mb-6">
               <Button>Ler</Button>
               <ButtonShare urlToShare="rwada" skin="ghost">
                 Compartilhar
               </ButtonShare>
             </nav>
           </div>
-          <div className="col-span-4 flex flex-col gap-6">
+          <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
             <CardContainer className="p-6">
               <div className="flex flex-col items-start gap-4">
                 <div className="flex flex-col gap-2">

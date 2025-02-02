@@ -14,11 +14,11 @@ export default function ViewEvent() {
       <img
         src="/assets/card-image.png"
         alt=""
-        className="h-[600px] w-full object-cover mb-12"
+        className="h-[340px] lg:h-[600px] w-full object-cover mb-12"
       />
       <Container>
-        <section className="grid grid-cols-12 gap-x-8 gap-y-6">
-          <div className="col-span-8">
+        <section className="grid grid-cols-12 gap-x-8 gap-y-10 lg:gap-y-6">
+          <div className="col-span-12 lg:col-span-8">
             <h1 className="text-h1 text-gray-950 mb-6">
               Línguas e políticas linguísticas no atendimento à saúde
             </h1>
@@ -63,7 +63,7 @@ export default function ViewEvent() {
               </ButtonShare>
             </nav>
           </div>
-          <div className="col-span-4">
+          <div className="col-span-12 lg:col-span-4">
             <CardContainer className="p-6">
               <div className="flex flex-col items-start gap-4">
                 <div className="flex flex-col gap-2">

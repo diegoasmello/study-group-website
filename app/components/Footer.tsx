@@ -6,10 +6,10 @@ import { IconFacebook } from "./icons/IconFacebook";
 
 export function Footer() {
   return (
-    <footer className="bg-primary-light text-white pt-20 pb-24">
+    <footer className="bg-primary-light text-white py-12 lg:pt-20 lg:pb-24">
       <Container>
-        <div className="flex items-start justify-between">
-          <div className="flex flex-col gap-10 items-start">
+        <div className="flex items-start flex-col lg:flex-row justify-between">
+          <div className="flex flex-col gap-10 items-start mb-12 lg:mb-0">
             <Link to="./">
               <img
                 src="/assets/logo-light.png"
@@ -38,7 +38,7 @@ export function Footer() {
             </nav>
           </div>
           <div className="flex items-start gap-[7.5rem]">
-            <nav className="flex flex-col items-start gap-6">
+            <nav className="flex-col items-start gap-6 hidden lg:flex">
               <span className="font-semibold">Sobre</span>
               <Link to="./" className="underline">
                 História
@@ -50,7 +50,7 @@ export function Footer() {
                 Equipe
               </Link>
             </nav>
-            <nav className="flex flex-col items-start gap-6">
+            <nav className="flex-col items-start gap-6 hidden lg:flex">
               <span className="font-semibold">Conteúdos</span>
               <Link to="./" className="underline">
                 Publicações

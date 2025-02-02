@@ -10,7 +10,7 @@ export default function ViewAction() {
       <img
         src="/assets/card-image.png"
         alt=""
-        className="h-[600px] w-full object-cover mb-12"
+        className="h-[340px] lg:h-[600px] w-full object-cover mb-12"
       />
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">

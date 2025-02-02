@@ -11,22 +11,33 @@ import {
   DropdownMenu,
 } from "./Dropdown";
 import { twMerge } from "tailwind-merge";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
 import { TextInput } from "./form-fields/TextInput";
 import { IconMenu } from "./icons/IconMenu";
 
 export function Header() {
   const location = useLocation();
   const [indicatorStyle, setIndicatorStyle] = useState({});
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [isPageOnTop, setIsPageOnTop] = useState(true);
-  const navRef = useRef<HTMLDivElement | null>(null);
-  const lastScrollY = useRef(0);
   const [isAboutNavLinkActive, setIsAboutNavLinkActive] = useState(
     checkIsAboutNavLinkActive(location.pathname)
   );
+  const navRef = useRef<HTMLDivElement | null>(null);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
+    setIsMobileSidebarOpen(false);
     setIsAboutNavLinkActive(checkIsAboutNavLinkActive(location.pathname));
   }, [location.pathname]);
 
@@ -81,13 +92,18 @@ export function Header() {
     >
       <Container>
         <div className="flex flex-row items-center justify-between">
-          <button className="lg:hidden">
+          <button
+            className="lg:hidden h-[80px] w-[56px] -ml-4 flex items-center justify-center"
+            onClick={() => setIsMobileSidebarOpen((prevValue) => !prevValue)}
+          >
             <IconMenu />
           </button>
 
           <Link to="./">
             <img src="/assets/logo-dark.png" alt="Logo" className="h-[40px]" />
           </Link>
+
+          <div className="w-[56px] lg:hidden" />
 
           <nav className="relative hidden lg:block" ref={navRef}>
             <ul className="flex flex-row items-center gap-8">
@@ -178,6 +194,75 @@ export function Header() {
           </nav>
         </div>
       </Container>
+
+      <Transition show={isMobileSidebarOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className={"relative z-10"}
+          onClose={() => setIsMobileSidebarOpen(false)}
+        >
+          <DialogBackdrop className="fixed top-[80px] inset-0 bg-black/30" />
+
+          <div className="fixed inset-y-0 top-[80px] left-0 flex items-start">
+            <TransitionChild
+              as={Fragment}
+              enter="transform transition ease-out duration-300"
+              enterFrom="-translate-x-full opacity-0"
+              enterTo="translate-x-0 opacity-100"
+              leave="transform transition ease-in duration-200"
+              leaveFrom="translate-x-0 opacity-100"
+              leaveTo="-translate-x-full opacity-0"
+            >
+              <DialogPanel className="w-[70vw] h-full bg-white p-6 shadow-lg relative">
+                <nav className="relative">
+                  <ul className="flex flex-col gap-8">
+                    {navLinks.map((navLink, index) => (
+                      <li key={index} className="font-medium">
+                        {navLink.dropdown ? (
+                          <Dropdown>
+                            <DropdownButton
+                              className={twMerge(
+                                `inline-flex items-center gap-1 focus:outline-none data-[hover]:text-primary data-[open]:text-primary data-[focus]:outline-1 data-[focus]:outline-white`,
+                                isAboutNavLinkActive
+                                  ? "active text-primary border-primary"
+                                  : "text-gray-950 hover:text-primary"
+                              )}
+                            >
+                              {navLink.label}
+                              <IconChevronDown className="size-6 -mr-2" />
+                            </DropdownButton>
+                            <DropdownMenu anchorGap={18}>
+                              {navLink.dropdown.map((dropdown) => (
+                                <DropdownItemLink
+                                  key={dropdown.href}
+                                  to={dropdown.href}
+                                >
+                                  {dropdown.label}
+                                </DropdownItemLink>
+                              ))}
+                            </DropdownMenu>
+                          </Dropdown>
+                        ) : (
+                          <NavLink
+                            className={({ isActive }) =>
+                              isActive
+                                ? "active text-primary border-primary"
+                                : "text-gray-950 hover:text-primary"
+                            }
+                            to={navLink.href!}
+                          >
+                            {navLink.label}
+                          </NavLink>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </Dialog>
+      </Transition>
     </header>
   );
 }

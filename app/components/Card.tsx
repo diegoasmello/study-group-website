@@ -63,7 +63,9 @@ export function Card(props: CardProps) {
         )}
         {label}
         <div
-          className={`text-h4 text-gray-950 font-medium ${sizeClass.title} ${
+          className={`text-h4 text-gray-950 font-medium ${
+            sizeClass.title
+          } line-clamp-3 ${
             hasTitleMaxLines ? `line-clamp-${titleMaxLines}` : ""
           }`}
         >

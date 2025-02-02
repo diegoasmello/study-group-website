@@ -48,42 +48,40 @@ export default function History() {
         ))}
       </Container>
 
-      <Container className="grid gap-8">
-        <div className="flex flex-col gap-6 mt-20 mb-10">
-          <div className="grid gap-x-8 gap-y-6">
-            <div className="flex flex-col gap-8 mb-8">
-              <h2 className="text-h3 text-gray-950">Conheça nossa equipe</h2>
-              <div className="w-full">
-                <Carousel>
-                  {(isSlideInView) =>
-                    Array(9)
-                      .fill(null)
-                      .map((_, index) => (
-                        <div
-                          key={index}
-                          className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[32px] min-w-0 "
-                        >
-                          <CardTeamMember
-                            type="float"
-                            hideShadow={!isSlideInView(index)}
-                            teamMember={{
-                              name: "Harry Potter",
-                              label: "Auror",
-                              image: "/assets/card-image.png",
-                              link: "/",
-                            }}
-                          />
-                        </div>
-                      ))
-                  }
-                </Carousel>
-              </div>
+      <Container>
+        <div className="mt-20 mb-10">
+          <div className="flex flex-col gap-8 mb-14">
+            <h2 className="text-h3 text-gray-950">Conheça nossa equipe</h2>
+            <div className="w-full">
+              <Carousel>
+                {(isSlideInView) =>
+                  Array(9)
+                    .fill(null)
+                    .map((_, index) => (
+                      <div
+                        key={index}
+                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                      >
+                        <CardTeamMember
+                          type="float"
+                          hideShadow={!isSlideInView(index)}
+                          teamMember={{
+                            name: "Harry Potter",
+                            label: "Auror",
+                            image: "/assets/card-image.png",
+                            link: "/",
+                          }}
+                        />
+                      </div>
+                    ))
+                }
+              </Carousel>
             </div>
-            <div className="flex flex-col items-center">
-              <Link to="/team">
-                Veja toda a equipe <IconArrowForward className="size-5" />
-              </Link>
-            </div>
+          </div>
+          <div className="flex flex-col items-center">
+            <Link to="/team">
+              Veja toda a equipe <IconArrowForward className="size-5" />
+            </Link>
           </div>
         </div>
         <NewsletterBanner />
@@ -108,7 +106,7 @@ const HistorySection = (props: {
 
   if (isLastItem)
     return (
-      <div className="grid grid-cols-12 gap-x-8">
+      <div className="grid grid-cols-12 gap-y-8 lg:gap-y-0 gap-x-8">
         <div className="col-span-12 lg:col-span-3 flex items-center justify-center">
           <img src={section.illustration1} alt={section.title + " - 1"} />
         </div>
@@ -116,36 +114,37 @@ const HistorySection = (props: {
           <h2 className="text-h2 text-gray-950 text-center">{section.title}</h2>
           <p className="text-gray-800 text-center">{section.description}</p>
         </div>
-        <div className="col-span-12 lg:col-span-3 flex items-center justify-center">
+        <div className="col-span-12 lg:col-span-3 items-center justify-center hidden lg:flex">
           <img src={section.illustration1} alt={section.title + " - 2"} />
         </div>
       </div>
     );
 
   return (
-    <div className="grid grid-cols-12 gap-x-4">
-      {align === "left" && (
-        <div className="col-span-12 lg:col-span-6 flex items-center justify-center">
-          <img
-            src={section.illustration1}
-            alt={section.title}
-            className="h-[260px]"
-          />
-        </div>
-      )}
-      <div className="col-span-12 lg:col-span-6 flex flex-col justify-center gap-6 py-4">
-        <h2 className="text-h2 text-gray-950">{section.title}</h2>
-        <p className="text-gray-800">{section.description}</p>
+    <div className="grid grid-cols-12 gap-y-8 lg:gap-y-0 gap-x-4">
+      <div
+        className={`col-span-12 lg:col-span-6 flex items-center justify-center ${
+          align === "left" ? "lg:order-1" : "lg:order-2"
+        }`}
+      >
+        <img
+          src={section.illustration1}
+          alt={section.title}
+          className="w-[60vw] lg:w-auto lg:h-[260px]"
+        />
       </div>
-      {align === "right" && (
-        <div className="col-span-12 lg:col-span-6 flex items-center justify-center">
-          <img
-            src={section.illustration1}
-            alt={section.title}
-            className="h-[260px]"
-          />
-        </div>
-      )}
+      <div
+        className={`col-span-12 lg:col-span-6 flex flex-col justify-center gap-6 py-4 ${
+          align === "left" ? "lg:order-2" : "lg:order-1"
+        }`}
+      >
+        <h2 className="text-h2 text-gray-950 text-center lg:text-left">
+          {section.title}
+        </h2>
+        <p className="text-gray-800 text-center lg:text-left">
+          {section.description}
+        </p>
+      </div>
     </div>
   );
 };
