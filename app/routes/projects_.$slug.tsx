@@ -18,7 +18,7 @@ export default function ViewProject() {
             <img
               src="/assets/card-image.png"
               alt=""
-              className="w-[180px] h-[180px] rounded-3xl object-cover mb-6"
+              className="size-[11.25rem] rounded-3xl object-cover mb-6"
             />
             <h1 className="text-h1 text-gray-950 mb-6">Conexões Literárias</h1>
             <div className="mb-6">
@@ -91,7 +91,7 @@ export default function ViewProject() {
                     .map((_, index) => (
                       <div
                         key={index}
-                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
                       >
                         <CardProject
                           project={{

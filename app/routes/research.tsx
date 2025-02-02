@@ -50,7 +50,7 @@ export default function Research() {
 }
 
 const IconWrapper = ({ children }: { children: JSX.Element }) => (
-  <div className="w-[64px] h-[64px] bg-primary-lighter flex items-center justify-center rounded-2xl">
+  <div className="size-[4rem] bg-primary-lighter flex items-center justify-center rounded-2xl">
     {children}
   </div>
 );
@@ -76,7 +76,7 @@ const researchAreas: ResearchArea[] = [
       <img
         src="/assets/icons/icon-reading-writing.svg"
         alt=""
-        className="w-[44px] h-[44px]"
+        className="size-[2.75rem]"
       />
     ),
     projects: Array(9)
@@ -94,7 +94,7 @@ const researchAreas: ResearchArea[] = [
       <img
         src="/assets/icons/icon-multilinguism.svg"
         alt=""
-        className="w-[44px] h-[44px]"
+        className="size-[2.75rem]"
       />
     ),
     projects: Array(9)
@@ -112,7 +112,7 @@ const researchAreas: ResearchArea[] = [
       <img
         src="/assets/icons/icon-transculturality.svg"
         alt=""
-        className="w-[44px] h-[44px]"
+        className="size-[2.75rem]"
       />
     ),
     projects: Array(9)
@@ -142,7 +142,7 @@ const ResearchItemSection = ({
           alt=""
           className={twJoin(
             "hidden lg:block h-full w-[calc(50vw-4rem)] object-cover absolute",
-            isOdd ? "rounded-r-[32px] left-0" : "rounded-l-[32px] right-0"
+            isOdd ? "rounded-r-[2rem] left-0" : "rounded-l-[2rem] right-0"
           )}
         />
         <Container>
@@ -172,7 +172,7 @@ const ResearchItemSection = ({
                   item.projects.map((_, index) => (
                     <div
                       key={index}
-                      className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                      className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
                     >
                       <CardProject
                         project={{

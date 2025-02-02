@@ -16,7 +16,7 @@ export function TextInput(props: TextInputProps) {
     <FormControl label={label} htmlFor={name} required={required}>
       <div className="relative w-full">
         {Icon && (
-          <div className="absolute h-[44px] w-[44px] flex items-center justify-center text-gray-400">
+          <div className="absolute size-[2.75rem] flex items-center justify-center text-gray-400">
             <Icon className="size-6" />
           </div>
         )}
@@ -24,7 +24,7 @@ export function TextInput(props: TextInputProps) {
           name={name}
           className={twMerge(
             clsx(
-              `h-[44px] border rounded-xl px-4
+              `h-[2.75rem] border rounded-xl px-4
               border-gray-300 text-gray-950
               hover:border-gray-400
               active:border-primary
@@ -32,7 +32,7 @@ export function TextInput(props: TextInputProps) {
               disabled:border-gray-200 disabled:bg-gray-100
               placeholder:text-gray-400 placeholder:italic
               transition`,
-              Icon && "pl-[44px]",
+              Icon && "pl-[2.75rem]",
               className
             )
           )}

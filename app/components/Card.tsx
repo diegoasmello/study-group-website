@@ -48,12 +48,12 @@ export function Card(props: CardProps) {
         <img
           src={image}
           alt={title}
-          className="w-full h-[236px] object-cover"
+          className="w-full h-[15rem] object-cover"
         />
       )}
       <div className={twMerge("flex flex-col gap-4 p-6", sizeClass.card)}>
         {icon && (
-          <div className="w-[120px] h-[120px] bg-primary-lighter flex items-center justify-center rounded-3xl">
+          <div className="size-[7.5rem] bg-primary-lighter flex items-center justify-center rounded-3xl">
             {icon}
           </div>
         )}
@@ -61,7 +61,7 @@ export function Card(props: CardProps) {
           <img
             src={image}
             alt={title}
-            className="w-[120px] h-[120px] rounded-3xl object-cover"
+            className="size-[7.5rem] rounded-3xl object-cover"
           />
         )}
         {label}

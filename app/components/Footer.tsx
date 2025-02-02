@@ -14,7 +14,7 @@ export function Footer() {
               <img
                 src="/assets/logo-light.png"
                 alt="Logo"
-                className="h-[92px]"
+                className="h-[5.75rem]"
               />
             </Link>
             <nav>

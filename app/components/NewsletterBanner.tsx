@@ -57,7 +57,7 @@ function NewsletterFeedbackModal({
       <DialogBackdrop className="fixed inset-0 bg-black/20" />
       <div className="fixed inset-0 w-screen overflow-y-auto p-4">
         <div className="flex min-h-full items-center justify-center">
-          <DialogPanel className="max-w-lg flex flex-col items-center gap-6 bg-white p-6 rounded-[32px] shadow-custom-2">
+          <DialogPanel className="max-w-lg flex flex-col items-center gap-6 bg-white p-6 rounded-[2rem] shadow-custom-2">
             {status === "success" && (
               <IconSuccess className="size-20 text-success" />
             )}
@@ -73,7 +73,7 @@ function NewsletterFeedbackModal({
               >
                 Só esperar!
               </DialogTitle>
-              <p className="text-center text-gray-700 mx-[64px]">
+              <p className="text-center text-gray-700 mx-[4rem]">
                 Seu e-mail foi salvo, em breve você
                 <br />
                 reberá um e-mail com mais informações.

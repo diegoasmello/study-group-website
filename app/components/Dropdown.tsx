@@ -29,7 +29,7 @@ export function DropdownMenu({ children, anchorGap = 8 }: DropdownMenuProps) {
       transition
       anchor="bottom start"
       style={{ "--custom-anchor-gap": anchorGap + "px" } as React.CSSProperties}
-      className={`z-20 w-[136px] origin-top-right rounded-xl p-2 bg-white shadow-custom-2 flex flex-col gap-1 transition duration-100 ease-out [--anchor-gap:var(--custom-anchor-gap)]`}
+      className={`z-20 w-[8.5rem] origin-top-right rounded-xl p-2 bg-white shadow-custom-2 flex flex-col gap-1 transition duration-100 ease-out [--anchor-gap:var(--custom-anchor-gap)]`}
     >
       {children}
     </MenuItems>
@@ -43,7 +43,7 @@ export function DropdownItemLink({ to, children }: DropdownItemLinkProps) {
         to={to}
         className={({ isActive }) =>
           twJoin(
-            "h-[40px] flex items-center px-4 rounded-lg font-medium transition",
+            "h-[2.5rem] flex items-center px-4 rounded-lg font-medium transition",
             isActive
               ? "bg-primary-light text-white data-[focus]:bg-primary-light"
               : "bg-white text-gray-950 data-[focus]:bg-primary-lighter"
@@ -64,7 +64,7 @@ export function DropdownItemButton({
     <MenuItem as={Fragment}>
       <button
         onClick={onClick}
-        className="h-[40px] flex items-center px-4 rounded-lg data-[focus]:bg-primary-lighter transition"
+        className="h-[2.5rem] flex items-center px-4 rounded-lg data-[focus]:bg-primary-lighter transition"
       >
         {children}
       </button>

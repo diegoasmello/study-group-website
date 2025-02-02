@@ -47,7 +47,7 @@ export function Carousel({ children }: CarouselProps) {
     <div className="relative lg:-mx-4 lg:px-4">
       <section className="embla overflow-x-hidden relative mx-0 px-0 lg:-mx-6 lg:px-6 pb-2 -mb-2">
         <div className="embla__viewport" ref={emblaRef}>
-          <div className="embla__container flex ml-[-32px]">
+          <div className="embla__container flex ml-[-2rem]">
             {children(isSlideInView)}
           </div>
         </div>
@@ -62,13 +62,13 @@ export function Carousel({ children }: CarouselProps) {
         </nav>
       </section>
       <button
-        className="embla__prev absolute top-[calc(50%-16px)] left-[-56px] hidden lg:block"
+        className="embla__prev absolute top-[calc(50%-1rem)] left-[-3.5rem] hidden lg:block"
         onClick={scrollPrev}
       >
         <IconChevronLeft className="size-8 text-gray-600" />
       </button>
       <button
-        className="embla__next absolute top-[calc(50%-16px)] right-[-56px] hidden lg:block"
+        className="embla__next absolute top-[calc(50%-1rem)] right-[-3.5rem] hidden lg:block"
         onClick={scrollNext}
       >
         <IconChevronRight className="size-8 text-gray-600" />

@@ -76,7 +76,7 @@ export default function Index() {
               <img
                 src="/assets/icons/icon-reading-writing.svg"
                 alt=""
-                className="w-[72px] h-[72px]"
+                className="size-[4.5rem]"
               />
             }
           />
@@ -88,7 +88,7 @@ export default function Index() {
               <img
                 src="/assets/icons/icon-multilinguism.svg"
                 alt=""
-                className="w-[68px] h-[68px]"
+                className="size-[4.5rem]"
               />
             }
           />
@@ -100,7 +100,7 @@ export default function Index() {
               <img
                 src="/assets/icons/icon-transculturality.svg"
                 alt=""
-                className="w-[72px] h-[72px]"
+                className="size-[4.5rem]"
               />
             }
           />
@@ -122,7 +122,7 @@ export default function Index() {
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                    className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
                   >
                     <CardEvent
                       size="default"
@@ -234,7 +234,7 @@ export default function Index() {
                 .map((_, index) => (
                   <div
                     key={index}
-                    className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                    className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
                   >
                     <CardAction
                       size="default"

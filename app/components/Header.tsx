@@ -93,17 +93,21 @@ export function Header() {
       <Container>
         <div className="flex flex-row items-center justify-between">
           <button
-            className="lg:hidden h-[80px] w-[56px] -ml-4 flex items-center justify-center"
+            className="lg:hidden h-[5rem] w-[3.5rem] -ml-4 flex items-center justify-center"
             onClick={() => setIsMobileSidebarOpen((prevValue) => !prevValue)}
           >
             <IconMenu />
           </button>
 
           <Link to="./">
-            <img src="/assets/logo-dark.png" alt="Logo" className="h-[40px]" />
+            <img
+              src="/assets/logo-dark.png"
+              alt="Logo"
+              className="h-[2.5rem]"
+            />
           </Link>
 
-          <div className="w-[56px] lg:hidden" />
+          <div className="w-[3.5rem] lg:hidden" />
 
           <nav className="relative hidden lg:block" ref={navRef}>
             <ul className="flex flex-row items-center gap-8">
@@ -174,13 +178,13 @@ export function Header() {
               <li>
                 <Popover className="relative">
                   <PopoverButton as={Fragment}>
-                    <Button size="md" skin="ghost" className="w-[44px] px-0">
+                    <Button size="md" skin="ghost" className="w-[2.75rem] px-0">
                       <IconSearch className="size-6" />
                     </Button>
                   </PopoverButton>
                   <PopoverPanel
                     anchor="bottom end"
-                    className={`z-20 rounded-xl p-4 bg-white shadow-custom-2 flex transition duration-100 ease-out [--anchor-gap:8px]`}
+                    className={`z-20 rounded-xl p-4 bg-white shadow-custom-2 flex transition duration-100 ease-out [--anchor-gap:1rem]`}
                   >
                     <TextInput
                       name="a"
@@ -201,9 +205,9 @@ export function Header() {
           className={"relative z-10"}
           onClose={() => setIsMobileSidebarOpen(false)}
         >
-          <DialogBackdrop className="fixed top-[80px] inset-0 bg-black/30" />
+          <DialogBackdrop className="fixed top-[5rem] inset-0 bg-black/30" />
 
-          <div className="fixed inset-y-0 top-[80px] left-0 flex items-start">
+          <div className="fixed inset-y-0 top-[5rem] left-0 flex items-start">
             <TransitionChild
               as={Fragment}
               enter="transform transition ease-out duration-300"

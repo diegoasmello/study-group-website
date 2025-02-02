@@ -51,6 +51,6 @@ const skinClasses: Record<ButtonSkin, string> = {
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  lg: "h-[52px] px-8",
-  md: "h-[44px] px-6",
+  lg: "h-[3.25rem] px-8",
+  md: "h-[2.75rem] px-6",
 };

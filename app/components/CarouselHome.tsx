@@ -26,7 +26,7 @@ export function CarouselHome() {
   return (
     <section className="embla w-full">
       <div
-        className="embla__viewport overflow-hidden lg:h-[554px]"
+        className="embla__viewport overflow-hidden lg:h-[35rem]"
         ref={emblaRef}
       >
         <div className="embla__container flex">
@@ -71,7 +71,7 @@ const Item = () => {
         <img
           src="/assets/card-image.png"
           alt={"dawdwa"}
-          className="object-cover rounded-3xl w-full mb-4 lg:mb-0 lg:rounded-r-none lg:rounded-l-[56px] lg:h-[554px] lg:w-[50vw] lg:absolute lg:top-0 lg:right-0"
+          className="object-cover rounded-3xl w-full mb-4 lg:mb-0 lg:rounded-r-none lg:rounded-l-[3.5rem] lg:h-[35rem] lg:w-[50vw] lg:absolute lg:top-0 lg:right-0"
         />
         <section className="grid grid-cols-12 gap-8">
           <div className="col-span-12 lg:col-span-4">

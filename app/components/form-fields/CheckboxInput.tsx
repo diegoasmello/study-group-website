@@ -17,7 +17,7 @@ export function CheckboxInput(props: CheckboxInputProps) {
       <Checkbox
         checked={isChecked}
         onChange={setIsChecked}
-        className="h-[24px] w-[24px] group flex items-center justify-center rounded-md border border-gray-200 bg-white cursor-pointer transition hover:border-primary focus:shadow-focus data-[checked]:bg-primary data-[checked]:text-white data-[checked]:hover:bg-primary-darker"
+        className="size-[1.5rem] group flex items-center justify-center rounded-md border border-gray-200 bg-white cursor-pointer transition hover:border-primary focus:shadow-focus data-[checked]:bg-primary data-[checked]:text-white data-[checked]:hover:bg-primary-darker"
       >
         <IconCheck className="hidden size-6 fill-black group-data-[checked]:block" />
       </Checkbox>

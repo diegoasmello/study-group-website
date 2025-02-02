@@ -107,7 +107,7 @@ export default function ViewPublication() {
                     .map((_, index) => (
                       <div
                         key={index}
-                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[32px] min-w-0 "
+                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
                       >
                         <CardPublication
                           size="default"

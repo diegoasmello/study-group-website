@@ -43,7 +43,7 @@ export function ComboboxInput(props: ComboboxInputProps) {
             //   displayValue={(item: ComboboxItem) => item.label}
             onChange={(event) => setQuery(event.target.value)}
             className="
-            w-full h-[44px] border rounded-xl px-4 pr-10
+            w-full h-[2.75rem] border rounded-xl px-4 pr-10
             border-gray-300 text-gray-950
             hover:border-gray-400
             active:border-primary
@@ -66,7 +66,7 @@ export function ComboboxInput(props: ComboboxInputProps) {
             <ComboboxOption
               key={item.value}
               value={item.value}
-              className="h-[44px] min-h-[44px] flex items-center px-4 bg-white rounded-lg transition data-[focus]:bg-primary-lighter cursor-pointer "
+              className="h-[2.75rem] min-h-[2.75rem] flex items-center px-4 bg-white rounded-lg transition data-[focus]:bg-primary-lighter cursor-pointer "
             >
               {item.label}
             </ComboboxOption>
