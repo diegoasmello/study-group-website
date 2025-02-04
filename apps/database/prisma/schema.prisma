@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Action {
+  id        Int     @id @default(autoincrement())
+  title     String @db.VarChar(200)
+  slug        String @db.VarChar(200)
+  content   String
+  date      DateTime
+  image     String
+  published Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id        Int     @id @default(autoincrement())
+  title     String @db.VarChar(200)
+  slug        String @db.VarChar(200)
+  content   String
+  image     String
+  link      String
+  startDate DateTime
+  endDate DateTime
+  researchers Researcher[]
+  researchArea ResearchArea @relation(fields: [researchAreaId], references: [id])
+  researchAreaId Int
+  published Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Event {
+  id        Int     @id @default(autoincrement())
+  title     String @db.VarChar(200)
+  slug        String @db.VarChar(200)
+  content   String
+  image     String
+  link      String
+  cargaHoraria Int
+  date      DateTime
+  locale String
+  isOnline Boolean
+  // subscribeLink  ?
+  published Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Publication {
+  id           Int     @id @default(autoincrement())
+  title     String @db.VarChar(200)
+  slug        String @db.VarChar(200)
+  content      String
+  image        String
+  date         DateTime
+  researchers  Researcher[]
+  researchArea ResearchArea @relation(fields: [researchAreaId], references: [id])
+  researchAreaId Int
+  published    Boolean @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model ResearchArea {
+  id          Int     @id @default(autoincrement())
+  title     String @db.VarChar(200)
+  description String
+  content     String
+  image       String
+  icon        String
+  projects    Project[]
+  publications    Publication[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Researcher {
+  id    Int     @id @default(autoincrement())
+  name  String
+  projects Project[]
+  publications Publication[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model TeamMember {
+  id    Int     @id @default(autoincrement())
+  name     String @db.VarChar(200)
+  avatar String
+  link  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// model History {}
