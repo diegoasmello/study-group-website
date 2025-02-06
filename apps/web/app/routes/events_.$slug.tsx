@@ -95,7 +95,7 @@ export default function ViewEvent() {
                           hideShadow={!isSlideInView(index)}
                           hideLocale
                           event={{
-                            id: 1,
+                            id: "1",
                             slug: "",
                             title:
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",

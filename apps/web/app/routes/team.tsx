@@ -43,8 +43,8 @@ export default function Team() {
               <CardTeamMember
                 teamMember={{
                   name: teamMember.name,
-                  label: "Auror",
-                  image: teamMember.avatar,
+                  role: teamMember.role,
+                  image: teamMember.image,
                   link: teamMember.link,
                 }}
               />

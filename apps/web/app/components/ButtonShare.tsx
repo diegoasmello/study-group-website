@@ -1,6 +1,7 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { Button, ButtonProps } from "./Button";
 import { TextInput } from "./form-fields/TextInput";
+import { Fragment } from "react/jsx-runtime";
 
 interface ButtonShareProps extends ButtonProps {
   urlToShare: string;
@@ -11,7 +12,7 @@ export function ButtonShare(props: ButtonShareProps) {
 
   return (
     <Popover className="relative">
-      <PopoverButton>
+      <PopoverButton as={Fragment}>
         <Button {...buttonProps} />
       </PopoverButton>
       <PopoverPanel
