@@ -8,95 +8,99 @@ datasource db {
 }
 
 model Action {
-  id        Int     @id @default(autoincrement())
-  title     String @db.VarChar(200)
-  slug        String @db.VarChar(200)
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(200)
+  slug      String   @unique @db.VarChar(200)
+  keywords  String   @db.VarChar(200)
   content   String
   date      DateTime
-  image     String
-  published Boolean @default(false)
+  image     String   @db.VarChar(200)
+  published Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Project {
-  id        Int     @id @default(autoincrement())
-  title     String @db.VarChar(200)
-  slug        String @db.VarChar(200)
-  content   String
-  image     String
-  link      String
-  startDate DateTime
-  endDate DateTime
-  researchers Researcher[]
-  researchArea ResearchArea @relation(fields: [researchAreaId], references: [id])
+  id             Int          @id @default(autoincrement())
+  title          String       @db.VarChar(200)
+  slug           String       @unique @db.VarChar(200)
+  keywords       String       @db.VarChar(200)
+  content        String
+  image          String       @db.VarChar(200)
+  link           String       @db.VarChar(200)
+  startDate      DateTime
+  endDate        DateTime
+  researchers    Researcher[]
+  researchArea   ResearchArea @relation(fields: [researchAreaId], references: [id])
   researchAreaId Int
-  published Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  published      Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
 
 model Event {
-  id        Int     @id @default(autoincrement())
-  title     String @db.VarChar(200)
-  slug        String @db.VarChar(200)
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(200)
+  slug      String   @unique @db.VarChar(200)
+  keywords  String   @db.VarChar(200)
   content   String
-  image     String
-  link      String
-  cargaHoraria Int
+  image     String   @db.VarChar(200)
+  link      String   @db.VarChar(200)
+  workload  Int
   date      DateTime
-  locale String
-  isOnline Boolean
-  // subscribeLink  ?
-  published Boolean @default(false)
+  locale    String   @db.VarChar(200)
+  published Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Publication {
-  id           Int     @id @default(autoincrement())
-  title     String @db.VarChar(200)
-  slug        String @db.VarChar(200)
-  content      String
-  image        String
-  date         DateTime
-  researchers  Researcher[]
-  researchArea ResearchArea @relation(fields: [researchAreaId], references: [id])
+  id             Int          @id @default(autoincrement())
+  title          String       @db.VarChar(200)
+  slug           String       @unique @db.VarChar(200)
+  keywords       String       @db.VarChar(200)
+  content        String
+  image          String       @db.VarChar(200)
+  date           DateTime
+  researchers    Researcher[]
+  researchArea   ResearchArea @relation(fields: [researchAreaId], references: [id])
   researchAreaId Int
-  published    Boolean @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  link           String       @db.VarChar(200)
+  published      Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
 
 model ResearchArea {
-  id          Int     @id @default(autoincrement())
-  title     String @db.VarChar(200)
-  description String
-  content     String
-  image       String
-  icon        String
-  projects    Project[]
-  publications    Publication[]
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id           Int           @id @default(autoincrement())
+  title        String        @db.VarChar(200)
+  description  String
+  content      String
+  image        String        @db.VarChar(200)
+  icon         String        @db.VarChar(200)
+  projects     Project[]
+  publications Publication[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 
 model Researcher {
-  id    Int     @id @default(autoincrement())
-  name  String
-  projects Project[]
+  id           Int           @id @default(autoincrement())
+  name         String
+  projects     Project[]
   publications Publication[]
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 
 model TeamMember {
-  id    Int     @id @default(autoincrement())
-  name     String @db.VarChar(200)
-  avatar String
-  link  String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(200)
+  image     String   @db.VarChar(200)
+  role      String   @db.VarChar(200)
+  link      String   @db.VarChar(200)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // model History {}

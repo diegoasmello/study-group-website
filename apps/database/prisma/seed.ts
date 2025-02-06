@@ -1,18 +1,22 @@
 import { PrismaClient } from "@prisma/client";
 import { faker } from "@faker-js/faker";
+
 const prisma = new PrismaClient();
+
+const NUMBER_OF_ROWS = 30;
 
 async function main() {
   await prisma.teamMember.createMany({
-    data: Array.from({ length: 30 }).map(() => ({
+    data: Array.from({ length: NUMBER_OF_ROWS }).map(() => ({
       name: faker.person.fullName(),
       link: faker.internet.url(),
-      avatar: faker.image.avatar(),
+      image: faker.image.avatar(),
+      role: faker.person.jobDescriptor(),
     })),
   });
 
   await prisma.researcher.createMany({
-    data: Array.from({ length: 30 }).map(() => ({
+    data: Array.from({ length: NUMBER_OF_ROWS }).map(() => ({
       name: faker.person.fullName(),
     })),
   });
@@ -43,52 +47,91 @@ async function main() {
     ],
   });
 
-  await prisma.publication.createMany({
-    data: Array.from({ length: 30 }).map(() => ({
-      title: faker.lorem.sentence({ min: 3, max: 8 }),
-      slug: faker.lorem.slug({ min: 3, max: 8 }),
-      content: faker.lorem.paragraphs(3, "<br/>\n"),
-      image: faker.image.url(),
-      cargaHoraria: faker.number.int({ min: 10, max: 60 }),
-      date: faker.date.soon(),
-      researchAreaId: faker.number.int({ min: 1, max: researchAreaCount }),
-    })),
-  });
+  Array.from({ length: NUMBER_OF_ROWS }).forEach(
+    async () =>
+      await prisma.publication.create({
+        data: {
+          title: faker.lorem.sentence({ min: 7, max: 15 }),
+          slug: faker.lorem.slug({ min: 3, max: 8 }),
+          keywords: Array.from({ length: 3 })
+            .map(() => faker.lorem.words(1))
+            .join("; "),
+          content: faker.lorem.paragraphs(3, "<br/>\n"),
+          image: faker.image.url(),
+          date: faker.date.soon(),
+          link: faker.internet.url(),
+          researchers: {
+            connect: Array.from({ length: 3 }).map(() => ({
+              id: faker.number.int({ min: 1, max: NUMBER_OF_ROWS }),
+            })),
+          },
+          researchArea: {
+            connect: {
+              id: faker.number.int({ min: 1, max: researchAreaCount }),
+            },
+          },
+          published: true,
+        },
+      })
+  );
 
   await prisma.event.createMany({
-    data: Array.from({ length: 30 }).map(() => ({
-      title: faker.lorem.sentence({ min: 3, max: 8 }),
+    data: Array.from({ length: NUMBER_OF_ROWS }).map(() => ({
+      title: faker.lorem.sentence({ min: 7, max: 15 }),
       slug: faker.lorem.slug({ min: 3, max: 8 }),
+      keywords: Array.from({ length: 3 })
+        .map(() => faker.lorem.words(1))
+        .join("; "),
       content: faker.lorem.paragraphs(3, "<br/>\n"),
       image: faker.image.url(),
-      cargaHoraria: faker.number.int({ min: 10, max: 60 }),
+      workload: faker.number.int({ min: 10, max: 60 }),
       date: faker.date.soon(),
-      isOnline: faker.datatype.boolean(),
       link: faker.internet.url(),
       locale: faker.location.streetAddress(true),
+      published: true,
     })),
   });
 
-  await prisma.project.createMany({
-    data: Array.from({ length: 30 }).map(() => ({
-      title: faker.lorem.sentence({ min: 3, max: 8 }),
-      slug: faker.lorem.slug({ min: 3, max: 8 }),
-      content: faker.lorem.paragraphs(3, "<br/>\n"),
-      image: faker.image.url(),
-      link: faker.internet.url(),
-      researchAreaId: faker.number.int({ min: 1, max: researchAreaCount }),
-      endDate: faker.date.soon(),
-      startDate: faker.date.soon(),
-    })),
-  });
+  Array.from({ length: NUMBER_OF_ROWS }).forEach(
+    async () =>
+      await prisma.project.create({
+        data: {
+          title: faker.lorem.sentence({ min: 1, max: 3 }),
+          slug: faker.lorem.slug({ min: 3, max: 8 }),
+          keywords: Array.from({ length: 3 })
+            .map(() => faker.lorem.words(1))
+            .join("; "),
+          content: faker.lorem.paragraphs(3, "<br/>\n"),
+          image: faker.image.url(),
+          link: faker.internet.url(),
+          endDate: faker.date.soon(),
+          startDate: faker.date.soon(),
+          researchArea: {
+            connect: {
+              id: faker.number.int({ min: 1, max: researchAreaCount }),
+            },
+          },
+          researchers: {
+            connect: Array.from({ length: 3 }).map(() => ({
+              id: faker.number.int({ min: 1, max: NUMBER_OF_ROWS }),
+            })),
+          },
+          published: true,
+        },
+      })
+  );
 
   await prisma.action.createMany({
-    data: Array.from({ length: 30 }).map(() => ({
-      title: faker.lorem.sentence({ min: 3, max: 8 }),
+    data: Array.from({ length: NUMBER_OF_ROWS }).map(() => ({
+      title: faker.lorem.sentence({ min: 7, max: 15 }),
       slug: faker.lorem.slug({ min: 3, max: 8 }),
+      keywords: Array.from({ length: 3 })
+        .map(() => faker.lorem.words(1))
+        .join("; "),
       content: faker.lorem.paragraphs(3, "<br/>\n"),
       image: faker.image.url(),
       date: faker.date.soon(),
+      published: true,
     })),
   });
 }
