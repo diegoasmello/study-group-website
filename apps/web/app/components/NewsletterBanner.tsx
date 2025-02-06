@@ -54,10 +54,10 @@ function NewsletterFeedbackModal({
 }) {
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogBackdrop className="fixed inset-0 bg-black/20" />
-      <div className="fixed inset-0 w-screen overflow-y-auto p-4">
+      <DialogBackdrop className="fixed inset-0 bg-black/20 z-30" />
+      <div className="fixed inset-0 w-screen overflow-y-auto p-4 z-40">
         <div className="flex min-h-full items-center justify-center">
-          <DialogPanel className="max-w-lg flex flex-col items-center gap-6 bg-white p-6 rounded-[2rem] shadow-custom-2">
+          <DialogPanel className="max-w-lg flex flex-col items-center gap-6 bg-white p-6 rounded-[2rem] shadow-custom-2 ">
             {status === "success" && (
               <IconSuccess className="size-20 text-success" />
             )}

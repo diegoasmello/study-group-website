@@ -56,7 +56,7 @@ export function ComboboxInput(props: ComboboxInputProps) {
           </ComboboxButton>
         </div>
         <ComboboxOptions
-          className="w-[calc(var(--input-width)+8px)] p-4 mt-2 bg-white shadow-custom-2 rounded-xl empty:invisible flex flex-col gap-2"
+          className="w-[calc(var(--input-width)+8px)] p-4 mt-2 bg-white shadow-custom-2 rounded-xl empty:invisible flex flex-col gap-2 z-30"
           anchor="bottom"
           transition
           modal={false}
