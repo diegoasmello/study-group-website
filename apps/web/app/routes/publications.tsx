@@ -30,8 +30,9 @@ import { Paginator } from "~/components/Paginator";
 import data from "~/data";
 import { prisma } from "~/lib/prisma.server";
 import { Prisma } from "@prisma/client";
+import { NoResults } from "~/components/NoResults";
 
-const PAGE_SIZE = 5;
+// const PAGE_SIZE = 5;
 
 export const meta: MetaFunction = () => {
   return [
@@ -92,6 +93,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const publicationsCount = await prisma.publication.count({
     where: query.where,
   });
+
   const publications = await prisma.publication.findMany({
     include: {
       researchers: true,
@@ -131,7 +133,7 @@ export default function Publications() {
     startDate: clearedSearchParams.startDate,
   };
 
-  const hasFilterApplied = !!Object.values(clearedSearchParams).filter((i) => i)
+  const isFiltering = !!Object.values(clearedSearchParams).filter((i) => i)
     .length;
 
   // const resetFilters = () => {
@@ -156,20 +158,24 @@ export default function Publications() {
       <Container>
         <section className="grid grid-cols-12 gap-6">
           <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
-            {publications.map((publication) => (
-              <CardPublication
-                key={publication.id}
-                size="extended"
-                hideText
-                publication={{
-                  slug: publication.slug,
-                  title: publication.title,
-                  description: publication.content,
-                  researchers: publication.researchers,
-                  date: new Date(publication.date),
-                }}
-              />
-            ))}
+            {isFiltering && !publications.length ? (
+              <NoResults className="pt-5" />
+            ) : (
+              publications.map((publication) => (
+                <CardPublication
+                  key={publication.id}
+                  size="extended"
+                  hideText
+                  publication={{
+                    slug: publication.slug,
+                    title: publication.title,
+                    description: publication.content,
+                    researchers: publication.researchers,
+                    date: new Date(publication.date),
+                  }}
+                />
+              ))
+            )}
           </div>
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
             <CardContainer className="p-6 ">
@@ -215,7 +221,7 @@ export default function Publications() {
                 />
                 <nav className="flex gap-2">
                   <Button size="md">Buscar</Button>
-                  {/* {hasFilterApplied && (
+                  {/* {isFiltering && (
                     <Button
                       size="md"
                       skin="ghost"
@@ -230,9 +236,11 @@ export default function Publications() {
             </CardContainer>
             <CardResearch />
           </div>
-          <div className="col-span-12 flex justify-center mt-8 mb-10">
-            <Paginator />
-          </div>
+          {!!publications.length && (
+            <div className="col-span-12 flex justify-center mt-8 mb-10">
+              <Paginator />
+            </div>
+          )}
           <div className="col-span-12">
             <NewsletterBanner />
           </div>
