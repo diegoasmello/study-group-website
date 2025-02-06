@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { FormControl, FormControlProps } from "./FormControl";
 import { TextInput } from "./TextInput";
 
@@ -8,8 +9,8 @@ interface DateRangeInputProps
 }
 
 export type DateRange = {
-  startDate?: string;
-  endDate?: string;
+  startDate?: Date;
+  endDate?: Date;
 };
 
 export function DateRangeInput(props: DateRangeInputProps) {
@@ -21,13 +22,21 @@ export function DateRangeInput(props: DateRangeInputProps) {
         <TextInput
           name="startDate"
           type="date"
-          defaultValue={defaultValue?.startDate}
+          defaultValue={
+            defaultValue?.startDate
+              ? format(defaultValue?.startDate, "yyyy-MM-dd")
+              : undefined
+          }
         />
         <span className="text-gray-950 font-medium">até</span>
         <TextInput
           name="endDate"
           type="date"
-          defaultValue={defaultValue?.endDate}
+          defaultValue={
+            defaultValue?.endDate
+              ? format(defaultValue?.endDate, "yyyy-MM-dd")
+              : undefined
+          }
         />
       </div>
     </FormControl>

@@ -9,17 +9,17 @@ import { useState } from "react";
 import { FormControl, FormControlProps } from "./FormControl";
 import { IconChevronDown } from "../icons";
 
-type ComboboxItem = { label: string; value: string };
+export type ComboboxItem = { label: string; value: string };
 
-interface ComboboxInputProps<T>
+interface ComboboxInputProps
   extends Omit<FormControlProps, "children" | "htmlFor"> {
   name: string;
   items: ComboboxItem[];
   immediate?: boolean;
-  defaultValue?: T;
+  defaultValue?: ComboboxItem;
 }
 
-export function ComboboxInput<T>(props: ComboboxInputProps<T>) {
+export function ComboboxInput(props: ComboboxInputProps) {
   const { items, name, label, required, immediate, defaultValue } = props;
 
   const [query, setQuery] = useState("");
@@ -31,23 +31,24 @@ export function ComboboxInput<T>(props: ComboboxInputProps<T>) {
           return item.label.toLowerCase().includes(query.toLowerCase());
         });
 
-  const displayValue = (selectedValue: string) =>
-    filteredItems.find((item) => item.value === selectedValue)?.label ?? "";
-
-  // const computedDefaultValue = filteredItems.find((item) => item.value === defaultValue)
+  const displayValue = (value: ComboboxItem) => {
+    if (typeof value === "string") {
+      return JSON.parse(value as string).label;
+    }
+    return value?.label;
+  };
 
   return (
     <FormControl label={label} htmlFor={name} required={required}>
-      <Combobox<ComboboxItem["value"]>
+      <Combobox<ComboboxItem>
         name={name}
         immediate={immediate}
-        defaultValue={filteredItems[0].value}
+        defaultValue={defaultValue}
         onClose={() => setQuery("")}
       >
         <div className="relative w-full">
           <HUIComboboxInput
-            displayValue={displayValue as any}
-            // defaultValue={defaultValue}
+            displayValue={displayValue}
             onChange={(event) => setQuery(event.target.value)}
             className="
             w-full h-[2.75rem] border rounded-xl px-4 pr-10
@@ -72,7 +73,7 @@ export function ComboboxInput<T>(props: ComboboxInputProps<T>) {
           {filteredItems.map((item) => (
             <ComboboxOption
               key={item.value}
-              value={item.value}
+              value={JSON.stringify(item)}
               className="h-[2.75rem] min-h-[2.75rem] flex items-center px-4 bg-white rounded-lg transition data-[focus]:bg-primary-lighter cursor-pointer "
             >
               {item.label}
