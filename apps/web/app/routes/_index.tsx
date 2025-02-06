@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import { json, type MetaFunction } from "@remix-run/node";
 
 import { Card } from "~/components/Card";
 import { CardAction } from "~/components/CardAction";
@@ -12,8 +12,11 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 
 import data from "~/data";
 import { Carousel } from "~/components/Carousel";
-import { CarouselHome } from "~/components/CarouselHome";
+import { CarouselHome, CarouselHomeItem } from "~/components/CarouselHome";
 import { ButtonLink } from "~/components/ButtonLink";
+
+import { prisma } from "~/lib/prisma.server";
+import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,10 +25,66 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader() {
+  const researchAreas = await prisma.researchArea.findMany();
+  const events = await prisma.event.findMany({
+    orderBy: {
+      date: "desc",
+    },
+    take: 9,
+  });
+  const publications = await prisma.publication.findMany({
+    orderBy: {
+      date: "desc",
+    },
+    take: 5,
+    include: {
+      researchers: true,
+    },
+  });
+  const actions = await prisma.action.findMany({
+    orderBy: {
+      date: "desc",
+    },
+    take: 9,
+  });
+  return json({ researchAreas, events, publications, actions });
+}
+
 export default function Index() {
+  const { researchAreas, events, publications, actions } =
+    useLoaderData<typeof loader>();
+
+  const carouselItems: CarouselHomeItem[] = [
+    ...events.map(
+      (event): CarouselHomeItem => ({
+        id: event.id,
+        slug: event.slug,
+        title: event.title,
+        description: event.content,
+        image: event.image,
+        date: Number(event.date),
+        type: "event",
+      })
+    ),
+    ...actions.map(
+      (action): CarouselHomeItem => ({
+        id: action.id,
+        slug: action.slug,
+        title: action.title,
+        description: action.content,
+        image: action.image,
+        date: Number(action.date),
+        type: "action",
+      })
+    ),
+  ]
+    .sort((a, b) => a.date - b.date)
+    .slice(0, 5);
+
   return (
     <main className="pt-8 pb-20  bg-page">
-      <CarouselHome />
+      <CarouselHome items={carouselItems} />
 
       {/* about section */}
       <Container className="pt-14 pb-20">
@@ -68,42 +127,17 @@ export default function Index() {
       <Container className="flex flex-col gap-8 pb-16 items-center">
         <h2 className="text-h3">Áreas de pesquisa</h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <Card
-            type="flat"
-            title="Leitura e Escrita"
-            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            icon={
-              <img
-                src="/assets/icons/icon-reading-writing.svg"
-                alt=""
-                className="size-[4.5rem]"
-              />
-            }
-          />
-          <Card
-            type="flat"
-            title="Multilinguismo"
-            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            icon={
-              <img
-                src="/assets/icons/icon-multilinguism.svg"
-                alt=""
-                className="size-[4.5rem]"
-              />
-            }
-          />
-          <Card
-            type="flat"
-            title="Transculturalidade"
-            text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-            icon={
-              <img
-                src="/assets/icons/icon-transculturality.svg"
-                alt=""
-                className="size-[4.5rem]"
-              />
-            }
-          />
+          {researchAreas.map((researchArea) => (
+            <Card
+              key={researchArea.id}
+              type="flat"
+              title={researchArea.title}
+              text={researchArea.description}
+              icon={
+                <img src={researchArea.icon} alt="" className="size-[4.5rem]" />
+              }
+            />
+          ))}
         </div>
         <Link to={`/research`} className="text-center">
           Saiba mais sobre nossa pesquisa{" "}
@@ -117,27 +151,25 @@ export default function Index() {
         <div className="w-full">
           <Carousel>
             {(isSlideInView) =>
-              Array(9)
-                .fill(null)
-                .map((_, index) => (
-                  <div
-                    key={index}
-                    className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                  >
-                    <CardEvent
-                      size="default"
-                      hideShadow={!isSlideInView(index)}
-                      hideLocale
-                      event={{
-                        title:
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                        image: "/assets/card-image.png",
-                        date: new Date(),
-                        locale: "Online",
-                      }}
-                    />
-                  </div>
-                ))
+              events.map((event, index) => (
+                <div
+                  key={event.id}
+                  className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                >
+                  <CardEvent
+                    size="default"
+                    hideShadow={!isSlideInView(index)}
+                    hideLocale
+                    event={{
+                      slug: event.slug,
+                      title: event.title,
+                      image: event.image,
+                      date: new Date(event.date),
+                      locale: event.locale,
+                    }}
+                  />
+                </div>
+              ))
             }
           </Carousel>
         </div>
@@ -155,13 +187,11 @@ export default function Index() {
               className="h-full"
               size="extended"
               publication={{
-                title:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                description:
-                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ",
-                author:
-                  "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur. Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur. Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur. ",
-                date: new Date(),
+                slug: publications[0].slug,
+                title: publications[0].title,
+                description: publications[0].content,
+                date: new Date(publications[0].date),
+                researchers: publications[0].researchers,
               }}
             />
           </div>
@@ -169,12 +199,11 @@ export default function Index() {
             <CardPublication
               size="default"
               publication={{
-                title:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                description:
-                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                author: "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
-                date: new Date(),
+                slug: publications[1].slug,
+                title: publications[1].title,
+                description: publications[1].content,
+                date: new Date(publications[1].date),
+                researchers: publications[1].researchers,
               }}
             />
           </div>
@@ -182,12 +211,11 @@ export default function Index() {
             <CardPublication
               size="default"
               publication={{
-                title:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                description:
-                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                author: "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
-                date: new Date(),
+                slug: publications[2].slug,
+                title: publications[2].title,
+                description: publications[2].content,
+                date: new Date(publications[2].date),
+                researchers: publications[2].researchers,
               }}
             />
           </div>
@@ -195,12 +223,11 @@ export default function Index() {
             <CardPublication
               size="default"
               publication={{
-                title:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                description:
-                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                author: "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
-                date: new Date(),
+                slug: publications[3].slug,
+                title: publications[3].title,
+                description: publications[3].content,
+                date: new Date(publications[3].date),
+                researchers: publications[3].researchers,
               }}
             />
           </div>
@@ -208,12 +235,11 @@ export default function Index() {
             <CardPublication
               size="default"
               publication={{
-                title:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                description:
-                  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                author: "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
-                date: new Date(),
+                slug: publications[4].slug,
+                title: publications[4].title,
+                description: publications[4].content,
+                date: new Date(publications[4].date),
+                researchers: publications[4].researchers,
               }}
             />
           </div>
@@ -229,25 +255,23 @@ export default function Index() {
         <div className="w-full">
           <Carousel>
             {(isSlideInView) =>
-              Array(9)
-                .fill(null)
-                .map((_, index) => (
-                  <div
-                    key={index}
-                    className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                  >
-                    <CardAction
-                      size="default"
-                      action={{
-                        title:
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                        image: "/assets/card-image.png",
-                        date: new Date(),
-                      }}
-                      hideShadow={!isSlideInView(index)}
-                    />
-                  </div>
-                ))
+              actions.map((action, index) => (
+                <div
+                  key={action.id}
+                  className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                >
+                  <CardAction
+                    size="default"
+                    action={{
+                      slug: action.slug,
+                      title: action.title,
+                      image: action.image,
+                      date: new Date(action.date),
+                    }}
+                    hideShadow={!isSlideInView(index)}
+                  />
+                </div>
+              ))
             }
           </Carousel>
         </div>

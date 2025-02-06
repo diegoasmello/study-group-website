@@ -1,8 +1,9 @@
-import { MetaFunction } from "@remix-run/react";
+import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import data from "~/data";
+import { prisma } from "~/lib/prisma.server";
 
 import { Carousel } from "~/components/Carousel";
 import { CardProject } from "~/components/CardProject";
@@ -16,7 +17,18 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader() {
+  const researchAreas = await prisma.researchArea.findMany({
+    include: {
+      projects: true,
+    },
+  });
+  return json({ researchAreas });
+}
+
 export default function Research() {
+  const { researchAreas } = useLoaderData<typeof loader>();
+
   return (
     <main className="pb-20">
       <PageBanner
@@ -55,90 +67,14 @@ const IconWrapper = ({ children }: { children: JSX.Element }) => (
   </div>
 );
 
-interface Project {
-  title: string;
-  image: string;
-  link: string;
-}
-
-interface ResearchArea {
-  title: string;
-  text: string;
-  icon: JSX.Element;
-  projects: Project[];
-}
-
-const researchAreas: ResearchArea[] = [
-  {
-    title: "Leitura e Escrita",
-    text: "Essa área se dedica ao estudo dos processos cognitivos e sociais envolvidos na habilidade de ler e escrever. Engloba uma ampla gama de investigações, desde a análise das habilidades de decodificação de letras e palavras até a compreensão e interpretação de textos complexos. Explora como os indivíduos adquirem competências linguísticas ao longo do desenvolvimento, como a leitura e a escrita são ensinadas e aprendidas em diferentes contextos educacionais, e como fatores sociais, culturais e psicológicos influenciam a proficiência nesses aspectos. Além disso, busca entender como a tecnologia e as mudanças sociais impactam a leitura e escrita, bem como desenvolver estratégias eficazes para promover a alfabetização e a expressão escrita.",
-    icon: (
-      <img
-        src="/assets/icons/icon-reading-writing.svg"
-        alt=""
-        className="size-[2.75rem]"
-      />
-    ),
-    projects: Array(9)
-      .fill(null)
-      .map(() => ({
-        title: "Lorem ipsum",
-        image: "/assets/card-image.png",
-        link: "/projects/1",
-      })),
-  },
-  {
-    title: "Multilinguismo",
-    text: "Essa área se dedica ao estudo dos processos cognitivos e sociais envolvidos na habilidade de ler e escrever. Engloba uma ampla gama de investigações, desde a análise das habilidades de decodificação de letras e palavras até a compreensão e interpretação de textos complexos. Explora como os indivíduos adquirem competências linguísticas ao longo do desenvolvimento, como a leitura e a escrita são ensinadas e aprendidas em diferentes contextos educacionais, e como fatores sociais, culturais e psicológicos influenciam a proficiência nesses aspectos. Além disso, busca entender como a tecnologia e as mudanças sociais impactam a leitura e escrita, bem como desenvolver estratégias eficazes para promover a alfabetização e a expressão escrita.",
-    icon: (
-      <img
-        src="/assets/icons/icon-multilinguism.svg"
-        alt=""
-        className="size-[2.75rem]"
-      />
-    ),
-    projects: Array(9)
-      .fill(null)
-      .map(() => ({
-        title: "Lorem ipsum",
-        image: "/assets/card-image.png",
-        link: "/projects/1",
-      })),
-  },
-  {
-    title: "Transculturalidade",
-    text: "Essa área se dedica ao estudo dos processos cognitivos e sociais envolvidos na habilidade de ler e escrever. Engloba uma ampla gama de investigações, desde a análise das habilidades de decodificação de letras e palavras até a compreensão e interpretação de textos complexos. Explora como os indivíduos adquirem competências linguísticas ao longo do desenvolvimento, como a leitura e a escrita são ensinadas e aprendidas em diferentes contextos educacionais, e como fatores sociais, culturais e psicológicos influenciam a proficiência nesses aspectos. Além disso, busca entender como a tecnologia e as mudanças sociais impactam a leitura e escrita, bem como desenvolver estratégias eficazes para promover a alfabetização e a expressão escrita.",
-    icon: (
-      <img
-        src="/assets/icons/icon-transculturality.svg"
-        alt=""
-        className="size-[2.75rem]"
-      />
-    ),
-    projects: Array(9)
-      .fill(null)
-      .map(() => ({
-        title: "Lorem ipsum",
-        image: "/assets/card-image.png",
-        link: "/projects/1",
-      })),
-  },
-];
-
-const ResearchItemSection = ({
-  item,
-  index,
-}: {
-  item: ResearchArea;
-  index: number;
-}) => {
+const ResearchItemSection = ({ item, index }: { item: any; index: number }) => {
   const isOdd = index % 2 === 0;
 
   return (
     <div className="flex flex-col gap-6 lg:gap-14">
       <div className="relative">
         <img
-          src="/assets/card-image.png"
+          src={item.image}
           alt=""
           className={twJoin(
             "hidden lg:block h-full w-[calc(50vw-4rem)] object-cover absolute",
@@ -154,9 +90,11 @@ const ResearchItemSection = ({
                   isOdd && "lg:col-start-7"
                 )}
               >
-                <IconWrapper>{item.icon}</IconWrapper>
+                <IconWrapper>
+                  <img src={item.icon} alt="" />
+                </IconWrapper>
                 <h2 className="text-h3 text-gray-950">{item.title}</h2>
-                <p className="text-gray-800">{item.text}</p>
+                <p className="text-gray-800">{item.content}</p>
               </div>
             </div>
           </section>
@@ -169,16 +107,17 @@ const ResearchItemSection = ({
             <div className="w-full">
               <Carousel>
                 {() =>
-                  item.projects.map((_, index) => (
+                  item.projects.map((project) => (
                     <div
-                      key={index}
+                      key={project.id}
                       className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
                     >
                       <CardProject
                         project={{
-                          title: "Lorem ipsum",
-                          image: "/assets/card-image.png",
-                          link: "/projects/1",
+                          slug: project.slug,
+                          title: project.title,
+                          image: project.image,
+                          link: `/projects/${project.id}`,
                         }}
                         type="flat"
                       />

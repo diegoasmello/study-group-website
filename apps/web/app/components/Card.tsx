@@ -9,7 +9,7 @@ export interface CardProps
   type?: CardType;
   size?: CardSize;
   title: string;
-  text?: string;
+  text?: string | null;
   image?: string;
   icon?: JSX.Element | string;
   imageAsIcon?: boolean;
@@ -66,11 +66,9 @@ export function Card(props: CardProps) {
         )}
         {label}
         <div
-          className={twMerge(
-            clsx(
-              "text-h4 text-gray-950 font-medium line-clamp-3",
-              sizeClass.title
-            )
+          className={clsx(
+            "text-h4 text-gray-950 font-medium line-clamp-3",
+            sizeClass.title
           )}
         >
           {title}

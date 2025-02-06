@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/react";
+import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
@@ -14,6 +14,7 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import data from "~/data";
+import { prisma } from "~/lib/prisma.server";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,7 +23,23 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader() {
+  const publications = await prisma.publication.findMany({
+    include: {
+      researchers: true,
+      researchArea: true,
+    },
+    where: {
+      published: true,
+    },
+  });
+
+  return json({ publications });
+}
+
 export default function Publications() {
+  const { publications } = useLoaderData<typeof loader>();
+
   return (
     <main className="pb-20 bg-page">
       <PageBanner
@@ -40,23 +57,19 @@ export default function Publications() {
       <Container>
         <section className="grid grid-cols-12 gap-6">
           <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
-            {Array(5)
-              .fill(null)
-              .map((_, index) => (
-                <CardPublication
-                  key={index}
-                  size="extended"
-                  publication={{
-                    title:
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                    description:
-                      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                    author:
-                      "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
-                    date: new Date(),
-                  }}
-                />
-              ))}
+            {publications.map((publication) => (
+              <CardPublication
+                key={publication.id}
+                size="extended"
+                publication={{
+                  slug: publication.slug,
+                  title: publication.title,
+                  description: publication.content,
+                  researchers: publication.researchers,
+                  date: new Date(publication.date),
+                }}
+              />
+            ))}
           </div>
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
             <CardContainer className="p-6 flex flex-col items-start gap-6">

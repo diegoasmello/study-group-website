@@ -3,9 +3,10 @@ import { Button } from "./Button";
 import { ButtonLink } from "./ButtonLink";
 import { IconCalendar, IconLocation } from "./icons";
 
-interface CardEventProps extends Pick<CardProps, "hideShadow"> {
+interface CardEventProps extends Pick<CardProps, "hideShadow" | "className"> {
   size: CardSize;
   event: {
+    slug: string;
     title: string;
     image: string;
     date: Date;
@@ -15,7 +16,7 @@ interface CardEventProps extends Pick<CardProps, "hideShadow"> {
 }
 
 export function CardEvent(props: CardEventProps) {
-  const { event, size, hideLocale, hideShadow } = props;
+  const { event, size, hideLocale, hideShadow, className } = props;
 
   const hasInscricao = true;
 
@@ -26,6 +27,7 @@ export function CardEvent(props: CardEventProps) {
       titleMaxLines={3}
       image={event.image}
       hideShadow={hideShadow}
+      className={className}
       label={
         <div className="flex items-center gap-4 text-h5 text-gray-700 fill-gray-700">
           <div className="flex items-center gap-2">
@@ -35,7 +37,7 @@ export function CardEvent(props: CardEventProps) {
           {!hideLocale && (
             <div className="flex items-center gap-2">
               <IconLocation className="size-4" />
-              {event.date.toLocaleDateString("pt-BR")}
+              {event.locale}
             </div>
           )}
         </div>
@@ -43,7 +45,7 @@ export function CardEvent(props: CardEventProps) {
       actions={
         <nav className="flex items-center gap-2">
           <ButtonLink
-            to={`/events/1`}
+            to={`/events/${event.slug}`}
             skin={hasInscricao ? "primary" : "ghost"}
             size="md"
           >

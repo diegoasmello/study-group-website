@@ -1,13 +1,23 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { DotButton, useDotButton } from "./CarouselDotButton";
 import { Container } from "./Container";
-import { Button } from "./Button";
 
 import { useCallback } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { IconArrowAltBack, IconArrowAltForward } from "./icons";
+import { ButtonLink } from "./ButtonLink";
 
-export function CarouselHome() {
+export type CarouselHomeItem = {
+  id: number;
+  type: "action" | "event";
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  date: number;
+};
+
+export function CarouselHome({ items }: { items: CarouselHomeItem[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 38 }, [
     Autoplay({ delay: 3000, stopOnMouseEnter: true, stopOnInteraction: false }),
   ]);
@@ -30,15 +40,14 @@ export function CarouselHome() {
         ref={emblaRef}
       >
         <div className="embla__container flex">
-          <div className="embla__slide flex-[0_0_100%] -pl-8">
-            <Item />
-          </div>
-          <div className="embla__slide flex-[0_0_100%] -pl-8">
-            <Item />
-          </div>
-          <div className="embla__slide flex-[0_0_100%] -pl-8">
-            <Item />
-          </div>
+          {items.map((item) => (
+            <div
+              key={item.type + item.id}
+              className="embla__slide flex-[0_0_100%] -pl-8"
+            >
+              <Item item={item} />
+            </div>
+          ))}
         </div>
       </div>
       <Container className="flex items-center justify-between mt-6">
@@ -64,42 +73,38 @@ export function CarouselHome() {
   );
 }
 
-const Item = () => {
+const Item = ({ item }: { item: CarouselHomeItem }) => {
   return (
     <section className="w-full relative">
       <Container>
         <img
-          src="/assets/card-image.png"
-          alt={"dawdwa"}
+          src={item.image}
+          alt={item.title}
           className="object-cover rounded-3xl w-full mb-4 lg:mb-0 lg:rounded-r-none lg:rounded-l-[3.5rem] lg:h-[35rem] lg:w-[50vw] lg:absolute lg:top-0 lg:right-0"
         />
         <section className="grid grid-cols-12 gap-8">
           <div className="col-span-12 lg:col-span-4">
             <div className="flex flex-col gap-8 items-start">
               <div className="flex flex-col gap-4">
-                <span className="text-primary font-medium">Ação</span>
+                <span className="text-primary font-medium">
+                  {item.type === "action" ? "Ação" : "Evento"}
+                </span>
                 <span className="text-h1-display line-clamp-4">
-                  Curso de Letras realiza palestras e encontros on-line curso de
-                  Letras realiza palestras e encontros on-line curso de Letras
-                  realiza palestras e encontros on-line curso de Letras realiza
-                  palestras e encontros on-line
+                  {item.title}
                 </span>
                 <p className="text-lead-1 text-gray-800 line-clamp-5">
-                  Confira a programação de atividades já prevista para o mês de
-                  dezembro e outros encontros que ainda estão sendo preparados.
-                  Confira a programação de atividades já prevista para o mês de
-                  dezembro e outros encontros que ainda estão sendo preparados.
-                  Confira a programação de atividades já prevista para o mês de
-                  dezembro e outros encontros que ainda estão sendo preparados.
-                  Confira a programação de atividades já prevista para o mês de
-                  dezembro e outros encontros que ainda estão sendo preparados.
-                  Confira a programação de atividades já prevista para o mês de
-                  dezembro e outros encontros que ainda estão sendo preparados.
-                  Confira a programação de atividades já prevista para o mês de
-                  dezembro e outros encontros que ainda estão sendo preparados.
+                  {item.description}
                 </p>
               </div>
-              <Button>Saiba mais</Button>
+              <ButtonLink
+                to={
+                  item.type === "action"
+                    ? `/actions/${item.slug}`
+                    : `/events/${item.slug}`
+                }
+              >
+                Saiba mais
+              </ButtonLink>
             </div>
           </div>
         </section>

@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/react";
+import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { CardProject } from "~/components/CardProject";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
@@ -13,7 +13,21 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader() {
+  const projects = await prisma.project.findMany({
+    include: {
+      researchers: true,
+    },
+    where: {
+      published: true,
+    },
+  });
+  return json({ projects });
+}
+
 export default function Projects() {
+  const { projects } = useLoaderData<typeof loader>();
+
   return (
     <main className="pb-20 bg-page">
       <PageBanner
@@ -30,19 +44,19 @@ export default function Projects() {
       />
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
-          {Array(9)
-            .fill(null)
-            .map((_, index) => (
-              <div key={index} className="col-span-12 lg:col-span-4">
-                <CardProject
-                  project={{
-                    title: "Lorem ipsum",
-                    image: "/assets/card-image.png",
-                    link: "/projects/1",
-                  }}
-                />
-              </div>
-            ))}
+          {projects.map((project) => (
+            <div key={project.id} className="col-span-12 lg:col-span-4">
+              <CardProject
+                className="h-full"
+                project={{
+                  slug: project.slug,
+                  title: project.title,
+                  image: project.image,
+                  link: project.link,
+                }}
+              />
+            </div>
+          ))}
           <div className="col-span-12 flex justify-center mt-8 mb-10">
             <Paginator />
           </div>

@@ -1,3 +1,4 @@
+import { json, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
@@ -7,56 +8,55 @@ import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { IconCalendar, IconContract, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import { prisma } from "~/lib/prisma.server";
+import { customJoin } from "~/util";
+
+export async function loader({ params }: { params: { slug: string } }) {
+  const publication = await prisma.publication.findUnique({
+    where: {
+      slug: params.slug,
+    },
+    include: {
+      researchers: true,
+    },
+  });
+  return json({ publication });
+}
 
 export default function ViewPublication() {
+  const { publication } = useLoaderData<typeof loader>();
+
+  if (!publication) return null;
+
   return (
     <main className="pt-12 pb-20 bg-page">
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-10 lg:gap-y-6">
           <div className="col-span-12 lg:col-span-8">
-            <h1 className="text-h2 text-gray-950 mb-6">
-              Práticas translíngues como recurso no acolhimento de migrantes
-              venezuelanos em sala de aula de língua portuguesa
-            </h1>
+            <h1 className="text-h2 text-gray-950 mb-6">{publication.title}</h1>
             <ul className="flex flex-col gap-2 mb-8">
               <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
                 <IconCalendar className="size-4" />
-                <span>item</span>
+                <span>
+                  {new Date(publication.date).toLocaleDateString("pt-BR")}
+                </span>
               </li>
-              <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
-                <IconSignature className="size-4" />
-                <span>item</span>
-              </li>
+              {publication.researchers?.length && (
+                <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
+                  <IconSignature className="size-4" />
+                  <span>
+                    {customJoin(
+                      publication?.researchers?.map(
+                        (research) => research.name
+                      ) ?? []
+                    )}
+                  </span>
+                </li>
+              )}
             </ul>
             <h2 className="text-h4 text-gray-950 mb-2">Resumo</h2>
             <div className="mb-6">
-              <p className="text-gray-950 mb-6">
-                O presente artigo resgata uma das primeiras ações promovidas
-                pelo Grupo de Estudos em Linguagem e Transculturalidade
-                (GELT-CNPq) e pelo Programa de Educação Tutorial
-                (PET-Letras-UFGD) para o acolhimento de crianças venezuelanas
-                que se encontram em situação de migração forçada no Brasil,
-                estudantes em escolas públicas na cidade de Dourados-MS.
-                Provenientes de uma pesquisa-ação, os dados discutidos são
-                resultados de um projeto piloto em que integrantes dos dois
-                grupos elaboraram ações de intervenção escolar por meio de
-                práticas translíngues em aulas de Língua Portuguesa na educação
-                básica. Destaca-se um momento significativo da intervenção em
-                que uma estudante (filha de migrantes venezuelanos) desloca-se
-                do lugar de quem não sabe para o lugar daquela que tem o
-                conhecimento importante para a situação construída
-                pedagogicamente. Inspiradas na proposta de uma educação
-                linguística ampliada, desenvolvida por Marilda Calvalcanti,
-                problematizamos na prática o conceito de translinguagem/práticas
-                translíngues em articulação com o pensamento decolonial. Nosso
-                objetivo é ‘tornar visíveis’ resultados de ações que, por meio
-                de uma perspectiva decolonial dos estudos sobre
-                bi/multilinguismo, contribuem na formação de professores para a
-                diversidade e a pluralidade cultural, social e linguística,
-                assim como na elaboração de políticas linguísticas de
-                acolhimento de sujeitos bilinguajantes em aulas de Língua
-                Portuguesa.
-              </p>
+              <p className="text-gray-950 mb-6">{publication.content}</p>
             </div>
             <nav className="flex gap-4 lg:mb-6">
               <Button>Ler</Button>
@@ -113,12 +113,12 @@ export default function ViewPublication() {
                           size="default"
                           hideShadow={!isSlideInView(index)}
                           publication={{
+                            slug: "1",
                             title:
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                             description:
                               "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                            author:
-                              "Velit Esse, Cillum Dolore e Fugiat Nulla Pariatur.",
+                            researchers: [],
                             date: new Date(),
                           }}
                         />

@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/react";
+import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { CardAction } from "~/components/CardAction";
 import { Container } from "~/components/Container";
 import { TextInput } from "~/components/form-fields/TextInput";
@@ -7,6 +7,7 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import data from "~/data";
+import { prisma } from "~/lib/prisma.server";
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,7 +16,18 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader() {
+  const actions = await prisma.action.findMany({
+    where: {
+      published: true,
+    },
+  });
+  return json({ actions });
+}
+
 export default function Actions() {
+  const { actions } = useLoaderData<typeof loader>();
+
   return (
     <main className="pb-20 bg-page">
       <PageBanner
@@ -41,22 +53,20 @@ export default function Actions() {
             />
           </div>
 
-          {Array(6)
-            .fill(null)
-            .map((_, index) => (
-              <div key={index} className="col-span-12 lg:col-span-6">
-                <CardAction
-                  key={index}
-                  size="extended"
-                  action={{
-                    title:
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                    image: "/assets/card-image.png",
-                    date: new Date(),
-                  }}
-                />
-              </div>
-            ))}
+          {actions.map((action) => (
+            <div key={action.id} className="col-span-12 lg:col-span-6">
+              <CardAction
+                size="extended"
+                className="h-full"
+                action={{
+                  slug: action.slug,
+                  title: action.title,
+                  image: action.image,
+                  date: new Date(action.date),
+                }}
+              />
+            </div>
+          ))}
 
           <div className="col-span-12 flex justify-center mt-8 mb-10">
             <Paginator />

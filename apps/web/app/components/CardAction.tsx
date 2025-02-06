@@ -2,9 +2,10 @@ import { Card, CardProps, CardSize } from "./Card";
 import { ButtonLink } from "./ButtonLink";
 import { IconCalendar } from "./icons";
 
-interface CardActionProps extends Pick<CardProps, "hideShadow"> {
+interface CardActionProps extends Pick<CardProps, "hideShadow" | "className"> {
   size: CardSize;
   action: {
+    slug: string;
     title: string;
     image: string;
     date: Date;
@@ -12,7 +13,7 @@ interface CardActionProps extends Pick<CardProps, "hideShadow"> {
 }
 
 export function CardAction(props: CardActionProps) {
-  const { action, size, hideShadow } = props;
+  const { action, size, hideShadow, className } = props;
 
   return (
     <Card
@@ -21,6 +22,7 @@ export function CardAction(props: CardActionProps) {
       titleMaxLines={3}
       image={action.image}
       hideShadow={hideShadow}
+      className={className}
       label={
         <div className="flex items-center gap-2 text-h5 text-gray-700 fill-gray-700">
           <IconCalendar className="size-4" />
@@ -29,7 +31,7 @@ export function CardAction(props: CardActionProps) {
       }
       actions={
         <ButtonLink
-          to={`/actions/1`}
+          to={`/actions/${action.slug}`}
           skin={size === "extended" ? "primary" : "ghost"}
           size="md"
         >

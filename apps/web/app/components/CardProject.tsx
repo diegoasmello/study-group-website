@@ -1,8 +1,10 @@
 import { Card, CardProps } from "./Card";
 import { ButtonLink } from "./ButtonLink";
 
-interface CardProjectProps extends Pick<CardProps, "hideShadow" | "type"> {
+interface CardProjectProps
+  extends Pick<CardProps, "hideShadow" | "type" | "className"> {
   project: {
+    slug: string;
     title: string;
     image: string;
     link: string;
@@ -10,7 +12,7 @@ interface CardProjectProps extends Pick<CardProps, "hideShadow" | "type"> {
 }
 
 export function CardProject(props: CardProjectProps) {
-  const { project, type = "float", hideShadow } = props;
+  const { project, type = "float", hideShadow, className } = props;
 
   return (
     <Card
@@ -19,8 +21,9 @@ export function CardProject(props: CardProjectProps) {
       imageAsIcon
       hideShadow={hideShadow}
       type={type}
+      className={className}
       actions={
-        <ButtonLink to={project.link} skin="ghost" size="md">
+        <ButtonLink to={`/projects/${project.slug}`} skin="ghost" size="md">
           Saiba mais
         </ButtonLink>
       }

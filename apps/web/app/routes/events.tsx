@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/react";
+import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { CardEvent } from "~/components/CardEvent";
 import { Container } from "~/components/Container";
 import { TextInput } from "~/components/form-fields/TextInput";
@@ -7,6 +7,7 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import data from "~/data";
+import { prisma } from "~/lib/prisma.server";
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,7 +16,18 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader() {
+  const events = await prisma.event.findMany({
+    where: {
+      published: true,
+    },
+  });
+  return json({ events });
+}
+
 export default function Events() {
+  const { events } = useLoaderData<typeof loader>();
+
   return (
     <main className="pb-20 bg-page">
       <PageBanner
@@ -41,23 +53,21 @@ export default function Events() {
             />
           </div>
 
-          {Array(6)
-            .fill(null)
-            .map((_, index) => (
-              <div key={index} className="col-span-12 lg:col-span-6">
-                <CardEvent
-                  key={index}
-                  size="extended"
-                  event={{
-                    title:
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                    image: "/assets/card-image.png",
-                    date: new Date(),
-                    locale: "Online",
-                  }}
-                />
-              </div>
-            ))}
+          {events.map((event) => (
+            <div key={event.id} className="col-span-12 lg:col-span-6">
+              <CardEvent
+                size="extended"
+                className="h-full"
+                event={{
+                  slug: event.slug,
+                  title: event.title,
+                  image: event.image,
+                  date: new Date(event.date),
+                  locale: event.locale,
+                }}
+              />
+            </div>
+          ))}
 
           <div className="col-span-12 flex justify-center mt-8 mb-10">
             <Paginator />

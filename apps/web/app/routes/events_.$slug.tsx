@@ -1,3 +1,4 @@
+import { json, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
@@ -7,54 +8,35 @@ import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import { prisma } from "~/lib/prisma.server";
+
+export async function loader({ params }: { params: { slug: string } }) {
+  const event = await prisma.event.findUnique({
+    where: {
+      slug: params.slug,
+    },
+  });
+  return json({ event });
+}
 
 export default function ViewEvent() {
+  const { event } = useLoaderData<typeof loader>();
+
+  if (!event) return null;
+
   return (
     <main className="pb-20  bg-page">
       <img
-        src="/assets/card-image.png"
+        src={event.image}
         alt=""
         className="h-[340px] lg:h-[600px] w-full object-cover mb-12"
       />
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-10 lg:gap-y-6">
           <div className="col-span-12 lg:col-span-8">
-            <h1 className="text-h1 text-gray-950 mb-6">
-              Línguas e políticas linguísticas no atendimento à saúde
-            </h1>
+            <h1 className="text-h1 text-gray-950 mb-6">{event.title}</h1>
             <div className="mb-6">
-              <p className="text-gray-950">
-                O curso de extensão “Línguas e políticas linguísticas no
-                atendimento à saúde” nasce da parceria entre o Instituto de
-                Investigação e Desenvolvimento em Políticas Linguísticas (IPOL),
-                o Grupo de Estudos em Linguagem e Transculturalidade
-                (GELT/CNPq/UFGD), a Cátedra UNESCO de Políticas Linguísticas
-                para o Multilinguismo, para contribuir com algumas necessidades
-                urgentes que envolvem o uso das línguas e o sistema de saúde
-                brasileiro, em especial nas regiões fronteiriças. Dados do
-                relatório consolidado do Observatório das Migrações
-                Internacionais (OBMigra - 2023) revelam tendência de crescimento
-                dos processos migratórios internacionais e a consolidação do
-                eixo migratório do Sul Global em direção ao Brasil. Em 2022, a
-                principal nacionalidade a buscar residência no país foi a
-                venezuelana, seguida de boliviana, colombiana, argentina, cubana
-                e haitiana. Os dados disponibilizados mostram o aumento e a
-                capilaridade dos imigrantes nas diferentes regiões do país, com
-                um número estimado de 1,5 milhão de imigrantes entre 2011 e
-                2022, somando os de registros migratórios para solicitantes de
-                refúgio e refugiados. Tal situação geopolítica têm impacto
-                direto nos repertórios e nas práticas linguísticas locais, bem
-                como produzem tensões, hierarquias e desigualdades em diversos
-                setores da sociedade, como é o caso do atendimento à saúde.
-                Acrescenta-se a esse cenário, a diversidade das comunidades
-                indígenas, das populações transfronteiriças e das comunidades
-                surdas que vivem e se deslocam no território nacional. Diante do
-                exposto, o curso visa a formação de profissionais da saúde
-                oferecendo uma abordagem do multilinguismo que caracteriza a
-                sociedade brasileira, análises de contextos específicos e
-                discussão sobre possíveis encaminhamentos que possam viabilizar
-                a garantia da acessibilidade linguística no atendimento à saúde.
-              </p>
+              <p className="text-gray-950">{event.content}</p>
             </div>
             <nav className="flex gap-4 mb-6">
               <Button>Inscrever-se</Button>
@@ -70,21 +52,23 @@ export default function ViewEvent() {
                   <span className="text-h5 uppercase font-medium text-gray-600">
                     Carga horária
                   </span>
-                  <span className="text-gray-950">Lorem Ipsum.</span>
+                  <span className="text-gray-950">{event.workload} horas</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
                     Data e hora
                   </span>
-                  <p className="text-gray-950">Lorem Ipsum.</p>
+                  <p className="text-gray-950">
+                    {new Date(event.date).toLocaleDateString("pt-BR")}
+                  </p>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
                     Local
                   </span>
-                  <span className="text-gray-950">Lorem Ipsum.</span>
+                  <span className="text-gray-950">{event.locale}</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <Link to="/">
@@ -111,6 +95,8 @@ export default function ViewEvent() {
                           hideShadow={!isSlideInView(index)}
                           hideLocale
                           event={{
+                            id: 1,
+                            slug: "",
                             title:
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                             image: "/assets/card-image.png",
