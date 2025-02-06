@@ -9,6 +9,7 @@ import { IconArrowForward } from "~/components/icons";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
+import { getRelatedTerms } from "~/util/getRelatedTerms";
 
 export async function loader({ params }: { params: { slug: string } }) {
   const event = await prisma.event.findUnique({
@@ -16,11 +17,39 @@ export async function loader({ params }: { params: { slug: string } }) {
       slug: params.slug,
     },
   });
-  return json({ event });
+
+  const { terms } = getRelatedTerms(event?.title, event?.keywords);
+
+  const related = await prisma.event.findMany({
+    where: {
+      published: true,
+      id: {
+        not: event?.id,
+      },
+      OR: terms.map((term) => ({
+        OR: [
+          {
+            title: {
+              contains: term,
+              mode: "insensitive",
+            },
+          },
+          {
+            keywords: {
+              contains: term,
+              mode: "insensitive",
+            },
+          },
+        ],
+      })),
+    },
+  });
+
+  return json({ event, related });
 }
 
 export default function ViewEvent() {
-  const { event } = useLoaderData<typeof loader>();
+  const { event, related } = useLoaderData<typeof loader>();
 
   if (!event) return null;
 
@@ -83,29 +112,25 @@ export default function ViewEvent() {
             <div className="w-full">
               <Carousel>
                 {(isSlideInView) =>
-                  Array(9)
-                    .fill(null)
-                    .map((_, index) => (
-                      <div
-                        key={index}
-                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                      >
-                        <CardEvent
-                          size="default"
-                          hideShadow={!isSlideInView(index)}
-                          hideLocale
-                          event={{
-                            id: "1",
-                            slug: "",
-                            title:
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                            image: "/assets/card-image.png",
-                            date: new Date(),
-                            locale: "Online",
-                          }}
-                        />
-                      </div>
-                    ))
+                  related.map((relatedEvent, index) => (
+                    <div
+                      key={index}
+                      className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                    >
+                      <CardEvent
+                        size="default"
+                        hideShadow={!isSlideInView(index)}
+                        hideLocale
+                        event={{
+                          slug: relatedEvent.slug,
+                          title: relatedEvent.title,
+                          image: relatedEvent.image,
+                          date: new Date(relatedEvent.date),
+                          locale: relatedEvent.locale,
+                        }}
+                      />
+                    </div>
+                  ))
                 }
               </Carousel>
             </div>

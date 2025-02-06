@@ -10,6 +10,7 @@ import { IconCalendar, IconContract, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
 import { customJoin } from "~/util";
+import { getRelatedTerms } from "~/util/getRelatedTerms";
 
 export async function loader({ params }: { params: { slug: string } }) {
   const publication = await prisma.publication.findUnique({
@@ -20,11 +21,42 @@ export async function loader({ params }: { params: { slug: string } }) {
       researchers: true,
     },
   });
-  return json({ publication });
+
+  const { terms } = getRelatedTerms(publication?.title, publication?.keywords);
+
+  const related = await prisma.publication.findMany({
+    include: {
+      researchers: true,
+    },
+    where: {
+      published: true,
+      id: {
+        not: publication?.id,
+      },
+      OR: terms.map((term) => ({
+        OR: [
+          {
+            title: {
+              contains: term,
+              mode: "insensitive",
+            },
+          },
+          {
+            keywords: {
+              contains: term,
+              mode: "insensitive",
+            },
+          },
+        ],
+      })),
+    },
+  });
+
+  return json({ publication, related });
 }
 
 export default function ViewPublication() {
-  const { publication } = useLoaderData<typeof loader>();
+  const { publication, related } = useLoaderData<typeof loader>();
 
   if (!publication) return null;
 
@@ -102,28 +134,24 @@ export default function ViewPublication() {
             <div className="w-full">
               <Carousel>
                 {(isSlideInView) =>
-                  Array(9)
-                    .fill(null)
-                    .map((_, index) => (
-                      <div
-                        key={index}
-                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                      >
-                        <CardPublication
-                          size="default"
-                          hideShadow={!isSlideInView(index)}
-                          publication={{
-                            slug: "1",
-                            title:
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                            description:
-                              "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                            researchers: [],
-                            date: new Date(),
-                          }}
-                        />
-                      </div>
-                    ))
+                  related.map((relatedPublication, index) => (
+                    <div
+                      key={relatedPublication.id}
+                      className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                    >
+                      <CardPublication
+                        size="default"
+                        hideShadow={!isSlideInView(index)}
+                        publication={{
+                          slug: relatedPublication.slug,
+                          title: relatedPublication.title,
+                          description: relatedPublication.content,
+                          researchers: relatedPublication.researchers,
+                          date: new Date(relatedPublication.date),
+                        }}
+                      />
+                    </div>
+                  ))
                 }
               </Carousel>
             </div>

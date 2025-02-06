@@ -68,7 +68,7 @@ export default function History() {
                           hideShadow={!isSlideInView(index)}
                           teamMember={{
                             name: "Harry Potter",
-                            label: "Auror",
+                            role: "Auror",
                             image: "/assets/card-image.png",
                             link: "/",
                           }}

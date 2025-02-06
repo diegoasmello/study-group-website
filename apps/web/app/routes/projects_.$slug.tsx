@@ -11,6 +11,7 @@ import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
 import { customJoin } from "~/util";
+import { getRelatedTerms } from "~/util/getRelatedTerms";
 
 export async function loader({ params }: { params: { slug: string } }) {
   const project = await prisma.project.findUnique({
@@ -21,11 +22,39 @@ export async function loader({ params }: { params: { slug: string } }) {
       researchers: true,
     },
   });
-  return json({ project });
+
+  const { terms } = getRelatedTerms(project?.title, project?.keywords);
+
+  const related = await prisma.project.findMany({
+    where: {
+      published: true,
+      id: {
+        not: project?.id,
+      },
+      OR: terms.map((term) => ({
+        OR: [
+          {
+            title: {
+              contains: term,
+              mode: "insensitive",
+            },
+          },
+          {
+            keywords: {
+              contains: term,
+              mode: "insensitive",
+            },
+          },
+        ],
+      })),
+    },
+  });
+
+  return json({ project, related });
 }
 
 export default function ViewProject() {
-  const { project } = useLoaderData<typeof loader>();
+  const { project, related } = useLoaderData<typeof loader>();
 
   if (!project) return null;
 
@@ -90,24 +119,22 @@ export default function ViewProject() {
             <div className="w-full">
               <Carousel>
                 {(isSlideInView) =>
-                  Array(9)
-                    .fill(null)
-                    .map((_, index) => (
-                      <div
-                        key={index}
-                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                      >
-                        <CardProject
-                          project={{
-                            slug: "1",
-                            title: "Lorem ipsum",
-                            image: "/assets/card-image.png",
-                            link: "/projects/1",
-                          }}
-                          hideShadow={!isSlideInView(index)}
-                        />
-                      </div>
-                    ))
+                  related.map((relatedProject, index) => (
+                    <div
+                      key={relatedProject.id}
+                      className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                    >
+                      <CardProject
+                        project={{
+                          slug: relatedProject.slug,
+                          title: relatedProject.title,
+                          image: relatedProject.image,
+                          link: relatedProject.link,
+                        }}
+                        hideShadow={!isSlideInView(index)}
+                      />
+                    </div>
+                  ))
                 }
               </Carousel>
             </div>

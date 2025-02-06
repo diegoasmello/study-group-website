@@ -5,6 +5,7 @@ import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
+import { getRelatedTerms } from "~/util/getRelatedTerms";
 
 export async function loader({ params }: { params: { slug: string } }) {
   const action = await prisma.action.findUnique({
@@ -12,11 +13,39 @@ export async function loader({ params }: { params: { slug: string } }) {
       slug: params.slug,
     },
   });
-  return json({ action });
+
+  const { terms } = getRelatedTerms(action?.title, action?.keywords);
+
+  const related = await prisma.action.findMany({
+    where: {
+      published: true,
+      id: {
+        not: action?.id,
+      },
+      OR: terms.map((term) => ({
+        OR: [
+          {
+            title: {
+              contains: term,
+              mode: "insensitive",
+            },
+          },
+          {
+            keywords: {
+              contains: term,
+              mode: "insensitive",
+            },
+          },
+        ],
+      })),
+    },
+  });
+
+  return json({ action, related });
 }
 
 export default function ViewAction() {
-  const { action } = useLoaderData<typeof loader>();
+  const { action, related } = useLoaderData<typeof loader>();
 
   if (!action) return null;
 
@@ -43,26 +72,23 @@ export default function ViewAction() {
             <div className="w-full">
               <Carousel>
                 {(isSlideInView) =>
-                  Array(9)
-                    .fill(null)
-                    .map((_, index) => (
-                      <div
-                        key={index}
-                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                      >
-                        <CardAction
-                          size="default"
-                          action={{
-                            slug: "",
-                            title:
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                            image: "/assets/card-image.png",
-                            date: new Date(),
-                          }}
-                          hideShadow={!isSlideInView(index)}
-                        />
-                      </div>
-                    ))
+                  related.map((relatedAction, index) => (
+                    <div
+                      key={relatedAction.id}
+                      className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                    >
+                      <CardAction
+                        size="default"
+                        action={{
+                          slug: relatedAction.slug,
+                          title: relatedAction.title,
+                          image: relatedAction.image,
+                          date: new Date(relatedAction.date),
+                        }}
+                        hideShadow={!isSlideInView(index)}
+                      />
+                    </div>
+                  ))
                 }
               </Carousel>
             </div>
