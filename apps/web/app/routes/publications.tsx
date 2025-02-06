@@ -24,6 +24,25 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
+  const researchAreas = await prisma.researchArea.findMany({
+    select: {
+      id: true,
+      title: true,
+    },
+  });
+  const researchers = await prisma.researcher.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+    where: {
+      publications: {
+        some: {
+          published: true,
+        },
+      },
+    },
+  });
   const publications = await prisma.publication.findMany({
     include: {
       researchers: true,
@@ -34,11 +53,12 @@ export async function loader() {
     },
   });
 
-  return json({ publications });
+  return json({ researchAreas, researchers, publications });
 }
 
 export default function Publications() {
-  const { publications } = useLoaderData<typeof loader>();
+  const { researchAreas, researchers, publications } =
+    useLoaderData<typeof loader>();
 
   return (
     <main className="pb-20 bg-page">
@@ -61,6 +81,7 @@ export default function Publications() {
               <CardPublication
                 key={publication.id}
                 size="extended"
+                hideText
                 publication={{
                   slug: publication.slug,
                   title: publication.title,
@@ -81,20 +102,23 @@ export default function Publications() {
               />
               <FormControl label="Áreas de pesquisa">
                 <div className="flex flex-col gap-2">
-                  <CheckboxInput label="Leitura e Escrita" />
-                  <CheckboxInput label="Multilinguismo" />
-                  <CheckboxInput label="Transculturalidade" />
+                  {researchAreas.map((researchArea) => (
+                    <CheckboxInput
+                      key={researchArea.id}
+                      label={researchArea.title}
+                      value={researchArea.id}
+                    />
+                  ))}
                 </div>
               </FormControl>
               <ComboboxInput
                 name="b"
-                label="Autores"
+                label="Autor(a)"
                 immediate
-                items={[
-                  { label: "Harry Potter", value: "hp" },
-                  { label: "Hermione Granger", value: "hg" },
-                  { label: "Rony Weasley", value: "rw" },
-                ]}
+                items={researchers.map((researcher) => ({
+                  label: researcher.name,
+                  value: researcher.id.toString(),
+                }))}
               />
               <DateRangeInput label="Período da publicação" />
               <Button size="md">Buscar</Button>

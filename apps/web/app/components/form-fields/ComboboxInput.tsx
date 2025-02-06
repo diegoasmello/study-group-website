@@ -33,14 +33,13 @@ export function ComboboxInput(props: ComboboxInputProps) {
   return (
     <FormControl label={label} htmlFor={name} required={required}>
       <Combobox
-        //   value={selectedPerson}
-        //   onChange={setSelectedPerson}
         immediate={immediate}
+        defaultValue={filteredItems[0]}
         onClose={() => setQuery("")}
       >
         <div className="relative w-full">
           <HUIComboboxInput
-            //   displayValue={(item: ComboboxItem) => item.label}
+            displayValue={(item: ComboboxItem) => item?.label}
             onChange={(event) => setQuery(event.target.value)}
             className="
             w-full h-[2.75rem] border rounded-xl px-4 pr-10
@@ -65,7 +64,7 @@ export function ComboboxInput(props: ComboboxInputProps) {
           {filteredItems.map((item) => (
             <ComboboxOption
               key={item.value}
-              value={item.value}
+              value={item}
               className="h-[2.75rem] min-h-[2.75rem] flex items-center px-4 bg-white rounded-lg transition data-[focus]:bg-primary-lighter cursor-pointer "
             >
               {item.label}

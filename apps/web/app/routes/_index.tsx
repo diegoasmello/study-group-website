@@ -1,5 +1,4 @@
 import { json, type MetaFunction } from "@remix-run/node";
-
 import { Card } from "~/components/Card";
 import { CardAction } from "~/components/CardAction";
 import { CardEvent } from "~/components/CardEvent";
@@ -7,15 +6,12 @@ import { CardPublication } from "~/components/CardPublication";
 import { Container } from "~/components/Container";
 import { Link } from "~/components/Link";
 import { IconArrowForward } from "~/components/icons/IconArrowForward";
-
 import { NewsletterBanner } from "~/components/NewsletterBanner";
-
 import data from "~/data";
 import { Carousel } from "~/components/Carousel";
 import { CarouselHome, CarouselHomeItem } from "~/components/CarouselHome";
-import { ButtonLink } from "~/components/ButtonLink";
-
 import { prisma } from "~/lib/prisma.server";
+import { ButtonLink } from "~/components/ButtonLink";
 import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {

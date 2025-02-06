@@ -8,6 +8,7 @@ interface CardPublicationProps
   extends Pick<React.ComponentProps<"div">, "className">,
     Pick<CardProps, "hideShadow"> {
   size: CardSize;
+  hideText?: boolean;
   publication: {
     slug: string;
     title: string;
@@ -21,7 +22,7 @@ interface CardPublicationProps
 }
 
 export function CardPublication(props: CardPublicationProps) {
-  const { size, publication, hideShadow, className } = props;
+  const { size, publication, hideShadow, hideText, className } = props;
 
   const researchersText = customJoin(
     publication?.researchers?.map((research) => research.name) ?? []
@@ -50,7 +51,13 @@ export function CardPublication(props: CardPublicationProps) {
           </div>
         ) : null
       }
-      text={size === "default" ? researchersText : publication.description}
+      text={
+        !hideText
+          ? size === "default"
+            ? researchersText
+            : publication.description
+          : null
+      }
       actions={
         <nav className="flex items-center gap-2">
           <ButtonLink
