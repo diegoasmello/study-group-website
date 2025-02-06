@@ -1,4 +1,6 @@
-import { json, MetaFunction, useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { Form, json, MetaFunction, useLoaderData } from "@remix-run/react";
+import { parseISO } from "date-fns";
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
@@ -6,7 +8,10 @@ import { CardResearch } from "~/components/CardResearch";
 import { Container } from "~/components/Container";
 import { CheckboxInput } from "~/components/form-fields/CheckboxInput";
 import { ComboboxInput } from "~/components/form-fields/ComboboxInput";
-import { DateRangeInput } from "~/components/form-fields/DateRangeInput";
+import {
+  DateRange,
+  DateRangeInput,
+} from "~/components/form-fields/DateRangeInput";
 import { FormControl } from "~/components/form-fields/FormControl";
 import { TextInput } from "~/components/form-fields/TextInput";
 import { IconSearch } from "~/components/icons";
@@ -23,7 +28,17 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export async function loader() {
+export async function loader({ request }: LoaderFunctionArgs) {
+  const url = new URL(request.url);
+
+  const searchParams = {
+    query: url.searchParams.get("q"),
+    researchAreas: url.searchParams.get("researchAreas"),
+    researcher: decodeURI(url.searchParams.get("researcher") ?? ""),
+    startDate: url.searchParams.get("startDate"),
+    endDate: url.searchParams.get("endDate"),
+  };
+
   const researchAreas = await prisma.researchArea.findMany({
     select: {
       id: true,
@@ -37,7 +52,7 @@ export async function loader() {
     },
     where: {
       publications: {
-        some: {
+        every: {
           published: true,
         },
       },
@@ -50,15 +65,50 @@ export async function loader() {
     },
     where: {
       published: true,
+      researchers: {
+        some: {
+          id: searchParams.researcher
+            ? Number(searchParams.researcher)
+            : undefined,
+        },
+      },
+      title: {
+        contains: searchParams.query ?? undefined,
+        mode: "insensitive",
+      },
+      researchAreaId: {
+        equals: searchParams.researchAreas
+          ? Number(searchParams.researchAreas)
+          : undefined,
+      },
+      date: {
+        gte: searchParams.startDate
+          ? parseISO(searchParams.startDate)
+          : undefined,
+        lte: searchParams.endDate ? parseISO(searchParams.endDate) : undefined,
+      },
     },
   });
 
-  return json({ researchAreas, researchers, publications });
+  return json({ researchAreas, researchers, publications, searchParams });
 }
 
 export default function Publications() {
-  const { researchAreas, researchers, publications } =
+  const { researchAreas, researchers, publications, searchParams } =
     useLoaderData<typeof loader>();
+
+  const researchersInputItems = [
+    { label: "Todos", value: "" },
+    ...researchers.map((researcher) => ({
+      label: researcher.name,
+      value: researcher.id.toString(),
+    })),
+  ];
+
+  const dateRangeDefaultValue: DateRange = {
+    endDate: searchParams?.endDate ?? undefined,
+    startDate: searchParams?.startDate ?? undefined,
+  };
 
   return (
     <main className="pb-20 bg-page">
@@ -93,35 +143,40 @@ export default function Publications() {
             ))}
           </div>
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
-            <CardContainer className="p-6 flex flex-col items-start gap-6">
-              <TextInput
-                name={"a"}
-                placeholder="Pesquisa por título ou autor"
-                Icon={IconSearch}
-                className="w-full"
-              />
-              <FormControl label="Áreas de pesquisa">
-                <div className="flex flex-col gap-2">
-                  {researchAreas.map((researchArea) => (
-                    <CheckboxInput
-                      key={researchArea.id}
-                      label={researchArea.title}
-                      value={researchArea.id}
-                    />
-                  ))}
-                </div>
-              </FormControl>
-              <ComboboxInput
-                name="b"
-                label="Autor(a)"
-                immediate
-                items={researchers.map((researcher) => ({
-                  label: researcher.name,
-                  value: researcher.id.toString(),
-                }))}
-              />
-              <DateRangeInput label="Período da publicação" />
-              <Button size="md">Buscar</Button>
+            <CardContainer className="p-6 ">
+              <Form className="flex flex-col items-start gap-6">
+                <TextInput
+                  name="q"
+                  placeholder="Pesquisa por título ou autor"
+                  Icon={IconSearch}
+                  className="w-full"
+                  defaultValue={searchParams.query ?? undefined}
+                />
+                <FormControl label="Áreas de pesquisa">
+                  <div className="flex flex-col gap-2">
+                    {researchAreas.map((researchArea) => (
+                      <CheckboxInput
+                        name="researchAreas"
+                        key={researchArea.id}
+                        label={researchArea.title}
+                        value={researchArea.id}
+                      />
+                    ))}
+                  </div>
+                </FormControl>
+                <ComboboxInput
+                  name="researcher"
+                  label="Autor(a)"
+                  immediate
+                  items={researchersInputItems}
+                  defaultValue={searchParams.researcher}
+                />
+                <DateRangeInput
+                  label="Período da publicação"
+                  defaultValue={dateRangeDefaultValue}
+                />
+                <Button size="md">Buscar</Button>
+              </Form>
             </CardContainer>
             <CardResearch />
           </div>

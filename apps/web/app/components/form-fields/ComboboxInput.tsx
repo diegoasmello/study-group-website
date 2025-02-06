@@ -11,15 +11,16 @@ import { IconChevronDown } from "../icons";
 
 type ComboboxItem = { label: string; value: string };
 
-interface ComboboxInputProps
+interface ComboboxInputProps<T>
   extends Omit<FormControlProps, "children" | "htmlFor"> {
   name: string;
   items: ComboboxItem[];
   immediate?: boolean;
+  defaultValue?: T;
 }
 
-export function ComboboxInput(props: ComboboxInputProps) {
-  const { items, name, label, required, immediate } = props;
+export function ComboboxInput<T>(props: ComboboxInputProps<T>) {
+  const { items, name, label, required, immediate, defaultValue } = props;
 
   const [query, setQuery] = useState("");
 
@@ -30,16 +31,23 @@ export function ComboboxInput(props: ComboboxInputProps) {
           return item.label.toLowerCase().includes(query.toLowerCase());
         });
 
+  const displayValue = (selectedValue: string) =>
+    filteredItems.find((item) => item.value === selectedValue)?.label ?? "";
+
+  // const computedDefaultValue = filteredItems.find((item) => item.value === defaultValue)
+
   return (
     <FormControl label={label} htmlFor={name} required={required}>
-      <Combobox
+      <Combobox<ComboboxItem["value"]>
+        name={name}
         immediate={immediate}
-        defaultValue={filteredItems[0]}
+        defaultValue={filteredItems[0].value}
         onClose={() => setQuery("")}
       >
         <div className="relative w-full">
           <HUIComboboxInput
-            displayValue={(item: ComboboxItem) => item?.label}
+            displayValue={displayValue as any}
+            // defaultValue={defaultValue}
             onChange={(event) => setQuery(event.target.value)}
             className="
             w-full h-[2.75rem] border rounded-xl px-4 pr-10
@@ -64,7 +72,7 @@ export function ComboboxInput(props: ComboboxInputProps) {
           {filteredItems.map((item) => (
             <ComboboxOption
               key={item.value}
-              value={item}
+              value={item.value}
               className="h-[2.75rem] min-h-[2.75rem] flex items-center px-4 bg-white rounded-lg transition data-[focus]:bg-primary-lighter cursor-pointer "
             >
               {item.label}

@@ -3,22 +3,32 @@ import { TextInput } from "./TextInput";
 
 interface DateRangeInputProps
   extends Omit<FormControlProps, "children">,
-    Omit<React.ComponentProps<"input">, "type"> {}
+    Omit<React.ComponentProps<"input">, "type" | "defaultValue"> {
+  defaultValue?: DateRange;
+}
 
-// type DateRange = {
-//   startDate: Date;
-//   endDate: Date;
-// };
+export type DateRange = {
+  startDate?: string;
+  endDate?: string;
+};
 
 export function DateRangeInput(props: DateRangeInputProps) {
-  const { label } = props;
+  const { label, defaultValue } = props;
 
   return (
     <FormControl label={label}>
       <div className="flex items-center gap-8">
-        <TextInput name={"a"} type="date" />
+        <TextInput
+          name="startDate"
+          type="date"
+          defaultValue={defaultValue?.startDate}
+        />
         <span className="text-gray-950 font-medium">até</span>
-        <TextInput name={"a"} type="date" />
+        <TextInput
+          name="endDate"
+          type="date"
+          defaultValue={defaultValue?.endDate}
+        />
       </div>
     </FormControl>
   );
