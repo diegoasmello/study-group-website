@@ -110,35 +110,37 @@ export default function ViewEvent() {
               </div>
             </CardContainer>
           </div>
-          <div className="col-span-12 flex flex-col gap-6 mb-8">
-            <h2 className="text-h3 text-gray-950">Outros eventos</h2>
-            <div className="w-full">
-              <Carousel>
-                {(isSlideInView) =>
-                  related.map((relatedEvent, index) => (
-                    <div
-                      key={index}
-                      className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                    >
-                      <CardEvent
-                        size="default"
-                        hideShadow={!isSlideInView(index)}
-                        hideLocale
-                        event={{
-                          slug: relatedEvent.slug,
-                          title: relatedEvent.title,
-                          image: relatedEvent.image,
-                          date: new Date(relatedEvent.date),
-                          locale: relatedEvent.locale,
-                        }}
-                      />
-                    </div>
-                  ))
-                }
-              </Carousel>
+          {!!related.length && (
+            <div className="col-span-12 flex flex-col gap-6">
+              <h2 className="text-h3 text-gray-950">Outros eventos</h2>
+              <div className="w-full">
+                <Carousel>
+                  {(isSlideInView) =>
+                    related.map((relatedEvent, index) => (
+                      <div
+                        key={index}
+                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                      >
+                        <CardEvent
+                          size="default"
+                          hideShadow={!isSlideInView(index)}
+                          hideLocale
+                          event={{
+                            slug: relatedEvent.slug,
+                            title: relatedEvent.title,
+                            image: relatedEvent.image,
+                            date: new Date(relatedEvent.date),
+                            locale: relatedEvent.locale,
+                          }}
+                        />
+                      </div>
+                    ))
+                  }
+                </Carousel>
+              </div>
             </div>
-          </div>
-          <div className="col-span-12">
+          )}
+          <div className="col-span-12 mt-8">
             <NewsletterBanner />
           </div>
         </section>

@@ -131,34 +131,38 @@ export default function ViewPublication() {
             </CardContainer>
             <CardResearch />
           </div>
-          <div className="col-span-12 flex flex-col gap-6 mb-8">
-            <h2 className="text-h3 text-gray-950">Publicações relacionadas</h2>
-            <div className="w-full">
-              <Carousel>
-                {(isSlideInView) =>
-                  related.map((relatedPublication, index) => (
-                    <div
-                      key={relatedPublication.id}
-                      className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                    >
-                      <CardPublication
-                        size="default"
-                        hideShadow={!isSlideInView(index)}
-                        publication={{
-                          slug: relatedPublication.slug,
-                          title: relatedPublication.title,
-                          description: relatedPublication.content,
-                          researchers: relatedPublication.researchers,
-                          date: new Date(relatedPublication.date),
-                        }}
-                      />
-                    </div>
-                  ))
-                }
-              </Carousel>
+          {!!related.length && (
+            <div className="col-span-12 flex flex-col gap-6">
+              <h2 className="text-h3 text-gray-950">
+                Publicações relacionadas
+              </h2>
+              <div className="w-full">
+                <Carousel>
+                  {(isSlideInView) =>
+                    related.map((relatedPublication, index) => (
+                      <div
+                        key={relatedPublication.id}
+                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                      >
+                        <CardPublication
+                          size="default"
+                          hideShadow={!isSlideInView(index)}
+                          publication={{
+                            slug: relatedPublication.slug,
+                            title: relatedPublication.title,
+                            description: relatedPublication.content,
+                            researchers: relatedPublication.researchers,
+                            date: new Date(relatedPublication.date),
+                          }}
+                        />
+                      </div>
+                    ))
+                  }
+                </Carousel>
+              </div>
             </div>
-          </div>
-          <div className="col-span-12">
+          )}
+          <div className="col-span-12 mt-8">
             <NewsletterBanner />
           </div>
         </section>
