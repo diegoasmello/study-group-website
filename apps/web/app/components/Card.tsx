@@ -18,6 +18,7 @@ export interface CardProps
   label?: JSX.Element | null;
   titleMaxLines?: 1 | 2 | 3 | 4 | 5 | 6;
   hideShadow?: boolean;
+  grow?: "icon" | "label" | "title" | "subtitle" | "text";
 }
 
 export function Card(props: CardProps) {
@@ -35,6 +36,7 @@ export function Card(props: CardProps) {
     // titleMaxLines,
     className,
     hideShadow,
+    grow = "title",
   } = props;
 
   const sizeClass = sizeStyles[size];
@@ -43,7 +45,12 @@ export function Card(props: CardProps) {
   //   titleMaxLines !== null && titleMaxLines !== undefined;
 
   return (
-    <CardContainer type={type} hideShadow={hideShadow} className={className}>
+    <CardContainer
+      type={type}
+      hideShadow={hideShadow}
+      className={className}
+      hasImage={!!image && !imageAsIcon}
+    >
       {image && !imageAsIcon && (
         <img
           src={image}
@@ -53,7 +60,12 @@ export function Card(props: CardProps) {
       )}
       <div className={twMerge("flex flex-col gap-4 p-6", sizeClass.card)}>
         {icon && (
-          <div className="size-[7.5rem] bg-primary-lighter flex items-center justify-center rounded-3xl">
+          <div
+            className={clsx(
+              "size-[7.5rem] bg-primary-lighter flex items-center justify-center rounded-3xl",
+              grow === "icon" ? "flex-1" : "flex-0"
+            )}
+          >
             {icon}
           </div>
         )}
@@ -61,25 +73,41 @@ export function Card(props: CardProps) {
           <img
             src={image}
             alt={title}
-            className="size-[7.5rem] rounded-3xl object-cover"
+            className={clsx(
+              "size-[7.5rem] rounded-3xl object-cover",
+              grow === "icon" ? "flex-1" : "flex-0"
+            )}
           />
         )}
-        {label}
+        {label && (
+          <div className={grow === "label" ? "flex-1" : "flex-0"}>{label}</div>
+        )}
         <div
           className={clsx(
             "text-h4 text-gray-950 font-medium line-clamp-3",
+            grow === "title" ? "flex-1" : "flex-0",
             sizeClass.title
           )}
         >
           {title}
         </div>
-        {subtitle}
+        {subtitle && (
+          <div className={grow === "subtitle" ? "flex-1" : "flex-0"}>
+            {subtitle}
+          </div>
+        )}
         {text && (
-          <span className={twMerge("text-gray-700", sizeClass.text)}>
+          <span
+            className={twMerge(
+              "text-gray-700",
+              sizeClass.text,
+              grow === "text" ? "flex-1" : "flex-0"
+            )}
+          >
             {text}
           </span>
         )}
-        {actions}
+        <div className="flex-0">{actions}</div>
       </div>
     </CardContainer>
   );
@@ -87,16 +115,19 @@ export function Card(props: CardProps) {
 
 export function CardContainer({
   type = "float",
+  hasImage = false,
   hideShadow,
   children,
   className,
-}: Pick<CardProps, "type" | "hideShadow"> & React.ComponentProps<"div">) {
+}: Pick<CardProps, "type" | "hideShadow"> &
+  React.ComponentProps<"div"> & { hasImage?: boolean }) {
   return (
     <div
       className={twMerge(
         clsx(
-          "w-full bg-white rounded-3xl overflow-hidden",
+          "grid w-full bg-white rounded-3xl overflow-hidden",
           !hideShadow && typeStyles[type],
+          hasImage && "grid-rows-[15rem,1fr]",
           className
         )
       )}

@@ -35,6 +35,7 @@ export function CardPublication(props: CardPublicationProps) {
       title={publication.title}
       titleMaxLines={3}
       hideShadow={hideShadow}
+      grow="text"
       subtitle={
         size === "extended" ? (
           <div className="flex items-center gap-4 text-h5 text-gray-700 fill-gray-700">
