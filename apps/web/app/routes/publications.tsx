@@ -44,7 +44,7 @@ export const meta: MetaFunction = () => {
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
 
-  const searchParams = clearSearchParams(url.searchParams);
+  const searchParams = parseSearchParams(url.searchParams);
 
   const researchAreas = await prisma.researchArea.findMany({
     select: {
@@ -118,7 +118,7 @@ export default function Publications() {
     useLoaderData<typeof loader>();
 
   const [searchParams] = useSearchParams();
-  const clearedSearchParams = clearSearchParams(searchParams);
+  const parsedSearchParams = parseSearchParams(searchParams);
 
   const researchersInputItems = [
     { label: "Todos", value: "" },
@@ -129,16 +129,17 @@ export default function Publications() {
   ];
 
   const dateRangeDefaultValue: DateRange = {
-    endDate: clearedSearchParams.endDate,
-    startDate: clearedSearchParams.startDate,
+    endDate: parsedSearchParams.endDate,
+    startDate: parsedSearchParams.startDate,
   };
 
-  const isFiltering = !!Object.values(clearedSearchParams).filter((i) => i)
+  const isFiltering = !!Object.values(parsedSearchParams).filter((i) => i)
     .length;
 
-  // const resetFilters = () => {
+  // const clearFilters = () => {
   //   // setSearchParams("", { flushSync: true });
-  //   navigate(".");
+  //   // navigate(".");
+  //   submit(null)
   // };
 
   return (
@@ -189,7 +190,7 @@ export default function Publications() {
                   placeholder="Pesquisa por título ou autor"
                   Icon={IconSearch}
                   className="w-full"
-                  defaultValue={clearedSearchParams.query}
+                  defaultValue={parsedSearchParams.query}
                 />
                 <FormControl label="Áreas de pesquisa">
                   <div className="flex flex-col gap-2">
@@ -199,7 +200,7 @@ export default function Publications() {
                         key={researchArea.id}
                         label={researchArea.title}
                         value={researchArea.id}
-                        defaultChecked={clearedSearchParams.researchAreas?.includes(
+                        defaultChecked={parsedSearchParams.researchAreas?.includes(
                           researchArea.id
                         )}
                       />
@@ -212,7 +213,7 @@ export default function Publications() {
                   immediate
                   items={researchersInputItems}
                   defaultValue={
-                    clearedSearchParams.researcher ?? researchersInputItems[0]
+                    parsedSearchParams.researcher ?? researchersInputItems[0]
                   }
                 />
                 <DateRangeInput
@@ -250,7 +251,7 @@ export default function Publications() {
   );
 }
 
-function clearSearchParams(searchParams: URLSearchParams) {
+function parseSearchParams(searchParams: URLSearchParams) {
   const researcher: ComboboxItem = JSON.parse(
     decodeURIComponent(searchParams.get("researcher")!)
   );

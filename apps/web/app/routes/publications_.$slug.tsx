@@ -9,8 +9,7 @@ import { Container } from "~/components/Container";
 import { IconCalendar, IconContract, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
-import { customJoin } from "~/util";
-import { getRelatedTerms } from "~/util/getRelatedTerms";
+import { listFormat, getRelatedTerms } from "~/util";
 
 export async function loader({ params }: { params: { slug: string } }) {
   const publication = await prisma.publication.findUnique({
@@ -77,7 +76,7 @@ export default function ViewPublication() {
                 <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
                   <IconSignature className="size-4" />
                   <span>
-                    {customJoin(
+                    {listFormat(
                       publication?.researchers?.map(
                         (research) => research.name
                       ) ?? []
@@ -88,7 +87,10 @@ export default function ViewPublication() {
             </ul>
             <h2 className="text-h4 text-gray-950 mb-2">Resumo</h2>
             <div className="mb-6">
-              <p className="text-gray-950 mb-6">{publication.content}</p>
+              <p
+                className="text-gray-950 mb-6"
+                dangerouslySetInnerHTML={{ __html: publication.content }}
+              />
             </div>
             <nav className="flex gap-4 lg:mb-6">
               <Button>Ler</Button>

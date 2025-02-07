@@ -9,7 +9,7 @@ import { IconArrowForward } from "~/components/icons";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
-import { getRelatedTerms } from "~/util/getRelatedTerms";
+import { getRelatedTerms } from "~/util";
 
 export async function loader({ params }: { params: { slug: string } }) {
   const event = await prisma.event.findUnique({
@@ -65,7 +65,10 @@ export default function ViewEvent() {
           <div className="col-span-12 lg:col-span-8">
             <h1 className="text-h1 text-gray-950 mb-6">{event.title}</h1>
             <div className="mb-6">
-              <p className="text-gray-950">{event.content}</p>
+              <p
+                className="text-gray-950"
+                dangerouslySetInnerHTML={{ __html: event.content }}
+              />
             </div>
             <nav className="flex gap-4 mb-6">
               <Button>Inscrever-se</Button>

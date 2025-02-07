@@ -5,7 +5,7 @@ import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
-import { getRelatedTerms } from "~/util/getRelatedTerms";
+import { getRelatedTerms } from "~/util";
 
 export async function loader({ params }: { params: { slug: string } }) {
   const action = await prisma.action.findUnique({
@@ -61,7 +61,10 @@ export default function ViewAction() {
           <div className="col-span-12">
             <h1 className="text-h1 text-gray-950 mb-6">{action.title}</h1>
             <div className="mb-6">
-              <p className="text-gray-950">{action.content}</p>
+              <p
+                className="text-gray-950"
+                dangerouslySetInnerHTML={{ __html: action.content }}
+              />
             </div>
             <nav className="flex gap-4 mb-6">
               <ButtonShare urlToShare="rwada">Compartilhar</ButtonShare>

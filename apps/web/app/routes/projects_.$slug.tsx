@@ -10,8 +10,7 @@ import { IconArrowForward } from "~/components/icons";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
-import { customJoin } from "~/util";
-import { getRelatedTerms } from "~/util/getRelatedTerms";
+import { listFormat, getRelatedTerms } from "~/util";
 
 export async function loader({ params }: { params: { slug: string } }) {
   const project = await prisma.project.findUnique({
@@ -70,7 +69,10 @@ export default function ViewProject() {
             />
             <h1 className="text-h1 text-gray-950 mb-6">{project.title}</h1>
             <div className="mb-6">
-              <p className="text-gray-950 mb-6">{project.content}</p>
+              <p
+                className="text-gray-950 mb-6"
+                dangerouslySetInnerHTML={{ __html: project.content }}
+              />
             </div>
             <nav className="flex gap-4 lg:mb-6">
               <Button>Visitar projeto</Button>
@@ -88,7 +90,7 @@ export default function ViewProject() {
                   </span>
                   <span className="text-gray-950">
                     {project.researchers.length
-                      ? customJoin(
+                      ? listFormat(
                           project.researchers.map(
                             (researcher) => researcher.name
                           )

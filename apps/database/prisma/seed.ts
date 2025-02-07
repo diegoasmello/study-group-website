@@ -56,6 +56,7 @@ async function main() {
           keywords: Array.from({ length: 3 })
             .map(() => faker.lorem.words(1))
             .join("; "),
+          resume: faker.lorem.paragraph(15),
           content: faker.lorem.paragraphs(3, "<br/>\n"),
           image: faker.image.url(),
           date: faker.date.soon(),

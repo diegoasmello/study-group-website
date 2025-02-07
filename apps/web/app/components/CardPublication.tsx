@@ -2,7 +2,7 @@ import { Card, CardProps, CardSize } from "./Card";
 import { Button } from "./Button";
 import { ButtonLink } from "./ButtonLink";
 import { IconCalendar, IconSignature } from "./icons";
-import { customJoin } from "~/util";
+import { listFormat } from "~/util";
 
 interface CardPublicationProps
   extends Pick<React.ComponentProps<"div">, "className">,
@@ -24,7 +24,7 @@ interface CardPublicationProps
 export function CardPublication(props: CardPublicationProps) {
   const { size, publication, hideShadow, hideText, className } = props;
 
-  const researchersText = customJoin(
+  const researchersText = listFormat(
     publication?.researchers?.map((research) => research.name) ?? []
   );
 

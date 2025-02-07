@@ -10,6 +10,7 @@ import { useState } from "react";
 import { IconSuccess } from "./icons/IconSuccess";
 import { IconCancel } from "./icons/IconCancel";
 import { twJoin } from "tailwind-merge";
+import { Form } from "@remix-run/react";
 
 export function NewsletterBanner() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,10 +23,19 @@ export function NewsletterBanner() {
           <br />
           nosso grupo!
         </span>
-        <TextInput name="a" type="email" placeholder="Digite seu e-mail" />
-        <Button skin="outline" onClick={() => setIsModalOpen((prev) => !prev)}>
-          Enviar
-        </Button>
+        <Form className="flex flex-col gap-6 items-start">
+          <TextInput
+            name="email"
+            type="email"
+            placeholder="Digite seu e-mail"
+          />
+          <Button
+            skin="outline"
+            onClick={() => setIsModalOpen((prev) => !prev)}
+          >
+            Enviar
+          </Button>
+        </Form>
       </div>
       <div className="hidden lg:block">
         <img

@@ -185,7 +185,7 @@ export default function Index() {
               publication={{
                 slug: publications[0].slug,
                 title: publications[0].title,
-                description: publications[0].content,
+                description: publications[0].resume,
                 date: new Date(publications[0].date),
                 researchers: publications[0].researchers,
               }}
@@ -197,7 +197,7 @@ export default function Index() {
               publication={{
                 slug: publications[1].slug,
                 title: publications[1].title,
-                description: publications[1].content,
+                description: publications[1].resume,
                 date: new Date(publications[1].date),
                 researchers: publications[1].researchers,
               }}
@@ -209,7 +209,7 @@ export default function Index() {
               publication={{
                 slug: publications[2].slug,
                 title: publications[2].title,
-                description: publications[2].content,
+                description: publications[2].resume,
                 date: new Date(publications[2].date),
                 researchers: publications[2].researchers,
               }}
@@ -221,7 +221,7 @@ export default function Index() {
               publication={{
                 slug: publications[3].slug,
                 title: publications[3].title,
-                description: publications[3].content,
+                description: publications[3].resume,
                 date: new Date(publications[3].date),
                 researchers: publications[3].researchers,
               }}
@@ -233,7 +233,7 @@ export default function Index() {
               publication={{
                 slug: publications[4].slug,
                 title: publications[4].title,
-                description: publications[4].content,
+                description: publications[4].resume,
                 date: new Date(publications[4].date),
                 researchers: publications[4].researchers,
               }}
