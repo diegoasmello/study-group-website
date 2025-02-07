@@ -18,7 +18,7 @@ interface CardEventProps extends Pick<CardProps, "hideShadow" | "className"> {
 export function CardEvent(props: CardEventProps) {
   const { event, size, hideLocale, hideShadow, className } = props;
 
-  const hasInscricao = true;
+  const hasInscricao = event.date.getTime() > Date.now();
 
   return (
     <Card
@@ -51,9 +51,11 @@ export function CardEvent(props: CardEventProps) {
           >
             Saiba mais
           </ButtonLink>
-          <Button skin="ghost" size="md">
-            Inscrever-se
-          </Button>
+          {hasInscricao && (
+            <Button skin="ghost" size="md">
+              Inscrever-se
+            </Button>
+          )}
         </nav>
       }
     />

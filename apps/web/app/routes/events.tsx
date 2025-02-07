@@ -36,6 +36,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
         mode: "insensitive",
       },
     },
+    orderBy: {
+      date: "desc",
+    },
   });
   return json({ events, q });
 }

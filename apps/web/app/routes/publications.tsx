@@ -100,6 +100,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
       researchArea: true,
     },
     where: query.where,
+    orderBy: {
+      date: "desc",
+    },
     take: 5,
     skip: 0,
   });
