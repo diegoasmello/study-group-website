@@ -72,9 +72,7 @@ export default function ViewEvent() {
             </div>
             <nav className="flex gap-4 mb-6">
               <Button>Inscrever-se</Button>
-              <ButtonShare urlToShare="rwada" skin="ghost">
-                Compartilhar
-              </ButtonShare>
+              <ButtonShare skin="ghost">Compartilhar</ButtonShare>
             </nav>
           </div>
           <div className="col-span-12 lg:col-span-4">

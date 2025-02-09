@@ -67,7 +67,7 @@ export default function ViewAction() {
               />
             </div>
             <nav className="flex gap-4 mb-6">
-              <ButtonShare urlToShare="rwada">Compartilhar</ButtonShare>
+              <ButtonShare>Compartilhar</ButtonShare>
             </nav>
           </div>
           {!!related.length && (

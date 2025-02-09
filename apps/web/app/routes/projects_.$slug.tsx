@@ -76,9 +76,7 @@ export default function ViewProject() {
             </div>
             <nav className="flex gap-4 lg:mb-6">
               <Button>Visitar projeto</Button>
-              <ButtonShare urlToShare="rwada" skin="ghost">
-                Compartilhar
-              </ButtonShare>
+              <ButtonShare skin="ghost">Compartilhar</ButtonShare>
             </nav>
           </div>
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">

@@ -2,18 +2,26 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { Button, ButtonProps } from "./Button";
 import { TextInput } from "./form-fields/TextInput";
 import { Fragment } from "react/jsx-runtime";
+import { useEffect, useState } from "react";
+import { Tooltip } from "./Tooltip";
 
-interface ButtonShareProps extends ButtonProps {
-  urlToShare: string;
-}
+interface ButtonShareProps extends ButtonProps {}
 
 export function ButtonShare(props: ButtonShareProps) {
-  const { urlToShare, ...buttonProps } = props;
+  const [currentUrl, setCurrentUrl] = useState("");
+
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(currentUrl);
+  };
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href); // Obtém a URL completa
+  }, []);
 
   return (
     <Popover className="relative">
       <PopoverButton as={Fragment}>
-        <Button {...buttonProps} />
+        <Button {...props} />
       </PopoverButton>
       <PopoverPanel
         anchor="top start"
@@ -45,7 +53,14 @@ export function ButtonShare(props: ButtonShareProps) {
         </div>
         <div className="flex flex-col gap-2">
           <span className="text-gray-950 font-medium">Ou copie o link</span>
-          <TextInput placeholder={urlToShare} />
+          <div className="flex flex-row gap-2">
+            <TextInput placeholder={currentUrl} />
+            <Tooltip text="Copiado para área de transferência!">
+              <Button skin="ghost" size="md" onClick={handleCopyUrl}>
+                Copiar
+              </Button>
+            </Tooltip>
+          </div>
         </div>
       </PopoverPanel>
     </Popover>
