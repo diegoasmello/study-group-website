@@ -29,10 +29,11 @@ import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import data from "~/data";
 import { prisma } from "~/lib/prisma.server";
-import { Prisma } from "@prisma/client";
+import { Prisma, Publication } from "@prisma/client";
 import { NoResults } from "~/components/NoResults";
+import { createPaginator } from "~/util/createPaginator";
 
-// const PAGE_SIZE = 5;
+const PAGE_SIZE = 5;
 
 export const meta: MetaFunction = () => {
   return [
@@ -41,10 +42,12 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+const paginate = createPaginator({ perPage: PAGE_SIZE });
+
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
-
   const searchParams = parseSearchParams(url.searchParams);
+  const page = Number(url.searchParams.get("page") ?? "1");
 
   const researchAreas = await prisma.researchArea.findMany({
     select: {
@@ -65,60 +68,62 @@ export async function loader({ request }: LoaderFunctionArgs) {
       },
     },
   });
-
-  const query: Prisma.PublicationFindManyArgs = {
-    where: {
-      published: true,
-      researchers: {
-        some: {
-          id: searchParams.researcher
-            ? Number(searchParams.researcher.value)
-            : undefined,
+  const paginatedPublications = await paginate<
+    Publication,
+    Prisma.PublicationFindManyArgs
+  >(
+    prisma.publication,
+    {
+      include: {
+        researchers: true,
+        researchArea: true,
+      },
+      where: {
+        published: true,
+        researchers: {
+          some: {
+            id: searchParams.researcher
+              ? Number(searchParams.researcher.value)
+              : undefined,
+          },
+        },
+        title: {
+          contains: searchParams.query,
+          mode: "insensitive",
+        },
+        researchAreaId: {
+          in: searchParams.researchAreas,
+        },
+        date: {
+          gte: searchParams.startDate,
+          lte: searchParams.endDate,
         },
       },
-      title: {
-        contains: searchParams.query,
-        mode: "insensitive",
-      },
-      researchAreaId: {
-        in: searchParams.researchAreas,
-      },
-      date: {
-        gte: searchParams.startDate,
-        lte: searchParams.endDate,
+      orderBy: {
+        date: "desc",
       },
     },
-  };
-
-  const publicationsCount = await prisma.publication.count({
-    where: query.where,
-  });
-
-  const publications = await prisma.publication.findMany({
-    include: {
-      researchers: true,
-      researchArea: true,
-    },
-    where: query.where,
-    orderBy: {
-      date: "desc",
-    },
-    take: 5,
-    skip: 0,
-  });
+    {
+      page: page,
+    }
+  );
 
   return json({
     researchAreas,
     researchers,
-    publications,
+    paginatedPublications,
+    currentPage: page,
     searchParams,
-    publicationsCount,
   });
 }
 
 export default function Publications() {
-  const { researchAreas, researchers, publications } =
-    useLoaderData<typeof loader>();
+  const {
+    researchAreas,
+    researchers,
+    paginatedPublications: { data: publications, meta: paginatedMeta },
+    currentPage,
+  } = useLoaderData<typeof loader>();
 
   const [searchParams] = useSearchParams();
   const parsedSearchParams = parseSearchParams(searchParams);
@@ -242,7 +247,7 @@ export default function Publications() {
           </div>
           {!!publications.length && (
             <div className="col-span-12 flex justify-center mt-8 mb-10">
-              <Paginator />
+              <Paginator {...paginatedMeta} />
             </div>
           )}
           <div className="col-span-12">
