@@ -2,6 +2,7 @@ import {
   json,
   Links,
   Meta,
+  MetaFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -12,6 +13,7 @@ import { prisma } from "~/lib/prisma.server";
 import "./tailwind.css";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
+import data from "./data";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -25,6 +27,13 @@ export const links: LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: data.site.title },
+    { name: "description", content: data.site.description },
+  ];
+};
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();

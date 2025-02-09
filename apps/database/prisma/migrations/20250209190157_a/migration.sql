@@ -1,0 +1,14 @@
+-- CreateEnum
+CREATE TYPE "Sections" AS ENUM ('HOME_HERO', 'RESEARCH_HERO', 'TEAM_HERO', 'PUBLICATIONS_HERO', 'EVENTS_HERO', 'ACTIONS_HERO', 'PROJECTS_HERO', 'HISTORY_HERO', 'HISTORY_SECTION');
+
+-- CreateTable
+CREATE TABLE "SectionsContent" (
+    "id" SERIAL NOT NULL,
+    "title" VARCHAR(200) NOT NULL,
+    "page" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "SectionsContent_pkey" PRIMARY KEY ("id")
+);

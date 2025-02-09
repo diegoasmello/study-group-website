@@ -13,6 +13,7 @@ import { CarouselHome, CarouselHomeItem } from "~/components/CarouselHome";
 import { prisma } from "~/lib/prisma.server";
 import { ButtonLink } from "~/components/ButtonLink";
 import { useLoaderData } from "@remix-run/react";
+import { Sections } from "@prisma/client";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,6 +23,11 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
+  const heroSection = await prisma.sectionsContent.findFirst({
+    where: {
+      section: Sections.HOME_HERO,
+    },
+  });
   const researchAreas = await prisma.researchArea.findMany();
   const events = await prisma.event.findMany({
     orderBy: {
@@ -44,11 +50,11 @@ export async function loader() {
     },
     take: 9,
   });
-  return json({ researchAreas, events, publications, actions });
+  return json({ heroSection, researchAreas, events, publications, actions });
 }
 
 export default function Index() {
-  const { researchAreas, events, publications, actions } =
+  const { heroSection, researchAreas, events, publications, actions } =
     useLoaderData<typeof loader>();
 
   const carouselItems: CarouselHomeItem[] = [
@@ -96,17 +102,8 @@ export default function Index() {
           <div className="col-span-12 lg:col-span-5 flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <span className="text-primary font-medium">Sobre o grupo</span>
-              <span className="text-h2">
-                Novos rumos para o ensino de língua em tempos de globalização
-              </span>
-              <p className="text-gray-800">
-                Unimos pesquisadores e entusiastas para compreender como a
-                diversidade linguística e a interculturalidade influenciam a
-                criação, tradução e recepção das narrativas, enriquecendo a
-                apreciação da riqueza literária global. Junte-se a nós nessa
-                jornada de descobertas e análises, conectando-se com a essência
-                da palavra escrita em suas variadas formas e manifestações.{" "}
-              </p>
+              <span className="text-h2">{heroSection?.title}</span>
+              <p className="text-gray-800">{heroSection?.content}</p>
             </div>
 
             <nav className="flex flex-row gap-4">

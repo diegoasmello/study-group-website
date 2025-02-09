@@ -1,3 +1,4 @@
+import { Sections } from "@prisma/client";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
   Form,
@@ -15,19 +16,24 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import data from "~/data";
 import { prisma } from "~/lib/prisma.server";
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+  const rootMetaTitle = matches[0].meta[0].title;
   return [
-    { title: data.actions.title + " | " + data.site.title },
-    { name: "description", content: data.actions.description },
+    { title: data?.heroSection?.title + " | " + rootMetaTitle },
+    { name: "description", content: data?.heroSection?.content },
   ];
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const q = url.searchParams.get("q") || undefined;
+  const heroSection = await prisma.sectionsContent.findFirst({
+    where: {
+      section: Sections.ACTIONS_HERO,
+    },
+  });
   const actions = await prisma.action.findMany({
     where: {
       published: true,
@@ -40,11 +46,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
       date: "desc",
     },
   });
-  return json({ actions, q });
+  return json({ heroSection, actions, q });
 }
 
 export default function Actions() {
-  const { actions, q } = useLoaderData<typeof loader>();
+  const { heroSection, actions, q } = useLoaderData<typeof loader>();
   const submit = useSubmit();
 
   useEffect(() => {
@@ -54,13 +60,15 @@ export default function Actions() {
     }
   }, [q]);
 
+  if (!heroSection) return null;
+
   const isFiltering = !!q?.length;
 
   return (
     <main className="pb-20 bg-page">
       <PageBanner
-        title={data.actions.title}
-        text={data.actions.description}
+        title={heroSection.title}
+        text={heroSection.content}
         illustration={
           <img
             src="/assets/illustrations/actions.svg"

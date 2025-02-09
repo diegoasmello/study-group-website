@@ -113,4 +113,23 @@ model NewsletterList {
   createdAt DateTime @default(now())
 }
 
-// model History {}
+enum Sections {
+  HOME_HERO
+  RESEARCH_HERO
+  TEAM_HERO
+  PUBLICATIONS_HERO
+  EVENTS_HERO
+  ACTIONS_HERO
+  PROJECTS_HERO
+  HISTORY_HERO
+  HISTORY_SECTION
+}
+
+model SectionsContent {
+  id        Int      @id @default(autoincrement())
+  section      Sections 
+  title     String   @db.VarChar(200)
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

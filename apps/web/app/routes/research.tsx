@@ -2,38 +2,46 @@ import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
-import data from "~/data";
 import { prisma } from "~/lib/prisma.server";
 
 import { Carousel } from "~/components/Carousel";
 import { CardProject } from "~/components/CardProject";
 import clsx from "clsx";
 import { twJoin } from "tailwind-merge";
+import { Sections } from "@prisma/client";
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+  const rootMetaTitle = matches[0].meta[0].title;
   return [
-    { title: data.research.title + " | " + data.site.title },
-    { name: "description", content: data.research.description },
+    { title: data?.heroSection?.title + " | " + rootMetaTitle },
+    { name: "description", content: data?.heroSection?.content },
   ];
 };
 
 export async function loader() {
+  const heroSection = await prisma.sectionsContent.findFirst({
+    where: {
+      section: Sections.RESEARCH_HERO,
+    },
+  });
   const researchAreas = await prisma.researchArea.findMany({
     include: {
       projects: true,
     },
   });
-  return json({ researchAreas });
+  return json({ heroSection, researchAreas });
 }
 
 export default function Research() {
-  const { researchAreas } = useLoaderData<typeof loader>();
+  const { heroSection, researchAreas } = useLoaderData<typeof loader>();
+
+  if (!heroSection) return null;
 
   return (
     <main className="pb-20">
       <PageBanner
-        title={data.research.title}
-        text={data.research.description}
+        title={heroSection.title}
+        text={heroSection.content}
         illustration={
           <img
             src="/assets/illustrations/research.svg"
@@ -94,7 +102,10 @@ const ResearchItemSection = ({ item, index }: { item: any; index: number }) => {
                   <img src={item.icon} alt="" />
                 </IconWrapper>
                 <h2 className="text-h3 text-gray-950">{item.title}</h2>
-                <p className="text-gray-800">{item.content}</p>
+                <div
+                  className="text-gray-800 grid gap-2"
+                  dangerouslySetInnerHTML={{ __html: item.content }}
+                ></div>
               </div>
             </div>
           </section>

@@ -1,32 +1,40 @@
+import { Sections } from "@prisma/client";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { CardTeamMember } from "~/components/CardTeamMember";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import data from "~/data";
 import { prisma } from "~/lib/prisma.server";
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+  const rootMetaTitle = matches[0].meta[0].title;
   return [
-    { title: data.team.title + " | " + data.site.title },
-    { name: "description", content: data.team.description },
+    { title: data?.heroSection?.title + " | " + rootMetaTitle },
+    { name: "description", content: data?.heroSection?.content },
   ];
 };
 
 export async function loader() {
+  const heroSection = await prisma.sectionsContent.findFirst({
+    where: {
+      section: Sections.TEAM_HERO,
+    },
+  });
   const teamMembers = await prisma.teamMember.findMany();
-  return json({ teamMembers });
+  return json({ teamMembers, heroSection });
 }
 
 export default function Team() {
-  const { teamMembers } = useLoaderData<typeof loader>();
+  const { heroSection, teamMembers } = useLoaderData<typeof loader>();
+
+  if (!heroSection) return null;
 
   return (
     <main className="pb-20">
       <PageBanner
-        title={data.team.title}
-        text={data.team.description}
+        title={heroSection.title}
+        text={heroSection.content}
         illustration={
           <img
             src="/assets/illustrations/team.svg"

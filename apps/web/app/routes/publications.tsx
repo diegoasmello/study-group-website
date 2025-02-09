@@ -27,18 +27,18 @@ import { IconSearch } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import data from "~/data";
 import { prisma } from "~/lib/prisma.server";
-import { Prisma, Publication } from "@prisma/client";
+import { Prisma, Publication, Sections } from "@prisma/client";
 import { NoResults } from "~/components/NoResults";
 import { createPaginator } from "~/util/createPaginator";
 
 const PAGE_SIZE = 5;
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+  const rootMetaTitle = matches[0].meta[0].title;
   return [
-    { title: data.publications.title + " | " + data.site.title },
-    { name: "description", content: data.publications.description },
+    { title: data?.heroSection?.title + " | " + rootMetaTitle },
+    { name: "description", content: data?.heroSection?.content },
   ];
 };
 
@@ -49,6 +49,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const searchParams = parseSearchParams(url.searchParams);
   const page = Number(url.searchParams.get("page") ?? "1");
 
+  const heroSection = await prisma.sectionsContent.findFirst({
+    where: {
+      section: Sections.PUBLICATIONS_HERO,
+    },
+  });
   const researchAreas = await prisma.researchArea.findMany({
     select: {
       id: true,
@@ -109,6 +114,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 
   return json({
+    heroSection,
     researchAreas,
     researchers,
     paginatedPublications,
@@ -119,6 +125,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Publications() {
   const {
+    heroSection,
     researchAreas,
     researchers,
     paginatedPublications: { data: publications, meta: paginatedMeta },
@@ -150,11 +157,13 @@ export default function Publications() {
   //   submit(null)
   // };
 
+  if (!heroSection) return null;
+
   return (
     <main className="pb-20 bg-page">
       <PageBanner
-        title={data.publications.title}
-        text={data.publications.description}
+        title={heroSection.title}
+        text={heroSection.content}
         illustration={
           <img
             src="/assets/illustrations/publications.svg"

@@ -1,12 +1,12 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Sections } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
 const NUMBER_OF_ROWS = 30;
 
-function createContent() {
-  return Array.from({ length: 5 })
+function createContent(length: number = 5) {
+  return Array.from({ length })
     .map(() => `<p>${faker.lorem.paragraph(6)}</p>`)
     .join("");
 }
@@ -32,21 +32,21 @@ async function main() {
       {
         title: "Leitura e Escrita",
         description: faker.lorem.sentence({ min: 10, max: 16 }),
-        content: createContent(),
+        content: createContent(4),
         icon: faker.image.avatar(),
         image: faker.image.url(),
       },
       {
         title: "Multilinguismo",
         description: faker.lorem.sentence({ min: 10, max: 16 }),
-        content: createContent(),
+        content: createContent(4),
         icon: faker.image.avatar(),
         image: faker.image.url(),
       },
       {
         title: "Transculturalidade",
         description: faker.lorem.sentence({ min: 10, max: 16 }),
-        content: createContent(),
+        content: createContent(4),
         icon: faker.image.avatar(),
         image: faker.image.url(),
       },
@@ -145,6 +145,76 @@ async function main() {
       date: faker.date.soon(),
       published: true,
     })),
+  });
+
+  await prisma.sectionsContent.createMany({
+    data: [
+      {
+        section: Sections.HOME_HERO,
+        title: "New directions for language teaching in times of globalization",
+        content: faker.lorem.paragraph(10),
+      },
+      {
+        section: Sections.RESEARCH_HERO,
+        title: "Our research",
+        content: faker.lorem.paragraph(2),
+      },
+      {
+        section: Sections.TEAM_HERO,
+        title: "Our team",
+        content: faker.lorem.paragraph(2),
+      },
+      {
+        section: Sections.PUBLICATIONS_HERO,
+        title: "Publications",
+        content: faker.lorem.paragraph(2),
+      },
+      {
+        section: Sections.EVENTS_HERO,
+        title: "Events",
+        content: faker.lorem.paragraph(2),
+      },
+      {
+        section: Sections.ACTIONS_HERO,
+        title: "Actions",
+        content: faker.lorem.paragraph(2),
+      },
+      {
+        section: Sections.PROJECTS_HERO,
+        title: "Projects",
+        content: faker.lorem.paragraph(2),
+      },
+      {
+        section: Sections.HISTORY_HERO,
+        title: "New directions for language teaching in times of globalization",
+        content: faker.lorem.paragraph(3),
+      },
+      {
+        section: Sections.HISTORY_SECTION,
+        title: "Inspiring origins",
+        content: faker.lorem.paragraph(15),
+      },
+      {
+        section: Sections.HISTORY_SECTION,
+        title: "First steps",
+        content: faker.lorem.paragraph(15),
+      },
+      {
+        section: Sections.HISTORY_SECTION,
+        title: "Commitment to depth",
+        content: faker.lorem.paragraph(15),
+      },
+      {
+        section: Sections.HISTORY_SECTION,
+        title: "Collaboration and growth",
+        content: faker.lorem.paragraph(15),
+      },
+      {
+        section: Sections.HISTORY_SECTION,
+        title: "Glimpsing the future",
+        content: faker.lorem.paragraph(15),
+      },
+    ],
   });
 }
 

@@ -1,19 +1,25 @@
+import { Sections } from "@prisma/client";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { CardProject } from "~/components/CardProject";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import data from "~/data";
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+  const rootMetaTitle = matches[0].meta[0].title;
   return [
-    { title: data.projects.title + " | " + data.site.title },
-    { name: "description", content: data.projects.description },
+    { title: data?.heroSection?.title + " | " + rootMetaTitle },
+    { name: "description", content: data?.heroSection?.content },
   ];
 };
 
 export async function loader() {
+  const heroSection = await prisma.sectionsContent.findFirst({
+    where: {
+      section: Sections.PROJECTS_HERO,
+    },
+  });
   const projects = await prisma.project.findMany({
     include: {
       researchers: true,
@@ -22,17 +28,19 @@ export async function loader() {
       published: true,
     },
   });
-  return json({ projects });
+  return json({ projects, heroSection });
 }
 
 export default function Projects() {
-  const { projects } = useLoaderData<typeof loader>();
+  const { projects, heroSection } = useLoaderData<typeof loader>();
+
+  if (!heroSection) return null;
 
   return (
     <main className="pb-20 bg-page">
       <PageBanner
-        title={data.projects.title}
-        text={data.projects.description}
+        title={heroSection.title}
+        text={heroSection.content}
         illustration={
           <img
             src="/assets/illustrations/projects.svg"

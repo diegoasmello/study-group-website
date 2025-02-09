@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/react";
+import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { CardTeamMember } from "~/components/CardTeamMember";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
@@ -8,27 +8,46 @@ import data from "~/data";
 
 import { IconArrowForward } from "~/components/icons";
 import clsx from "clsx";
+import { Sections } from "@prisma/client";
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction<typeof loader> = ({
+  data: dbData,
+  matches,
+}) => {
+  const rootMetaTitle = matches[0].meta[0].title;
   return [
-    { title: data.history.title + " | " + data.site.title },
-    { name: "description", content: data.history.description },
+    { title: data?.history?.title + " | " + rootMetaTitle },
+    { name: "description", content: dbData?.heroSection?.content },
   ];
 };
 
+export async function loader() {
+  const heroSection = await prisma.sectionsContent.findFirst({
+    where: {
+      section: Sections.HISTORY_HERO,
+    },
+  });
+  const historySections = await prisma.sectionsContent.findMany({
+    where: {
+      section: Sections.HISTORY_SECTION,
+    },
+  });
+  return json({ historySections, heroSection });
+}
+
 export default function History() {
+  const { historySections, heroSection } = useLoaderData<typeof loader>();
+
+  if (!heroSection || !historySections) return null;
+
   return (
     <main className="pb-20 bg-page">
       <div className="bg-primary-lighter pt-14 pb-16 mb-12 relative overflow-hidden">
         <Container className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="flex flex-col gap-2 col-span-12 col-start-1 lg:col-span-4 lg:col-start-7">
             <h1 className="text-primary font-medium">{data.history.title}</h1>
-            <span className="text-h2">
-              Novos rumos para o ensino de língua em tempos de globalização
-            </span>
-            <p className="text-lead-1 text-gray-800">
-              {data.history.description}
-            </p>
+            <span className="text-h2">{heroSection.title}</span>
+            <p className="text-lead-1 text-gray-800">{heroSection.content}</p>
           </div>
         </Container>
         <img
@@ -42,6 +61,7 @@ export default function History() {
         {historySections.map((historySection, index) => (
           <HistorySection
             key={index}
+            index={index}
             section={historySection}
             align={index % 2 === 0 ? "right" : "left"}
             isLastItem={index === historySections.length - 1}
@@ -91,32 +111,28 @@ export default function History() {
   );
 }
 
-interface HistorySection {
-  title: string;
-  description: string;
-  illustration1: string;
-  illustration2?: string;
-}
-
 const HistorySection = (props: {
-  section: HistorySection;
+  section: { id: number; title: string; content: string };
   align: "left" | "right";
+  index: number;
   isLastItem: boolean;
 }) => {
-  const { section, align, isLastItem } = props;
+  const { section, align, index, isLastItem } = props;
+
+  const { illustration1, illustration2 } = historyIllustrations[index];
 
   if (isLastItem)
     return (
       <div className="grid grid-cols-12 gap-y-8 lg:gap-y-0 gap-x-8">
         <div className="col-span-12 lg:col-span-3 flex items-center justify-center">
-          <img src={section.illustration1} alt={section.title + " - 1"} />
+          <img src={illustration1} alt={section.title + " - 1"} />
         </div>
         <div className="col-span-12 lg:col-span-6 flex flex-col gap-6">
           <h2 className="text-h2 text-gray-950 text-center">{section.title}</h2>
-          <p className="text-gray-800 text-center">{section.description}</p>
+          <p className="text-gray-800 text-center">{section.content}</p>
         </div>
         <div className="col-span-12 lg:col-span-3 items-center justify-center hidden lg:flex">
-          <img src={section.illustration1} alt={section.title + " - 2"} />
+          <img src={illustration2} alt={section.title + " - 2"} />
         </div>
       </div>
     );
@@ -130,7 +146,7 @@ const HistorySection = (props: {
         )}
       >
         <img
-          src={section.illustration1}
+          src={illustration1}
           alt={section.title}
           className="w-[60vw] lg:w-auto lg:h-[260px]"
         />
@@ -145,42 +161,32 @@ const HistorySection = (props: {
           {section.title}
         </h2>
         <p className="text-gray-800 text-center lg:text-left">
-          {section.description}
+          {section.content}
         </p>
       </div>
     </div>
   );
 };
 
-const historySections: HistorySection[] = [
+type HistorySectionIllustration = {
+  illustration1: string;
+  illustration2?: string;
+};
+
+const historyIllustrations: HistorySectionIllustration[] = [
   {
-    title: "Origens inspiradoras",
-    description:
-      "O GELT teve seu início a partir de uma visão compartilhada entre um grupo entusiasmado de acadêmicos. Unidos pela paixão à literatura e pelo fascínio que as múltiplas línguas e culturas exercem sobre a palavra escrita, esse grupo visionário decidiu criar um espaço acadêmico dedicado a explorar tais interações complexas.",
     illustration1: "/assets/illustrations/history.svg",
   },
   {
-    title: "Os primeiros passos",
-    description:
-      "Nos primeiros encontros informais do GELT, a troca intensa de ideias e a devoção à literatura eram evidentes. À medida que essas reuniões evoluíram e ganharam estrutura, ficou claro que a investigação aprofundada em literatura, multilinguismo e transculturalidade seria o propósito central do grupo.",
     illustration1: "/assets/illustrations/history.svg",
   },
   {
-    title: "Compromisso com a profundidade",
-    description:
-      "Ao longo dos anos, o GELT investiu esforços incansáveis para investigar a fundo esses temas. Desde análises críticas de obras literárias traduzidas até estudos sobre a influência da cultura de origem na produção literária, cada pesquisa representou um mergulho mais profundo no vasto oceano da literatura, multilinguismo e transculturalidade.",
     illustration1: "/assets/illustrations/history.svg",
   },
   {
-    title: "Colaboração e crescimento",
-    description:
-      "O GELT se tornou um espaço de colaboração intelectual e aprendizado mútuo. Reunindo pesquisadores, estudantes e entusiastas, o grupo valoriza a diversidade de experiências e perspectivas que cada membro traz consigo. As discussões enriquecedoras e a partilha de conhecimento moldaram a identidade única do GELT.",
     illustration1: "/assets/illustrations/history.svg",
   },
   {
-    title: "Vislumbrando o futuro",
-    description:
-      "A história do GELT continua a ser escrita, o grupo está ansioso para o que o futuro reserva, enquanto continuamos a trilhar o caminho da exploração e descobrimento no mundo vasto e enriquecedor da literatura, multilinguismo e transculturalidade. Estamos comprometidos em expandir nossas fronteiras acadêmicas e, através disso, contribuir para um diálogo global mais rico e informado sobre esses temas fundamentais.",
     illustration1: "/assets/illustrations/history.svg",
     illustration2: "/assets/illustrations/history.svg",
   },

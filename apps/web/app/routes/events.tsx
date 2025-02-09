@@ -1,3 +1,4 @@
+import { Sections } from "@prisma/client";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
   Form,
@@ -15,19 +16,24 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import data from "~/data";
 import { prisma } from "~/lib/prisma.server";
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+  const rootMetaTitle = matches[0].meta[0].title;
   return [
-    { title: data.events.title + " | " + data.site.title },
-    { name: "description", content: data.events.description },
+    { title: data?.heroSection?.title + " | " + rootMetaTitle },
+    { name: "description", content: data?.heroSection?.content },
   ];
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const q = url.searchParams.get("q") || undefined;
+  const heroSection = await prisma.sectionsContent.findFirst({
+    where: {
+      section: Sections.EVENTS_HERO,
+    },
+  });
   const events = await prisma.event.findMany({
     where: {
       published: true,
@@ -40,12 +46,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
       date: "desc",
     },
   });
-  return json({ events, q });
+  return json({ heroSection, events, q });
 }
 
 export default function Events() {
-  const { events, q } = useLoaderData<typeof loader>();
+  const { heroSection, events, q } = useLoaderData<typeof loader>();
   const submit = useSubmit();
+
+  if (!heroSection) return null;
 
   useEffect(() => {
     const searchField = document.getElementById("q");
@@ -59,8 +67,8 @@ export default function Events() {
   return (
     <main className="pb-20 bg-page">
       <PageBanner
-        title={data.events.title}
-        text={data.events.description}
+        title={heroSection.title}
+        text={heroSection.content}
         illustration={
           <img
             src="/assets/illustrations/events.svg"
