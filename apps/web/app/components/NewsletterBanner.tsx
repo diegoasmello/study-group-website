@@ -6,14 +6,37 @@ import {
 } from "@headlessui/react";
 import { Button } from "./Button";
 import { TextInput } from "./form-fields/TextInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconSuccess } from "./icons/IconSuccess";
 import { IconCancel } from "./icons/IconCancel";
 import { twJoin } from "tailwind-merge";
-import { Form } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
+
+type NewsletterStatus = "success" | "error";
 
 export function NewsletterBanner() {
+  const fetcher = useFetcher<{
+    success?: boolean;
+    error?: string;
+  }>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [status, setStatus] = useState<NewsletterStatus>();
+  const [errorMessage, setErrorMessage] = useState<string | undefined>();
+
+  useEffect(() => {
+    const emailInput = document.getElementById("email");
+    if (fetcher.data?.success) {
+      setStatus("success");
+      setIsModalOpen(true);
+      if (emailInput instanceof HTMLInputElement) {
+        emailInput.value = "";
+      }
+    } else if (fetcher.data?.error) {
+      setStatus("error");
+      setErrorMessage(fetcher.data?.error);
+      setIsModalOpen(true);
+    }
+  }, [fetcher]);
 
   return (
     <div className="bg-primary-lighter py-10 px-6 lg:px-16 rounded-[3.25rem] relative overflow-hidden">
@@ -23,19 +46,26 @@ export function NewsletterBanner() {
           <br />
           nosso grupo!
         </span>
-        <Form className="flex flex-col gap-6 items-start">
+        <fetcher.Form
+          method="post"
+          action="/"
+          className="flex flex-col gap-6 items-start"
+        >
           <TextInput
+            id="email"
             name="email"
             type="email"
             placeholder="Digite seu e-mail"
+            required
           />
           <Button
             skin="outline"
             onClick={() => setIsModalOpen((prev) => !prev)}
+            disabled={fetcher.state === "submitting"}
           >
             Enviar
           </Button>
-        </Form>
+        </fetcher.Form>
       </div>
       <div className="hidden lg:block">
         <img
@@ -44,22 +74,42 @@ export function NewsletterBanner() {
           className="h-[545px] max-w-max absolute top-[-75px] right-[-102px]"
         />
       </div>
-      <NewsletterFeedbackModal
-        status="error"
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      {isModalOpen && status && (
+        <NewsletterFeedbackModal
+          status={status}
+          open={isModalOpen}
+          errorMessage={errorMessage}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
 
+const modalContent: Record<
+  NewsletterStatus,
+  { title: string; description: string }
+> = {
+  success: {
+    title: "Só esperar!",
+    description:
+      "Seu e-mail foi salvo, em breve você reberá um e-mail com mais informações.",
+  },
+  error: {
+    title: "Ops, algo deu errado.",
+    description: "Seu e-mail não pôde ser salvo, tente novamente mais tarde.",
+  },
+};
+
 function NewsletterFeedbackModal({
   open,
   status,
+  errorMessage,
   onClose,
 }: {
   open: boolean;
-  status: "success" | "error";
+  status: NewsletterStatus;
+  errorMessage: string | undefined;
   onClose: () => void;
 }) {
   return (
@@ -81,12 +131,10 @@ function NewsletterFeedbackModal({
                   status === "success" ? "text-success" : "text-danger"
                 )}
               >
-                Só esperar!
+                {modalContent[status].title}
               </DialogTitle>
               <p className="text-center text-gray-700 mx-[4rem]">
-                Seu e-mail foi salvo, em breve você
-                <br />
-                reberá um e-mail com mais informações.
+                {errorMessage ?? modalContent[status].description}
               </p>
             </div>
             <Button skin="ghost" size="md" onClick={onClose}>
