@@ -8,6 +8,7 @@ import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { IconCalendar, IconContract, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import { Tooltip } from "~/components/Tooltip";
 import { prisma } from "~/lib/prisma.server";
 import { listFormat, getRelatedTerms } from "~/util";
 
@@ -58,6 +59,10 @@ export default function ViewPublication() {
   const { publication, related } = useLoaderData<typeof loader>();
 
   if (!publication) return null;
+
+  const handleCopyCitation = () => {
+    navigator.clipboard.writeText(createCitation(publication));
+  };
 
   return (
     <main className="pt-12 pb-20 bg-page">
@@ -123,10 +128,17 @@ export default function ViewPublication() {
                   <span className="text-gray-950">Lorem Ipsum.</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
-                <Button skin="ghost" size="md" hasIcon>
-                  <IconContract className="size-4" />
-                  Citar
-                </Button>
+                <Tooltip text="Citação copiada para área de transferência!">
+                  <Button
+                    skin="ghost"
+                    size="md"
+                    hasIcon
+                    onClick={handleCopyCitation}
+                  >
+                    <IconContract className="size-4" />
+                    Citar
+                  </Button>
+                </Tooltip>
               </div>
             </CardContainer>
             <CardResearch />
@@ -169,4 +181,26 @@ export default function ViewPublication() {
       </Container>
     </main>
   );
+}
+
+function createCitation(publication: {
+  title: string;
+  researchers: { name: string }[];
+  date: Date;
+  magazine: string;
+}): string {
+  const { title, researchers, magazine = "revista", date } = publication;
+  const authors = listFormat(
+    researchers.map((author) => formatAuthor(author.name))
+  );
+
+  return `${authors} ${title} ${magazine}. ${new Date(date).getFullYear()}.`;
+}
+
+function formatAuthor(fullName: string) {
+  const nameParts = fullName.split(" ");
+  const lastName = nameParts.pop()?.toUpperCase();
+  const initials =
+    nameParts.map((part) => part[0].toUpperCase()).join(". ") + ".";
+  return `${lastName} ${initials}`;
 }
