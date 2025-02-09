@@ -67,6 +67,9 @@ model Publication {
   researchArea   ResearchArea @relation(fields: [researchAreaId], references: [id])
   researchAreaId Int
   link           String       @db.VarChar(200)
+  magazine       String       @db.VarChar(200)
+  doi            String       @db.VarChar(200)
+  license        String       @db.VarChar(200)
   published      Boolean      @default(false)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt

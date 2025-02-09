@@ -5,6 +5,12 @@ const prisma = new PrismaClient();
 
 const NUMBER_OF_ROWS = 30;
 
+function createContent() {
+  return Array.from({ length: 5 })
+    .map(() => `<p>${faker.lorem.paragraph(6)}</p>`)
+    .join("");
+}
+
 async function main() {
   await prisma.teamMember.createMany({
     data: Array.from({ length: NUMBER_OF_ROWS }).map(() => ({
@@ -26,21 +32,21 @@ async function main() {
       {
         title: "Leitura e Escrita",
         description: faker.lorem.sentence({ min: 10, max: 16 }),
-        content: faker.lorem.paragraphs(3, "<br/>\n"),
+        content: createContent(),
         icon: faker.image.avatar(),
         image: faker.image.url(),
       },
       {
         title: "Multilinguismo",
         description: faker.lorem.sentence({ min: 10, max: 16 }),
-        content: faker.lorem.paragraphs(3, "<br/>\n"),
+        content: createContent(),
         icon: faker.image.avatar(),
         image: faker.image.url(),
       },
       {
         title: "Transculturalidade",
         description: faker.lorem.sentence({ min: 10, max: 16 }),
-        content: faker.lorem.paragraphs(3, "<br/>\n"),
+        content: createContent(),
         icon: faker.image.avatar(),
         image: faker.image.url(),
       },
@@ -57,10 +63,15 @@ async function main() {
             .map(() => faker.lorem.words(1))
             .join("; "),
           resume: faker.lorem.paragraph(15),
-          content: faker.lorem.paragraphs(3, "<br/>\n"),
+          content: createContent(),
           image: faker.image.url(),
           date: faker.date.soon(),
           link: faker.internet.url(),
+          magazine: faker.book.title(),
+          doi: `${faker.string.alphanumeric(6)}/${faker.string.alphanumeric(
+            12
+          )}`,
+          license: "CC BY 4.0",
           researchers: {
             connect: Array.from({ length: 3 }).map(() => ({
               id: faker.number.int({ min: 1, max: NUMBER_OF_ROWS }),
@@ -83,7 +94,7 @@ async function main() {
       keywords: Array.from({ length: 3 })
         .map(() => faker.lorem.words(1))
         .join("; "),
-      content: faker.lorem.paragraphs(3, "<br/>\n"),
+      content: createContent(),
       image: faker.image.url(),
       workload: faker.number.int({ min: 10, max: 60 }),
       date: faker.date.soon(),
@@ -102,7 +113,7 @@ async function main() {
           keywords: Array.from({ length: 3 })
             .map(() => faker.lorem.words(1))
             .join("; "),
-          content: faker.lorem.paragraphs(3, "<br/>\n"),
+          content: createContent(),
           image: faker.image.url(),
           link: faker.internet.url(),
           endDate: faker.date.soon(),
@@ -129,7 +140,7 @@ async function main() {
       keywords: Array.from({ length: 3 })
         .map(() => faker.lorem.words(1))
         .join("; "),
-      content: faker.lorem.paragraphs(3, "<br/>\n"),
+      content: createContent(),
       image: faker.image.url(),
       date: faker.date.soon(),
       published: true,

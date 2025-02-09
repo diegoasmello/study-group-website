@@ -109,21 +109,21 @@ export default function ViewPublication() {
                   <span className="text-h5 uppercase font-medium text-gray-600">
                     Revista
                   </span>
-                  <span className="text-gray-950">Lorem Ipsum.</span>
+                  <span className="text-gray-950">{publication.magazine}.</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
                     DOI
                   </span>
-                  <span className="text-gray-950">Lorem Ipsum.</span>
+                  <span className="text-gray-950">{publication.doi}</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
                     Licença
                   </span>
-                  <span className="text-gray-950">Lorem Ipsum.</span>
+                  <span className="text-gray-950">{publication.license}</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <Tooltip text="Citação copiada para área de transferência!">
@@ -184,10 +184,10 @@ export default function ViewPublication() {
 function createCitation(publication: {
   title: string;
   researchers: { name: string }[];
-  date: Date;
+  date: string;
   magazine: string;
 }): string {
-  const { title, researchers, magazine = "revista", date } = publication;
+  const { title, researchers, magazine, date } = publication;
   const authors = listFormat(
     researchers.map((author) => formatAuthor(author.name))
   );
