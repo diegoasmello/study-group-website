@@ -1,4 +1,4 @@
-import { Sections } from "@prisma/client";
+import { Event, Prisma, Sections } from "@prisma/client";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
   Form,
@@ -17,6 +17,7 @@ import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import { prisma } from "~/lib/prisma.server";
+import { createPaginator } from "~/util/createPaginator";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const rootMetaTitle = matches[0].meta[0].title;
@@ -26,34 +27,47 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   ];
 };
 
+const paginate = createPaginator({ perPage: 6 });
+
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const q = url.searchParams.get("q") || undefined;
+  const page = Number(url.searchParams.get("page") ?? "1");
+
   const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.EVENTS_HERO,
     },
   });
-  const events = await prisma.event.findMany({
-    where: {
-      published: true,
-      title: {
-        contains: q,
-        mode: "insensitive",
+  const paginatedEvents = await paginate<Event, Prisma.EventFindManyArgs>(
+    prisma.event,
+    {
+      where: {
+        published: true,
+        title: {
+          contains: q,
+          mode: "insensitive",
+        },
+      },
+      orderBy: {
+        updatedAt: "desc",
       },
     },
-    orderBy: {
-      date: "desc",
-    },
-  });
-  return json({ heroSection, events, q });
+    {
+      page: page,
+    }
+  );
+  return json({ heroSection, paginatedEvents, q });
 }
 
 export default function Events() {
-  const { heroSection, events, q } = useLoaderData<typeof loader>();
-  const submit = useSubmit();
+  const {
+    heroSection,
+    paginatedEvents: { data: events, meta: metaPaginated },
+    q,
+  } = useLoaderData<typeof loader>();
 
-  if (!heroSection) return null;
+  const submit = useSubmit();
 
   useEffect(() => {
     const searchField = document.getElementById("q");
@@ -62,6 +76,7 @@ export default function Events() {
     }
   }, [q]);
 
+  if (!heroSection) return null;
   const isFiltering = !!q?.length;
 
   return (
@@ -125,7 +140,7 @@ export default function Events() {
 
           {!!events.length && (
             <div className="col-span-12 flex justify-center mt-8 mb-10">
-              <Paginator />
+              <Paginator {...metaPaginated} />
             </div>
           )}
 

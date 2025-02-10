@@ -16,6 +16,8 @@ export function Paginator(props: PaginatedMeta) {
           const pageIndex = index + 1;
           const isCurrentPage = pageIndex === currentPage;
 
+          console.log(pageIndex, currentPage);
+
           return (
             <Page
               key={index}

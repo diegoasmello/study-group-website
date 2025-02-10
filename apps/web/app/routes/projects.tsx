@@ -1,10 +1,12 @@
-import { Sections } from "@prisma/client";
+import { Prisma, Project, Sections } from "@prisma/client";
+import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { CardProject } from "~/components/CardProject";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
+import { createPaginator } from "~/util/createPaginator";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const rootMetaTitle = matches[0].meta[0].title;
@@ -14,25 +16,42 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   ];
 };
 
-export async function loader() {
+const paginate = createPaginator({ perPage: 9 });
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const url = new URL(request.url);
+  const page = Number(url.searchParams.get("page") ?? "1");
+
   const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.PROJECTS_HERO,
     },
   });
-  const projects = await prisma.project.findMany({
-    include: {
-      researchers: true,
+  const paginatedProjects = await paginate<Project, Prisma.ProjectFindManyArgs>(
+    prisma.project,
+    {
+      include: {
+        researchers: true,
+      },
+      where: {
+        published: true,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
     },
-    where: {
-      published: true,
-    },
-  });
-  return json({ projects, heroSection });
+    {
+      page: page,
+    }
+  );
+  return json({ paginatedProjects, heroSection });
 }
 
 export default function Projects() {
-  const { projects, heroSection } = useLoaderData<typeof loader>();
+  const {
+    paginatedProjects: { data: projects, meta: paginatedMeta },
+    heroSection,
+  } = useLoaderData<typeof loader>();
 
   if (!heroSection) return null;
 
@@ -66,7 +85,7 @@ export default function Projects() {
             </div>
           ))}
           <div className="col-span-12 flex justify-center mt-8 mb-10">
-            <Paginator />
+            <Paginator {...paginatedMeta} />
           </div>
           <div className="col-span-12">
             <NewsletterBanner />

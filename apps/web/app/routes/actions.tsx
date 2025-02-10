@@ -1,4 +1,4 @@
-import { Sections } from "@prisma/client";
+import { Action, Prisma, Sections } from "@prisma/client";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
   Form,
@@ -17,6 +17,7 @@ import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import { prisma } from "~/lib/prisma.server";
+import { createPaginator } from "~/util/createPaginator";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const rootMetaTitle = matches[0].meta[0].title;
@@ -26,31 +27,45 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   ];
 };
 
+const paginate = createPaginator({ perPage: 6 });
+
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const q = url.searchParams.get("q") || undefined;
+  const page = Number(url.searchParams.get("page") ?? "1");
+
   const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.ACTIONS_HERO,
     },
   });
-  const actions = await prisma.action.findMany({
-    where: {
-      published: true,
-      title: {
-        contains: q,
-        mode: "insensitive",
+  const paginatedActions = await paginate<Action, Prisma.ActionFindManyArgs>(
+    prisma.action,
+    {
+      where: {
+        published: true,
+        title: {
+          contains: q,
+          mode: "insensitive",
+        },
+      },
+      orderBy: {
+        updatedAt: "desc",
       },
     },
-    orderBy: {
-      date: "desc",
-    },
-  });
-  return json({ heroSection, actions, q });
+    {
+      page: page,
+    }
+  );
+  return json({ heroSection, paginatedActions, q });
 }
 
 export default function Actions() {
-  const { heroSection, actions, q } = useLoaderData<typeof loader>();
+  const {
+    heroSection,
+    paginatedActions: { data: actions, meta: metaPaginated },
+    q,
+  } = useLoaderData<typeof loader>();
   const submit = useSubmit();
 
   useEffect(() => {
@@ -124,7 +139,7 @@ export default function Actions() {
 
           {!!actions.length && (
             <div className="col-span-12 flex justify-center mt-8 mb-10">
-              <Paginator />
+              <Paginator {...metaPaginated} />
             </div>
           )}
 

@@ -32,8 +32,6 @@ import { Prisma, Publication, Sections } from "@prisma/client";
 import { NoResults } from "~/components/NoResults";
 import { createPaginator } from "~/util/createPaginator";
 
-const PAGE_SIZE = 5;
-
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const rootMetaTitle = matches[0].meta[0].title;
   return [
@@ -42,7 +40,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   ];
 };
 
-const paginate = createPaginator({ perPage: PAGE_SIZE });
+const paginate = createPaginator({ perPage: 5 });
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
@@ -118,7 +116,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     researchAreas,
     researchers,
     paginatedPublications,
-    currentPage: page,
     searchParams,
   });
 }
@@ -129,7 +126,6 @@ export default function Publications() {
     researchAreas,
     researchers,
     paginatedPublications: { data: publications, meta: paginatedMeta },
-    currentPage,
   } = useLoaderData<typeof loader>();
 
   const [searchParams] = useSearchParams();
