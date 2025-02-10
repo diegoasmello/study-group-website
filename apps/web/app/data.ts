@@ -41,3 +41,44 @@ export default {
       "Conheça nossa equipe e as mentes apaixonadas por trás do nosso trabalho!",
   },
 };
+
+export const text = {
+  home: {
+    heroAbout: {
+      title: "About the group",
+      actions: {
+        history: "History",
+        team: "Team",
+      },
+    },
+    researchSection: {
+      title: "Research areas",
+      linkText: "Know more about our research",
+    },
+    eventsSection: {
+      title: "Events and Courses",
+      linkText: "See all events",
+    },
+    publicationsSection: {
+      title: "Last publications",
+      linkText: "See all publications",
+    },
+    publicationactionsSection: {
+      title: "Last actions",
+      linkText: "See all actions",
+    },
+  },
+  history: {
+    title: "Meet our team",
+    teamSection: {
+      title: "Last actions",
+      linkText: "See the team",
+    },
+  },
+  research: {
+    projectSection: {
+      title: "Related projects",
+    },
+  },
+  publications: {},
+};

@@ -60,12 +60,10 @@ export default function ViewAction() {
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="col-span-12">
             <h1 className="text-h1 text-gray-950 mb-6">{action.title}</h1>
-            <div className="mb-6">
-              <p
-                className="text-gray-950"
-                dangerouslySetInnerHTML={{ __html: action.content }}
-              />
-            </div>
+            <div
+              className="mb-6 text-gray-950 grid gap-2"
+              dangerouslySetInnerHTML={{ __html: action.content }}
+            />
             <nav className="flex gap-4 mb-6">
               <ButtonShare>Compartilhar</ButtonShare>
             </nav>

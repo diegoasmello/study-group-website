@@ -64,12 +64,10 @@ export default function ViewEvent() {
         <section className="grid grid-cols-12 gap-x-8 gap-y-10 lg:gap-y-6">
           <div className="col-span-12 lg:col-span-8">
             <h1 className="text-h1 text-gray-950 mb-6">{event.title}</h1>
-            <div className="mb-6">
-              <p
-                className="text-gray-950"
-                dangerouslySetInnerHTML={{ __html: event.content }}
-              />
-            </div>
+            <div
+              className="mb-6 text-gray-950 grid gap-2"
+              dangerouslySetInnerHTML={{ __html: event.content }}
+            />
             <nav className="flex gap-4 mb-6">
               <Button>Inscrever-se</Button>
               <ButtonShare skin="ghost">Compartilhar</ButtonShare>
@@ -90,7 +88,7 @@ export default function ViewEvent() {
                     Data e hora
                   </span>
                   <p className="text-gray-950">
-                    {new Date(event.date).toLocaleDateString("pt-BR")}
+                    {new Date(event.date).toLocaleDateString()}
                   </p>
                 </div>
                 <hr className="w-full border-primary-lighter" />

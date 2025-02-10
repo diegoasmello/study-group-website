@@ -68,12 +68,10 @@ export default function ViewProject() {
               className="size-[11.25rem] rounded-3xl object-cover mb-6"
             />
             <h1 className="text-h1 text-gray-950 mb-6">{project.title}</h1>
-            <div className="mb-6">
-              <p
-                className="text-gray-950 mb-6"
-                dangerouslySetInnerHTML={{ __html: project.content }}
-              />
-            </div>
+            <div
+              className="mb-6 text-gray-950 grid gap-2"
+              dangerouslySetInnerHTML={{ __html: project.content }}
+            />
             <nav className="flex gap-4 lg:mb-6">
               <Button>Visitar projeto</Button>
               <ButtonShare skin="ghost">Compartilhar</ButtonShare>
@@ -102,8 +100,8 @@ export default function ViewProject() {
                     Período
                   </span>
                   <span className="text-gray-950">
-                    De {new Date(project.startDate).toLocaleDateString("pt-BR")}{" "}
-                    até {new Date(project.endDate).toLocaleDateString("pt-BR")}
+                    De {new Date(project.startDate).toLocaleDateString()} até{" "}
+                    {new Date(project.endDate).toLocaleDateString()}
                   </span>
                 </div>
                 <hr className="w-full border-primary-lighter" />

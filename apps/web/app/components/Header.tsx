@@ -277,40 +277,40 @@ function checkIsAboutNavLinkActive(pathname: string) {
 
 const navLinks = [
   {
-    label: "Início",
+    label: "Home",
     href: "./",
   },
   {
-    label: "Sobre",
+    label: "About",
     dropdown: [
       {
-        label: "História",
+        label: "History",
         href: "./history",
       },
       {
-        label: "Pesquisa",
+        label: "Research",
         href: "./research",
       },
       {
-        label: "Equipe",
+        label: "Team",
         href: "./team",
       },
     ],
   },
   {
-    label: "Publicações",
+    label: "Publications",
     href: "./publications",
   },
   {
-    label: "Eventos e Cursos",
+    label: "Events",
     href: "./events",
   },
   {
-    label: "Ações",
+    label: "Actions",
     href: "./actions",
   },
   {
-    label: "Projetos",
+    label: "Projects",
     href: "./projects",
   },
 ];

@@ -30,21 +30,21 @@ async function main() {
   const { count: researchAreaCount } = await prisma.researchArea.createMany({
     data: [
       {
-        title: "Leitura e Escrita",
+        title: "Reading and Writing",
         description: faker.lorem.sentence({ min: 10, max: 16 }),
         content: createContent(4),
         icon: faker.image.avatar(),
         image: faker.image.url(),
       },
       {
-        title: "Multilinguismo",
+        title: "Multilinguism",
         description: faker.lorem.sentence({ min: 10, max: 16 }),
         content: createContent(4),
         icon: faker.image.avatar(),
         image: faker.image.url(),
       },
       {
-        title: "Transculturalidade",
+        title: "Transculturality",
         description: faker.lorem.sentence({ min: 10, max: 16 }),
         content: createContent(4),
         icon: faker.image.avatar(),

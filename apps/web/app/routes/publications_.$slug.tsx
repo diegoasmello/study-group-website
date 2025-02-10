@@ -73,9 +73,7 @@ export default function ViewPublication() {
             <ul className="flex flex-col gap-2 mb-8">
               <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
                 <IconCalendar className="size-4" />
-                <span>
-                  {new Date(publication.date).toLocaleDateString("pt-BR")}
-                </span>
+                <span>{new Date(publication.date).toLocaleDateString()}</span>
               </li>
               {publication.researchers?.length && (
                 <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
@@ -91,12 +89,10 @@ export default function ViewPublication() {
               )}
             </ul>
             <h2 className="text-h4 text-gray-950 mb-2">Resumo</h2>
-            <div className="mb-6">
-              <p
-                className="text-gray-950 mb-6"
-                dangerouslySetInnerHTML={{ __html: publication.content }}
-              />
-            </div>
+            <div
+              className="mb-6 text-gray-950 grid gap-2"
+              dangerouslySetInnerHTML={{ __html: publication.content }}
+            />
             <nav className="flex gap-4 lg:mb-6">
               <Button>Ler</Button>
               <ButtonShare skin="ghost">Compartilhar</ButtonShare>

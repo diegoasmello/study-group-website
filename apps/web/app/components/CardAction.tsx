@@ -26,7 +26,7 @@ export function CardAction(props: CardActionProps) {
       label={
         <div className="flex items-center gap-2 text-h5 text-gray-700 fill-gray-700">
           <IconCalendar className="size-4" />
-          {action.date.toLocaleDateString("pt-BR")}
+          {action.date.toLocaleDateString()}
         </div>
       }
       actions={

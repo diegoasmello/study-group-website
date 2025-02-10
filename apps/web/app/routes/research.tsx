@@ -105,7 +105,7 @@ const ResearchItemSection = ({ item, index }: { item: any; index: number }) => {
                 <div
                   className="text-gray-800 grid gap-2"
                   dangerouslySetInnerHTML={{ __html: item.content }}
-                ></div>
+                />
               </div>
             </div>
           </section>

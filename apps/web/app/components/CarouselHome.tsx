@@ -73,6 +73,11 @@ export function CarouselHome({ items }: { items: CarouselHomeItem[] }) {
   );
 }
 
+const typeLabels: Record<CarouselHomeItem["type"], string> = {
+  action: "Action",
+  event: "Event",
+};
+
 const Item = ({ item }: { item: CarouselHomeItem }) => {
   return (
     <section className="w-full relative">
@@ -87,7 +92,7 @@ const Item = ({ item }: { item: CarouselHomeItem }) => {
             <div className="flex flex-col gap-8 items-start">
               <div className="flex flex-col gap-4">
                 <span className="text-primary font-medium">
-                  {item.type === "action" ? "Ação" : "Evento"}
+                  {typeLabels[item.type]}
                 </span>
                 <span className="text-h1-display line-clamp-4">
                   {item.title}

@@ -32,7 +32,7 @@ export function CardEvent(props: CardEventProps) {
         <div className="flex items-center gap-4 text-h5 text-gray-700 fill-gray-700">
           <div className="flex items-center gap-2">
             <IconCalendar className="size-4" />
-            {event.date.toLocaleDateString("pt-BR")}
+            {event.date.toLocaleDateString()}
           </div>
           {!hideLocale && (
             <div className="flex items-center gap-2">
