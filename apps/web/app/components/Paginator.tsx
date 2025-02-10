@@ -15,9 +15,6 @@ export function Paginator(props: PaginatedMeta) {
         {Array.from({ length: lastPage }).map((_, index) => {
           const pageIndex = index + 1;
           const isCurrentPage = pageIndex === currentPage;
-
-          console.log(pageIndex, currentPage);
-
           return (
             <Page
               key={index}
