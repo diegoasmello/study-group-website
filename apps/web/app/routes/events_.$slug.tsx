@@ -1,13 +1,14 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
+import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
 import { CardEvent } from "~/components/CardEvent";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
-import { Link } from "~/components/Link";
+import { ExternalLink, Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
 import { getRelatedTerms, handleNotFound } from "~/util";
@@ -72,7 +73,9 @@ export default function ViewEvent() {
               dangerouslySetInnerHTML={{ __html: event.content }}
             />
             <nav className="flex gap-4 mb-6">
-              <Button>Inscrever-se</Button>
+              <ButtonLink to={event.link} external>
+                Inscrever-se
+              </ButtonLink>
               <ButtonShare skin="ghost">Compartilhar</ButtonShare>
             </nav>
           </div>
@@ -102,10 +105,10 @@ export default function ViewEvent() {
                   <span className="text-gray-950">{event.locale}</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
-                <Link to="/">
+                <ExternalLink to={event.link}>
                   <IconArrowForward className="size-5" /> Clique aqui para se
                   inscrever
-                </Link>
+                </ExternalLink>
               </div>
             </CardContainer>
           </div>

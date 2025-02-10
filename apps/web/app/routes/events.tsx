@@ -132,6 +132,7 @@ export default function Events() {
                     image: event.image,
                     date: new Date(event.date),
                     locale: event.locale,
+                    link: event.link,
                   }}
                 />
               </div>

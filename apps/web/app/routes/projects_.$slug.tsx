@@ -1,5 +1,4 @@
 import { json, useLoaderData } from "@remix-run/react";
-import { Button } from "~/components/Button";
 import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
@@ -8,7 +7,7 @@ import { CardResearch } from "~/components/CardResearch";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
-import { Link } from "~/components/Link";
+import { ExternalLink } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
 import { listFormat, getRelatedTerms, handleNotFound } from "~/util";
@@ -110,9 +109,9 @@ export default function ViewProject() {
                   </span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
-                <Link to="/">
+                <ExternalLink to={project.link}>
                   <IconArrowForward className="size-5" /> Visitar projeto
-                </Link>
+                </ExternalLink>
               </div>
             </CardContainer>
             <CardResearch />

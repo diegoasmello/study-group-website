@@ -1,5 +1,4 @@
 import { Card, CardProps, CardSize } from "./Card";
-import { Button } from "./Button";
 import { ButtonLink } from "./ButtonLink";
 import { IconCalendar, IconLocation } from "./icons";
 
@@ -11,6 +10,7 @@ interface CardEventProps extends Pick<CardProps, "hideShadow" | "className"> {
     image: string;
     date: Date;
     locale: string;
+    link?: string;
   };
   hideLocale?: boolean;
 }
@@ -52,9 +52,9 @@ export function CardEvent(props: CardEventProps) {
             Saiba mais
           </ButtonLink>
           {hasInscricao && (
-            <Button skin="ghost" size="md">
+            <ButtonLink skin="ghost" size="md" to={event.link}>
               Inscrever-se
-            </Button>
+            </ButtonLink>
           )}
         </nav>
       }
