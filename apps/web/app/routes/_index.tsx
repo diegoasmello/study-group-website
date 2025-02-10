@@ -190,6 +190,7 @@ export default function Index() {
           </div>
           <div className="col-start-3">
             <CardPublication
+              className="h-full"
               size="default"
               publication={{
                 slug: publications[1].slug,
@@ -202,6 +203,7 @@ export default function Index() {
           </div>
           <div className="col-start-3 row-start-2">
             <CardPublication
+              className="h-full"
               size="default"
               publication={{
                 slug: publications[2].slug,
@@ -214,6 +216,7 @@ export default function Index() {
           </div>
           <div className="col-start-4 row-start-1">
             <CardPublication
+              className="h-full"
               size="default"
               publication={{
                 slug: publications[3].slug,
@@ -226,6 +229,7 @@ export default function Index() {
           </div>
           <div className="col-start-4 row-start-2">
             <CardPublication
+              className="h-full"
               size="default"
               publication={{
                 slug: publications[4].slug,

@@ -10,7 +10,7 @@ import { IconCalendar, IconContract, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { Tooltip } from "~/components/Tooltip";
 import { prisma } from "~/lib/prisma.server";
-import { listFormat, getRelatedTerms } from "~/util";
+import { listFormat, getRelatedTerms, handleNotFound } from "~/util";
 
 export async function loader({ params }: { params: { slug: string } }) {
   const publication = await prisma.publication.findUnique({
@@ -21,6 +21,8 @@ export async function loader({ params }: { params: { slug: string } }) {
       researchers: true,
     },
   });
+
+  handleNotFound(publication);
 
   const { terms } = getRelatedTerms(publication?.title, publication?.keywords);
 

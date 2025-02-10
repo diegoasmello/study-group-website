@@ -1,3 +1,4 @@
+import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { ButtonShare } from "~/components/ButtonShare";
@@ -9,14 +10,16 @@ import { IconArrowForward } from "~/components/icons";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
-import { getRelatedTerms } from "~/util";
+import { getRelatedTerms, handleNotFound } from "~/util";
 
-export async function loader({ params }: { params: { slug: string } }) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const event = await prisma.event.findUnique({
     where: {
       slug: params.slug,
     },
   });
+
+  handleNotFound(event);
 
   const { terms } = getRelatedTerms(event?.title, event?.keywords);
 

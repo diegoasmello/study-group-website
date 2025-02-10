@@ -10,7 +10,7 @@ import { IconArrowForward } from "~/components/icons";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
-import { listFormat, getRelatedTerms } from "~/util";
+import { listFormat, getRelatedTerms, handleNotFound } from "~/util";
 
 export async function loader({ params }: { params: { slug: string } }) {
   const project = await prisma.project.findUnique({
@@ -21,6 +21,8 @@ export async function loader({ params }: { params: { slug: string } }) {
       researchers: true,
     },
   });
+
+  handleNotFound(project);
 
   const { terms } = getRelatedTerms(project?.title, project?.keywords);
 

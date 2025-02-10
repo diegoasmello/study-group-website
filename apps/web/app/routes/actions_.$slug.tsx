@@ -5,7 +5,7 @@ import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
-import { getRelatedTerms } from "~/util";
+import { getRelatedTerms, handleNotFound } from "~/util";
 
 export async function loader({ params }: { params: { slug: string } }) {
   const action = await prisma.action.findUnique({
@@ -13,6 +13,8 @@ export async function loader({ params }: { params: { slug: string } }) {
       slug: params.slug,
     },
   });
+
+  handleNotFound(action);
 
   const { terms } = getRelatedTerms(action?.title, action?.keywords);
 
