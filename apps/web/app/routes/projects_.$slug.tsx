@@ -1,5 +1,6 @@
 import { json, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
+import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
 import { CardProject } from "~/components/CardProject";
@@ -75,7 +76,9 @@ export default function ViewProject() {
               dangerouslySetInnerHTML={{ __html: project.content }}
             />
             <nav className="flex gap-4 lg:mb-6">
-              <Button>Visitar projeto</Button>
+              <ButtonLink to={project.link} external>
+                Visitar projeto
+              </ButtonLink>
               <ButtonShare skin="ghost">Compartilhar</ButtonShare>
             </nav>
           </div>

@@ -1,5 +1,6 @@
 import { json, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
+import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
@@ -96,7 +97,9 @@ export default function ViewPublication() {
               dangerouslySetInnerHTML={{ __html: publication.content }}
             />
             <nav className="flex gap-4 lg:mb-6">
-              <Button>Ler</Button>
+              <ButtonLink to={publication.link} external>
+                Ler
+              </ButtonLink>
               <ButtonShare skin="ghost">Compartilhar</ButtonShare>
             </nav>
           </div>

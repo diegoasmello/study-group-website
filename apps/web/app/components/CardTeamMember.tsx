@@ -1,6 +1,6 @@
 import { Card, CardProps } from "./Card";
 import { IconArrowForward } from "./icons";
-import { Link } from "./Link";
+import { ExternalLink } from "./Link";
 
 interface CardTeamMemberProps extends Pick<CardProps, "hideShadow" | "type"> {
   teamMember: {
@@ -23,9 +23,9 @@ export function CardTeamMember(props: CardTeamMemberProps) {
       imageAsIcon
       hideShadow={hideShadow}
       actions={
-        <Link to={teamMember.link}>
+        <ExternalLink to={teamMember.link}>
           Lattes <IconArrowForward className="size-5" />
-        </Link>
+        </ExternalLink>
       }
     />
   );

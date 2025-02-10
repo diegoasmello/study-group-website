@@ -1,5 +1,4 @@
 import { Card, CardProps, CardSize } from "./Card";
-import { Button } from "./Button";
 import { ButtonLink } from "./ButtonLink";
 import { IconCalendar, IconSignature } from "./icons";
 import { listFormat } from "~/util";
@@ -14,6 +13,7 @@ interface CardPublicationProps
     title: string;
     description: string;
     date: Date;
+    link: string;
     researchers: {
       id: number;
       name: string;
@@ -69,9 +69,9 @@ export function CardPublication(props: CardPublicationProps) {
             Ver mais
           </ButtonLink>
           {size === "extended" && (
-            <Button skin="ghost" size="md">
+            <ButtonLink skin="ghost" size="md" to={publication.link} external>
               Ler
-            </Button>
+            </ButtonLink>
           )}
         </nav>
       }

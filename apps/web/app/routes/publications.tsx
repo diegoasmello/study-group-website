@@ -186,6 +186,7 @@ export default function Publications() {
                     description: publication.content,
                     researchers: publication.researchers,
                     date: new Date(publication.date),
+                    link: publication.link,
                   }}
                 />
               ))
