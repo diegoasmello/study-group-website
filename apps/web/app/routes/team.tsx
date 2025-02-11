@@ -1,4 +1,5 @@
-import { Sections } from "@prisma/client";
+import { Prisma, Sections, TeamMember } from "@prisma/client";
+import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { CardTeamMember } from "~/components/CardTeamMember";
 import { Container } from "~/components/Container";
@@ -6,6 +7,7 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import { prisma } from "~/lib/prisma.server";
+import { createPaginator } from "~/util/createPaginator";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const rootMetaTitle = matches[0].meta[0].title;
@@ -15,18 +17,35 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   ];
 };
 
-export async function loader() {
+const paginate = createPaginator({ perPage: 9 });
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const url = new URL(request.url);
+  const page = Number(url.searchParams.get("page") ?? "1");
+
   const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.TEAM_HERO,
     },
   });
-  const teamMembers = await prisma.teamMember.findMany();
-  return json({ teamMembers, heroSection });
+  const paginatedTeamMembers = await paginate<
+    TeamMember,
+    Prisma.TeamMemberFindManyArgs
+  >(
+    prisma.teamMember,
+    {},
+    {
+      page: page,
+    }
+  );
+  return json({ paginatedTeamMembers, heroSection });
 }
 
 export default function Team() {
-  const { heroSection, teamMembers } = useLoaderData<typeof loader>();
+  const {
+    heroSection,
+    paginatedTeamMembers: { data: teamMembers, meta: paginatedMeta },
+  } = useLoaderData<typeof loader>();
 
   if (!heroSection) return null;
 
@@ -59,7 +78,7 @@ export default function Team() {
             </div>
           ))}
           <div className="col-span-12 flex justify-center mt-8 mb-10">
-            <Paginator />
+            <Paginator {...paginatedMeta} />
           </div>
           <div className="col-span-12">
             <NewsletterBanner />
