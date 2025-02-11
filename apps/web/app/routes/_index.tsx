@@ -173,8 +173,38 @@ export default function Index() {
 
       {/* last publications */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
-        <h2 className="text-h3 text-left w-full">Últimas publicações</h2>
-        <div className="grid grid-cols-4 grid-rows-2 gap-8">
+        <h2 className="text-h3 text-center lg:text-left w-full">
+          Últimas publicações
+        </h2>
+
+        <div className="w-full lg:hidden">
+          <Carousel>
+            {(isSlideInView) =>
+              publications.map((publication, index) => (
+                <div
+                  key={publication.id}
+                  className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                >
+                  <CardPublication
+                    className="h-full"
+                    size="default"
+                    publication={{
+                      slug: publication.slug,
+                      title: publication.title,
+                      description: publication.resume,
+                      date: new Date(publication.date),
+                      researchers: publication.researchers,
+                      link: publication.link,
+                    }}
+                    hideShadow={!isSlideInView(index)}
+                  />
+                </div>
+              ))
+            }
+          </Carousel>
+        </div>
+
+        <div className="grid-cols-4 grid-rows-2 gap-8 hidden lg:grid">
           <div className="col-span-2 row-span-2">
             <CardPublication
               className="h-full"

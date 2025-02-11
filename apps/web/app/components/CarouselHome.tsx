@@ -85,7 +85,7 @@ const Item = ({ item }: { item: CarouselHomeItem }) => {
         <img
           src={item.image}
           alt={item.title}
-          className="object-cover rounded-3xl w-full mb-4 lg:mb-0 lg:rounded-r-none lg:rounded-l-[3.5rem] lg:h-[35rem] lg:w-[50vw] lg:absolute lg:top-0 lg:right-0"
+          className="object-cover rounded-3xl w-full h-[26rem] mb-4 lg:mb-0 lg:rounded-r-none lg:rounded-l-[3.5rem] lg:h-[35rem] lg:w-[50vw] lg:absolute lg:top-0 lg:right-0"
         />
         <section className="grid grid-cols-12 gap-8">
           <div className="col-span-12 lg:col-span-4">

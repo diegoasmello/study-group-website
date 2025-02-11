@@ -2,7 +2,7 @@ import { Link, NavLink, useLocation } from "@remix-run/react";
 import { Button } from "./Button";
 import { Container } from "./Container";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { IconSearch, IconChevronDown } from "./icons";
+import { IconSearch, IconChevronDown, IconClose } from "./icons";
 import {
   Dropdown,
   DropdownButton,
@@ -15,6 +15,9 @@ import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
   Popover,
   PopoverButton,
   PopoverPanel,
@@ -96,7 +99,11 @@ export function Header() {
             className="lg:hidden h-[5rem] w-[3.5rem] -ml-4 flex items-center justify-center"
             onClick={() => setIsMobileSidebarOpen((prevValue) => !prevValue)}
           >
-            <IconMenu />
+            {isMobileSidebarOpen ? (
+              <IconClose className="size-6" />
+            ) : (
+              <IconMenu />
+            )}
           </button>
 
           <Link to="./">
@@ -113,7 +120,7 @@ export function Header() {
             <ul className="flex flex-row items-center gap-8">
               {navLinks.map((navLink, index) => (
                 <li key={index} className="font-medium">
-                  {navLink.dropdown ? (
+                  {navLink.menu ? (
                     <Dropdown>
                       <DropdownButton
                         className={twMerge(
@@ -127,12 +134,9 @@ export function Header() {
                         <IconChevronDown className="size-6 -mr-2" />
                       </DropdownButton>
                       <DropdownMenu anchorGap={18}>
-                        {navLink.dropdown.map((dropdown) => (
-                          <DropdownItemLink
-                            key={dropdown.href}
-                            to={dropdown.href}
-                          >
-                            {dropdown.label}
+                        {navLink.menu.map((item) => (
+                          <DropdownItemLink key={item.href} to={item.href}>
+                            {item.label}
                           </DropdownItemLink>
                         ))}
                       </DropdownMenu>
@@ -198,76 +202,112 @@ export function Header() {
           </nav>
         </div>
       </Container>
-
-      <Transition show={isMobileSidebarOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className={"relative z-10"}
-          onClose={() => setIsMobileSidebarOpen(false)}
-        >
-          <DialogBackdrop className="fixed top-[5rem] inset-0 bg-black/30" />
-
-          <div className="fixed inset-y-0 top-[5rem] left-0 flex items-start">
-            <TransitionChild
-              as={Fragment}
-              enter="transform transition ease-out duration-300"
-              enterFrom="-translate-x-full opacity-0"
-              enterTo="translate-x-0 opacity-100"
-              leave="transform transition ease-in duration-200"
-              leaveFrom="translate-x-0 opacity-100"
-              leaveTo="-translate-x-full opacity-0"
-            >
-              <DialogPanel className="w-[70vw] h-full bg-white p-6 shadow-lg relative">
-                <nav className="relative">
-                  <ul className="flex flex-col gap-8">
-                    {navLinks.map((navLink, index) => (
-                      <li key={index} className="font-medium">
-                        {navLink.dropdown ? (
-                          <Dropdown>
-                            <DropdownButton
-                              className={twMerge(
-                                `inline-flex items-center gap-1 focus:outline-none data-[hover]:text-primary data-[open]:text-primary data-[focus]:outline-1 data-[focus]:outline-white`,
-                                isAboutNavLinkActive
-                                  ? "active text-primary border-primary"
-                                  : "text-gray-950 hover:text-primary"
-                              )}
-                            >
-                              {navLink.label}
-                              <IconChevronDown className="size-6 -mr-2" />
-                            </DropdownButton>
-                            <DropdownMenu anchorGap={18}>
-                              {navLink.dropdown.map((dropdown) => (
-                                <DropdownItemLink
-                                  key={dropdown.href}
-                                  to={dropdown.href}
-                                >
-                                  {dropdown.label}
-                                </DropdownItemLink>
-                              ))}
-                            </DropdownMenu>
-                          </Dropdown>
-                        ) : (
-                          <NavLink
-                            className={({ isActive }) =>
-                              isActive
-                                ? "active text-primary border-primary"
-                                : "text-gray-950 hover:text-primary"
-                            }
-                            to={navLink.href!}
-                          >
-                            {navLink.label}
-                          </NavLink>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </DialogPanel>
-            </TransitionChild>
-          </div>
-        </Dialog>
-      </Transition>
+      <MobileSidebar
+        isMobileSidebarOpen={isMobileSidebarOpen}
+        isAboutNavLinkActive={isAboutNavLinkActive}
+        setIsMobileSidebarOpen={setIsMobileSidebarOpen}
+      />
     </header>
+  );
+}
+
+function MobileSidebar({
+  isMobileSidebarOpen,
+  isAboutNavLinkActive,
+  setIsMobileSidebarOpen,
+}: {
+  isMobileSidebarOpen: boolean;
+  isAboutNavLinkActive: boolean;
+  setIsMobileSidebarOpen: (open: boolean) => void;
+}) {
+  return (
+    <Transition show={isMobileSidebarOpen} as={Fragment}>
+      <Dialog
+        as="div"
+        className={"relative z-10 lg:hidden"}
+        onClose={() => setIsMobileSidebarOpen(false)}
+      >
+        <DialogBackdrop className="fixed top-[5rem] inset-0 bg-black/30" />
+        <div className="fixed inset-y-0 top-[5rem] left-0 flex items-start">
+          <TransitionChild
+            as={Fragment}
+            enter="transform transition ease-out duration-300"
+            enterFrom="-translate-x-full opacity-0"
+            enterTo="translate-x-0 opacity-100"
+            leave="transform transition ease-in duration-200"
+            leaveFrom="translate-x-0 opacity-100"
+            leaveTo="-translate-x-full opacity-0"
+          >
+            <DialogPanel className="w-[70vw] md:w-[40vw] h-full bg-white p-4 shadow-lg relative">
+              <nav className="relative">
+                <ul className="flex flex-col gap-2">
+                  {navLinks.map((navLink, index) => (
+                    <li key={index} className="font-medium">
+                      {navLink.menu ? (
+                        <Disclosure defaultOpen={isAboutNavLinkActive}>
+                          {({ open }) => (
+                            <Fragment>
+                              <DisclosureButton
+                                className={twMerge(
+                                  "h-[2.75rem] w-full px-4 flex items-center gap-2 rounded-lg data-[open]:mb-2"
+                                )}
+                              >
+                                {navLink.label}
+                                <IconChevronDown
+                                  className={clsx(
+                                    "size-6 -mr-2 transition-all",
+                                    open && "rotate-180"
+                                  )}
+                                />
+                              </DisclosureButton>
+                              <DisclosurePanel
+                                className="grid gap-2 origin-top transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
+                                transition
+                              >
+                                {navLink.menu.map((item) => (
+                                  <NavLink
+                                    key={item.href}
+                                    to={item.href}
+                                    className={({ isActive }) =>
+                                      twMerge(
+                                        "h-[2.75rem] w-full px-4 flex items-center rounded-lg",
+                                        isActive
+                                          ? "bg-primary-lighter text-primary"
+                                          : "text-gray-950 hover:text-primary"
+                                      )
+                                    }
+                                  >
+                                    {item.label}
+                                  </NavLink>
+                                ))}
+                              </DisclosurePanel>
+                            </Fragment>
+                          )}
+                        </Disclosure>
+                      ) : (
+                        <NavLink
+                          className={({ isActive }) =>
+                            twMerge(
+                              "h-[2.75rem] w-full px-4 flex items-center rounded-lg",
+                              isActive
+                                ? "bg-primary-lighter text-primary"
+                                : "text-gray-950 hover:text-primary"
+                            )
+                          }
+                          to={navLink.href!}
+                        >
+                          {navLink.label}
+                        </NavLink>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </Dialog>
+    </Transition>
   );
 }
 
@@ -282,7 +322,7 @@ const navLinks = [
   },
   {
     label: "About",
-    dropdown: [
+    menu: [
       {
         label: "History",
         href: "./history",
