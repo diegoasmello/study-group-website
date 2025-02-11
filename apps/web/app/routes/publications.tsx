@@ -84,11 +84,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
       where: {
         published: true,
         researchers: {
-          some: {
-            id: searchParams.researcher
-              ? Number(searchParams.researcher.value)
-              : undefined,
-          },
+          some: searchParams.researcher?.value
+            ? {
+                id: searchParams.researcher
+                  ? Number(searchParams.researcher.value)
+                  : undefined,
+              }
+            : undefined,
         },
         title: {
           contains: searchParams.query,

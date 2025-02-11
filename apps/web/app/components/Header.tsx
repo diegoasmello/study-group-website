@@ -1,4 +1,4 @@
-import { Link, NavLink, useLocation } from "@remix-run/react";
+import { Form, Link, NavLink, useLocation } from "@remix-run/react";
 import { Button } from "./Button";
 import { Container } from "./Container";
 import { Fragment, useEffect, useRef, useState } from "react";
@@ -18,9 +18,6 @@ import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
-  Popover,
-  PopoverButton,
-  PopoverPanel,
   Transition,
   TransitionChild,
 } from "@headlessui/react";
@@ -34,15 +31,15 @@ export function Header() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [isPageOnTop, setIsPageOnTop] = useState(true);
-  const [isAboutNavLinkActive, setIsAboutNavLinkActive] = useState(
-    checkIsAboutNavLinkActive(location.pathname)
+  const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(
+    checkIsAboutMenuOpen(location.pathname)
   );
   const navRef = useRef<HTMLDivElement | null>(null);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
     setIsMobileSidebarOpen(false);
-    setIsAboutNavLinkActive(checkIsAboutNavLinkActive(location.pathname));
+    setIsAboutMenuOpen(checkIsAboutMenuOpen(location.pathname));
   }, [location.pathname]);
 
   useEffect(() => {
@@ -62,7 +59,7 @@ export function Header() {
     updateIndicator();
     window.addEventListener("resize", updateIndicator);
     return () => window.removeEventListener("resize", updateIndicator);
-  }, [location.pathname, isAboutNavLinkActive]);
+  }, [location.pathname, isAboutMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -125,7 +122,7 @@ export function Header() {
                       <DropdownButton
                         className={twMerge(
                           `inline-flex items-center gap-1 focus:outline-none data-[hover]:text-primary data-[open]:text-primary data-[focus]:outline-1 data-[focus]:outline-white`,
-                          isAboutNavLinkActive
+                          isAboutMenuOpen
                             ? "active text-primary border-primary"
                             : "text-gray-950 hover:text-primary"
                         )}
@@ -180,23 +177,26 @@ export function Header() {
                 </Dropdown>
               </li>
               <li>
-                <Popover className="relative">
-                  <PopoverButton as={Fragment}>
+                <Dropdown>
+                  <DropdownButton as={Fragment}>
                     <Button size="md" skin="ghost" className="w-[2.75rem] px-0">
                       <IconSearch className="size-6" />
                     </Button>
-                  </PopoverButton>
-                  <PopoverPanel
-                    anchor="bottom end"
-                    className={`z-20 rounded-xl p-4 bg-white shadow-custom-2 flex transition duration-100 ease-out [--anchor-gap:1rem]`}
-                  >
-                    <TextInput
-                      name="a"
-                      Icon={IconSearch}
-                      placeholder="Busque pelo site"
-                    />
-                  </PopoverPanel>
-                </Popover>
+                  </DropdownButton>
+                  <DropdownMenu className="w-auto p-3" anchor="bottom end">
+                    <Form action="/search" className="flex gap-2">
+                      <TextInput
+                        name="a"
+                        Icon={IconSearch}
+                        placeholder="Busque pelo site"
+                        className="w-[14rem]"
+                      />
+                      <Button size="md" skin="ghost">
+                        Buscar
+                      </Button>
+                    </Form>
+                  </DropdownMenu>
+                </Dropdown>
               </li>
             </ul>
           </nav>
@@ -204,7 +204,7 @@ export function Header() {
       </Container>
       <MobileSidebar
         isMobileSidebarOpen={isMobileSidebarOpen}
-        isAboutNavLinkActive={isAboutNavLinkActive}
+        isAboutMenuOpen={isAboutMenuOpen}
         setIsMobileSidebarOpen={setIsMobileSidebarOpen}
       />
     </header>
@@ -213,11 +213,11 @@ export function Header() {
 
 function MobileSidebar({
   isMobileSidebarOpen,
-  isAboutNavLinkActive,
+  isAboutMenuOpen,
   setIsMobileSidebarOpen,
 }: {
   isMobileSidebarOpen: boolean;
-  isAboutNavLinkActive: boolean;
+  isAboutMenuOpen: boolean;
   setIsMobileSidebarOpen: (open: boolean) => void;
 }) {
   return (
@@ -244,7 +244,7 @@ function MobileSidebar({
                   {navLinks.map((navLink, index) => (
                     <li key={index} className="font-medium">
                       {navLink.menu ? (
-                        <Disclosure defaultOpen={isAboutNavLinkActive}>
+                        <Disclosure defaultOpen={isAboutMenuOpen}>
                           {({ open }) => (
                             <Fragment>
                               <DisclosureButton
@@ -311,7 +311,7 @@ function MobileSidebar({
   );
 }
 
-function checkIsAboutNavLinkActive(pathname: string) {
+function checkIsAboutMenuOpen(pathname: string) {
   return ["/history", "/research", "/team"].includes(pathname);
 }
 
