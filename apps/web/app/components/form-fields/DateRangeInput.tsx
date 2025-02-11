@@ -18,7 +18,7 @@ export function DateRangeInput(props: DateRangeInputProps) {
 
   return (
     <FormControl label={label}>
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-3 lg:gap-8">
         <TextInput
           name="startDate"
           type="date"

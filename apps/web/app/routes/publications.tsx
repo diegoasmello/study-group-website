@@ -23,7 +23,7 @@ import {
 } from "~/components/form-fields/DateRangeInput";
 import { FormControl } from "~/components/form-fields/FormControl";
 import { TextInput } from "~/components/form-fields/TextInput";
-import { IconSearch } from "~/components/icons";
+import { IconChevronDown, IconSearch } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
@@ -31,6 +31,13 @@ import { prisma } from "~/lib/prisma.server";
 import { Prisma, Publication, Sections } from "@prisma/client";
 import { NoResults } from "~/components/NoResults";
 import { createPaginator } from "~/util/createPaginator";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
+import { Fragment } from "react/jsx-runtime";
+import clsx from "clsx";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const rootMetaTitle = matches[0].meta[0].title;
@@ -157,6 +164,62 @@ export default function Publications() {
 
   if (!heroSection) return null;
 
+  function FilterForm() {
+    return (
+      <Form className="flex flex-col items-start gap-6" id="publication-filter">
+        <TextInput
+          id="q"
+          name="q"
+          placeholder="Pesquisa por título ou autor"
+          Icon={IconSearch}
+          className="w-full"
+          defaultValue={parsedSearchParams.query}
+        />
+        <FormControl label="Áreas de pesquisa">
+          <div className="flex flex-col gap-2">
+            {researchAreas.map((researchArea) => (
+              <CheckboxInput
+                name="researchAreas[]"
+                key={researchArea.id}
+                label={researchArea.title}
+                value={researchArea.id}
+                defaultChecked={parsedSearchParams.researchAreas?.includes(
+                  researchArea.id
+                )}
+              />
+            ))}
+          </div>
+        </FormControl>
+        <ComboboxInput
+          name="researcher"
+          label="Autor(a)"
+          immediate
+          items={researchersInputItems}
+          defaultValue={
+            parsedSearchParams.researcher ?? researchersInputItems[0]
+          }
+        />
+        <DateRangeInput
+          label="Período da publicação"
+          defaultValue={dateRangeDefaultValue}
+        />
+        <nav className="flex gap-2">
+          <Button size="md">Buscar</Button>
+          {/* {isFiltering && (
+          <Button
+            size="md"
+            skin="ghost"
+            type="button"
+            onClick={resetFilters}
+          >
+            Limpar filtros
+          </Button>
+        )} */}
+        </nav>
+      </Form>
+    );
+  }
+
   return (
     <main className="pb-20 bg-page">
       <PageBanner
@@ -173,6 +236,31 @@ export default function Publications() {
       />
       <Container>
         <section className="grid grid-cols-12 gap-6">
+          <div className="col-span-12 grid lg:hidden">
+            <CardContainer className="p-6">
+              <Disclosure defaultOpen={isFiltering}>
+                {({ open }) => (
+                  <Fragment>
+                    <DisclosureButton className="flex justify-between">
+                      <span className="text-h5 text-primary uppercase font-medium">
+                        Filtros
+                      </span>
+                      <IconChevronDown
+                        className={clsx(
+                          "size-6 -mr-2 transition-all text-primary",
+                          open && "rotate-180"
+                        )}
+                      />
+                    </DisclosureButton>
+                    <DisclosurePanel className="mt-4">
+                      <FilterForm />
+                    </DisclosurePanel>
+                  </Fragment>
+                )}
+              </Disclosure>
+            </CardContainer>
+          </div>
+
           <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
             {isFiltering && !publications.length ? (
               <NoResults className="pt-5" />
@@ -194,71 +282,20 @@ export default function Publications() {
               ))
             )}
           </div>
-          <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
-            <CardContainer className="p-6 ">
-              <Form
-                className="flex flex-col items-start gap-6"
-                id="publication-filter"
-              >
-                <TextInput
-                  id="q"
-                  name="q"
-                  placeholder="Pesquisa por título ou autor"
-                  Icon={IconSearch}
-                  className="w-full"
-                  defaultValue={parsedSearchParams.query}
-                />
-                <FormControl label="Áreas de pesquisa">
-                  <div className="flex flex-col gap-2">
-                    {researchAreas.map((researchArea) => (
-                      <CheckboxInput
-                        name="researchAreas[]"
-                        key={researchArea.id}
-                        label={researchArea.title}
-                        value={researchArea.id}
-                        defaultChecked={parsedSearchParams.researchAreas?.includes(
-                          researchArea.id
-                        )}
-                      />
-                    ))}
-                  </div>
-                </FormControl>
-                <ComboboxInput
-                  name="researcher"
-                  label="Autor(a)"
-                  immediate
-                  items={researchersInputItems}
-                  defaultValue={
-                    parsedSearchParams.researcher ?? researchersInputItems[0]
-                  }
-                />
-                <DateRangeInput
-                  label="Período da publicação"
-                  defaultValue={dateRangeDefaultValue}
-                />
-                <nav className="flex gap-2">
-                  <Button size="md">Buscar</Button>
-                  {/* {isFiltering && (
-                    <Button
-                      size="md"
-                      skin="ghost"
-                      type="button"
-                      onClick={resetFilters}
-                    >
-                      Limpar filtros
-                    </Button>
-                  )} */}
-                </nav>
-              </Form>
+          <div className="col-span-12 lg:col-span-4 flex-col gap-6 hidden lg:flex">
+            <CardContainer className="p-6">
+              <FilterForm />
             </CardContainer>
             <CardResearch />
           </div>
+        </section>
+        <section className="grid grid-cols-12 gap-6">
           {!!publications.length && (
-            <div className="col-span-12 flex justify-center mt-8 mb-10">
+            <div className="col-span-12 flex justify-center mt-8">
               <Paginator {...paginatedMeta} />
             </div>
           )}
-          <div className="col-span-12">
+          <div className="col-span-12 mt-10">
             <NewsletterBanner />
           </div>
         </section>

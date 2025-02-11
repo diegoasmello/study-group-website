@@ -1,9 +1,12 @@
-import { CardContainer } from "./Card";
+import { CardContainer, CardProps } from "./Card";
 import { ButtonLink } from "./ButtonLink";
+import { twMerge } from "tailwind-merge";
 
-export function CardResearch() {
+interface CardResearchProps extends Pick<CardProps, "className"> {}
+
+export function CardResearch({ className }: CardResearchProps) {
   return (
-    <CardContainer className="p-6 relative">
+    <CardContainer className={twMerge("p-6 relative", className)}>
       <img
         src="/assets/illustrations/research-card.svg"
         alt=""
