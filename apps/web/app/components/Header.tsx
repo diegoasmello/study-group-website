@@ -190,6 +190,7 @@ export function Header() {
                         Icon={IconSearch}
                         placeholder="Busque pelo site"
                         className="w-[14rem]"
+                        required
                       />
                       <Button size="md" skin="ghost">
                         Buscar
