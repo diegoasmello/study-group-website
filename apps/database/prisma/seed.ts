@@ -94,6 +94,7 @@ async function main() {
       keywords: Array.from({ length: 3 })
         .map(() => faker.lorem.words(1))
         .join("; "),
+      resume: faker.lorem.paragraph(4),
       content: createContent(),
       image: faker.image.url(),
       workload: faker.number.int({ min: 10, max: 60 }),
@@ -140,6 +141,7 @@ async function main() {
       keywords: Array.from({ length: 3 })
         .map(() => faker.lorem.words(1))
         .join("; "),
+      resume: faker.lorem.paragraph(4),
       content: createContent(),
       image: faker.image.url(),
       date: faker.date.soon(),

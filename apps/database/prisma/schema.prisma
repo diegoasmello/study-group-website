@@ -12,6 +12,7 @@ model Action {
   title     String   @db.VarChar(200)
   slug      String   @unique @db.VarChar(200)
   keywords  String   @db.VarChar(200)
+  resume    String
   content   String
   date      DateTime
   image     String   @db.VarChar(200)
@@ -43,6 +44,7 @@ model Event {
   title     String   @db.VarChar(200)
   slug      String   @unique @db.VarChar(200)
   keywords  String   @db.VarChar(200)
+  resume    String
   content   String
   image     String   @db.VarChar(200)
   link      String   @db.VarChar(200)

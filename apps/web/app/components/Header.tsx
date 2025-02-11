@@ -186,7 +186,7 @@ export function Header() {
                   <DropdownMenu className="w-auto p-3" anchor="bottom end">
                     <Form action="/search" className="flex gap-2">
                       <TextInput
-                        name="a"
+                        name="q"
                         Icon={IconSearch}
                         placeholder="Busque pelo site"
                         className="w-[14rem]"

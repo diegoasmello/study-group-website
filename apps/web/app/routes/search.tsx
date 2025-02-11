@@ -1,4 +1,5 @@
-import { MetaFunction } from "@remix-run/react";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { json, MetaFunction, redirect, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
@@ -15,12 +16,23 @@ export const meta: MetaFunction = () => {
   return [{ title: data.search.title + " | " + data.site.title }];
 };
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  const url = new URL(request.url);
+  const q = url.searchParams.get("q");
+
+  if (!q) return redirect("/");
+
+  return json({ q });
+}
+
 export default function Search() {
+  const { q } = useLoaderData<typeof loader>();
+
   return (
     <main className="pb-20 bg-page">
       <PageBanner
         title={data.search.title}
-        text="Exibindo 3 resultados para “aprendizado”:"
+        text={`Exibindo 3 resultados para “${q}”:`}
         illustration={
           <img
             src="/assets/illustrations/search.svg"
