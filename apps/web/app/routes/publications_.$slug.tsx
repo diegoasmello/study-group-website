@@ -84,8 +84,8 @@ export default function ViewPublication() {
                   <span>
                     {listFormat(
                       publication?.researchers?.map(
-                        (research) => research.name
-                      ) ?? []
+                        (research) => research.name,
+                      ) ?? [],
                     )}
                   </span>
                 </li>
@@ -190,7 +190,7 @@ function createCitation(publication: {
 }): string {
   const { title, researchers, magazine, date } = publication;
   const authors = listFormat(
-    researchers.map((author) => formatAuthor(author.name))
+    researchers.map((author) => formatAuthor(author.name)),
   );
 
   return `${authors} ${title} ${magazine}. ${new Date(date).getFullYear()}.`;

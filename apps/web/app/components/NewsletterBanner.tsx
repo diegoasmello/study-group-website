@@ -128,7 +128,7 @@ function NewsletterFeedbackModal({
               <DialogTitle
                 className={twJoin(
                   "text-h4",
-                  status === "success" ? "text-success" : "text-danger"
+                  status === "success" ? "text-success" : "text-danger",
                 )}
               >
                 {modalContent[status].title}

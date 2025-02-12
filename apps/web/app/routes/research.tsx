@@ -86,7 +86,7 @@ const ResearchItemSection = ({ item, index }: { item: any; index: number }) => {
           alt=""
           className={twJoin(
             "hidden lg:block h-full w-[calc(50vw-4rem)] object-cover absolute",
-            isOdd ? "rounded-r-[2rem] left-0" : "rounded-l-[2rem] right-0"
+            isOdd ? "rounded-r-[2rem] left-0" : "rounded-l-[2rem] right-0",
           )}
         />
         <Container>
@@ -95,7 +95,7 @@ const ResearchItemSection = ({ item, index }: { item: any; index: number }) => {
               <div
                 className={clsx(
                   "col-span-12 lg:col-span-6 flex flex-col gap-y-4 lg:py-10",
-                  isOdd && "lg:col-start-7"
+                  isOdd && "lg:col-start-7",
                 )}
               >
                 <IconWrapper>

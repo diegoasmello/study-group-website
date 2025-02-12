@@ -69,7 +69,7 @@ async function main() {
           link: faker.internet.url(),
           magazine: faker.book.title(),
           doi: `${faker.string.alphanumeric(6)}/${faker.string.alphanumeric(
-            12
+            12,
           )}`,
           license: "CC BY 4.0",
           researchers: {
@@ -84,7 +84,7 @@ async function main() {
           },
           published: true,
         },
-      })
+      }),
   );
 
   await prisma.event.createMany({
@@ -131,7 +131,7 @@ async function main() {
           },
           published: true,
         },
-      })
+      }),
   );
 
   await prisma.action.createMany({

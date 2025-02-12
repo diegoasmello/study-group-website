@@ -142,7 +142,7 @@ const HistorySection = (props: {
       <div
         className={clsx(
           "col-span-12 lg:col-span-6 flex items-center justify-center",
-          align === "left" ? "lg:order-1" : "lg:order-2"
+          align === "left" ? "lg:order-1" : "lg:order-2",
         )}
       >
         <img
@@ -154,7 +154,7 @@ const HistorySection = (props: {
       <div
         className={clsx(
           "col-span-12 lg:col-span-6 flex flex-col justify-center gap-6 py-4",
-          align === "left" ? "lg:order-2" : "lg:order-1"
+          align === "left" ? "lg:order-2" : "lg:order-1",
         )}
       >
         <h2 className="text-h2 text-gray-950 text-center lg:text-left">

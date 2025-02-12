@@ -25,7 +25,7 @@ export function CardPublication(props: CardPublicationProps) {
   const { size, publication, hideShadow, hideText, className } = props;
 
   const researchersText = listFormat(
-    publication?.researchers?.map((research) => research.name) ?? []
+    publication?.researchers?.map((research) => research.name) ?? [],
   );
 
   return (

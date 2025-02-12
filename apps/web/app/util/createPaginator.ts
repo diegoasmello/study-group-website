@@ -19,11 +19,11 @@ export type PaginateOptions = {
 export type PaginateFunction = <T, K>(
   model: any,
   args?: K,
-  options?: PaginateOptions
+  options?: PaginateOptions,
 ) => Promise<PaginatedResult<T>>;
 
 export const createPaginator = (
-  defaultOptions: PaginateOptions
+  defaultOptions: PaginateOptions,
 ): PaginateFunction => {
   return async (model, args: any = { where: undefined }, options) => {
     const page = Number(options?.page || defaultOptions?.page) || 1;

@@ -1,6 +1,6 @@
 export function getRelatedTerms(
   title: string | undefined,
-  keywords: string | undefined
+  keywords: string | undefined,
 ): { terms: string[] } {
   const splittedTitle =
     title?.split(" ")?.filter((word) => word.length > 4) ?? [];

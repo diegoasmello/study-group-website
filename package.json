@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "eslint": "^8.38.0",
+    "prettier": "3.5.0",
     "typescript": "^5.1.6"
   }
 }

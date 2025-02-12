@@ -33,8 +33,8 @@ export function TextInput(props: TextInputProps) {
               placeholder:text-gray-400 placeholder:italic
               transition`,
               Icon && "pl-[2.75rem]",
-              className
-            )
+              className,
+            ),
           )}
           required={required}
           {...rest}

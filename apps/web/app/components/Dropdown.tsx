@@ -38,7 +38,7 @@ export function DropdownMenu({
       style={{ "--custom-anchor-gap": anchorGap + "px" } as React.CSSProperties}
       className={twMerge(
         "z-20 w-[8.5rem] origin-top-right rounded-xl p-2 bg-white shadow-custom-2 flex flex-col gap-1 transition duration-100 ease-out [--anchor-gap:var(--custom-anchor-gap)]",
-        className
+        className,
       )}
     >
       {children}
@@ -56,7 +56,7 @@ export function DropdownItemLink({ to, children }: DropdownItemLinkProps) {
             "h-[2.5rem] flex items-center px-4 rounded-lg font-medium transition",
             isActive
               ? "bg-primary-light text-white data-[focus]:bg-primary-light"
-              : "bg-white text-gray-950 data-[focus]:bg-primary-lighter"
+              : "bg-white text-gray-950 data-[focus]:bg-primary-lighter",
           )
         }
       >

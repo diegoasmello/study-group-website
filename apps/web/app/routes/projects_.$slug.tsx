@@ -92,8 +92,8 @@ export default function ViewProject() {
                     {project.researchers.length
                       ? listFormat(
                           project.researchers.map(
-                            (researcher) => researcher.name
-                          )
+                            (researcher) => researcher.name,
+                          ),
                         )
                       : "-"}
                   </span>

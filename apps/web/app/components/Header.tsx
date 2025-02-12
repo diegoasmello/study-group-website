@@ -32,7 +32,7 @@ export function Header() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [isPageOnTop, setIsPageOnTop] = useState(true);
   const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(
-    checkIsAboutMenuOpen(location.pathname)
+    checkIsAboutMenuOpen(location.pathname),
   );
   const navRef = useRef<HTMLDivElement | null>(null);
   const lastScrollY = useRef(0);
@@ -45,7 +45,7 @@ export function Header() {
   useEffect(() => {
     const updateIndicator = () => {
       const activeLink = navRef.current?.querySelector(
-        ".active"
+        ".active",
       ) as HTMLElement;
 
       if (activeLink) {
@@ -86,8 +86,8 @@ export function Header() {
         clsx(
           "flex items-center justify-center w-full h-20 z-10 fixed top-0 left-0 bg-white",
           isHeaderVisible ? "translate-y-0" : "-translate-y-full",
-          !isPageOnTop && "shadow-custom-1 transition-transform duration-300"
-        )
+          !isPageOnTop && "shadow-custom-1 transition-transform duration-300",
+        ),
       )}
     >
       <Container>
@@ -124,7 +124,7 @@ export function Header() {
                           `inline-flex items-center gap-1 focus:outline-none data-[hover]:text-primary data-[open]:text-primary data-[focus]:outline-1 data-[focus]:outline-white`,
                           isAboutMenuOpen
                             ? "active text-primary border-primary"
-                            : "text-gray-950 hover:text-primary"
+                            : "text-gray-950 hover:text-primary",
                         )}
                       >
                         {navLink.label}
@@ -250,14 +250,14 @@ function MobileSidebar({
                             <Fragment>
                               <DisclosureButton
                                 className={twMerge(
-                                  "h-[2.75rem] w-full px-4 flex items-center gap-2 rounded-lg data-[open]:mb-2"
+                                  "h-[2.75rem] w-full px-4 flex items-center gap-2 rounded-lg data-[open]:mb-2",
                                 )}
                               >
                                 {navLink.label}
                                 <IconChevronDown
                                   className={clsx(
                                     "size-6 -mr-2 transition-all",
-                                    open && "rotate-180"
+                                    open && "rotate-180",
                                   )}
                                 />
                               </DisclosureButton>
@@ -274,7 +274,7 @@ function MobileSidebar({
                                         "h-[2.75rem] w-full px-4 flex items-center rounded-lg",
                                         isActive
                                           ? "bg-primary-lighter text-primary"
-                                          : "text-gray-950 hover:text-primary"
+                                          : "text-gray-950 hover:text-primary",
                                       )
                                     }
                                   >
@@ -292,7 +292,7 @@ function MobileSidebar({
                               "h-[2.75rem] w-full px-4 flex items-center rounded-lg",
                               isActive
                                 ? "bg-primary-lighter text-primary"
-                                : "text-gray-950 hover:text-primary"
+                                : "text-gray-950 hover:text-primary",
                             )
                           }
                           to={navLink.href!}

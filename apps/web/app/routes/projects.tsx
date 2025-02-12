@@ -42,7 +42,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     },
     {
       page: page,
-    }
+    },
   );
   return json({ paginatedProjects, heroSection });
 }

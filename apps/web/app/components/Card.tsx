@@ -63,7 +63,7 @@ export function Card(props: CardProps) {
           <div
             className={clsx(
               "size-[7.5rem] bg-primary-lighter flex items-center justify-center rounded-3xl",
-              grow === "icon" ? "flex-1" : "flex-0"
+              grow === "icon" ? "flex-1" : "flex-0",
             )}
           >
             {icon}
@@ -75,7 +75,7 @@ export function Card(props: CardProps) {
             alt={title}
             className={clsx(
               "size-[7.5rem] rounded-3xl object-cover",
-              grow === "icon" ? "flex-1" : "flex-0"
+              grow === "icon" ? "flex-1" : "flex-0",
             )}
           />
         )}
@@ -86,7 +86,7 @@ export function Card(props: CardProps) {
           className={clsx(
             "text-h4 text-gray-950 font-medium line-clamp-3",
             grow === "title" ? "flex-1" : "flex-0",
-            sizeClass.title
+            sizeClass.title,
           )}
         >
           {title}
@@ -101,7 +101,7 @@ export function Card(props: CardProps) {
             className={twMerge(
               "text-gray-700",
               sizeClass.text,
-              grow === "text" ? "flex-1" : "flex-0"
+              grow === "text" ? "flex-1" : "flex-0",
             )}
           >
             {text}
@@ -128,8 +128,8 @@ export function CardContainer({
           "grid w-full bg-white rounded-3xl overflow-hidden",
           !hideShadow && typeStyles[type],
           hasImage && "grid-rows-[15rem,1fr]",
-          className
-        )
+          className,
+        ),
       )}
     >
       {children}

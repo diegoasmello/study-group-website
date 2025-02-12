@@ -117,7 +117,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     },
     {
       page: page,
-    }
+    },
   );
 
   return json({
@@ -184,7 +184,7 @@ export default function Publications() {
                 label={researchArea.title}
                 value={researchArea.id}
                 defaultChecked={parsedSearchParams.researchAreas?.includes(
-                  researchArea.id
+                  researchArea.id,
                 )}
               />
             ))}
@@ -248,7 +248,7 @@ export default function Publications() {
                       <IconChevronDown
                         className={clsx(
                           "size-6 -mr-2 transition-all text-primary",
-                          open && "rotate-180"
+                          open && "rotate-180",
                         )}
                       />
                     </DisclosureButton>
@@ -306,7 +306,7 @@ export default function Publications() {
 
 function parseSearchParams(searchParams: URLSearchParams) {
   const researcher: ComboboxItem = JSON.parse(
-    decodeURIComponent(searchParams.get("researcher")!)
+    decodeURIComponent(searchParams.get("researcher")!),
   );
   const startDate = searchParams.get("startDate");
   const endDate = searchParams.get("startDate");

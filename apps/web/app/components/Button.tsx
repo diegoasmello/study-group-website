@@ -29,14 +29,14 @@ export const Button = forwardRef(
             skinClasses[skin],
             sizeClasses[size],
             hasIcon && "gap-2 px-3",
-            className
-          )
+            className,
+          ),
         )}
         ref={ref}
         {...rest}
       />
     );
-  }
+  },
 );
 
 Button.displayName = "Button";

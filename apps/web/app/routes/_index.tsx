@@ -67,7 +67,7 @@ export default function Index() {
         image: event.image,
         date: Number(event.date),
         type: "event",
-      })
+      }),
     ),
     ...actions.map(
       (action): CarouselHomeItem => ({
@@ -78,7 +78,7 @@ export default function Index() {
         image: action.image,
         date: Number(action.date),
         type: "action",
-      })
+      }),
     ),
   ]
     .sort((a, b) => a.date - b.date)

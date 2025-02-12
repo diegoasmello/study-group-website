@@ -55,7 +55,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     },
     {
       page: page,
-    }
+    },
   );
   return json({ heroSection, paginatedEvents, q });
 }

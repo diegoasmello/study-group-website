@@ -15,7 +15,7 @@ export function PageBanner(props: PageBannerProps) {
     <div
       className={twMerge(
         "bg-primary-lighter pt-14 pb-16 relative overflow-hidden",
-        className
+        className,
       )}
       {...rest}
     >
