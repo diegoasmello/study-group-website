@@ -2,6 +2,7 @@ import { SVGProps } from "react";
 import { FormControl, FormControlProps } from "./FormControl";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
+import { IconErrorCircle } from "../icons";
 
 interface TextInputProps
   extends React.ComponentProps<"input">,
@@ -24,13 +25,17 @@ export function TextInput(props: TextInputProps) {
           name={name}
           className={twMerge(
             clsx(
-              `h-[2.75rem] border rounded-xl px-4
-              border-gray-300 text-gray-950
+              `
+              peer w-full h-[2.75rem] px-4
+              text-gray-950
+              border border-gray-300 rounded-xl
               hover:border-gray-400
               active:border-primary
               focus:outline-none focus:shadow-focus
               disabled:border-gray-200 disabled:bg-gray-100
               placeholder:text-gray-400 placeholder:italic
+              focus:invalid:shadow-focus-danger
+              required:focus:invalid:pr-[2.75rem]
               transition`,
               Icon && "pl-[2.75rem]",
               className,
@@ -39,6 +44,9 @@ export function TextInput(props: TextInputProps) {
           required={required}
           {...rest}
         />
+        <div className="absolute top-0 right-0 text-danger size-[2.75rem] items-center justify-center hidden peer-focus:peer-invalid:flex">
+          <IconErrorCircle className="size-6" />
+        </div>
       </div>
     </FormControl>
   );

@@ -39,8 +39,8 @@ export function NewsletterBanner() {
   }, [fetcher]);
 
   return (
-    <div className="bg-primary-lighter py-10 px-6 lg:px-16 rounded-[3.25rem] relative overflow-hidden">
-      <div className="flex flex-col gap-6 items-start">
+    <div className="bg-primary-lighter py-10 px-6 lg:px-16 rounded-[3.25rem] relative overflow-hidden grid grid-cols-12">
+      <div className="col-span-12 lg:col-span-3 flex flex-col gap-6 items-start">
         <span className="text-h3 text-primary">
           Participe de
           <br />
@@ -49,7 +49,7 @@ export function NewsletterBanner() {
         <fetcher.Form
           method="post"
           action="/"
-          className="flex flex-col gap-6 items-start"
+          className="w-full flex flex-col gap-6 items-start"
         >
           <TextInput
             id="email"
