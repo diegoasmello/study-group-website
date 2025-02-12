@@ -31,7 +31,7 @@ export function TextInput(props: TextInputProps) {
               border border-gray-300 rounded-xl
               hover:border-gray-400
               active:border-primary
-              focus:outline-none focus:shadow-focus
+              focus:outline-hidden focus:shadow-focus
               disabled:border-gray-200 disabled:bg-gray-100
               placeholder:text-gray-400 placeholder:italic
               focus:invalid:shadow-focus-danger
@@ -44,7 +44,7 @@ export function TextInput(props: TextInputProps) {
           required={required}
           {...rest}
         />
-        <div className="absolute top-0 right-0 text-danger size-[2.75rem] items-center justify-center hidden peer-focus:peer-invalid:flex">
+        <div className="absolute top-0 right-0 text-danger size-[2.75rem] items-center justify-center hidden peer-invalid:peer-focus:flex">
           <IconErrorCircle className="size-6" />
         </div>
       </div>

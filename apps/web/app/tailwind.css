@@ -1,6 +1,106 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --font-sans:
+    Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+
+  --text-h1-display: 3.5rem;
+  --text-h1-display--line-height: 4rem;
+  --text-h1-display--letter-spacing: -1.2%;
+  --text-h1-display--font-weight: 600;
+  --text-h1: 3rem;
+  --text-h1--line-height: 3.5rem;
+  --text-h1--letter-spacing: -1.2%;
+  --text-h1--font-weight: 600;
+  --text-h2: 2.5rem;
+  --text-h2--line-height: 3rem;
+  --text-h2--letter-spacing: -2%;
+  --text-h2--font-weight: 600;
+  --text-h3: 2rem;
+  --text-h3--line-height: 2.5rem;
+  --text-h3--letter-spacing: -1.4%;
+  --text-h3--font-weight: 500;
+  --text-h4: 1.5rem;
+  --text-h4--line-height: 2rem;
+  --text-h4--letter-spacing: -1.4%;
+  --text-h4--font-weight: 500;
+  --text-h5: 0.875rem;
+  --text-h5--line-height: 1.25rem;
+  --text-h5--letter-spacing: 0;
+  --text-h5--font-weight: 400;
+  --text-lead-1: 1.25rem;
+
+  --color-primary-100: #eeeff5;
+  --color-primary-200: #dcdfeb;
+  --color-primary-300: #b9bfd7;
+  --color-primary-400: #989fc3;
+  --color-primary-500: #7680af;
+  --color-primary-600: #53609b;
+  --color-primary-700: #273782;
+  --color-primary-800: #1f2c68;
+  --color-primary-900: #1f2c68;
+  --color-primary-lighter: #eeeff5;
+  --color-primary-light: #525f9b;
+  --color-primary: #273782;
+  --color-primary-dark: #1f2c68;
+  --color-primary-darker: #192353;
+
+  --color-success-lighter: #e1f6df;
+  --color-success-light: #40a42b;
+  --color-success: #217b00;
+  --color-success-dark: #166000;
+  --color-success-darker: #0e4700;
+
+  --color-danger-lighter: #feeced;
+  --color-danger-light: #f75b60;
+  --color-danger: #d01e29;
+  --color-danger-dark: #a4151e;
+  --color-danger-darker: #790c14;
+
+  --color-facebook: #1778f2;
+  --color-facebook-idle: #c8dffc;
+
+  --color-twitter: #1da1f2;
+  --color-twitter-idle: #c9e9fc;
+
+  --color-instagram: #d62976;
+  --color-instagram-idle: #f5ccde;
+
+  --color-whatsapp: #25d366;
+  --color-whatsapp-idle: #cbf5da;
+
+  --color-telegram: #028aca;
+  --color-telegram-idle: #c2e3f2;
+
+  --shadow-focus: 0 0 0 1px white, 0 0 0 3px var(--color-primary);
+  --shadow-focus-danger: 0 0 0 1px white, 0 0 0 3px var(--color-danger);
+  --shadow-custom-1: 0px 8px 40px 0px rgba(0, 0, 0, 4%);
+  --shadow-custom-2: 0px 8px 24px 0px rgba(0, 0, 0, 16%);
+
+  --background-image-page: linear-gradient(
+    rgba(217, 217, 217, 0%) 0%,
+    rgba(217, 217, 217, 14%) 100%
+  );
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
 html,
 body {

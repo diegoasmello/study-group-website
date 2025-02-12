@@ -63,7 +63,7 @@ export function Card(props: CardProps) {
           <div
             className={clsx(
               "size-[7.5rem] bg-primary-lighter flex items-center justify-center rounded-3xl",
-              grow === "icon" ? "flex-1" : "flex-0",
+              grow === "icon" && "flex-1",
             )}
           >
             {icon}
@@ -75,24 +75,24 @@ export function Card(props: CardProps) {
             alt={title}
             className={clsx(
               "size-[7.5rem] rounded-3xl object-cover",
-              grow === "icon" ? "flex-1" : "flex-0",
+              grow === "icon" && "flex-1",
             )}
           />
         )}
         {label && (
-          <div className={grow === "label" ? "flex-1" : "flex-0"}>{label}</div>
+          <div className={clsx(grow === "label" && "flex-1")}>{label}</div>
         )}
         <div
           className={clsx(
             "text-h4 text-gray-950 font-medium line-clamp-3",
-            grow === "title" ? "flex-1" : "flex-0",
+            grow === "title" && "flex-1",
             sizeClass.title,
           )}
         >
           {title}
         </div>
         {subtitle && (
-          <div className={grow === "subtitle" ? "flex-1" : "flex-0"}>
+          <div className={clsx(grow === "subtitle" && "flex-1")}>
             {subtitle}
           </div>
         )}
@@ -101,13 +101,13 @@ export function Card(props: CardProps) {
             className={twMerge(
               "text-gray-700",
               sizeClass.text,
-              grow === "text" ? "flex-1" : "flex-0",
+              grow === "text" && "flex-1",
             )}
           >
             {text}
           </span>
         )}
-        <div className="flex-0">{actions}</div>
+        <div className="">{actions}</div>
       </div>
     </CardContainer>
   );
@@ -127,7 +127,7 @@ export function CardContainer({
         clsx(
           "grid w-full bg-white rounded-3xl overflow-hidden",
           !hideShadow && typeStyles[type],
-          hasImage && "grid-rows-[15rem,1fr]",
+          hasImage && "grid-rows-[15rem_1fr]",
           className,
         ),
       )}

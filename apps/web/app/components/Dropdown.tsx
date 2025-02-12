@@ -55,8 +55,8 @@ export function DropdownItemLink({ to, children }: DropdownItemLinkProps) {
           twJoin(
             "h-[2.5rem] flex items-center px-4 rounded-lg font-medium transition",
             isActive
-              ? "bg-primary-light text-white data-[focus]:bg-primary-light"
-              : "bg-white text-gray-950 data-[focus]:bg-primary-lighter",
+              ? "bg-primary-light text-white data-focus:bg-primary-light"
+              : "bg-white text-gray-950 data-focus:bg-primary-lighter",
           )
         }
       >
@@ -74,7 +74,7 @@ export function DropdownItemButton({
     <MenuItem as={Fragment}>
       <button
         onClick={onClick}
-        className="h-[2.5rem] flex items-center px-4 rounded-lg data-[focus]:bg-primary-lighter transition"
+        className="h-[2.5rem] flex items-center px-4 rounded-lg data-focus:bg-primary-lighter transition"
       >
         {children}
       </button>

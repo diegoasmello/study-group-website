@@ -55,12 +55,12 @@ export function ComboboxInput(props: ComboboxInputProps) {
             border-gray-300 text-gray-950
             hover:border-gray-400
             active:border-primary
-            focus:outline-none focus:shadow-focus
+            focus:outline-hidden focus:shadow-focus
             disabled:border-gray-200 disabled:bg-gray-100
             placeholder:text-gray-400 placeholder:italic
             transition"
           />
-          <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5 text-gray-400 data-[hover]:text-primary">
+          <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5 text-gray-400 data-hover:text-primary">
             <IconChevronDown className="size-6" />
           </ComboboxButton>
         </div>
@@ -74,7 +74,7 @@ export function ComboboxInput(props: ComboboxInputProps) {
             <ComboboxOption
               key={item.value}
               value={JSON.stringify(item)}
-              className="h-[2.75rem] min-h-[2.75rem] flex items-center px-4 bg-white rounded-lg transition data-[focus]:bg-primary-lighter cursor-pointer "
+              className="h-[2.75rem] min-h-[2.75rem] flex items-center px-4 bg-white rounded-lg transition data-focus:bg-primary-lighter cursor-pointer "
             >
               {item.label}
             </ComboboxOption>

@@ -121,7 +121,7 @@ export function Header() {
                     <Dropdown>
                       <DropdownButton
                         className={twMerge(
-                          `inline-flex items-center gap-1 focus:outline-none data-[hover]:text-primary data-[open]:text-primary data-[focus]:outline-1 data-[focus]:outline-white`,
+                          `inline-flex items-center gap-1 focus:outline-hidden data-hover:text-primary data-open:text-primary data-focus:outline-1 data-focus:outline-white`,
                           isAboutMenuOpen
                             ? "active text-primary border-primary"
                             : "text-gray-950 hover:text-primary",
@@ -250,7 +250,7 @@ function MobileSidebar({
                             <Fragment>
                               <DisclosureButton
                                 className={twMerge(
-                                  "h-[2.75rem] w-full px-4 flex items-center gap-2 rounded-lg data-[open]:mb-2",
+                                  "h-[2.75rem] w-full px-4 flex items-center gap-2 rounded-lg data-open:mb-2",
                                 )}
                               >
                                 {navLink.label}
@@ -262,7 +262,7 @@ function MobileSidebar({
                                 />
                               </DisclosureButton>
                               <DisclosurePanel
-                                className="grid gap-2 origin-top transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
+                                className="grid gap-2 origin-top transition duration-200 ease-out data-closed:-translate-y-6 data-closed:opacity-0"
                                 transition
                               >
                                 {navLink.menu.map((item) => (

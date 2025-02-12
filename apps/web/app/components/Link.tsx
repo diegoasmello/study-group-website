@@ -36,4 +36,4 @@ export function ExternalLink(props: ExternalLinkProps) {
 }
 
 const linkStyles =
-  "flex items-center gap-1 rounded-lg underline text-primary fill-primary-100 hover:text-primary-dark hover:fill-primary-dark active:text-primary-darker active:fill-primary-darker focus:outline-none focus:shadow-focus";
+  "flex items-center gap-1 rounded-lg underline text-primary fill-primary-100 hover:text-primary-dark hover:fill-primary-dark active:text-primary-darker active:fill-primary-darker focus:outline-hidden focus:shadow-focus";
