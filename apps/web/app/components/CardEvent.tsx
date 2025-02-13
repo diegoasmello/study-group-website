@@ -10,7 +10,7 @@ interface CardEventProps extends Pick<CardProps, "hideShadow" | "className"> {
     image: string;
     date: Date;
     locale: string;
-    link?: string;
+    link: string;
   };
   hideLocale?: boolean;
 }

@@ -1,6 +1,5 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
-import { Button } from "~/components/Button";
 import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
@@ -8,7 +7,7 @@ import { CardEvent } from "~/components/CardEvent";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
-import { ExternalLink, Link } from "~/components/Link";
+import { ExternalLink } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
 import { getRelatedTerms, handleNotFound } from "~/util";
@@ -133,6 +132,7 @@ export default function ViewEvent() {
                             image: relatedEvent.image,
                             date: new Date(relatedEvent.date),
                             locale: relatedEvent.locale,
+                            link: event.link,
                           }}
                         />
                       </div>

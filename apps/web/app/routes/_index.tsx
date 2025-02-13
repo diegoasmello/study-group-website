@@ -159,6 +159,7 @@ export default function Index() {
                       image: event.image,
                       date: new Date(event.date),
                       locale: event.locale,
+                      link: event.link,
                     }}
                   />
                 </div>
@@ -215,6 +216,7 @@ export default function Index() {
                 description: publications[0].resume,
                 date: new Date(publications[0].date),
                 researchers: publications[0].researchers,
+                link: publications[0].link,
               }}
             />
           </div>
@@ -228,6 +230,7 @@ export default function Index() {
                 description: publications[1].resume,
                 date: new Date(publications[1].date),
                 researchers: publications[1].researchers,
+                link: publications[1].link,
               }}
             />
           </div>
@@ -241,6 +244,7 @@ export default function Index() {
                 description: publications[2].resume,
                 date: new Date(publications[2].date),
                 researchers: publications[2].researchers,
+                link: publications[2].link,
               }}
             />
           </div>
@@ -254,6 +258,7 @@ export default function Index() {
                 description: publications[3].resume,
                 date: new Date(publications[3].date),
                 researchers: publications[3].researchers,
+                link: publications[3].link,
               }}
             />
           </div>
@@ -267,6 +272,7 @@ export default function Index() {
                 description: publications[4].resume,
                 date: new Date(publications[4].date),
                 researchers: publications[4].researchers,
+                link: publications[4].link,
               }}
             />
           </div>

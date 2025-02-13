@@ -164,6 +164,7 @@ export default function ViewPublication() {
                             description: relatedPublication.content,
                             researchers: relatedPublication.researchers,
                             date: new Date(relatedPublication.date),
+                            link: relatedPublication.link,
                           }}
                         />
                       </div>
