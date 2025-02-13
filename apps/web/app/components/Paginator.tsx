@@ -1,16 +1,41 @@
-import { Form } from "@remix-run/react";
-import { Button } from "./Button";
+import { useLocation } from "@remix-run/react";
 import { IconChevronRight, IconChevronLeft } from "./icons";
 import { PaginatedMeta } from "~/util/createPaginator";
+import { ButtonLink } from "./ButtonLink";
 
 export function Paginator(props: PaginatedMeta) {
   const { currentPage, prev, next, lastPage } = props;
 
+  const location = useLocation();
+
+  let route;
+  const search = location.search;
+  const pathname = location.pathname;
+  const contains = pathname.includes("/page/");
+  const splited = pathname.split("/page/");
+  const page = splited[splited.length - 1];
+  const pageIsNumber = !isNaN(Number(page));
+
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === lastPage;
+
+  if (contains && pageIsNumber) {
+    route = splited[0];
+  } else {
+    route = pathname;
+  }
+
   return (
     <nav className="flex gap-4">
-      <Button skin="outline" size="md" className="w-[2.75rem] px-0">
+      <ButtonLink
+        to={`${route}/page/${prev}${search}`}
+        skin="outline"
+        size="md"
+        className="w-[2.75rem] px-0"
+        disabled={isFirstPage}
+      >
         <IconChevronLeft className="size-6" />
-      </Button>
+      </ButtonLink>
       <nav className="flex gap-2">
         {Array.from({ length: lastPage }).map((_, index) => {
           const pageIndex = index + 1;
@@ -20,13 +45,21 @@ export function Paginator(props: PaginatedMeta) {
               key={index}
               pageIndex={pageIndex}
               isCurrentPage={isCurrentPage}
+              search={search}
+              route={route}
             />
           );
         })}
       </nav>
-      <Button skin="outline" size="md" className="w-[2.75rem] px-0">
+      <ButtonLink
+        to={`${route}/page/${next}${search}`}
+        skin="outline"
+        size="md"
+        className="w-[2.75rem] px-0"
+        disabled={isLastPage}
+      >
         <IconChevronRight className="size-6" />
-      </Button>
+      </ButtonLink>
     </nav>
   );
 }
@@ -34,20 +67,22 @@ export function Paginator(props: PaginatedMeta) {
 const Page = ({
   pageIndex,
   isCurrentPage,
+  search,
+  route,
 }: {
   pageIndex: number;
   isCurrentPage: boolean;
+  search: string;
+  route: string;
 }) => {
   return (
-    <Form>
-      <input name="page" type="hidden" value={pageIndex} />
-      <Button
-        skin={isCurrentPage ? "primary" : "ghost"}
-        size="md"
-        className="w-[2.75rem] px-0"
-      >
-        {pageIndex}
-      </Button>
-    </Form>
+    <ButtonLink
+      to={isCurrentPage ? "#" : `${route}/page/${pageIndex}${search}`}
+      skin={isCurrentPage ? "primary" : "ghost"}
+      size="md"
+      className="w-[2.75rem] px-0"
+    >
+      {pageIndex}
+    </ButtonLink>
   );
 };
