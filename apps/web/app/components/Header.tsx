@@ -24,18 +24,24 @@ import {
 import { TextInput } from "./form-fields/TextInput";
 import { IconMenu } from "./icons/IconMenu";
 import clsx from "clsx";
+import { getBreakpoint } from "~/util";
 
 export function Header() {
   const location = useLocation();
+  const navRef = useRef<HTMLDivElement | null>(null);
+  const lastScrollY = useRef(0);
   const [indicatorStyle, setIndicatorStyle] = useState({});
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [isPageOnTop, setIsPageOnTop] = useState(true);
+  const [breakpoint, setBreakpoint] = useState<number>();
   const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(
     checkIsAboutMenuOpen(location.pathname),
   );
-  const navRef = useRef<HTMLDivElement | null>(null);
-  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    setBreakpoint(Number(getBreakpoint("lg").split("rem")[0]));
+  }, []);
 
   useEffect(() => {
     setIsMobileSidebarOpen(false);
@@ -60,6 +66,23 @@ export function Header() {
     window.addEventListener("resize", updateIndicator);
     return () => window.removeEventListener("resize", updateIndicator);
   }, [location.pathname, isAboutMenuOpen]);
+
+  useEffect(() => {
+    const updateSidebar = (event: UIEvent) => {
+      const target = event?.target as Window;
+      const widthInRem = Math.floor(target.innerWidth / 16);
+      if (
+        target &&
+        breakpoint &&
+        !isNaN(breakpoint) &&
+        widthInRem > breakpoint
+      ) {
+        setIsMobileSidebarOpen(false);
+      }
+    };
+    window.addEventListener("resize", updateSidebar);
+    return () => window.removeEventListener("resize", updateSidebar);
+  }, [breakpoint, isMobileSidebarOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
