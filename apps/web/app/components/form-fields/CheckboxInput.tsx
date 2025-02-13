@@ -1,4 +1,4 @@
-import { Checkbox } from "@headlessui/react";
+import { Checkbox, Field, Label } from "@headlessui/react";
 import { IconCheck } from "../icons";
 import { FormControlProps } from "./FormControl";
 
@@ -10,7 +10,7 @@ export function CheckboxInput(props: CheckboxInputProps) {
   const { name, label, value, defaultChecked } = props;
 
   return (
-    <label className="flex items-center gap-2 cursor-pointer">
+    <Field className="flex items-center cursor-pointer">
       <Checkbox
         name={name}
         value={value}
@@ -19,7 +19,11 @@ export function CheckboxInput(props: CheckboxInputProps) {
       >
         <IconCheck className="hidden size-6 fill-black group-data-checked:block" />
       </Checkbox>
-      {label && <span className="text-gray-950 font-medium">{label}</span>}
-    </label>
+      {label && (
+        <Label className="text-gray-950 font-medium pl-2 cursor-pointer">
+          {label}
+        </Label>
+      )}
+    </Field>
   );
 }
