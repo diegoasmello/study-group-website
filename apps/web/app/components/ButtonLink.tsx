@@ -3,13 +3,13 @@ import { Button, ButtonProps } from "./Button";
 import { ExternalLink } from "./Link";
 
 interface ButtonLinkProps
-  extends Pick<LinkProps, "to">,
+  extends Pick<LinkProps, "to" | "prefetch">,
     Omit<ButtonProps, "onClick"> {
   external?: boolean;
 }
 
 export function ButtonLink(props: ButtonLinkProps) {
-  const { to, external, ...rest } = props;
+  const { to, external, prefetch = "intent", ...rest } = props;
 
   if (external && typeof to === "string") {
     return (
@@ -20,7 +20,7 @@ export function ButtonLink(props: ButtonLinkProps) {
   }
 
   return (
-    <Link to={to} tabIndex={-1}>
+    <Link to={to} tabIndex={-1} prefetch={prefetch}>
       <Button {...rest} />
     </Link>
   );

@@ -8,9 +8,15 @@ import { twMerge } from "tailwind-merge";
 interface LinkProps extends RemixLinkProps {}
 
 export function Link(props: LinkProps) {
-  const { className, ...rest } = props;
+  const { className, prefetch = "intent", ...rest } = props;
 
-  return <RemixLink className={twMerge(linkStyles, className)} {...rest} />;
+  return (
+    <RemixLink
+      className={twMerge(linkStyles, className)}
+      prefetch={prefetch}
+      {...rest}
+    />
+  );
 }
 
 interface ExternalLinkProps
