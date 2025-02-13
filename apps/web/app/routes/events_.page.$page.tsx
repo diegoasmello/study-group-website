@@ -17,6 +17,7 @@ import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import { prisma } from "~/lib/prisma.server";
+import { handleNotFound } from "~/util";
 import { createPaginator } from "~/util/createPaginator";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
@@ -57,6 +58,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       page: page,
     },
   );
+
+  handleNotFound(paginatedEvents.data.length);
+
   return json({ heroSection, paginatedEvents, q });
 }
 

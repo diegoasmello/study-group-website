@@ -6,6 +6,7 @@ import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
+import { handleNotFound } from "~/util";
 import { createPaginator } from "~/util/createPaginator";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
@@ -18,8 +19,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
 
 const paginate = createPaginator({ perPage: 9 });
 
-export async function loader({ request, params }: LoaderFunctionArgs) {
-  const url = new URL(request.url);
+export async function loader({ params }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
 
   const heroSection = await prisma.sectionsContent.findFirst({
@@ -44,6 +44,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       page: page,
     },
   );
+
+  handleNotFound(paginatedProjects.data.length);
+
   return json({ paginatedProjects, heroSection });
 }
 

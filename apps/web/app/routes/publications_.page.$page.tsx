@@ -38,6 +38,7 @@ import {
 } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
 import clsx from "clsx";
+import { handleNotFound } from "~/util";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const rootMetaTitle = matches[0].meta[0].title;
@@ -119,6 +120,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       page: page,
     },
   );
+
+  handleNotFound(paginatedPublications.data.length);
 
   return json({
     heroSection,

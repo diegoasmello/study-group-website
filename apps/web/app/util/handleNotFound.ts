@@ -1,4 +1,4 @@
-export function handleNotFound(item: object | null) {
+export function handleNotFound(item: object | number | null) {
   if (!item) {
     throw new Response(null, {
       status: 404,
