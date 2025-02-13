@@ -41,7 +41,7 @@ export function Paginator(props: PaginatedMeta) {
           const pageIndex = index + 1;
           const isCurrentPage = pageIndex === currentPage;
           return (
-            <Page
+            <PageButton
               key={index}
               pageIndex={pageIndex}
               isCurrentPage={isCurrentPage}
@@ -64,7 +64,7 @@ export function Paginator(props: PaginatedMeta) {
   );
 }
 
-const Page = ({
+const PageButton = ({
   pageIndex,
   isCurrentPage,
   search,

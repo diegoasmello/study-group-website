@@ -25,7 +25,7 @@ export const Button = forwardRef(
       <button
         className={twMerge(
           clsx(
-            "transition inline-flex items-center justify-center rounded-xl font-medium focus:shadow-focus focus:outline-hidden",
+            "cursor-pointer transition inline-flex items-center justify-center rounded-xl font-medium focus:shadow-focus focus:outline-hidden",
             skinClasses[skin],
             sizeClasses[size],
             hasIcon && "gap-2 px-3",
