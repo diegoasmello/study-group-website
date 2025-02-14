@@ -28,7 +28,7 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import { prisma } from "~/lib/prisma.server";
-import { Prisma, Publication, Sections } from "@prisma/client";
+import { Prisma, Sections } from "@prisma/client";
 import { NoResults } from "~/components/NoResults";
 import { createPaginator } from "~/util/createPaginator";
 import {
@@ -83,7 +83,12 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     },
   });
   const paginatedPublications = await paginate<
-    Publication,
+    Prisma.PublicationGetPayload<{
+      include: {
+        researchers: true;
+        researchArea: true;
+      };
+    }>,
     Prisma.PublicationFindManyArgs
   >(
     prisma.publication,

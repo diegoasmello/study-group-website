@@ -2,14 +2,12 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, redirect, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
-import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
 import { Container } from "~/components/Container";
 import { FormControl } from "~/components/form-fields/FormControl";
 import { TextInput } from "~/components/form-fields/TextInput";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
-import { Paginator } from "~/components/Paginator";
 import data from "~/data";
 
 export const meta: MetaFunction = () => {
@@ -45,7 +43,7 @@ export default function Search() {
       <Container>
         <section className="grid grid-cols-12 gap-6">
           <div className="col-span-8 flex flex-col gap-6">
-            {Array(5)
+            {/* {Array(5)
               .fill(null)
               .map((_, index) => (
                 <CardPublication
@@ -61,7 +59,7 @@ export default function Search() {
                     date: new Date(),
                   }}
                 />
-              ))}
+              ))} */}
           </div>
           <div className="col-span-4 flex flex-col gap-6">
             <CardContainer className="p-6 flex flex-col items-start gap-6">
@@ -93,7 +91,7 @@ export default function Search() {
             <CardResearch />
           </div>
           <div className="col-span-12 flex justify-center mt-8 mb-10">
-            <Paginator />
+            {/* <Paginator /> */}
           </div>
         </section>
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
