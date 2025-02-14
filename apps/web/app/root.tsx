@@ -30,16 +30,14 @@ export const links: LinksFunction = () => [
 ];
 
 export const meta: MetaFunction<typeof loader> = ({ data: loaderData }) => {
-  console.log(loaderData);
-
   return [
-    { title: data.site.title },
-    { name: "description", content: data.site.description },
+    { title: loaderData?.title },
+    { name: "description", content: loaderData?.description },
   ];
 };
 
 export const loader = () => {
-  return json({ title: "diego" });
+  return json({ title: data.site.title, description: data.site.description });
 };
 
 export const action: ActionFunction = async ({ request }) => {
