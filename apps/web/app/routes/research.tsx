@@ -9,11 +9,15 @@ import { CardProject } from "~/components/CardProject";
 import clsx from "clsx";
 import { twJoin } from "tailwind-merge";
 import { Sections } from "@prisma/client";
+import { getRootMatch } from "~/util";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
-  const rootMetaTitle = matches[0].meta[0].title;
+  const {
+    data: { title },
+  } = getRootMatch(matches);
+
   return [
-    { title: data?.heroSection?.title + " | " + rootMetaTitle },
+    { title: data?.heroSection?.title + " | " + title },
     { name: "description", content: data?.heroSection?.content },
   ];
 };

@@ -9,14 +9,18 @@ import data from "~/data";
 import { IconArrowForward } from "~/components/icons";
 import clsx from "clsx";
 import { Sections } from "@prisma/client";
+import { getRootMatch } from "~/util";
 
 export const meta: MetaFunction<typeof loader> = ({
   data: dbData,
   matches,
 }) => {
-  const rootMetaTitle = matches[0].meta[0].title;
+  const {
+    data: { title },
+  } = getRootMatch(matches);
+
   return [
-    { title: data?.history?.title + " | " + rootMetaTitle },
+    { title: data?.history?.title + " | " + title },
     { name: "description", content: dbData?.heroSection?.content },
   ];
 };

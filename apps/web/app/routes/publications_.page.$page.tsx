@@ -38,12 +38,15 @@ import {
 } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
 import clsx from "clsx";
-import { handleNotFound } from "~/util";
+import { getRootMatch, handleNotFound } from "~/util";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
-  const rootMetaTitle = matches[0].meta[0].title;
+  const {
+    data: { title },
+  } = getRootMatch(matches);
+
   return [
-    { title: data?.heroSection?.title + " | " + rootMetaTitle },
+    { title: data?.heroSection?.title + " | " + title },
     { name: "description", content: data?.heroSection?.content },
   ];
 };

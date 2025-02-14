@@ -29,11 +29,17 @@ export const links: LinksFunction = () => [
   },
 ];
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction<typeof loader> = ({ data: loaderData }) => {
+  console.log(loaderData);
+
   return [
     { title: data.site.title },
     { name: "description", content: data.site.description },
   ];
+};
+
+export const loader = () => {
+  return json({ title: "diego" });
 };
 
 export const action: ActionFunction = async ({ request }) => {
