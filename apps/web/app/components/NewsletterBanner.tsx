@@ -57,6 +57,7 @@ export function NewsletterBanner() {
             type="email"
             placeholder="Digite seu e-mail"
             required
+            className="bg-white"
           />
           <Button
             skin="outline"

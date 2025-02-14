@@ -62,7 +62,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     },
   );
 
-  handleNotFound(paginatedActions.data.length);
+  handleNotFound(paginatedActions.data.length, q);
 
   return json({ heroSection, paginatedActions, q });
 }

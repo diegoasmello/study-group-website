@@ -129,7 +129,10 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     },
   );
 
-  handleNotFound(paginatedPublications.data.length);
+  handleNotFound(
+    paginatedPublications.data.length,
+    ...Object.values(searchParams),
+  );
 
   return json({
     heroSection,
