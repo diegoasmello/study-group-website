@@ -132,7 +132,6 @@ export default function ViewProject() {
                             slug: relatedProject.slug,
                             title: relatedProject.title,
                             image: relatedProject.image,
-                            link: relatedProject.link,
                           }}
                           hideShadow={!isSlideInView(index)}
                         />

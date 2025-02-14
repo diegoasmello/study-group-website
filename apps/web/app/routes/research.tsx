@@ -8,7 +8,7 @@ import { Carousel } from "~/components/Carousel";
 import { CardProject } from "~/components/CardProject";
 import clsx from "clsx";
 import { twJoin } from "tailwind-merge";
-import { Sections } from "@prisma/client";
+import { Prisma, Sections } from "@prisma/client";
 import { getRootMatch } from "~/util";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
@@ -29,8 +29,19 @@ export async function loader() {
     },
   });
   const researchAreas = await prisma.researchArea.findMany({
+    omit: {
+      updatedAt: true,
+      createdAt: true,
+    },
     include: {
-      projects: true,
+      projects: {
+        select: {
+          id: true,
+          slug: true,
+          title: true,
+          image: true,
+        },
+      },
     },
   });
   return json({ heroSection, researchAreas });
@@ -79,7 +90,28 @@ const IconWrapper = ({ children }: { children: JSX.Element }) => (
   </div>
 );
 
-const ResearchItemSection = ({ item, index }: { item: any; index: number }) => {
+const ResearchItemSection = ({
+  item,
+  index,
+}: {
+  item: Prisma.ResearchAreaGetPayload<{
+    omit: {
+      updatedAt: true;
+      createdAt: true;
+    };
+    include: {
+      projects: {
+        select: {
+          id: true;
+          slug: true;
+          title: true;
+          image: true;
+        };
+      };
+    };
+  }>;
+  index: number;
+}) => {
   const isOdd = index % 2 === 0;
 
   return (
@@ -132,7 +164,6 @@ const ResearchItemSection = ({ item, index }: { item: any; index: number }) => {
                           slug: project.slug,
                           title: project.title,
                           image: project.image,
-                          link: `/projects/${project.id}`,
                         }}
                         type="flat"
                       />

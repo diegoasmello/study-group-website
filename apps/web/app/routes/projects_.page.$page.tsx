@@ -85,7 +85,6 @@ export default function Projects() {
                   slug: project.slug,
                   title: project.title,
                   image: project.image,
-                  link: project.link,
                 }}
               />
             </div>
