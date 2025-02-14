@@ -7,8 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import type { ActionFunction, LinksFunction } from "@remix-run/node";
-import { prisma } from "~/lib/prisma.server";
+import type { LinksFunction } from "@remix-run/node";
 
 import "./tailwind.css";
 import { Header } from "./components/Header";
@@ -38,25 +37,6 @@ export const meta: MetaFunction<typeof loader> = ({ data: loaderData }) => {
 
 export const loader = () => {
   return json({ title: data.site.title, description: data.site.description });
-};
-
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const email = formData.get("email");
-
-  if (typeof email !== "string" || !email.includes("@")) {
-    return json({ error: "E-mail inválido" }, { status: 400 });
-  }
-
-  try {
-    await prisma.newsletterList.create({
-      data: { email },
-    });
-  } catch (e) {
-    return json({ error: e?.message }, { status: 400 });
-  }
-
-  return json({ success: true });
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {

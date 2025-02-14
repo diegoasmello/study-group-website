@@ -48,7 +48,7 @@ export function NewsletterBanner() {
         </span>
         <fetcher.Form
           method="post"
-          action="/"
+          action="/api/subscribe"
           className="w-full flex flex-col gap-6 items-start"
         >
           <TextInput
