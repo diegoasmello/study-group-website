@@ -15,7 +15,11 @@ import { useLoaderData } from "@remix-run/react";
 import { Sections } from "@prisma/client";
 import { getRootMatch, metaTags } from "~/utils";
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({
+  data,
+  matches,
+  location,
+}) => {
   const {
     data: { company, heroSection },
   } = getRootMatch(matches);

@@ -54,8 +54,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return json({ company, heroSection, url: request.url });
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export default function App() {
   const { company } = useLoaderData<typeof loader>();
+
   return (
     <html lang="en">
       <head>
@@ -66,17 +67,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="pt-20">
         <Header />
-        {children}
+        <Outlet />
         <Footer company={company} />
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
-}
-
-export default function App() {
-  return <Outlet />;
 }
 
 export function ErrorBoundary() {
