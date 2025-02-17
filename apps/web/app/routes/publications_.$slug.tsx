@@ -12,7 +12,7 @@ import { IconCalendar, IconContract, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { Tooltip } from "~/components/Tooltip";
 import { prisma } from "~/lib/prisma.server";
-import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/util";
+import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   return metaTags({

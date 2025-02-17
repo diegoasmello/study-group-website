@@ -17,8 +17,7 @@ import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import { prisma } from "~/lib/prisma.server";
-import { getRootMatch, handleNotFound } from "~/util";
-import { createPaginator } from "~/util/createPaginator";
+import { createPaginator, getRootMatch, handleNotFound } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const {

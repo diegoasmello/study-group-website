@@ -6,7 +6,7 @@ import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
-import { getRelatedTerms, handleNotFound, metaTags } from "~/util";
+import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   return metaTags({

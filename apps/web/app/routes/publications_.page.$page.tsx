@@ -30,7 +30,6 @@ import { Paginator } from "~/components/Paginator";
 import { prisma } from "~/lib/prisma.server";
 import { Prisma, Sections } from "@prisma/client";
 import { NoResults } from "~/components/NoResults";
-import { createPaginator } from "~/util/createPaginator";
 import {
   Disclosure,
   DisclosureButton,
@@ -38,7 +37,7 @@ import {
 } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
 import clsx from "clsx";
-import { getRootMatch, handleNotFound } from "~/util";
+import { createPaginator, getRootMatch, handleNotFound } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const {

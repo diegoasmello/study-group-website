@@ -6,8 +6,7 @@ import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import { getRootMatch, handleNotFound } from "~/util";
-import { createPaginator } from "~/util/createPaginator";
+import { createPaginator, getRootMatch, handleNotFound } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const {

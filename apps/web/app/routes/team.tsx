@@ -7,8 +7,7 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import { prisma } from "~/lib/prisma.server";
-import { getRootMatch } from "~/util";
-import { createPaginator } from "~/util/createPaginator";
+import { createPaginator, getRootMatch } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const {

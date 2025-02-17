@@ -1,7 +1,7 @@
 import { Card, CardProps, CardSize } from "./Card";
 import { ButtonLink } from "./ButtonLink";
 import { IconCalendar, IconSignature } from "./icons";
-import { listFormat } from "~/util";
+import { listFormat } from "~/utils";
 
 interface CardPublicationProps
   extends Pick<React.ComponentProps<"div">, "className">,

@@ -9,7 +9,7 @@ import { CardProject } from "~/components/CardProject";
 import clsx from "clsx";
 import { twJoin } from "tailwind-merge";
 import { Prisma, Sections } from "@prisma/client";
-import { getRootMatch } from "~/util";
+import { getRootMatch } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const {

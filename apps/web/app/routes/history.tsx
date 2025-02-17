@@ -9,7 +9,7 @@ import data from "~/data";
 import { IconArrowForward } from "~/components/icons";
 import clsx from "clsx";
 import { Sections } from "@prisma/client";
-import { getRootMatch } from "~/util";
+import { getRootMatch } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({
   data: dbData,
