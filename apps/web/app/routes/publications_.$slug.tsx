@@ -1,4 +1,5 @@
-import { json, useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
@@ -11,9 +12,18 @@ import { IconCalendar, IconContract, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { Tooltip } from "~/components/Tooltip";
 import { prisma } from "~/lib/prisma.server";
-import { listFormat, getRelatedTerms, handleNotFound } from "~/util";
+import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/util";
 
-export async function loader({ params }: { params: { slug: string } }) {
+export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
+  return metaTags({
+    title: data?.publication?.title,
+    description: data?.publication?.resume,
+    url: data?.url,
+    pathname: location.pathname,
+  });
+};
+
+export async function loader({ params, request }: LoaderFunctionArgs) {
   const publication = await prisma.publication.findUnique({
     where: {
       slug: params.slug,
@@ -55,7 +65,7 @@ export async function loader({ params }: { params: { slug: string } }) {
     },
   });
 
-  return json({ publication, related });
+  return json({ publication, related, url: request.url });
 }
 
 export default function ViewPublication() {

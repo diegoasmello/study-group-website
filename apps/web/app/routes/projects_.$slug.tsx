@@ -1,3 +1,4 @@
+import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
 import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
@@ -10,9 +11,18 @@ import { IconArrowForward } from "~/components/icons";
 import { ExternalLink } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
-import { listFormat, getRelatedTerms, handleNotFound } from "~/util";
+import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/util";
 
-export async function loader({ params }: { params: { slug: string } }) {
+export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
+  return metaTags({
+    title: data?.project?.title,
+    description: data?.project?.content,
+    url: data?.url,
+    pathname: location.pathname,
+  });
+};
+
+export async function loader({ params, request }: LoaderFunctionArgs) {
   const project = await prisma.project.findUnique({
     where: {
       slug: params.slug,
@@ -51,7 +61,7 @@ export async function loader({ params }: { params: { slug: string } }) {
     },
   });
 
-  return json({ project, related });
+  return json({ project, related, url: request.url });
 }
 
 export default function ViewProject() {

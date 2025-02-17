@@ -1,3 +1,4 @@
+import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardAction } from "~/components/CardAction";
@@ -5,9 +6,18 @@ import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { prisma } from "~/lib/prisma.server";
-import { getRelatedTerms, handleNotFound } from "~/util";
+import { getRelatedTerms, handleNotFound, metaTags } from "~/util";
 
-export async function loader({ params }: { params: { slug: string } }) {
+export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
+  return metaTags({
+    title: data?.action?.title,
+    description: data?.action?.resume,
+    url: data?.url,
+    pathname: location.pathname,
+  });
+};
+
+export async function loader({ params, request }: LoaderFunctionArgs) {
   const action = await prisma.action.findUnique({
     where: {
       slug: params.slug,
@@ -43,7 +53,7 @@ export async function loader({ params }: { params: { slug: string } }) {
     },
   });
 
-  return json({ action, related });
+  return json({ action, related, url: request.url });
 }
 
 export default function ViewAction() {
