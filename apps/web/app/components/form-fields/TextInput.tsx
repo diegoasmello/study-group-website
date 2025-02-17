@@ -51,9 +51,3 @@ export function TextInput(props: TextInputProps) {
     </FormControl>
   );
 }
-
-// interface InputWrapperProps {}
-
-// function InputWrapper({}: InputWrapperProps) {
-//     return ()
-// }

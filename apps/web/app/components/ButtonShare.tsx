@@ -15,7 +15,7 @@ export function ButtonShare(props: ButtonShareProps) {
   };
 
   useEffect(() => {
-    setCurrentUrl(window.location.href); // Obtém a URL completa
+    setCurrentUrl(window.location.href);
   }, []);
 
   return (
