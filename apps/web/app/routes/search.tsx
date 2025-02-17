@@ -11,6 +11,7 @@ import { PageBanner } from "~/components/PageBanner";
 import data from "~/data";
 
 export const meta: MetaFunction = () => {
+  // metatags
   return [{ title: data.search.title + " | " + data.site.title }];
 };
 

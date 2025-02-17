@@ -37,17 +37,28 @@ import {
 } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
 import clsx from "clsx";
-import { createPaginator, getRootMatch, handleNotFound } from "~/utils";
+import {
+  createPaginator,
+  getRootMatch,
+  handleNotFound,
+  metaTags,
+} from "~/utils";
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({
+  data,
+  matches,
+  location,
+}) => {
   const {
-    data: { title },
+    data: { company },
   } = getRootMatch(matches);
 
-  return [
-    { title: data?.heroSection?.title + " | " + title },
-    { name: "description", content: data?.heroSection?.content },
-  ];
+  return metaTags({
+    title: data?.heroSection?.title + " | " + company?.title,
+    description: data?.heroSection?.content,
+    pathname: location.pathname,
+    url: data?.url,
+  });
 };
 
 const paginate = createPaginator({ perPage: 5 });
@@ -139,6 +150,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     researchers,
     paginatedPublications,
     searchParams,
+    url: request.url,
   });
 }
 

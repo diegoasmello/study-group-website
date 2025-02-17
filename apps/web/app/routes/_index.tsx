@@ -1,4 +1,4 @@
-import { json, type MetaFunction } from "@remix-run/node";
+import { json, LoaderFunctionArgs, type MetaFunction } from "@remix-run/node";
 import { Card } from "~/components/Card";
 import { CardAction } from "~/components/CardAction";
 import { CardEvent } from "~/components/CardEvent";
@@ -7,22 +7,28 @@ import { Container } from "~/components/Container";
 import { Link } from "~/components/Link";
 import { IconArrowForward } from "~/components/icons/IconArrowForward";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
-import data from "~/data";
 import { Carousel } from "~/components/Carousel";
 import { CarouselHome, CarouselHomeItem } from "~/components/CarouselHome";
 import { prisma } from "~/lib/prisma.server";
 import { ButtonLink } from "~/components/ButtonLink";
 import { useLoaderData } from "@remix-run/react";
 import { Sections } from "@prisma/client";
+import { getRootMatch, metaTags } from "~/utils";
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: data.site.title },
-    { name: "description", content: data.site.description },
-  ];
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+  const {
+    data: { company, heroSection },
+  } = getRootMatch(matches);
+
+  return metaTags({
+    title: company?.title,
+    description: heroSection?.content,
+    pathname: location.pathname,
+    url: data?.url,
+  });
 };
 
-export async function loader() {
+export async function loader({ request }: LoaderFunctionArgs) {
   const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.HOME_HERO,
@@ -50,7 +56,14 @@ export async function loader() {
     },
     take: 9,
   });
-  return json({ heroSection, researchAreas, events, publications, actions });
+  return json({
+    heroSection,
+    researchAreas,
+    events,
+    publications,
+    actions,
+    url: request.url,
+  });
 }
 
 export default function Index() {

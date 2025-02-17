@@ -6,22 +6,33 @@ import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import { createPaginator, getRootMatch, handleNotFound } from "~/utils";
+import {
+  createPaginator,
+  getRootMatch,
+  handleNotFound,
+  metaTags,
+} from "~/utils";
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({
+  data,
+  matches,
+  location,
+}) => {
   const {
-    data: { title },
+    data: { company },
   } = getRootMatch(matches);
 
-  return [
-    { title: data?.heroSection?.title + " | " + title },
-    { name: "description", content: data?.heroSection?.content },
-  ];
+  return metaTags({
+    title: data?.heroSection?.title + " | " + company?.title,
+    description: data?.heroSection?.content,
+    pathname: location.pathname,
+    url: data?.url,
+  });
 };
 
 const paginate = createPaginator({ perPage: 9 });
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
 
   const heroSection = await prisma.sectionsContent.findFirst({
@@ -49,7 +60,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   handleNotFound(paginatedProjects.data.length);
 
-  return json({ paginatedProjects, heroSection });
+  return json({ paginatedProjects, heroSection, url: request.url });
 }
 
 export default function Projects() {

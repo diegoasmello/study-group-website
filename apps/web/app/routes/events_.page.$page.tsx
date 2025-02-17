@@ -17,17 +17,28 @@ import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import { prisma } from "~/lib/prisma.server";
-import { createPaginator, getRootMatch, handleNotFound } from "~/utils";
+import {
+  createPaginator,
+  getRootMatch,
+  handleNotFound,
+  metaTags,
+} from "~/utils";
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({
+  data,
+  matches,
+  location,
+}) => {
   const {
-    data: { title },
+    data: { company },
   } = getRootMatch(matches);
 
-  return [
-    { title: data?.heroSection?.title + " | " + title },
-    { name: "description", content: data?.heroSection?.content },
-  ];
+  return metaTags({
+    title: data?.heroSection?.title + " | " + company?.title,
+    description: data?.heroSection?.content,
+    pathname: location.pathname,
+    url: data?.url,
+  });
 };
 
 const paginate = createPaginator({ perPage: 6 });
@@ -63,7 +74,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   handleNotFound(paginatedEvents.data.length, q);
 
-  return json({ heroSection, paginatedEvents, q });
+  return json({ heroSection, paginatedEvents, q, url: request.url });
 }
 
 export default function EventsPage() {

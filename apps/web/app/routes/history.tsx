@@ -9,23 +9,26 @@ import data from "~/data";
 import { IconArrowForward } from "~/components/icons";
 import clsx from "clsx";
 import { Sections } from "@prisma/client";
-import { getRootMatch } from "~/utils";
+import { getRootMatch, metaTags } from "~/utils";
+import { LoaderFunctionArgs } from "@remix-run/node";
 
 export const meta: MetaFunction<typeof loader> = ({
   data: dbData,
   matches,
 }) => {
   const {
-    data: { title },
+    data: { company },
   } = getRootMatch(matches);
 
-  return [
-    { title: data?.history?.title + " | " + title },
-    { name: "description", content: dbData?.heroSection?.content },
-  ];
+  return metaTags({
+    title: data?.history?.title + " | " + company?.title,
+    description: dbData?.heroSection?.content,
+    pathname: location.pathname,
+    url: dbData?.url,
+  });
 };
 
-export async function loader() {
+export async function loader({ request }: LoaderFunctionArgs) {
   const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.HISTORY_HERO,
@@ -36,7 +39,7 @@ export async function loader() {
       section: Sections.HISTORY_SECTION,
     },
   });
-  return json({ historySections, heroSection });
+  return json({ historySections, heroSection, url: request.url });
 }
 
 export default function History() {

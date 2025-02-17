@@ -9,20 +9,27 @@ import { CardProject } from "~/components/CardProject";
 import clsx from "clsx";
 import { twJoin } from "tailwind-merge";
 import { Prisma, Sections } from "@prisma/client";
-import { getRootMatch } from "~/utils";
+import { getRootMatch, metaTags } from "~/utils";
+import { LoaderFunctionArgs } from "@remix-run/node";
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({
+  data,
+  matches,
+  location,
+}) => {
   const {
-    data: { title },
+    data: { company },
   } = getRootMatch(matches);
 
-  return [
-    { title: data?.heroSection?.title + " | " + title },
-    { name: "description", content: data?.heroSection?.content },
-  ];
+  return metaTags({
+    title: data?.heroSection?.title + " | " + company?.title,
+    description: data?.heroSection?.content,
+    pathname: location.pathname,
+    url: data?.url,
+  });
 };
 
-export async function loader() {
+export async function loader({ request }: LoaderFunctionArgs) {
   const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.RESEARCH_HERO,
@@ -44,7 +51,8 @@ export async function loader() {
       },
     },
   });
-  return json({ heroSection, researchAreas });
+
+  return json({ heroSection, researchAreas, url: request.url });
 }
 
 export default function Research() {

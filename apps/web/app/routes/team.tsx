@@ -7,17 +7,23 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import { prisma } from "~/lib/prisma.server";
-import { createPaginator, getRootMatch } from "~/utils";
+import { createPaginator, getRootMatch, metaTags } from "~/utils";
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({
+  data,
+  matches,
+  location,
+}) => {
   const {
-    data: { title },
+    data: { company },
   } = getRootMatch(matches);
 
-  return [
-    { title: data?.heroSection?.title + " | " + title },
-    { name: "description", content: data?.heroSection?.content },
-  ];
+  return metaTags({
+    title: data?.heroSection?.title + " | " + company?.title,
+    description: data?.heroSection?.content,
+    pathname: location.pathname,
+    url: data?.url,
+  });
 };
 
 const paginate = createPaginator({ perPage: 9 });
@@ -41,7 +47,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       page: page,
     },
   );
-  return json({ paginatedTeamMembers, heroSection });
+  return json({ paginatedTeamMembers, heroSection, url: request.url });
 }
 
 export default function Team() {
