@@ -149,6 +149,19 @@ async function main() {
     })),
   });
 
+  await prisma.company.create({
+    data: {
+      title: "study-group-site",
+      address:
+        "The Cupboard under the Stair, 4 Privet Drive, Little Whinging, Surrey.",
+      email: faker.internet.email(),
+      phone: faker.phone.number(),
+      facebookUrl: faker.internet.url(),
+      instagramUrl: faker.internet.url(),
+      youtubeUrl: faker.internet.url(),
+    },
+  });
+
   await prisma.sectionsContent.createMany({
     data: [
       {

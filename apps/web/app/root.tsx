@@ -6,14 +6,17 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 
 import "./tailwind.css";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
-import data from "./data";
 import { DefaultErrorBoundary } from "./components/DefaultErrorBoundary";
+import { Sections } from "@prisma/client";
+import { prisma } from "~/lib/prisma.server";
+import { metaTags } from "./utils";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -28,18 +31,31 @@ export const links: LinksFunction = () => [
   },
 ];
 
-export const meta: MetaFunction<typeof loader> = ({ data: loaderData }) => {
-  return [
-    { title: loaderData?.title },
-    { name: "description", content: loaderData?.description },
-  ];
+export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
+  return metaTags({
+    title: data?.company?.title,
+    description: data?.heroSection?.content,
+    pathname: location.pathname,
+    url: data?.url,
+  });
 };
 
-export const loader = () => {
-  return json({ title: data.site.title, description: data.site.description });
-};
+export async function loader({ request }: LoaderFunctionArgs) {
+  const heroSection = await prisma.sectionsContent.findFirst({
+    where: {
+      section: Sections.HOME_HERO,
+    },
+  });
+  const company = await prisma.company.findFirst({
+    where: {
+      id: 1,
+    },
+  });
+  return json({ company, heroSection, url: request.url });
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { company } = useLoaderData<typeof loader>();
   return (
     <html lang="en">
       <head>
@@ -51,7 +67,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body className="pt-20">
         <Header />
         {children}
-        <Footer />
+        <Footer company={company} />
         <ScrollRestoration />
         <Scripts />
       </body>

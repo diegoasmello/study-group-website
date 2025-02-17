@@ -3,8 +3,25 @@ import { Container } from "./Container";
 import { IconYoutube } from "./icons/IconYoutube";
 import { IconInstagram } from "./icons/IconInstagram";
 import { IconFacebook } from "./icons/IconFacebook";
+import { ExternalLink } from "./Link";
 
-export function Footer() {
+interface FooterProps {
+  company: {
+    title: string;
+    address: string;
+    phone: string;
+    email: string;
+    facebookUrl: string;
+    instagramUrl: string;
+    youtubeUrl: string;
+  } | null;
+}
+
+export function Footer(props: FooterProps) {
+  const { company } = props;
+
+  if (!company) return null;
+
   return (
     <footer className="bg-primary-light text-white py-12 lg:pt-20 lg:pb-24">
       <Container>
@@ -20,19 +37,19 @@ export function Footer() {
             <nav>
               <ul className="flex gap-6">
                 <li>
-                  <a href="./" className="group">
+                  <ExternalLink to={company.facebookUrl} className="group">
                     <IconFacebook className="size-9 fill-white group-hover:fill-gray-200 transition-all" />
-                  </a>
+                  </ExternalLink>
                 </li>
                 <li>
-                  <a href="./" className="group">
+                  <ExternalLink to={company.instagramUrl} className="group">
                     <IconInstagram className="size-9 fill-white group-hover:fill-gray-200 transition-all" />
-                  </a>
+                  </ExternalLink>
                 </li>
                 <li>
-                  <a href="./" className="group">
+                  <ExternalLink to={company.youtubeUrl} className="group">
                     <IconYoutube className="size-9 fill-white group-hover:fill-gray-200 transition-all" />
-                  </a>
+                  </ExternalLink>
                 </li>
               </ul>
             </nav>
@@ -67,14 +84,9 @@ export function Footer() {
             </nav>
             <nav className="flex flex-col items-start gap-6">
               <span className="font-semibold">Contato</span>
-              <span>(51) 99999-9999</span>
-              <span>email@email.com</span>
-              <span>
-                The Cupboard under the Stair,
-                <br />4 Privet Drive, Little Whinging
-                <br />
-                Surrey.
-              </span>
+              <span>{company.phone}</span>
+              <span>{company.email}</span>
+              <span>{company.address}</span>
             </nav>
           </div>
         </div>

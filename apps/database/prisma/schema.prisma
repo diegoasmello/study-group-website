@@ -116,14 +116,14 @@ model NewsletterList {
 }
 
 model Company {
-  id        Int      @id @default(autoincrement())
-  title String   @db.VarChar(200)
-  address String
-  phone String   @db.VarChar(200)
-  email String   @db.VarChar(200)
-  facebookUrl String   @db.VarChar(200)
-  instagramUrl String   @db.VarChar(200)
-  youtubeUrl String   @db.VarChar(200)
+  id           Int    @id @default(autoincrement())
+  title        String @db.VarChar(200)
+  address      String
+  phone        String @db.VarChar(200)
+  email        String @db.VarChar(200)
+  facebookUrl  String @db.VarChar(200)
+  instagramUrl String @db.VarChar(200)
+  youtubeUrl   String @db.VarChar(200)
 }
 
 enum Sections {
@@ -140,7 +140,7 @@ enum Sections {
 
 model SectionsContent {
   id        Int      @id @default(autoincrement())
-  section      Sections 
+  section   Sections
   title     String   @db.VarChar(200)
   content   String
   createdAt DateTime @default(now())
