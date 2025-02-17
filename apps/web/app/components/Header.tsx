@@ -144,7 +144,7 @@ export function Header() {
                     <Dropdown>
                       <DropdownButton
                         className={twMerge(
-                          `inline-flex items-center gap-1 focus:outline-hidden data-hover:text-primary data-open:text-primary data-focus:outline-1 data-focus:outline-white`,
+                          `cursor-pointer inline-flex items-center gap-1 focus:outline-hidden data-hover:text-primary data-open:text-primary data-focus:outline-1 data-focus:outline-white`,
                           isAboutMenuOpen
                             ? "active text-primary border-primary"
                             : "text-gray-950 hover:text-primary",
