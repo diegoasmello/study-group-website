@@ -1,6 +1,12 @@
 {
   "name": "cms",
   "private": true,
-  "scripts": {
+  "scripts": {},
+  "dependencies": {
+    "@keystone-6/auth": "^8.1.0",
+    "@keystone-6/core": "^6.4.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.3"
   }
 }
