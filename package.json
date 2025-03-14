@@ -10,12 +10,7 @@
     "dev:web": "cd apps/web && npm run dev",
     "dev": "npm run dev:web",
     "build": "npm run build:web",
-    "build:web": "cd apps/web && npm run build",
-    "prisma:generate": "cd apps/database && prisma generate",
-    "prisma:migrate": "cd apps/database && prisma migrate dev",
-    "prisma:studio": "cd apps/database && prisma studio",
-    "prisma:seed": "cd apps/database && ts-node prisma/seed.ts",
-    "prisma:reset": "cd apps/database && prisma migrate reset"
+    "build:web": "cd apps/web && npm run build"
   },
   "devDependencies": {
     "eslint": "^8.38.0",
