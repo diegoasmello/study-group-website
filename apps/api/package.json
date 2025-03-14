@@ -1,7 +1,0 @@
-{
-  "name": "api",
-  "private": true,
-  "sideEffects": false,
-  "type": "module",
-  "scripts": {}
-}
