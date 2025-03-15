@@ -885,7 +885,6 @@ enum SectionContentSectionType {
 
 input SectionContentWhereUniqueInput {
   id: ID
-  section: SectionContentSectionType
 }
 
 input SectionContentWhereInput {

@@ -8,10 +8,12 @@
   },
   "scripts": {
     "dev:web": "cd apps/web && npm run dev",
-    "dev:cms": "cd apps/cms && keystone dev",
+    "dev:cms": "cd apps/cms && npm run dev",
     "dev": "npm run dev:web",
     "build": "npm run build:web",
-    "build:web": "cd apps/web && npm run build"
+    "build:web": "cd apps/web && npm run build",
+    "db:seed": "cd apps/cms && npm run seed",
+    "db:reset": "cd apps/cms && npm run reset"
   },
   "devDependencies": {
     "eslint": "^8.38.0",

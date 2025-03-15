@@ -1,5 +1,4 @@
-import type { Lists } from ".keystone/types";
-import { list } from "@keystone-6/core";
+import { list, type ListConfig } from "@keystone-6/core";
 import { allowAll } from "@keystone-6/core/access";
 import { document } from "@keystone-6/fields-document";
 import {
@@ -22,7 +21,7 @@ const publishStatus = select({
   ui: { displayMode: "segmented-control" },
 });
 
-export const lists = {
+export const lists: Record<string, ListConfig<any>> = {
   User: list({
     access: allowAll,
     fields: {
@@ -226,8 +225,7 @@ export const lists = {
           },
         ],
         type: "enum",
-        isIndexed: "unique",
       }),
     },
   }),
-} satisfies Lists;
+};

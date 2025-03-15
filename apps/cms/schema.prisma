@@ -165,7 +165,7 @@ model SectionContent {
   id      String                     @id @default(cuid())
   title   String                     @default("")
   content String                     @default("")
-  section SectionContentSectionType? @unique
+  section SectionContentSectionType?
 }
 
 enum SectionContentSectionType {
