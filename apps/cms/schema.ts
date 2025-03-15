@@ -11,7 +11,7 @@ import {
   text,
   timestamp,
 } from "@keystone-6/core/fields";
-import { imageRequired } from "./validator";
+import { documentRequired, imageRequired } from "./validator";
 
 const publishStatus = select({
   options: [
@@ -21,6 +21,15 @@ const publishStatus = select({
   validation: { isRequired: true },
   defaultValue: "draft",
   ui: { displayMode: "segmented-control" },
+});
+
+const contentDocument = document({
+  formatting: true,
+  links: true,
+  layouts: [
+    [1, 1],
+    [1, 1, 1],
+  ],
 });
 
 function generateSlug(text: string) {
@@ -76,7 +85,7 @@ export const lists: Record<string, ListConfig<any>> = {
         ui: { displayMode: "textarea" },
         validation: { isRequired: true },
       }),
-      content: document(),
+      content: contentDocument,
       image: image({ storage: "local_images" }),
       date: calendarDay({ validation: { isRequired: true } }),
       publishedAt: timestamp({
@@ -96,6 +105,7 @@ export const lists: Record<string, ListConfig<any>> = {
         };
       },
       validate: async ({ addValidationError, resolvedData }) => {
+        documentRequired(resolvedData.content, addValidationError);
         imageRequired(resolvedData.image, addValidationError);
       },
     },
@@ -128,7 +138,7 @@ export const lists: Record<string, ListConfig<any>> = {
           description: "Separe words by semicolon (;)",
         },
       }),
-      content: document(),
+      content: contentDocument,
       image: image({ storage: "local_images" }),
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
@@ -193,7 +203,7 @@ export const lists: Record<string, ListConfig<any>> = {
         ui: { displayMode: "textarea" },
         validation: { isRequired: true },
       }),
-      content: document(),
+      content: contentDocument,
       image: image({ storage: "local_images" }),
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
@@ -254,7 +264,7 @@ export const lists: Record<string, ListConfig<any>> = {
         ui: { displayMode: "textarea" },
         validation: { isRequired: true },
       }),
-      content: document(),
+      content: contentDocument,
       image: image({ storage: "local_images" }),
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
@@ -348,7 +358,7 @@ export const lists: Record<string, ListConfig<any>> = {
         ui: { displayMode: "textarea" },
         validation: { isRequired: true },
       }),
-      content: document(),
+      content: contentDocument,
       image: image({ storage: "local_images" }),
       icon: image({ storage: "local_images" }),
       projects: relationship({ ref: "Project.researchArea", many: true }),
