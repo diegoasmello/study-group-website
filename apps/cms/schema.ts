@@ -67,6 +67,11 @@ export const lists: Record<string, ListConfig<any>> = {
         return { ...resolvedData, slug: generateSlug(resolvedData.title) };
       },
     },
+    ui: {
+      listView: {
+        initialColumns: ["title", "date", "status"],
+      },
+    },
   }),
   Project: list({
     access: allowAll,
@@ -92,6 +97,11 @@ export const lists: Record<string, ListConfig<any>> = {
         return { ...resolvedData, slug: generateSlug(resolvedData.title) };
       },
     },
+    ui: {
+      listView: {
+        initialColumns: ["title", "startDate", "status"],
+      },
+    },
   }),
   Event: list({
     access: allowAll,
@@ -112,6 +122,11 @@ export const lists: Record<string, ListConfig<any>> = {
     hooks: {
       resolveInput: ({ resolvedData }) => {
         return { ...resolvedData, slug: generateSlug(resolvedData.title) };
+      },
+    },
+    ui: {
+      listView: {
+        initialColumns: ["title", "locale", "date", "status"],
       },
     },
   }),
@@ -145,6 +160,11 @@ export const lists: Record<string, ListConfig<any>> = {
         return { ...resolvedData, slug: generateSlug(resolvedData.title) };
       },
     },
+    ui: {
+      listView: {
+        initialColumns: ["title", "magazine", "date", "status"],
+      },
+    },
   }),
   TeamMember: list({
     access: allowAll,
@@ -155,6 +175,11 @@ export const lists: Record<string, ListConfig<any>> = {
       link: text(),
       publishedAt: timestamp(),
       status: publishStatus,
+    },
+    ui: {
+      listView: {
+        initialColumns: ["name", "role", "status"],
+      },
     },
   }),
   ResearchArea: list({
@@ -173,6 +198,11 @@ export const lists: Record<string, ListConfig<any>> = {
       publishedAt: timestamp(),
       status: publishStatus,
     },
+    ui: {
+      listView: {
+        initialColumns: ["title", "status"],
+      },
+    },
   }),
   Researcher: list({
     access: allowAll,
@@ -186,15 +216,20 @@ export const lists: Record<string, ListConfig<any>> = {
       publishedAt: timestamp(),
       status: publishStatus,
     },
+    ui: {
+      listView: {
+        initialColumns: ["name", "status"],
+      },
+    },
   }),
   NewsletterList: list({
     access: allowAll,
+    fields: {
+      email: text({ isIndexed: "unique" }),
+    },
     ui: {
       hideCreate: true,
       hideDelete: true,
-    },
-    fields: {
-      email: text({ isIndexed: "unique" }),
     },
   }),
   Company: list({
