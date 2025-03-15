@@ -31,9 +31,9 @@ model Action {
   image_width     Int?
   image_height    Int?
   image_extension String?
-  date            DateTime? @postgresql.Date
+  date            DateTime  @postgresql.Date
   publishedAt     DateTime? @updatedAt
-  status          String?   @default("draft")
+  status          String    @default("draft")
 }
 
 model Project {
@@ -48,13 +48,13 @@ model Project {
   image_height    Int?
   image_extension String?
   link            String        @default("")
-  startDate       DateTime?     @postgresql.Date
-  endDate         DateTime?     @postgresql.Date
+  startDate       DateTime      @postgresql.Date
+  endDate         DateTime      @postgresql.Date
   researchers     Researcher[]  @relation("Project_researchers")
   researchArea    ResearchArea? @relation("Project_researchArea", fields: [researchAreaId], references: [id])
   researchAreaId  String?       @map("researchArea")
-  publishedAt     DateTime?
-  status          String?       @default("draft")
+  publishedAt     DateTime?     @updatedAt
+  status          String        @default("draft")
 
   @@index([researchAreaId])
 }
@@ -73,10 +73,10 @@ model Event {
   image_extension String?
   link            String    @default("")
   workload        Int?
-  date            DateTime? @postgresql.Date
+  date            DateTime  @postgresql.Date
   locale          String    @default("")
-  publishedAt     DateTime?
-  status          String?   @default("draft")
+  publishedAt     DateTime? @updatedAt
+  status          String    @default("draft")
 }
 
 model Publication {
@@ -92,15 +92,15 @@ model Publication {
   image_height    Int?
   image_extension String?
   link            String        @default("")
-  date            DateTime?     @postgresql.Date
+  date            DateTime      @postgresql.Date
   researchers     Researcher[]  @relation("Publication_researchers")
   researchArea    ResearchArea? @relation("Publication_researchArea", fields: [researchAreaId], references: [id])
   researchAreaId  String?       @map("researchArea")
   magazine        String        @default("")
   doi             String        @default("")
   license         String        @default("")
-  publishedAt     DateTime?
-  status          String?       @default("draft")
+  publishedAt     DateTime?     @updatedAt
+  status          String        @default("draft")
 
   @@index([researchAreaId])
 }
@@ -115,8 +115,8 @@ model TeamMember {
   image_height    Int?
   image_extension String?
   link            String    @default("")
-  publishedAt     DateTime?
-  status          String?   @default("draft")
+  publishedAt     DateTime? @updatedAt
+  status          String    @default("draft")
 }
 
 model ResearchArea {
@@ -136,8 +136,8 @@ model ResearchArea {
   icon_extension  String?
   projects        Project[]     @relation("Project_researchArea")
   publications    Publication[] @relation("Publication_researchArea")
-  publishedAt     DateTime?
-  status          String?       @default("draft")
+  publishedAt     DateTime?     @updatedAt
+  status          String        @default("draft")
 }
 
 model Researcher {
@@ -145,8 +145,8 @@ model Researcher {
   name         String        @default("")
   projects     Project[]     @relation("Project_researchers")
   publications Publication[] @relation("Publication_researchers")
-  publishedAt  DateTime?
-  status       String?       @default("draft")
+  publishedAt  DateTime?     @updatedAt
+  status       String        @default("draft")
 }
 
 model NewsletterList {

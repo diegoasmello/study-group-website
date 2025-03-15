@@ -150,12 +150,12 @@ input ActionWhereInput {
   slug: StringFilter
   keywords: StringFilter
   resume: StringFilter
-  date: CalendarDayNullableFilter
+  date: CalendarDayFilter
   publishedAt: DateTimeNullableFilter
-  status: StringNullableFilter
+  status: StringFilter
 }
 
-input CalendarDayNullableFilter {
+input CalendarDayFilter {
   equals: CalendarDay
   in: [CalendarDay!]
   notIn: [CalendarDay!]
@@ -163,7 +163,7 @@ input CalendarDayNullableFilter {
   lte: CalendarDay
   gt: CalendarDay
   gte: CalendarDay
-  not: CalendarDayNullableFilter
+  not: CalendarDayFilter
 }
 
 input DateTimeNullableFilter {
@@ -175,21 +175,6 @@ input DateTimeNullableFilter {
   gt: DateTime
   gte: DateTime
   not: DateTimeNullableFilter
-}
-
-input StringNullableFilter {
-  equals: String
-  in: [String!]
-  notIn: [String!]
-  lt: String
-  lte: String
-  gt: String
-  gte: String
-  contains: String
-  startsWith: String
-  endsWith: String
-  mode: QueryMode
-  not: StringNullableFilter
 }
 
 input ActionOrderByInput {
@@ -274,12 +259,12 @@ input ProjectWhereInput {
   slug: StringFilter
   keywords: StringFilter
   link: StringFilter
-  startDate: CalendarDayNullableFilter
-  endDate: CalendarDayNullableFilter
+  startDate: CalendarDayFilter
+  endDate: CalendarDayFilter
   researchers: ResearcherManyRelationFilter
   researchArea: ResearchAreaWhereInput
   publishedAt: DateTimeNullableFilter
-  status: StringNullableFilter
+  status: StringFilter
 }
 
 input ResearcherManyRelationFilter {
@@ -394,10 +379,10 @@ input EventWhereInput {
   resume: StringFilter
   link: StringFilter
   workload: IntNullableFilter
-  date: CalendarDayNullableFilter
+  date: CalendarDayFilter
   locale: StringFilter
   publishedAt: DateTimeNullableFilter
-  status: StringNullableFilter
+  status: StringFilter
 }
 
 input IntNullableFilter {
@@ -499,14 +484,14 @@ input PublicationWhereInput {
   keywords: StringFilter
   resume: StringFilter
   link: StringFilter
-  date: CalendarDayNullableFilter
+  date: CalendarDayFilter
   researchers: ResearcherManyRelationFilter
   researchArea: ResearchAreaWhereInput
   magazine: StringFilter
   doi: StringFilter
   license: StringFilter
   publishedAt: DateTimeNullableFilter
-  status: StringNullableFilter
+  status: StringFilter
 }
 
 input PublicationOrderByInput {
@@ -588,7 +573,7 @@ input TeamMemberWhereInput {
   role: StringFilter
   link: StringFilter
   publishedAt: DateTimeNullableFilter
-  status: StringNullableFilter
+  status: StringFilter
 }
 
 input TeamMemberOrderByInput {
@@ -656,7 +641,7 @@ input ResearchAreaWhereInput {
   projects: ProjectManyRelationFilter
   publications: PublicationManyRelationFilter
   publishedAt: DateTimeNullableFilter
-  status: StringNullableFilter
+  status: StringFilter
 }
 
 input ProjectManyRelationFilter {
@@ -756,7 +741,7 @@ input ResearcherWhereInput {
   projects: ProjectManyRelationFilter
   publications: PublicationManyRelationFilter
   publishedAt: DateTimeNullableFilter
-  status: StringNullableFilter
+  status: StringFilter
 }
 
 input ResearcherOrderByInput {

@@ -11,12 +11,14 @@ import {
   text,
   timestamp,
 } from "@keystone-6/core/fields";
+import { imageRequired } from "./validator";
 
 const publishStatus = select({
   options: [
     { label: "Published", value: "published" },
     { label: "Draft", value: "draft" },
   ],
+  validation: { isRequired: true },
   defaultValue: "draft",
   ui: { displayMode: "segmented-control" },
 });
@@ -42,6 +44,14 @@ export const lists: Record<string, ListConfig<any>> = {
       }),
       password: password({ validation: { isRequired: true } }),
     },
+    ui: {
+      listView: {
+        initialSort: {
+          direction: "DESC",
+          field: "publishedAt",
+        },
+      },
+    },
   }),
   Action: list({
     access: allowAll,
@@ -49,98 +59,207 @@ export const lists: Record<string, ListConfig<any>> = {
       title: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
       }),
-      slug: text({ isIndexed: "unique" }),
-      keywords: text({
+      slug: text({
+        isIndexed: "unique",
         ui: {
-          description: "Separe words by comma (,)",
+          createView: { fieldMode: "hidden" },
+          itemView: { fieldMode: "hidden" },
         },
       }),
-      resume: text({ ui: { displayMode: "textarea" } }),
+      keywords: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+        ui: {
+          description: "Separe words by semicolon (;)",
+        },
+      }),
+      resume: text({
+        ui: { displayMode: "textarea" },
+        validation: { isRequired: true },
+      }),
       content: document(),
       image: image({ storage: "local_images" }),
-      date: calendarDay(),
-      publishedAt: timestamp({ db: { updatedAt: true } }),
+      date: calendarDay({ validation: { isRequired: true } }),
+      publishedAt: timestamp({
+        db: { updatedAt: true },
+        ui: {
+          createView: { fieldMode: "hidden" },
+          itemView: { fieldMode: "hidden" },
+        },
+      }),
       status: publishStatus,
     },
     hooks: {
-      resolveInput: ({ resolvedData }) => {
-        return { ...resolvedData, slug: generateSlug(resolvedData.title) };
+      resolveInput: ({ resolvedData, item }) => {
+        return {
+          ...resolvedData,
+          slug: generateSlug(resolvedData.title ?? item.title),
+        };
+      },
+      validate: async ({ addValidationError, resolvedData }) => {
+        imageRequired(resolvedData.image, addValidationError);
       },
     },
     ui: {
       listView: {
         initialColumns: ["title", "date", "status"],
+        initialSort: {
+          direction: "DESC",
+          field: "publishedAt",
+        },
       },
     },
   }),
   Project: list({
     access: allowAll,
     fields: {
-      title: text(),
-      slug: text({ isIndexed: "unique" }),
-      keywords: text(),
+      title: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      slug: text({
+        isIndexed: "unique",
+        ui: {
+          createView: { fieldMode: "hidden" },
+          itemView: { fieldMode: "hidden" },
+        },
+      }),
+      keywords: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+        ui: {
+          description: "Separe words by semicolon (;)",
+        },
+      }),
       content: document(),
       image: image({ storage: "local_images" }),
-      link: text(),
-      startDate: calendarDay(),
-      endDate: calendarDay(),
+      link: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      startDate: calendarDay({ validation: { isRequired: true } }),
+      endDate: calendarDay({ validation: { isRequired: true } }),
       researchers: relationship({ ref: "Researcher.projects", many: true }),
       researchArea: relationship({
         ref: "ResearchArea.projects",
         many: false,
       }),
-      publishedAt: timestamp(),
+      publishedAt: timestamp({
+        db: { updatedAt: true },
+        ui: {
+          createView: { fieldMode: "hidden" },
+          itemView: { fieldMode: "hidden" },
+        },
+      }),
       status: publishStatus,
     },
     hooks: {
-      resolveInput: ({ resolvedData }) => {
-        return { ...resolvedData, slug: generateSlug(resolvedData.title) };
+      resolveInput: ({ resolvedData, item }) => {
+        return {
+          ...resolvedData,
+          slug: generateSlug(resolvedData.title ?? item.title),
+        };
+      },
+      validate: async ({ addValidationError, resolvedData }) => {
+        imageRequired(resolvedData.image, addValidationError);
       },
     },
     ui: {
       listView: {
         initialColumns: ["title", "startDate", "status"],
+        initialSort: {
+          direction: "DESC",
+          field: "publishedAt",
+        },
       },
     },
   }),
   Event: list({
     access: allowAll,
     fields: {
-      title: text(),
-      slug: text({ isIndexed: "unique" }),
-      keywords: text(),
-      resume: text(),
+      title: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      slug: text({
+        isIndexed: "unique",
+        ui: {
+          createView: { fieldMode: "hidden" },
+          itemView: { fieldMode: "hidden" },
+        },
+      }),
+      keywords: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+        ui: {
+          description: "Separe words by semicolon (;)",
+        },
+      }),
+      resume: text({
+        ui: { displayMode: "textarea" },
+        validation: { isRequired: true },
+      }),
       content: document(),
       image: image({ storage: "local_images" }),
-      link: text(),
+      link: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
       workload: integer(),
-      date: calendarDay(),
+      date: calendarDay({ validation: { isRequired: true } }),
       locale: text(),
-      publishedAt: timestamp(),
+      publishedAt: timestamp({
+        db: { updatedAt: true },
+        ui: {
+          createView: { fieldMode: "hidden" },
+          itemView: { fieldMode: "hidden" },
+        },
+      }),
       status: publishStatus,
     },
     hooks: {
-      resolveInput: ({ resolvedData }) => {
-        return { ...resolvedData, slug: generateSlug(resolvedData.title) };
+      resolveInput: ({ resolvedData, item }) => {
+        return {
+          ...resolvedData,
+          slug: generateSlug(resolvedData.title ?? item.title),
+        };
+      },
+      validate: async ({ addValidationError, resolvedData }) => {
+        imageRequired(resolvedData.image, addValidationError);
       },
     },
     ui: {
       listView: {
         initialColumns: ["title", "locale", "date", "status"],
+        initialSort: {
+          direction: "DESC",
+          field: "publishedAt",
+        },
       },
     },
   }),
   Publication: list({
     access: allowAll,
     fields: {
-      title: text(),
-      slug: text({ isIndexed: "unique" }),
-      keywords: text(),
-      resume: text(),
+      title: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      slug: text({
+        isIndexed: "unique",
+        ui: {
+          createView: { fieldMode: "hidden" },
+          itemView: { fieldMode: "hidden" },
+        },
+      }),
+      keywords: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+        ui: {
+          description: "Separe words by semicolon (;)",
+        },
+      }),
+      resume: text({
+        ui: { displayMode: "textarea" },
+        validation: { isRequired: true },
+      }),
       content: document(),
       image: image({ storage: "local_images" }),
-      link: text(),
-      date: calendarDay(),
+      link: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      date: calendarDay({ validation: { isRequired: true } }),
       researchers: relationship({
         ref: "Researcher.publications",
         many: true,
@@ -152,41 +271,83 @@ export const lists: Record<string, ListConfig<any>> = {
       magazine: text(),
       doi: text(),
       license: text(),
-      publishedAt: timestamp(),
+      publishedAt: timestamp({
+        db: { updatedAt: true },
+        ui: {
+          createView: { fieldMode: "hidden" },
+          itemView: { fieldMode: "hidden" },
+        },
+      }),
       status: publishStatus,
     },
     hooks: {
-      resolveInput: ({ resolvedData }) => {
-        return { ...resolvedData, slug: generateSlug(resolvedData.title) };
+      resolveInput: ({ resolvedData, item }) => {
+        return {
+          ...resolvedData,
+          slug: generateSlug(resolvedData.title ?? item.title),
+        };
+      },
+      validate: async ({ addValidationError, resolvedData }) => {
+        imageRequired(resolvedData.image, addValidationError);
       },
     },
     ui: {
       listView: {
         initialColumns: ["title", "magazine", "date", "status"],
+        initialSort: {
+          direction: "DESC",
+          field: "publishedAt",
+        },
       },
     },
   }),
   TeamMember: list({
     access: allowAll,
     fields: {
-      name: text(),
-      role: text(),
+      name: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      role: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
       image: image({ storage: "local_images" }),
-      link: text(),
-      publishedAt: timestamp(),
+      link: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      publishedAt: timestamp({
+        db: { updatedAt: true },
+        ui: {
+          createView: { fieldMode: "hidden" },
+          itemView: { fieldMode: "hidden" },
+        },
+      }),
       status: publishStatus,
+    },
+    hooks: {
+      validate: async ({ addValidationError, resolvedData }) => {
+        imageRequired(resolvedData.image, addValidationError);
+      },
     },
     ui: {
       listView: {
         initialColumns: ["name", "role", "status"],
+        initialSort: {
+          direction: "DESC",
+          field: "publishedAt",
+        },
       },
     },
   }),
   ResearchArea: list({
     access: allowAll,
     fields: {
-      title: text(),
-      resume: text(),
+      title: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      resume: text({
+        ui: { displayMode: "textarea" },
+        validation: { isRequired: true },
+      }),
       content: document(),
       image: image({ storage: "local_images" }),
       icon: image({ storage: "local_images" }),
@@ -195,30 +356,62 @@ export const lists: Record<string, ListConfig<any>> = {
         ref: "Publication.researchArea",
         many: true,
       }),
-      publishedAt: timestamp(),
+      publishedAt: timestamp({
+        db: { updatedAt: true },
+        ui: {
+          createView: { fieldMode: "hidden" },
+          itemView: { fieldMode: "hidden" },
+        },
+      }),
       status: publishStatus,
+    },
+    hooks: {
+      validate: async ({ addValidationError, resolvedData }) => {
+        imageRequired(resolvedData.image, addValidationError);
+        imageRequired(
+          resolvedData.icon,
+          addValidationError,
+          "Icon must not be null",
+        );
+      },
     },
     ui: {
       listView: {
         initialColumns: ["title", "status"],
+        initialSort: {
+          direction: "DESC",
+          field: "publishedAt",
+        },
       },
     },
   }),
   Researcher: list({
     access: allowAll,
     fields: {
-      name: text(),
+      name: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
       projects: relationship({ ref: "Project.researchers", many: true }),
       publications: relationship({
         ref: "Publication.researchers",
         many: true,
       }),
-      publishedAt: timestamp(),
+      publishedAt: timestamp({
+        db: { updatedAt: true },
+        ui: {
+          createView: { fieldMode: "hidden" },
+          itemView: { fieldMode: "hidden" },
+        },
+      }),
       status: publishStatus,
     },
     ui: {
       listView: {
         initialColumns: ["name", "status"],
+        initialSort: {
+          direction: "DESC",
+          field: "publishedAt",
+        },
       },
     },
   }),
@@ -230,18 +423,36 @@ export const lists: Record<string, ListConfig<any>> = {
     ui: {
       hideCreate: true,
       hideDelete: true,
+      listView: {
+        initialSort: {
+          direction: "DESC",
+          field: "publishedAt",
+        },
+      },
     },
   }),
   Company: list({
     access: allowAll,
     fields: {
-      title: text(),
-      address: text(),
-      phone: text(),
-      email: text(),
-      facebookUrl: text(),
-      instagramUrl: text(),
-      youtubeUrl: text(),
+      title: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      address: text({ validation: { isRequired: true } }),
+      phone: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      email: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      facebookUrl: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      instagramUrl: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      youtubeUrl: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
     },
     isSingleton: true,
   }),
@@ -252,8 +463,13 @@ export const lists: Record<string, ListConfig<any>> = {
       hideDelete: true,
     },
     fields: {
-      title: text(),
-      content: text(),
+      title: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      content: text({
+        ui: { displayMode: "textarea" },
+        validation: { isRequired: true },
+      }),
       section: select({
         options: [
           {
