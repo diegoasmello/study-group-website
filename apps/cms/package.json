@@ -1,13 +1,21 @@
 {
   "name": "cms",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "dev": "keystone dev",
+    "seed": "tsx seed.ts",
+    "reset": "keystone prisma db push --force-reset"
+  },
   "dependencies": {
     "@keystone-6/auth": "^8.1.0",
     "@keystone-6/core": "^6.4.0",
+    "@keystone-6/fields-document": "^9.1.1",
     "dotenv": "^16.4.7"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.6.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
     "tsx": "^4.19.3"
   }
 }

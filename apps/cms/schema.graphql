@@ -104,10 +104,15 @@ type Action {
   title: String
   keywords: String
   resume: String
+  content: Action_content_Document
   image: ImageFieldOutput
   date: CalendarDay
   publishedAt: DateTime
   status: String
+}
+
+type Action_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 type ImageFieldOutput {
@@ -198,6 +203,7 @@ input ActionUpdateInput {
   title: String
   keywords: String
   resume: String
+  content: JSON
   image: ImageFieldInput
   date: CalendarDay
   publishedAt: DateTime
@@ -220,6 +226,7 @@ input ActionCreateInput {
   title: String
   keywords: String
   resume: String
+  content: JSON
   image: ImageFieldInput
   date: CalendarDay
   publishedAt: DateTime
@@ -230,6 +237,7 @@ type Project {
   id: ID!
   title: String
   keywords: String
+  content: Project_content_Document
   image: ImageFieldOutput
   link: String
   startDate: CalendarDay
@@ -239,6 +247,10 @@ type Project {
   researchArea: ResearchArea
   publishedAt: DateTime
   status: String
+}
+
+type Project_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input ProjectWhereUniqueInput {
@@ -281,6 +293,7 @@ input ProjectOrderByInput {
 input ProjectUpdateInput {
   title: String
   keywords: String
+  content: JSON
   image: ImageFieldInput
   link: String
   startDate: CalendarDay
@@ -312,6 +325,7 @@ input ProjectUpdateArgs {
 input ProjectCreateInput {
   title: String
   keywords: String
+  content: JSON
   image: ImageFieldInput
   link: String
   startDate: CalendarDay
@@ -337,6 +351,7 @@ type Event {
   title: String
   keywords: String
   resume: String
+  content: Event_content_Document
   image: ImageFieldOutput
   link: String
   workload: Int
@@ -344,6 +359,10 @@ type Event {
   locale: String
   publishedAt: DateTime
   status: String
+}
+
+type Event_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input EventWhereUniqueInput {
@@ -394,6 +413,7 @@ input EventUpdateInput {
   title: String
   keywords: String
   resume: String
+  content: JSON
   image: ImageFieldInput
   link: String
   workload: Int
@@ -412,6 +432,7 @@ input EventCreateInput {
   title: String
   keywords: String
   resume: String
+  content: JSON
   image: ImageFieldInput
   link: String
   workload: Int
@@ -426,6 +447,7 @@ type Publication {
   title: String
   keywords: String
   resume: String
+  content: Publication_content_Document
   image: ImageFieldOutput
   link: String
   date: CalendarDay
@@ -437,6 +459,10 @@ type Publication {
   license: String
   publishedAt: DateTime
   status: String
+}
+
+type Publication_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input PublicationWhereUniqueInput {
@@ -480,6 +506,7 @@ input PublicationUpdateInput {
   title: String
   keywords: String
   resume: String
+  content: JSON
   image: ImageFieldInput
   link: String
   date: CalendarDay
@@ -501,6 +528,7 @@ input PublicationCreateInput {
   title: String
   keywords: String
   resume: String
+  content: JSON
   image: ImageFieldInput
   link: String
   date: CalendarDay
@@ -575,6 +603,7 @@ type ResearchArea {
   id: ID!
   title: String
   resume: String
+  content: ResearchArea_content_Document
   image: ImageFieldOutput
   icon: ImageFieldOutput
   projects(where: ProjectWhereInput! = {}, orderBy: [ProjectOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectWhereUniqueInput): [Project!]
@@ -583,6 +612,10 @@ type ResearchArea {
   publicationsCount(where: PublicationWhereInput! = {}): Int
   publishedAt: DateTime
   status: String
+}
+
+type ResearchArea_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input ResearchAreaWhereUniqueInput {
@@ -625,6 +658,7 @@ input ResearchAreaOrderByInput {
 input ResearchAreaUpdateInput {
   title: String
   resume: String
+  content: JSON
   image: ImageFieldInput
   icon: ImageFieldInput
   projects: ProjectRelateToManyForUpdateInput
@@ -655,6 +689,7 @@ input ResearchAreaUpdateArgs {
 input ResearchAreaCreateInput {
   title: String
   resume: String
+  content: JSON
   image: ImageFieldInput
   icon: ImageFieldInput
   projects: ProjectRelateToManyForCreateInput

@@ -24,6 +24,7 @@ model Action {
   title           String    @default("")
   keywords        String    @default("")
   resume          String    @default("")
+  content         Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   image_id        String?
   image_filesize  Int?
   image_width     Int?
@@ -38,6 +39,7 @@ model Project {
   id              String        @id @default(cuid())
   title           String        @default("")
   keywords        String        @default("")
+  content         Json          @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   image_id        String?
   image_filesize  Int?
   image_width     Int?
@@ -60,6 +62,7 @@ model Event {
   title           String    @default("")
   keywords        String    @default("")
   resume          String    @default("")
+  content         Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   image_id        String?
   image_filesize  Int?
   image_width     Int?
@@ -78,6 +81,7 @@ model Publication {
   title           String        @default("")
   keywords        String        @default("")
   resume          String        @default("")
+  content         Json          @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   image_id        String?
   image_filesize  Int?
   image_width     Int?
@@ -115,6 +119,7 @@ model ResearchArea {
   id              String        @id @default(cuid())
   title           String        @default("")
   resume          String        @default("")
+  content         Json          @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   image_id        String?
   image_filesize  Int?
   image_width     Int?

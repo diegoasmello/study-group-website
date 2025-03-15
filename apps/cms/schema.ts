@@ -1,6 +1,7 @@
 import type { Lists } from ".keystone/types";
 import { list } from "@keystone-6/core";
 import { allowAll } from "@keystone-6/core/access";
+import { document } from "@keystone-6/fields-document";
 import {
   calendarDay,
   image,
@@ -45,7 +46,7 @@ export const lists = {
         },
       }),
       resume: text({ ui: { displayMode: "textarea" } }),
-      // content: document(),
+      content: document(),
       image: image({ storage: "local_images" }),
       date: calendarDay(),
       publishedAt: timestamp({ db: { updatedAt: true } }),
@@ -57,7 +58,7 @@ export const lists = {
     fields: {
       title: text(),
       keywords: text(),
-      // content: document(),
+      content: document(),
       image: image({ storage: "local_images" }),
       link: text(),
       startDate: calendarDay(),
@@ -77,7 +78,7 @@ export const lists = {
       title: text(),
       keywords: text(),
       resume: text(),
-      // content: document(),
+      content: document(),
       image: image({ storage: "local_images" }),
       link: text(),
       workload: integer(),
@@ -93,7 +94,7 @@ export const lists = {
       title: text(),
       keywords: text(),
       resume: text(),
-      // content: document(),
+      content: document(),
       image: image({ storage: "local_images" }),
       link: text(),
       date: calendarDay(),
@@ -128,7 +129,7 @@ export const lists = {
     fields: {
       title: text(),
       resume: text(),
-      // content: document(),
+      content: document(),
       image: image({ storage: "local_images" }),
       icon: image({ storage: "local_images" }),
       projects: relationship({ ref: "Project.researchArea", many: true }),
