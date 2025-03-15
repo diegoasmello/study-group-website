@@ -12,8 +12,9 @@ import {
   timestamp,
 } from "@keystone-6/core/fields";
 import { documentRequired, imageRequired } from "./validator";
+import { slugify } from "./utils";
 
-const publishStatus = select({
+const statusSelect = select({
   options: [
     { label: "Published", value: "published" },
     { label: "Draft", value: "draft" },
@@ -31,16 +32,6 @@ const contentDocument = document({
     [1, 1, 1],
   ],
 });
-
-function generateSlug(text: string) {
-  return text
-    .toLowerCase() // Converte para minúsculas
-    .normalize("NFD") // Remove acentos
-    .replace(/\p{Diacritic}/gu, "")
-    .replace(/[^a-z0-9 ]/g, "") // Remove caracteres especiais
-    .trim() // Remove espaços extras
-    .replace(/\s+/g, "-"); // Substitui espaços por hífens
-}
 
 export const lists: Record<string, ListConfig<any>> = {
   User: list({
@@ -95,13 +86,13 @@ export const lists: Record<string, ListConfig<any>> = {
           itemView: { fieldMode: "hidden" },
         },
       }),
-      status: publishStatus,
+      status: statusSelect,
     },
     hooks: {
       resolveInput: ({ resolvedData, item }) => {
         return {
           ...resolvedData,
-          slug: generateSlug(resolvedData.title ?? item.title),
+          slug: slugify(resolvedData.title ?? item.title),
         };
       },
       validate: async ({ addValidationError, resolvedData }) => {
@@ -157,13 +148,13 @@ export const lists: Record<string, ListConfig<any>> = {
           itemView: { fieldMode: "hidden" },
         },
       }),
-      status: publishStatus,
+      status: statusSelect,
     },
     hooks: {
       resolveInput: ({ resolvedData, item }) => {
         return {
           ...resolvedData,
-          slug: generateSlug(resolvedData.title ?? item.title),
+          slug: slugify(resolvedData.title ?? item.title),
         };
       },
       validate: async ({ addValidationError, resolvedData }) => {
@@ -218,13 +209,13 @@ export const lists: Record<string, ListConfig<any>> = {
           itemView: { fieldMode: "hidden" },
         },
       }),
-      status: publishStatus,
+      status: statusSelect,
     },
     hooks: {
       resolveInput: ({ resolvedData, item }) => {
         return {
           ...resolvedData,
-          slug: generateSlug(resolvedData.title ?? item.title),
+          slug: slugify(resolvedData.title ?? item.title),
         };
       },
       validate: async ({ addValidationError, resolvedData }) => {
@@ -288,13 +279,13 @@ export const lists: Record<string, ListConfig<any>> = {
           itemView: { fieldMode: "hidden" },
         },
       }),
-      status: publishStatus,
+      status: statusSelect,
     },
     hooks: {
       resolveInput: ({ resolvedData, item }) => {
         return {
           ...resolvedData,
-          slug: generateSlug(resolvedData.title ?? item.title),
+          slug: slugify(resolvedData.title ?? item.title),
         };
       },
       validate: async ({ addValidationError, resolvedData }) => {
@@ -331,7 +322,7 @@ export const lists: Record<string, ListConfig<any>> = {
           itemView: { fieldMode: "hidden" },
         },
       }),
-      status: publishStatus,
+      status: statusSelect,
     },
     hooks: {
       validate: async ({ addValidationError, resolvedData }) => {
@@ -373,7 +364,7 @@ export const lists: Record<string, ListConfig<any>> = {
           itemView: { fieldMode: "hidden" },
         },
       }),
-      status: publishStatus,
+      status: statusSelect,
     },
     hooks: {
       validate: async ({ addValidationError, resolvedData }) => {
@@ -413,7 +404,7 @@ export const lists: Record<string, ListConfig<any>> = {
           itemView: { fieldMode: "hidden" },
         },
       }),
-      status: publishStatus,
+      status: statusSelect,
     },
     ui: {
       listView: {
