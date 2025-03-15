@@ -21,6 +21,16 @@ const publishStatus = select({
   ui: { displayMode: "segmented-control" },
 });
 
+function generateSlug(text: string) {
+  return text
+    .toLowerCase() // Converte para minúsculas
+    .normalize("NFD") // Remove acentos
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^a-z0-9 ]/g, "") // Remove caracteres especiais
+    .trim() // Remove espaços extras
+    .replace(/\s+/g, "-"); // Substitui espaços por hífens
+}
+
 export const lists: Record<string, ListConfig<any>> = {
   User: list({
     access: allowAll,
@@ -39,6 +49,7 @@ export const lists: Record<string, ListConfig<any>> = {
       title: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
       }),
+      slug: text({ isIndexed: "unique" }),
       keywords: text({
         ui: {
           description: "Separe words by comma (,)",
@@ -51,11 +62,17 @@ export const lists: Record<string, ListConfig<any>> = {
       publishedAt: timestamp({ db: { updatedAt: true } }),
       status: publishStatus,
     },
+    hooks: {
+      resolveInput: ({ resolvedData }) => {
+        return { ...resolvedData, slug: generateSlug(resolvedData.title) };
+      },
+    },
   }),
   Project: list({
     access: allowAll,
     fields: {
       title: text(),
+      slug: text({ isIndexed: "unique" }),
       keywords: text(),
       content: document(),
       image: image({ storage: "local_images" }),
@@ -70,11 +87,17 @@ export const lists: Record<string, ListConfig<any>> = {
       publishedAt: timestamp(),
       status: publishStatus,
     },
+    hooks: {
+      resolveInput: ({ resolvedData }) => {
+        return { ...resolvedData, slug: generateSlug(resolvedData.title) };
+      },
+    },
   }),
   Event: list({
     access: allowAll,
     fields: {
       title: text(),
+      slug: text({ isIndexed: "unique" }),
       keywords: text(),
       resume: text(),
       content: document(),
@@ -86,11 +109,17 @@ export const lists: Record<string, ListConfig<any>> = {
       publishedAt: timestamp(),
       status: publishStatus,
     },
+    hooks: {
+      resolveInput: ({ resolvedData }) => {
+        return { ...resolvedData, slug: generateSlug(resolvedData.title) };
+      },
+    },
   }),
   Publication: list({
     access: allowAll,
     fields: {
       title: text(),
+      slug: text({ isIndexed: "unique" }),
       keywords: text(),
       resume: text(),
       content: document(),
@@ -110,6 +139,11 @@ export const lists: Record<string, ListConfig<any>> = {
       license: text(),
       publishedAt: timestamp(),
       status: publishStatus,
+    },
+    hooks: {
+      resolveInput: ({ resolvedData }) => {
+        return { ...resolvedData, slug: generateSlug(resolvedData.title) };
+      },
     },
   }),
   TeamMember: list({

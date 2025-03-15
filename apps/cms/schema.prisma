@@ -22,6 +22,7 @@ model User {
 model Action {
   id              String    @id @default(cuid())
   title           String    @default("")
+  slug            String    @unique @default("")
   keywords        String    @default("")
   resume          String    @default("")
   content         Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
@@ -38,6 +39,7 @@ model Action {
 model Project {
   id              String        @id @default(cuid())
   title           String        @default("")
+  slug            String        @unique @default("")
   keywords        String        @default("")
   content         Json          @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   image_id        String?
@@ -60,6 +62,7 @@ model Project {
 model Event {
   id              String    @id @default(cuid())
   title           String    @default("")
+  slug            String    @unique @default("")
   keywords        String    @default("")
   resume          String    @default("")
   content         Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
@@ -79,6 +82,7 @@ model Event {
 model Publication {
   id              String        @id @default(cuid())
   title           String        @default("")
+  slug            String        @unique @default("")
   keywords        String        @default("")
   resume          String        @default("")
   content         Json          @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")

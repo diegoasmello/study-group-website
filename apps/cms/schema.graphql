@@ -102,6 +102,7 @@ input UserCreateInput {
 type Action {
   id: ID!
   title: String
+  slug: String
   keywords: String
   resume: String
   content: Action_content_Document
@@ -137,6 +138,7 @@ scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339
 
 input ActionWhereUniqueInput {
   id: ID
+  slug: String
 }
 
 input ActionWhereInput {
@@ -145,6 +147,7 @@ input ActionWhereInput {
   NOT: [ActionWhereInput!]
   id: IDFilter
   title: StringFilter
+  slug: StringFilter
   keywords: StringFilter
   resume: StringFilter
   date: CalendarDayNullableFilter
@@ -192,6 +195,7 @@ input StringNullableFilter {
 input ActionOrderByInput {
   id: OrderDirection
   title: OrderDirection
+  slug: OrderDirection
   keywords: OrderDirection
   resume: OrderDirection
   date: OrderDirection
@@ -201,6 +205,7 @@ input ActionOrderByInput {
 
 input ActionUpdateInput {
   title: String
+  slug: String
   keywords: String
   resume: String
   content: JSON
@@ -224,6 +229,7 @@ input ActionUpdateArgs {
 
 input ActionCreateInput {
   title: String
+  slug: String
   keywords: String
   resume: String
   content: JSON
@@ -236,6 +242,7 @@ input ActionCreateInput {
 type Project {
   id: ID!
   title: String
+  slug: String
   keywords: String
   content: Project_content_Document
   image: ImageFieldOutput
@@ -255,6 +262,7 @@ type Project_content_Document {
 
 input ProjectWhereUniqueInput {
   id: ID
+  slug: String
 }
 
 input ProjectWhereInput {
@@ -263,6 +271,7 @@ input ProjectWhereInput {
   NOT: [ProjectWhereInput!]
   id: IDFilter
   title: StringFilter
+  slug: StringFilter
   keywords: StringFilter
   link: StringFilter
   startDate: CalendarDayNullableFilter
@@ -282,6 +291,7 @@ input ResearcherManyRelationFilter {
 input ProjectOrderByInput {
   id: OrderDirection
   title: OrderDirection
+  slug: OrderDirection
   keywords: OrderDirection
   link: OrderDirection
   startDate: OrderDirection
@@ -292,6 +302,7 @@ input ProjectOrderByInput {
 
 input ProjectUpdateInput {
   title: String
+  slug: String
   keywords: String
   content: JSON
   image: ImageFieldInput
@@ -324,6 +335,7 @@ input ProjectUpdateArgs {
 
 input ProjectCreateInput {
   title: String
+  slug: String
   keywords: String
   content: JSON
   image: ImageFieldInput
@@ -349,6 +361,7 @@ input ResearchAreaRelateToOneForCreateInput {
 type Event {
   id: ID!
   title: String
+  slug: String
   keywords: String
   resume: String
   content: Event_content_Document
@@ -367,6 +380,7 @@ type Event_content_Document {
 
 input EventWhereUniqueInput {
   id: ID
+  slug: String
 }
 
 input EventWhereInput {
@@ -375,6 +389,7 @@ input EventWhereInput {
   NOT: [EventWhereInput!]
   id: IDFilter
   title: StringFilter
+  slug: StringFilter
   keywords: StringFilter
   resume: StringFilter
   link: StringFilter
@@ -399,6 +414,7 @@ input IntNullableFilter {
 input EventOrderByInput {
   id: OrderDirection
   title: OrderDirection
+  slug: OrderDirection
   keywords: OrderDirection
   resume: OrderDirection
   link: OrderDirection
@@ -411,6 +427,7 @@ input EventOrderByInput {
 
 input EventUpdateInput {
   title: String
+  slug: String
   keywords: String
   resume: String
   content: JSON
@@ -430,6 +447,7 @@ input EventUpdateArgs {
 
 input EventCreateInput {
   title: String
+  slug: String
   keywords: String
   resume: String
   content: JSON
@@ -445,6 +463,7 @@ input EventCreateInput {
 type Publication {
   id: ID!
   title: String
+  slug: String
   keywords: String
   resume: String
   content: Publication_content_Document
@@ -467,6 +486,7 @@ type Publication_content_Document {
 
 input PublicationWhereUniqueInput {
   id: ID
+  slug: String
 }
 
 input PublicationWhereInput {
@@ -475,6 +495,7 @@ input PublicationWhereInput {
   NOT: [PublicationWhereInput!]
   id: IDFilter
   title: StringFilter
+  slug: StringFilter
   keywords: StringFilter
   resume: StringFilter
   link: StringFilter
@@ -491,6 +512,7 @@ input PublicationWhereInput {
 input PublicationOrderByInput {
   id: OrderDirection
   title: OrderDirection
+  slug: OrderDirection
   keywords: OrderDirection
   resume: OrderDirection
   link: OrderDirection
@@ -504,6 +526,7 @@ input PublicationOrderByInput {
 
 input PublicationUpdateInput {
   title: String
+  slug: String
   keywords: String
   resume: String
   content: JSON
@@ -526,6 +549,7 @@ input PublicationUpdateArgs {
 
 input PublicationCreateInput {
   title: String
+  slug: String
   keywords: String
   resume: String
   content: JSON
