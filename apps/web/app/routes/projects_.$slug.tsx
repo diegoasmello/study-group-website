@@ -32,6 +32,7 @@ const query = gql`
       link
       startDate
       endDate
+      status
       researchers {
         id
         name
@@ -74,7 +75,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     { slug: params.slug },
   );
 
-  handleNotFound(project);
+  handleNotFound(project, project?.status === "published");
 
   const { terms } = getRelatedTerms(project?.title, project?.keywords);
 

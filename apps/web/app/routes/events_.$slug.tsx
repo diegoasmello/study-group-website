@@ -33,6 +33,7 @@ const query = gql`
       workload
       date
       locale
+      status
       image {
         url
       }
@@ -74,7 +75,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     { slug: params.slug },
   );
 
-  handleNotFound(event);
+  handleNotFound(event, event?.status === "published");
 
   const { terms } = getRelatedTerms(event?.title, event?.keywords);
 

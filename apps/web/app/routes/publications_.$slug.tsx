@@ -37,6 +37,7 @@ const query = gql`
       magazine
       link
       license
+      status
       content {
         document
       }
@@ -80,7 +81,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     PublicationQueryVariables
   >(query, { slug: params.slug });
 
-  handleNotFound(publication);
+  handleNotFound(publication, publication?.status === "published");
 
   const { terms } = getRelatedTerms(publication?.title, publication?.keywords);
 

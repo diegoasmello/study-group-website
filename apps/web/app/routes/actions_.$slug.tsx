@@ -25,6 +25,7 @@ const query = gql`
       title
       resume
       keywords
+      status
       image {
         url
       }
@@ -64,7 +65,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     { slug: params.slug },
   );
 
-  handleNotFound(action);
+  handleNotFound(action, action?.status === "published");
 
   const { terms } = getRelatedTerms(action?.title, action?.keywords);
 

@@ -31,7 +31,7 @@ const pageQuery = gql`
       take: $take
       skip: $skip
       where: {
-        status: { equals: "published" }
+        status: { equals: published }
         title: { contains: $query, mode: insensitive }
       }
       orderBy: { publishedAt: desc }
@@ -44,7 +44,7 @@ const pageQuery = gql`
         url
       }
     }
-    count: actionsCount
+    count: actionsCount(where: { status: { equals: published } })
   }
 `;
 

@@ -23,6 +23,7 @@ const statusSelect = select({
   defaultValue: "draft",
   ui: { displayMode: "segmented-control" },
   graphql: { isNonNull: { read: true } },
+  type: "enum",
 });
 
 const contentDocument = document({
@@ -33,6 +34,7 @@ const contentDocument = document({
     [1, 1, 1],
   ],
   graphql: { isNonNull: { read: true } },
+  isFilterable: true,
 });
 
 export const lists: Record<string, ListConfig<any>> = {

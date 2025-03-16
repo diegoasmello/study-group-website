@@ -19,7 +19,7 @@ const pageQuery = gql`
     data: projects(
       take: $take
       skip: $skip
-      where: { status: { equals: "published" } }
+      where: { status: { equals: published } }
       orderBy: { publishedAt: desc }
     ) {
       id
@@ -29,7 +29,7 @@ const pageQuery = gql`
         url
       }
     }
-    count: projectsCount
+    count: projectsCount(where: { status: { equals: published } })
   }
 `;
 

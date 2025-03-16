@@ -13,110 +13,110 @@ generator client {
 }
 
 model Action {
-  id              String    @id @default(cuid())
-  title           String    @default("")
-  slug            String    @unique @default("")
-  keywords        String    @default("")
-  resume          String    @default("")
-  content         Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  id              String           @id @default(cuid())
+  title           String           @default("")
+  slug            String           @unique @default("")
+  keywords        String           @default("")
+  resume          String           @default("")
+  content         Json             @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   image_id        String?
   image_filesize  Int?
   image_width     Int?
   image_height    Int?
   image_extension String?
-  date            DateTime  @postgresql.Date
-  publishedAt     DateTime? @updatedAt
-  status          String    @default("draft")
+  date            DateTime         @postgresql.Date
+  publishedAt     DateTime?        @updatedAt
+  status          ActionStatusType @default(draft)
 }
 
 model Project {
-  id              String        @id @default(cuid())
-  title           String        @default("")
-  slug            String        @unique @default("")
-  keywords        String        @default("")
-  content         Json          @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  id              String            @id @default(cuid())
+  title           String            @default("")
+  slug            String            @unique @default("")
+  keywords        String            @default("")
+  content         Json              @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   image_id        String?
   image_filesize  Int?
   image_width     Int?
   image_height    Int?
   image_extension String?
-  link            String        @default("")
-  startDate       DateTime      @postgresql.Date
-  endDate         DateTime      @postgresql.Date
-  researchers     Researcher[]  @relation("Project_researchers")
-  researchArea    ResearchArea? @relation("Project_researchArea", fields: [researchAreaId], references: [id])
-  researchAreaId  String?       @map("researchArea")
-  publishedAt     DateTime?     @updatedAt
-  status          String        @default("draft")
+  link            String            @default("")
+  startDate       DateTime          @postgresql.Date
+  endDate         DateTime          @postgresql.Date
+  researchers     Researcher[]      @relation("Project_researchers")
+  researchArea    ResearchArea?     @relation("Project_researchArea", fields: [researchAreaId], references: [id])
+  researchAreaId  String?           @map("researchArea")
+  publishedAt     DateTime?         @updatedAt
+  status          ProjectStatusType @default(draft)
 
   @@index([researchAreaId])
 }
 
 model Event {
-  id              String    @id @default(cuid())
-  title           String    @default("")
-  slug            String    @unique @default("")
-  keywords        String    @default("")
-  resume          String    @default("")
-  content         Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  id              String          @id @default(cuid())
+  title           String          @default("")
+  slug            String          @unique @default("")
+  keywords        String          @default("")
+  resume          String          @default("")
+  content         Json            @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   image_id        String?
   image_filesize  Int?
   image_width     Int?
   image_height    Int?
   image_extension String?
-  link            String    @default("")
+  link            String          @default("")
   workload        Int
-  date            DateTime  @postgresql.Date
-  locale          String    @default("")
-  publishedAt     DateTime? @updatedAt
-  status          String    @default("draft")
+  date            DateTime        @postgresql.Date
+  locale          String          @default("")
+  publishedAt     DateTime?       @updatedAt
+  status          EventStatusType @default(draft)
 }
 
 model Publication {
-  id              String        @id @default(cuid())
-  title           String        @default("")
-  slug            String        @unique @default("")
-  keywords        String        @default("")
-  resume          String        @default("")
-  content         Json          @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  id              String                @id @default(cuid())
+  title           String                @default("")
+  slug            String                @unique @default("")
+  keywords        String                @default("")
+  resume          String                @default("")
+  content         Json                  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   image_id        String?
   image_filesize  Int?
   image_width     Int?
   image_height    Int?
   image_extension String?
-  link            String        @default("")
-  date            DateTime      @postgresql.Date
-  researchers     Researcher[]  @relation("Publication_researchers")
-  researchArea    ResearchArea? @relation("Publication_researchArea", fields: [researchAreaId], references: [id])
-  researchAreaId  String?       @map("researchArea")
-  magazine        String        @default("")
-  doi             String        @default("")
-  license         String        @default("")
-  publishedAt     DateTime?     @updatedAt
-  status          String        @default("draft")
+  link            String                @default("")
+  date            DateTime              @postgresql.Date
+  researchers     Researcher[]          @relation("Publication_researchers")
+  researchArea    ResearchArea?         @relation("Publication_researchArea", fields: [researchAreaId], references: [id])
+  researchAreaId  String?               @map("researchArea")
+  magazine        String                @default("")
+  doi             String                @default("")
+  license         String                @default("")
+  publishedAt     DateTime?             @updatedAt
+  status          PublicationStatusType @default(draft)
 
   @@index([researchAreaId])
 }
 
 model TeamMember {
-  id              String    @id @default(cuid())
-  name            String    @default("")
-  role            String    @default("")
+  id              String               @id @default(cuid())
+  name            String               @default("")
+  role            String               @default("")
   image_id        String?
   image_filesize  Int?
   image_width     Int?
   image_height    Int?
   image_extension String?
-  link            String    @default("")
-  publishedAt     DateTime? @updatedAt
-  status          String    @default("draft")
+  link            String               @default("")
+  publishedAt     DateTime?            @updatedAt
+  status          TeamMemberStatusType @default(draft)
 }
 
 model ResearchArea {
-  id              String        @id @default(cuid())
-  title           String        @default("")
-  resume          String        @default("")
-  content         Json          @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  id              String                 @id @default(cuid())
+  title           String                 @default("")
+  resume          String                 @default("")
+  content         Json                   @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   image_id        String?
   image_filesize  Int?
   image_width     Int?
@@ -127,19 +127,19 @@ model ResearchArea {
   icon_width      Int?
   icon_height     Int?
   icon_extension  String?
-  projects        Project[]     @relation("Project_researchArea")
-  publications    Publication[] @relation("Publication_researchArea")
-  publishedAt     DateTime?     @updatedAt
-  status          String        @default("draft")
+  projects        Project[]              @relation("Project_researchArea")
+  publications    Publication[]          @relation("Publication_researchArea")
+  publishedAt     DateTime?              @updatedAt
+  status          ResearchAreaStatusType @default(draft)
 }
 
 model Researcher {
-  id           String        @id @default(cuid())
-  name         String        @default("")
-  projects     Project[]     @relation("Project_researchers")
-  publications Publication[] @relation("Publication_researchers")
-  publishedAt  DateTime?     @updatedAt
-  status       String        @default("draft")
+  id           String               @id @default(cuid())
+  name         String               @default("")
+  projects     Project[]            @relation("Project_researchers")
+  publications Publication[]        @relation("Publication_researchers")
+  publishedAt  DateTime?            @updatedAt
+  status       ResearcherStatusType @default(draft)
 }
 
 model SectionContent {
@@ -170,6 +170,41 @@ model User {
   name     String @default("")
   email    String @unique @default("")
   password String
+}
+
+enum ActionStatusType {
+  published
+  draft
+}
+
+enum ProjectStatusType {
+  published
+  draft
+}
+
+enum EventStatusType {
+  published
+  draft
+}
+
+enum PublicationStatusType {
+  published
+  draft
+}
+
+enum TeamMemberStatusType {
+  published
+  draft
+}
+
+enum ResearchAreaStatusType {
+  published
+  draft
+}
+
+enum ResearcherStatusType {
+  published
+  draft
 }
 
 enum SectionContentSectionType {

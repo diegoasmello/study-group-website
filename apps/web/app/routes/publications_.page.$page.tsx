@@ -70,13 +70,13 @@ const pageQuery = gql`
         name
       }
     }
-    count: publicationsCount
+    count: publicationsCount(where: { status: { equals: published } })
   }
 `;
 
 const researchAreasQuery = gql`
   query ResearchAreas {
-    researchAreas {
+    researchAreas(where: { status: { equals: published } }) {
       id
       title
     }
@@ -86,7 +86,7 @@ const researchAreasQuery = gql`
 const researchersQuery = gql`
   query Researchers {
     researchers(
-      where: { publications: { every: { status: { equals: "published" } } } }
+      where: { publications: { every: { status: { equals: published } } } }
     ) {
       id
       name
@@ -138,7 +138,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     {
       where: {
         status: {
-          equals: "pusblished",
+          equals: "published",
         },
         researchers: {
           some: searchParams.researcher?.value
@@ -152,7 +152,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
             : undefined,
         },
         title: {
-          contains: searchParams.query,
+          contains: searchParams.query ?? "",
           mode: QueryMode.Insensitive,
         },
         researchArea: {

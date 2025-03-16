@@ -11,7 +11,7 @@ type Action {
   image: ImageFieldOutput!
   date: CalendarDay!
   publishedAt: DateTime
-  status: String!
+  status: ActionStatusType!
 }
 
 type Action_content_Document {
@@ -38,6 +38,11 @@ scalar CalendarDay @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3
 
 scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
 
+enum ActionStatusType {
+  published
+  draft
+}
+
 input ActionWhereUniqueInput {
   id: ID
   slug: String
@@ -54,7 +59,7 @@ input ActionWhereInput {
   resume: StringFilter
   date: CalendarDayFilter
   publishedAt: DateTimeNullableFilter
-  status: StringFilter
+  status: ActionStatusTypeNullableFilter
 }
 
 input IDFilter {
@@ -124,6 +129,13 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
+input ActionStatusTypeNullableFilter {
+  equals: ActionStatusType
+  in: [ActionStatusType!]
+  notIn: [ActionStatusType!]
+  not: ActionStatusTypeNullableFilter
+}
+
 input ActionOrderByInput {
   id: OrderDirection
   title: OrderDirection
@@ -149,7 +161,7 @@ input ActionUpdateInput {
   image: ImageFieldInput
   date: CalendarDay
   publishedAt: DateTime
-  status: String
+  status: ActionStatusType
 }
 
 input ImageFieldInput {
@@ -173,7 +185,7 @@ input ActionCreateInput {
   image: ImageFieldInput
   date: CalendarDay
   publishedAt: DateTime
-  status: String
+  status: ActionStatusType
 }
 
 type Project {
@@ -190,11 +202,16 @@ type Project {
   researchersCount(where: ResearcherWhereInput! = {}): Int
   researchArea: ResearchArea
   publishedAt: DateTime
-  status: String!
+  status: ProjectStatusType!
 }
 
 type Project_content_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+enum ProjectStatusType {
+  published
+  draft
 }
 
 input ProjectWhereUniqueInput {
@@ -216,13 +233,20 @@ input ProjectWhereInput {
   researchers: ResearcherManyRelationFilter
   researchArea: ResearchAreaWhereInput
   publishedAt: DateTimeNullableFilter
-  status: StringFilter
+  status: ProjectStatusTypeNullableFilter
 }
 
 input ResearcherManyRelationFilter {
   every: ResearcherWhereInput
   some: ResearcherWhereInput
   none: ResearcherWhereInput
+}
+
+input ProjectStatusTypeNullableFilter {
+  equals: ProjectStatusType
+  in: [ProjectStatusType!]
+  notIn: [ProjectStatusType!]
+  not: ProjectStatusTypeNullableFilter
 }
 
 input ProjectOrderByInput {
@@ -249,7 +273,7 @@ input ProjectUpdateInput {
   researchers: ResearcherRelateToManyForUpdateInput
   researchArea: ResearchAreaRelateToOneForUpdateInput
   publishedAt: DateTime
-  status: String
+  status: ProjectStatusType
 }
 
 input ResearcherRelateToManyForUpdateInput {
@@ -282,7 +306,7 @@ input ProjectCreateInput {
   researchers: ResearcherRelateToManyForCreateInput
   researchArea: ResearchAreaRelateToOneForCreateInput
   publishedAt: DateTime
-  status: String
+  status: ProjectStatusType
 }
 
 input ResearcherRelateToManyForCreateInput {
@@ -308,11 +332,16 @@ type Event {
   date: CalendarDay!
   locale: String!
   publishedAt: DateTime
-  status: String!
+  status: EventStatusType!
 }
 
 type Event_content_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+enum EventStatusType {
+  published
+  draft
 }
 
 input EventWhereUniqueInput {
@@ -334,7 +363,7 @@ input EventWhereInput {
   date: CalendarDayFilter
   locale: StringFilter
   publishedAt: DateTimeNullableFilter
-  status: StringFilter
+  status: EventStatusTypeNullableFilter
 }
 
 input IntFilter {
@@ -346,6 +375,13 @@ input IntFilter {
   gt: Int
   gte: Int
   not: IntFilter
+}
+
+input EventStatusTypeNullableFilter {
+  equals: EventStatusType
+  in: [EventStatusType!]
+  notIn: [EventStatusType!]
+  not: EventStatusTypeNullableFilter
 }
 
 input EventOrderByInput {
@@ -374,7 +410,7 @@ input EventUpdateInput {
   date: CalendarDay
   locale: String
   publishedAt: DateTime
-  status: String
+  status: EventStatusType
 }
 
 input EventUpdateArgs {
@@ -394,7 +430,7 @@ input EventCreateInput {
   date: CalendarDay
   locale: String
   publishedAt: DateTime
-  status: String
+  status: EventStatusType
 }
 
 type Publication {
@@ -414,11 +450,16 @@ type Publication {
   doi: String!
   license: String!
   publishedAt: DateTime
-  status: String!
+  status: PublicationStatusType!
 }
 
 type Publication_content_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+enum PublicationStatusType {
+  published
+  draft
 }
 
 input PublicationWhereUniqueInput {
@@ -443,7 +484,14 @@ input PublicationWhereInput {
   doi: StringFilter
   license: StringFilter
   publishedAt: DateTimeNullableFilter
-  status: StringFilter
+  status: PublicationStatusTypeNullableFilter
+}
+
+input PublicationStatusTypeNullableFilter {
+  equals: PublicationStatusType
+  in: [PublicationStatusType!]
+  notIn: [PublicationStatusType!]
+  not: PublicationStatusTypeNullableFilter
 }
 
 input PublicationOrderByInput {
@@ -476,7 +524,7 @@ input PublicationUpdateInput {
   doi: String
   license: String
   publishedAt: DateTime
-  status: String
+  status: PublicationStatusType
 }
 
 input PublicationUpdateArgs {
@@ -499,7 +547,7 @@ input PublicationCreateInput {
   doi: String
   license: String
   publishedAt: DateTime
-  status: String
+  status: PublicationStatusType
 }
 
 type TeamMember {
@@ -509,7 +557,12 @@ type TeamMember {
   image: ImageFieldOutput!
   link: String!
   publishedAt: DateTime
-  status: String!
+  status: TeamMemberStatusType!
+}
+
+enum TeamMemberStatusType {
+  published
+  draft
 }
 
 input TeamMemberWhereUniqueInput {
@@ -525,7 +578,14 @@ input TeamMemberWhereInput {
   role: StringFilter
   link: StringFilter
   publishedAt: DateTimeNullableFilter
-  status: StringFilter
+  status: TeamMemberStatusTypeNullableFilter
+}
+
+input TeamMemberStatusTypeNullableFilter {
+  equals: TeamMemberStatusType
+  in: [TeamMemberStatusType!]
+  notIn: [TeamMemberStatusType!]
+  not: TeamMemberStatusTypeNullableFilter
 }
 
 input TeamMemberOrderByInput {
@@ -543,7 +603,7 @@ input TeamMemberUpdateInput {
   image: ImageFieldInput
   link: String
   publishedAt: DateTime
-  status: String
+  status: TeamMemberStatusType
 }
 
 input TeamMemberUpdateArgs {
@@ -557,7 +617,7 @@ input TeamMemberCreateInput {
   image: ImageFieldInput
   link: String
   publishedAt: DateTime
-  status: String
+  status: TeamMemberStatusType
 }
 
 type ResearchArea {
@@ -572,11 +632,16 @@ type ResearchArea {
   publications(where: PublicationWhereInput! = {}, orderBy: [PublicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PublicationWhereUniqueInput): [Publication!]
   publicationsCount(where: PublicationWhereInput! = {}): Int
   publishedAt: DateTime
-  status: String!
+  status: ResearchAreaStatusType!
 }
 
 type ResearchArea_content_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+enum ResearchAreaStatusType {
+  published
+  draft
 }
 
 input ResearchAreaWhereUniqueInput {
@@ -593,7 +658,7 @@ input ResearchAreaWhereInput {
   projects: ProjectManyRelationFilter
   publications: PublicationManyRelationFilter
   publishedAt: DateTimeNullableFilter
-  status: StringFilter
+  status: ResearchAreaStatusTypeNullableFilter
 }
 
 input ProjectManyRelationFilter {
@@ -606,6 +671,13 @@ input PublicationManyRelationFilter {
   every: PublicationWhereInput
   some: PublicationWhereInput
   none: PublicationWhereInput
+}
+
+input ResearchAreaStatusTypeNullableFilter {
+  equals: ResearchAreaStatusType
+  in: [ResearchAreaStatusType!]
+  notIn: [ResearchAreaStatusType!]
+  not: ResearchAreaStatusTypeNullableFilter
 }
 
 input ResearchAreaOrderByInput {
@@ -625,7 +697,7 @@ input ResearchAreaUpdateInput {
   projects: ProjectRelateToManyForUpdateInput
   publications: PublicationRelateToManyForUpdateInput
   publishedAt: DateTime
-  status: String
+  status: ResearchAreaStatusType
 }
 
 input ProjectRelateToManyForUpdateInput {
@@ -656,7 +728,7 @@ input ResearchAreaCreateInput {
   projects: ProjectRelateToManyForCreateInput
   publications: PublicationRelateToManyForCreateInput
   publishedAt: DateTime
-  status: String
+  status: ResearchAreaStatusType
 }
 
 input ProjectRelateToManyForCreateInput {
@@ -677,7 +749,12 @@ type Researcher {
   publications(where: PublicationWhereInput! = {}, orderBy: [PublicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PublicationWhereUniqueInput): [Publication!]
   publicationsCount(where: PublicationWhereInput! = {}): Int
   publishedAt: DateTime
-  status: String!
+  status: ResearcherStatusType!
+}
+
+enum ResearcherStatusType {
+  published
+  draft
 }
 
 input ResearcherWhereUniqueInput {
@@ -693,7 +770,14 @@ input ResearcherWhereInput {
   projects: ProjectManyRelationFilter
   publications: PublicationManyRelationFilter
   publishedAt: DateTimeNullableFilter
-  status: StringFilter
+  status: ResearcherStatusTypeNullableFilter
+}
+
+input ResearcherStatusTypeNullableFilter {
+  equals: ResearcherStatusType
+  in: [ResearcherStatusType!]
+  notIn: [ResearcherStatusType!]
+  not: ResearcherStatusTypeNullableFilter
 }
 
 input ResearcherOrderByInput {
@@ -708,7 +792,7 @@ input ResearcherUpdateInput {
   projects: ProjectRelateToManyForUpdateInput
   publications: PublicationRelateToManyForUpdateInput
   publishedAt: DateTime
-  status: String
+  status: ResearcherStatusType
 }
 
 input ResearcherUpdateArgs {
@@ -721,7 +805,7 @@ input ResearcherCreateInput {
   projects: ProjectRelateToManyForCreateInput
   publications: PublicationRelateToManyForCreateInput
   publishedAt: DateTime
-  status: String
+  status: ResearcherStatusType
 }
 
 type SectionContent {

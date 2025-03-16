@@ -19,7 +19,7 @@ const pageQuery = gql`
     data: teamMembers(
       take: $take
       skip: $skip
-      where: { status: { equals: "published" } }
+      where: { status: { equals: published } }
     ) {
       id
       name
@@ -29,7 +29,7 @@ const pageQuery = gql`
         url
       }
     }
-    count: teamMembersCount
+    count: teamMembersCount(where: { status: { equals: published } })
   }
 `;
 
