@@ -12,13 +12,6 @@ generator client {
   output   = "node_modules/.prisma/client"
 }
 
-model User {
-  id       String @id @default(cuid())
-  name     String @default("")
-  email    String @unique @default("")
-  password String
-}
-
 model Action {
   id              String    @id @default(cuid())
   title           String    @default("")
@@ -149,9 +142,11 @@ model Researcher {
   status       String        @default("draft")
 }
 
-model NewsletterList {
-  id    String @id @default(cuid())
-  email String @unique @default("")
+model SectionContent {
+  id      String                     @id @default(cuid())
+  title   String                     @default("")
+  content String                     @default("")
+  section SectionContentSectionType?
 }
 
 model Company {
@@ -165,11 +160,16 @@ model Company {
   youtubeUrl   String @default("")
 }
 
-model SectionContent {
-  id      String                     @id @default(cuid())
-  title   String                     @default("")
-  content String                     @default("")
-  section SectionContentSectionType?
+model NewsletterList {
+  id    String @id @default(cuid())
+  email String @unique @default("")
+}
+
+model User {
+  id       String @id @default(cuid())
+  name     String @default("")
+  email    String @unique @default("")
+  password String
 }
 
 enum SectionContentSectionType {

@@ -34,25 +34,6 @@ const contentDocument = document({
 });
 
 export const lists: Record<string, ListConfig<any>> = {
-  User: list({
-    access: allowAll,
-    fields: {
-      name: text({ validation: { isRequired: true } }),
-      email: text({
-        validation: { isRequired: true },
-        isIndexed: "unique",
-      }),
-      password: password({ validation: { isRequired: true } }),
-    },
-    ui: {
-      listView: {
-        initialSort: {
-          direction: "DESC",
-          field: "publishedAt",
-        },
-      },
-    },
-  }),
   Action: list({
     access: allowAll,
     fields: {
@@ -416,47 +397,6 @@ export const lists: Record<string, ListConfig<any>> = {
       },
     },
   }),
-  NewsletterList: list({
-    access: allowAll,
-    fields: {
-      email: text({ isIndexed: "unique" }),
-    },
-    ui: {
-      hideCreate: true,
-      hideDelete: true,
-      listView: {
-        initialSort: {
-          direction: "DESC",
-          field: "publishedAt",
-        },
-      },
-    },
-  }),
-  Company: list({
-    access: allowAll,
-    fields: {
-      title: text({
-        validation: { isRequired: true, length: { min: 1, max: 200 } },
-      }),
-      address: text({ validation: { isRequired: true } }),
-      phone: text({
-        validation: { isRequired: true, length: { min: 1, max: 200 } },
-      }),
-      email: text({
-        validation: { isRequired: true, length: { min: 1, max: 200 } },
-      }),
-      facebookUrl: text({
-        validation: { isRequired: true, length: { min: 1, max: 200 } },
-      }),
-      instagramUrl: text({
-        validation: { isRequired: true, length: { min: 1, max: 200 } },
-      }),
-      youtubeUrl: text({
-        validation: { isRequired: true, length: { min: 1, max: 200 } },
-      }),
-    },
-    isSingleton: true,
-  }),
   SectionContent: list({
     access: allowAll,
     ui: {
@@ -512,6 +452,66 @@ export const lists: Record<string, ListConfig<any>> = {
         ],
         type: "enum",
       }),
+    },
+  }),
+  Company: list({
+    access: allowAll,
+    fields: {
+      title: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      address: text({ validation: { isRequired: true } }),
+      phone: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      email: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      facebookUrl: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      instagramUrl: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+      youtubeUrl: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+      }),
+    },
+    isSingleton: true,
+  }),
+  NewsletterList: list({
+    access: allowAll,
+    fields: {
+      email: text({ isIndexed: "unique" }),
+    },
+    ui: {
+      hideCreate: true,
+      hideDelete: true,
+      listView: {
+        initialSort: {
+          direction: "DESC",
+          field: "publishedAt",
+        },
+      },
+    },
+  }),
+  User: list({
+    access: allowAll,
+    fields: {
+      name: text({ validation: { isRequired: true } }),
+      email: text({
+        validation: { isRequired: true },
+        isIndexed: "unique",
+      }),
+      password: password({ validation: { isRequired: true } }),
+    },
+    ui: {
+      listView: {
+        initialSort: {
+          direction: "DESC",
+          field: "publishedAt",
+        },
+      },
     },
   }),
 };
