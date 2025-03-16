@@ -9,6 +9,29 @@ import { IconArrowForward } from "~/components/icons";
 import clsx from "clsx";
 import { getRootMatch, metaTags } from "~/utils";
 import { LoaderFunctionArgs } from "@remix-run/node";
+import { gql } from "graphql-request";
+import { client } from "~/lib/graphql-client";
+import { HistoryPageQuery } from "~/graphql/generated";
+import { ArrayElement } from "~/types";
+
+const query = gql`
+  query HistoryPage {
+    heroSections: sectionContents(
+      where: { section: { equals: HISTORY_HERO } }
+    ) {
+      id
+      title
+      content
+    }
+    historySections: sectionContents(
+      where: { section: { equals: HISTORY_SECTION } }
+    ) {
+      id
+      title
+      content
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({
   data: dbData,
@@ -27,17 +50,14 @@ export const meta: MetaFunction<typeof loader> = ({
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  /* const heroSection = await prisma.sectionsContent.findFirst({
-    where: {
-      section: Sections.HISTORY_HERO,
-    },
+  const { heroSections, historySections } =
+    await client.request<HistoryPageQuery>(query);
+
+  return json({
+    historySections,
+    heroSection: heroSections?.[0],
+    url: request.url,
   });
-  const historySections = await prisma.sectionsContent.findMany({
-    where: {
-      section: Sections.HISTORY_SECTION,
-    },
-  }); */
-  return json({ historySections: [], heroSection: {}, url: request.url });
 }
 
 export default function History() {
@@ -117,7 +137,7 @@ export default function History() {
 }
 
 const HistorySection = (props: {
-  section: { id: number; title: string; content: string };
+  section: ArrayElement<HistoryPageQuery["historySections"]>;
   align: "left" | "right";
   index: number;
   isLastItem: boolean;

@@ -6,7 +6,11 @@ import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import { TeamPageHeroQuery, TeamPageQuery } from "~/graphql/generated";
+import {
+  TeamPageQueryVariables,
+  TeamPageHeroQuery,
+  TeamPageQuery,
+} from "~/graphql/generated";
 import { client } from "~/lib/graphql-client";
 import { getRootMatch, metaTags, paginate } from "~/utils";
 
@@ -60,13 +64,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const page = Number(url.searchParams.get("page") ?? "1");
 
-  const paginatedTeamMembers = await paginate<TeamPageQuery["data"]>(
-    pageQuery,
-    {
-      currentPage: page,
-      perPage: 9,
-    },
-  );
+  const paginatedTeamMembers = await paginate<
+    TeamPageQuery["data"],
+    TeamPageQueryVariables
+  >(pageQuery, {
+    currentPage: page,
+    perPage: 9,
+  });
 
   const { sectionContents } =
     await client.request<TeamPageHeroQuery>(heroQuery);

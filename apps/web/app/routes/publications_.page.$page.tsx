@@ -42,19 +42,22 @@ import {
   PublicationsPageHeroQuery,
   PublicationsPageQuery,
   PublicationsPageQueryVariables,
+  QueryMode,
   ResearchAreasQuery,
   ResearchersQuery,
 } from "~/graphql/generated";
 
 const pageQuery = gql`
-  query PublicationsPage($query: String, $take: Int, $skip: Int) {
+  query PublicationsPage(
+    $where: PublicationWhereInput
+    $take: Int
+    $skip: Int
+  ) {
     data: publications(
       take: $take
       skip: $skip
-      where: {
-        status: { equals: "published" }
-        title: { contains: $query, mode: insensitive }
-      }
+      where: $where
+      orderBy: { publishedAt: desc }
     ) {
       id
       slug
@@ -132,7 +135,37 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       currentPage: page,
       perPage: 6,
     },
-    { query: searchParams.query ?? "" },
+    {
+      where: {
+        status: {
+          equals: "pusblished",
+        },
+        researchers: {
+          some: searchParams.researcher?.value
+            ? {
+                id: {
+                  equals: searchParams.researcher
+                    ? searchParams.researcher.value
+                    : undefined,
+                },
+              }
+            : undefined,
+        },
+        title: {
+          contains: searchParams.query,
+          mode: QueryMode.Insensitive,
+        },
+        researchArea: {
+          id: {
+            in: searchParams.researchAreas,
+          },
+        },
+        date: {
+          gte: searchParams.startDate,
+          lte: searchParams.endDate,
+        },
+      },
+    },
   );
 
   const { sectionContents } =
@@ -141,54 +174,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     await client.request<ResearchAreasQuery>(researchAreasQuery);
   const { researchers } =
     await client.request<ResearchersQuery>(researchersQuery);
-  /*
-  
-  const paginatedPublications = await paginate<
-    Prisma.PublicationGetPayload<{
-      include: {
-        researchers: true;
-        researchArea: true;
-      };
-    }>,
-    Prisma.PublicationFindManyArgs
-  >(
-    prisma.publication,
-    {
-      include: {
-        researchers: true,
-        researchArea: true,
-      },
-      where: {
-        published: true,
-        researchers: {
-          some: searchParams.researcher?.value
-            ? {
-                id: searchParams.researcher
-                  ? Number(searchParams.researcher.value)
-                  : undefined,
-              }
-            : undefined,
-        },
-        title: {
-          contains: searchParams.query,
-          mode: "insensitive",
-        },
-        researchAreaId: {
-          in: searchParams.researchAreas,
-        },
-        date: {
-          gte: searchParams.startDate,
-          lte: searchParams.endDate,
-        },
-      },
-      orderBy: {
-        date: "desc",
-      },
-    },
-    {
-      page: page,
-    },
-  ); */
 
   handleNotFound(
     paginatedPublications?.data?.length,
@@ -264,7 +249,7 @@ export default function PublicationsPage() {
                 label={researchArea.title}
                 value={researchArea.id}
                 defaultChecked={parsedSearchParams.researchAreas?.includes(
-                  Number(researchArea.id), // arrumar
+                  researchArea.id,
                 )}
               />
             ))}
@@ -390,9 +375,7 @@ function parseSearchParams(searchParams: URLSearchParams) {
   );
   const startDate = searchParams.get("startDate");
   const endDate = searchParams.get("startDate");
-  const researchAreas = searchParams
-    .getAll("researchAreas[]")
-    .map((i) => Number(i));
+  const researchAreas = searchParams.getAll("researchAreas[]");
 
   return {
     query: searchParams.get("q") ?? undefined,

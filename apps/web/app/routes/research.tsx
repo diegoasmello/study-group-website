@@ -2,7 +2,6 @@ import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
-import { prisma } from "~/lib/prisma.server";
 
 import { Carousel } from "~/components/Carousel";
 import { CardProject } from "~/components/CardProject";
@@ -10,6 +9,40 @@ import clsx from "clsx";
 import { twJoin } from "tailwind-merge";
 import { getRootMatch, metaTags } from "~/utils";
 import { LoaderFunctionArgs } from "@remix-run/node";
+import { gql } from "graphql-request";
+import { client } from "~/lib/graphql-client";
+import { ResearchPageQuery } from "~/graphql/generated";
+import { ArrayElement } from "~/types";
+
+const query = gql`
+  query ResearchPage {
+    sectionContents(where: { section: { equals: RESEARCH_HERO } }) {
+      id
+      title
+      content
+    }
+    researchAreas {
+      title
+      image {
+        url
+      }
+      icon {
+        url
+      }
+      content {
+        document
+      }
+      projects {
+        id
+        slug
+        title
+        image {
+          url
+        }
+      }
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -29,29 +62,14 @@ export const meta: MetaFunction<typeof loader> = ({
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  /* const heroSection = await prisma.sectionsContent.findFirst({
-    where: {
-      section: Sections.RESEARCH_HERO,
-    },
-  });
-  const researchAreas = await prisma.researchArea.findMany({
-    omit: {
-      updatedAt: true,
-      createdAt: true,
-    },
-    include: {
-      projects: {
-        select: {
-          id: true,
-          slug: true,
-          title: true,
-          image: true,
-        },
-      },
-    },
-  }); */
+  const { researchAreas, sectionContents } =
+    await client.request<ResearchPageQuery>(query);
 
-  return json({ heroSection: {}, researchAreas: [], url: request.url });
+  return json({
+    heroSection: sectionContents?.[0],
+    researchAreas,
+    url: request.url,
+  });
 }
 
 export default function Research() {
@@ -75,8 +93,8 @@ export default function Research() {
       />
 
       <div className="flex flex-col gap-16 mb-20">
-        {researchAreas.map((researchArea, index) => (
-          <ResearchItemSection key={index} item={researchArea} index={index} />
+        {researchAreas?.map((researchArea, index) => (
+          <ResearchItemSection key={index} item={researchArea} index={index} /> // fixxxx
         ))}
       </div>
 
@@ -101,22 +119,7 @@ const ResearchItemSection = ({
   item,
   index,
 }: {
-  item: Prisma.ResearchAreaGetPayload<{
-    omit: {
-      updatedAt: true;
-      createdAt: true;
-    };
-    include: {
-      projects: {
-        select: {
-          id: true;
-          slug: true;
-          title: true;
-          image: true;
-        };
-      };
-    };
-  }>;
+  item: ArrayElement<ResearchPageQuery["researchAreas"]>;
   index: number;
 }) => {
   const isOdd = index % 2 === 0;
@@ -125,7 +128,7 @@ const ResearchItemSection = ({
     <div className="flex flex-col gap-6 lg:gap-14">
       <div className="relative">
         <img
-          src={item.image}
+          src={item.image.url}
           alt=""
           className={twJoin(
             "hidden lg:block h-full w-[calc(50vw-4rem)] object-cover absolute",
@@ -142,7 +145,7 @@ const ResearchItemSection = ({
                 )}
               >
                 <IconWrapper>
-                  <img src={item.icon} alt="" />
+                  <img src={item.icon.url} alt="" />
                 </IconWrapper>
                 <h2 className="text-h3 text-gray-950">{item.title}</h2>
                 <div
@@ -161,7 +164,7 @@ const ResearchItemSection = ({
             <div className="w-full">
               <Carousel>
                 {() =>
-                  item.projects.map((project) => (
+                  item.projects?.map((project) => (
                     <div
                       key={project.id}
                       className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
@@ -170,7 +173,7 @@ const ResearchItemSection = ({
                         project={{
                           slug: project.slug,
                           title: project.title,
-                          image: project.image,
+                          image: project.image.url,
                         }}
                         type="flat"
                       />

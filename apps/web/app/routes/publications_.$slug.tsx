@@ -120,7 +120,7 @@ export default function ViewPublication() {
   if (!publication) return null;
 
   const handleCopyCitation = () => {
-    navigator.clipboard.writeText(createCitation(publication));
+    navigator.clipboard.writeText(createCitation(publication)); // fixxxxxx
   };
 
   return (

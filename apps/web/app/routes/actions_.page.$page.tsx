@@ -21,6 +21,7 @@ import {
   ActionsPageQuery,
   ActionsPageQueryVariables,
 } from "~/graphql/generated";
+
 import { client } from "~/lib/graphql-client";
 import { getRootMatch, handleNotFound, metaTags, paginate } from "~/utils";
 
