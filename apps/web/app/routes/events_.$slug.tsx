@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
+import { gql } from "graphql-request";
 import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
@@ -9,7 +10,54 @@ import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
 import { ExternalLink } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import {
+  EventQuery,
+  EventQueryVariables,
+  EventRelatedQuery,
+  EventRelatedQueryVariables,
+  QueryMode,
+} from "~/graphql/generated";
+import { client } from "~/lib/graphql-client";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
+
+// where published
+const query = gql`
+  query Event($slug: String) {
+    event(where: { slug: $slug }) {
+      id
+      slug
+      title
+      resume
+      keywords
+      link
+      workload
+      date
+      locale
+      image {
+        url
+      }
+      content {
+        document
+      }
+    }
+  }
+`;
+
+const relatedQuery = gql`
+  query EventRelated($where: EventWhereInput) {
+    events(where: $where) {
+      id
+      slug
+      title
+      date
+      locale
+      link
+      image {
+        url
+      }
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   return metaTags({
@@ -21,42 +69,43 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  /* const event = await prisma.event.findUnique({
-    where: {
-      slug: params.slug,
-    },
-  });
+  const { event } = await client.request<EventQuery, EventQueryVariables>(
+    query,
+    { slug: params.slug },
+  );
 
   handleNotFound(event);
 
   const { terms } = getRelatedTerms(event?.title, event?.keywords);
 
-  const related = await prisma.event.findMany({
+  const { events: related } = await client.request<
+    EventRelatedQuery,
+    EventRelatedQueryVariables
+  >(relatedQuery, {
     where: {
-      published: true,
-      id: {
-        not: event?.id,
+      status: {
+        equals: "published",
       },
       OR: terms.map((term) => ({
         OR: [
           {
             title: {
               contains: term,
-              mode: "insensitive",
+              mode: QueryMode.Insensitive,
             },
           },
           {
             keywords: {
               contains: term,
-              mode: "insensitive",
+              mode: QueryMode.Insensitive,
             },
           },
         ],
       })),
     },
-  }); */
+  });
 
-  return json({ event: {}, related: [], url: request.url });
+  return json({ event, related, url: request.url });
 }
 
 export default function ViewEvent() {
@@ -67,8 +116,8 @@ export default function ViewEvent() {
   return (
     <main className="pb-20  bg-page">
       <img
-        src={event.image}
-        alt=""
+        src={event.image.url}
+        alt={event.title}
         className="h-[340px] lg:h-[600px] w-full object-cover mb-12"
       />
       <Container>
@@ -119,7 +168,7 @@ export default function ViewEvent() {
               </div>
             </CardContainer>
           </div>
-          {!!related.length && (
+          {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6">
               <h2 className="text-h3 text-gray-950">Outros eventos</h2>
               <div className="w-full">
@@ -137,10 +186,10 @@ export default function ViewEvent() {
                           event={{
                             slug: relatedEvent.slug,
                             title: relatedEvent.title,
-                            image: relatedEvent.image,
+                            image: relatedEvent.image.url,
                             date: new Date(relatedEvent.date),
                             locale: relatedEvent.locale,
-                            link: event.link,
+                            link: relatedEvent.link,
                           }}
                         />
                       </div>

@@ -1,11 +1,53 @@
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
+import { gql } from "graphql-request";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardAction } from "~/components/CardAction";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import {
+  ActionQuery,
+  ActionQueryVariables,
+  ActionRelatedQuery,
+  ActionRelatedQueryVariables,
+  QueryMode,
+} from "~/graphql/generated";
+import { client } from "~/lib/graphql-client";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
+
+// where published
+const query = gql`
+  query Action($slug: String) {
+    action(where: { slug: $slug }) {
+      id
+      slug
+      title
+      resume
+      keywords
+      image {
+        url
+      }
+      content {
+        document
+      }
+    }
+  }
+`;
+
+const relatedQuery = gql`
+  query ActionRelated($where: ActionWhereInput) {
+    actions(where: $where) {
+      id
+      slug
+      title
+      date
+      image {
+        url
+      }
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   return metaTags({
@@ -17,42 +59,43 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  /*const action = await prisma.action.findUnique({
-    where: {
-      slug: params.slug,
-    },
-  });
+  const { action } = await client.request<ActionQuery, ActionQueryVariables>(
+    query,
+    { slug: params.slug },
+  );
 
   handleNotFound(action);
 
   const { terms } = getRelatedTerms(action?.title, action?.keywords);
 
-  const related = await prisma.action.findMany({
+  const { actions: related } = await client.request<
+    ActionRelatedQuery,
+    ActionRelatedQueryVariables
+  >(relatedQuery, {
     where: {
-      published: true,
-      id: {
-        not: action?.id,
+      status: {
+        equals: "published",
       },
       OR: terms.map((term) => ({
         OR: [
           {
             title: {
               contains: term,
-              mode: "insensitive",
+              mode: QueryMode.Insensitive,
             },
           },
           {
             keywords: {
               contains: term,
-              mode: "insensitive",
+              mode: QueryMode.Insensitive,
             },
           },
         ],
       })),
     },
-  }); */
+  });
 
-  return json({ action: {}, related: [], url: request.url });
+  return json({ action, related, url: request.url });
 }
 
 export default function ViewAction() {
@@ -63,7 +106,7 @@ export default function ViewAction() {
   return (
     <main className="pb-20  bg-page">
       <img
-        src={action.image}
+        src={action.image.url}
         alt=""
         className="h-[340px] lg:h-[600px] w-full object-cover mb-12"
       />
@@ -79,7 +122,7 @@ export default function ViewAction() {
               <ButtonShare>Compartilhar</ButtonShare>
             </nav>
           </div>
-          {!!related.length && (
+          {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6">
               <h2 className="text-h3 text-gray-950">Outras ações</h2>
               <div className="w-full">
@@ -95,7 +138,7 @@ export default function ViewAction() {
                           action={{
                             slug: relatedAction.slug,
                             title: relatedAction.title,
-                            image: relatedAction.image,
+                            image: relatedAction.image.url,
                             date: new Date(relatedAction.date),
                           }}
                           hideShadow={!isSlideInView(index)}

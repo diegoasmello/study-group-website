@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
+import { gql } from "graphql-request";
 import { Button } from "~/components/Button";
 import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
@@ -11,7 +12,58 @@ import { Container } from "~/components/Container";
 import { IconCalendar, IconContract, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { Tooltip } from "~/components/Tooltip";
+import {
+  PublicationQuery,
+  PublicationQueryVariables,
+  PublicationRelatedQuery,
+  PublicationRelatedQueryVariables,
+  QueryMode,
+} from "~/graphql/generated";
+
+import { client } from "~/lib/graphql-client";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
+
+// where published
+const query = gql`
+  query Publication($slug: String) {
+    publication(where: { slug: $slug }) {
+      id
+      slug
+      title
+      keywords
+      resume
+      date
+      doi
+      magazine
+      link
+      license
+      content {
+        document
+      }
+      researchers {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const relatedQuery = gql`
+  query PublicationRelated($where: PublicationWhereInput) {
+    publications(where: $where) {
+      id
+      slug
+      title
+      resume
+      date
+      link
+      researchers {
+        id
+        name
+      }
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   return metaTags({
@@ -23,48 +75,43 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  /* const publication = await prisma.publication.findUnique({
-    where: {
-      slug: params.slug,
-    },
-    include: {
-      researchers: true,
-    },
-  });
+  const { publication } = await client.request<
+    PublicationQuery,
+    PublicationQueryVariables
+  >(query, { slug: params.slug });
 
   handleNotFound(publication);
 
   const { terms } = getRelatedTerms(publication?.title, publication?.keywords);
 
-  const related = await prisma.publication.findMany({
-    include: {
-      researchers: true,
-    },
+  const { publications: related } = await client.request<
+    PublicationRelatedQuery,
+    PublicationRelatedQueryVariables
+  >(relatedQuery, {
     where: {
-      published: true,
-      id: {
-        not: publication?.id,
+      status: {
+        equals: "published",
       },
       OR: terms.map((term) => ({
         OR: [
           {
             title: {
               contains: term,
-              mode: "insensitive",
+              mode: QueryMode.Insensitive,
             },
           },
           {
             keywords: {
               contains: term,
-              mode: "insensitive",
+              mode: QueryMode.Insensitive,
             },
           },
         ],
       })),
     },
-  });*/
+  });
 
-  return json({ publication: {}, related: [], url: request.url });
+  return json({ publication, related, url: request.url });
 }
 
 export default function ViewPublication() {
@@ -151,7 +198,7 @@ export default function ViewPublication() {
             </CardContainer>
             <CardResearch />
           </div>
-          {!!related.length && (
+          {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6">
               <h2 className="text-h3 text-gray-950">
                 Publicações relacionadas
@@ -170,8 +217,8 @@ export default function ViewPublication() {
                           publication={{
                             slug: relatedPublication.slug,
                             title: relatedPublication.title,
-                            description: relatedPublication.content,
-                            researchers: relatedPublication.researchers,
+                            description: relatedPublication.resume,
+                            researchers: relatedPublication.researchers ?? [],
                             date: new Date(relatedPublication.date),
                             link: relatedPublication.link,
                           }}
@@ -192,15 +239,12 @@ export default function ViewPublication() {
   );
 }
 
-function createCitation(publication: {
-  title: string;
-  researchers: { name: string }[];
-  date: string;
-  magazine: string;
-}): string {
+function createCitation(publication: PublicationQuery["publication"]): string {
+  if (!publication) return "";
+
   const { title, researchers, magazine, date } = publication;
   const authors = listFormat(
-    researchers.map((author) => formatAuthor(author.name)),
+    researchers?.map((author) => formatAuthor(author.name)) ?? [],
   );
 
   return `${authors} ${title} ${magazine}. ${new Date(date).getFullYear()}.`;

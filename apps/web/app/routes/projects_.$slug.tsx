@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
+import { gql } from "graphql-request";
 import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
@@ -10,57 +11,101 @@ import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
 import { ExternalLink } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import {
+  ProjectQuery,
+  ProjectQueryVariables,
+  ProjectRelatedQuery,
+  ProjectRelatedQueryVariables,
+  QueryMode,
+} from "~/graphql/generated";
+import { client } from "~/lib/graphql-client";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
+
+// where published
+const query = gql`
+  query Project($slug: String) {
+    project(where: { slug: $slug }) {
+      id
+      slug
+      title
+      keywords
+      link
+      startDate
+      endDate
+      researchers {
+        id
+        name
+      }
+      image {
+        url
+      }
+      content {
+        document
+      }
+    }
+  }
+`;
+
+const relatedQuery = gql`
+  query ProjectRelated($where: ProjectWhereInput) {
+    projects(where: $where) {
+      id
+      slug
+      title
+      image {
+        url
+      }
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   return metaTags({
     title: data?.project?.title,
-    description: data?.project?.content,
+    description: "", // resume ?
     url: data?.url,
     pathname: location.pathname,
   });
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  /* const project = await prisma.project.findUnique({
-    where: {
-      slug: params.slug,
-    },
-    include: {
-      researchers: true,
-    },
-  });
+  const { project } = await client.request<ProjectQuery, ProjectQueryVariables>(
+    query,
+    { slug: params.slug },
+  );
 
   handleNotFound(project);
 
   const { terms } = getRelatedTerms(project?.title, project?.keywords);
 
-  const related = await prisma.project.findMany({
+  const { projects: related } = await client.request<
+    ProjectRelatedQuery,
+    ProjectRelatedQueryVariables
+  >(relatedQuery, {
     where: {
-      published: true,
-      id: {
-        not: project?.id,
+      status: {
+        equals: "published",
       },
       OR: terms.map((term) => ({
         OR: [
           {
             title: {
               contains: term,
-              mode: "insensitive",
+              mode: QueryMode.Insensitive,
             },
           },
           {
             keywords: {
               contains: term,
-              mode: "insensitive",
+              mode: QueryMode.Insensitive,
             },
           },
         ],
       })),
     },
-  }); */
+  });
 
-  return json({ project: {}, related: [], url: request.url });
+  return json({ project, related, url: request.url });
 }
 
 export default function ViewProject() {
@@ -74,8 +119,8 @@ export default function ViewProject() {
         <section className="grid grid-cols-12 gap-x-8 gap-y-10 lg:gap-y-6">
           <div className="col-span-12 lg:col-span-8">
             <img
-              src={project.image}
-              alt=""
+              src={project.image.url}
+              alt={project.title}
               className="size-[11.25rem] rounded-3xl object-cover mb-6"
             />
             <h1 className="text-h1 text-gray-950 mb-6">{project.title}</h1>
@@ -98,7 +143,7 @@ export default function ViewProject() {
                     Pesquisador(es)
                   </span>
                   <span className="text-gray-950">
-                    {project.researchers.length
+                    {project.researchers?.length
                       ? listFormat(
                           project.researchers.map(
                             (researcher) => researcher.name,
@@ -125,7 +170,7 @@ export default function ViewProject() {
             </CardContainer>
             <CardResearch />
           </div>
-          {!!related.length && (
+          {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6 ">
               <h2 className="text-h3 text-gray-950">Outros projetos</h2>
               <div className="w-full">
@@ -140,7 +185,7 @@ export default function ViewProject() {
                           project={{
                             slug: relatedProject.slug,
                             title: relatedProject.title,
-                            image: relatedProject.image,
+                            image: relatedProject.image.url,
                           }}
                           hideShadow={!isSlideInView(index)}
                         />
