@@ -30,7 +30,7 @@ const query = gql`
         url
       }
     }
-    events(take: 9, orderBy: { date: desc }) {
+    events(take: 9, orderBy: { publishedAt: desc }) {
       id
       slug
       title
@@ -42,7 +42,7 @@ const query = gql`
         url
       }
     }
-    actions(take: 9, orderBy: { date: desc }) {
+    actions(take: 9, orderBy: { publishedAt: desc }) {
       id
       slug
       title
@@ -52,7 +52,7 @@ const query = gql`
         url
       }
     }
-    publications(take: 5, orderBy: { date: desc }) {
+    publications(take: 5, orderBy: { publishedAt: desc }) {
       id
       slug
       title

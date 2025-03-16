@@ -20,6 +20,7 @@ const pageQuery = gql`
       take: $take
       skip: $skip
       where: { status: { equals: "published" } }
+      orderBy: { publishedAt: desc }
     ) {
       id
       slug

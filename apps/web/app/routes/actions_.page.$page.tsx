@@ -34,6 +34,7 @@ const pageQuery = gql`
         status: { equals: "published" }
         title: { contains: $query, mode: insensitive }
       }
+      orderBy: { publishedAt: desc }
     ) {
       id
       slug
