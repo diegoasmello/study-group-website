@@ -20,12 +20,14 @@ async function main() {
       link: faker.internet.url(),
       role: faker.person.jobDescriptor(),
       image: prepareFile("placeholder.jpg"),
+      status: "published",
     })),
   });
 
   const researchers = await context.db.Researcher.createMany({
     data: Array.from({ length: NUMBER_OF_ITEMS }).map(() => ({
       name: faker.person.fullName(),
+      status: "published",
     })),
   });
 
@@ -37,6 +39,7 @@ async function main() {
         content: createContent(4),
         icon: prepareFile("reading-writing-icon.jpg"),
         image: prepareFile("placeholder.jpg"),
+        status: "published",
       },
       {
         title: "Multilinguism",
@@ -44,6 +47,7 @@ async function main() {
         content: createContent(4),
         icon: prepareFile("multilinguism-icon.jpg"),
         image: prepareFile("placeholder.jpg"),
+        status: "published",
       },
       {
         title: "Transculturality",
@@ -51,6 +55,7 @@ async function main() {
         content: createContent(4),
         icon: prepareFile("transculturality-icon.jpg"),
         image: prepareFile("placeholder.jpg"),
+        status: "published",
       },
     ],
   });
@@ -83,6 +88,7 @@ async function main() {
               id: researchAreas[getRandom(researchAreas.length)].id,
             },
           },
+          status: "published",
         },
       }),
   );
@@ -100,6 +106,7 @@ async function main() {
       date: faker.date.soon().toISOString().split("T")[0],
       link: faker.internet.url(),
       locale: faker.location.streetAddress(true),
+      status: "published",
     })),
   });
 
@@ -126,6 +133,7 @@ async function main() {
               id: researchAreas[getRandom(researchAreas.length)].id,
             },
           },
+          status: "published",
         },
       }),
   );
@@ -140,6 +148,7 @@ async function main() {
       content: createContent(),
       image: prepareFile("placeholder.jpg"),
       date: faker.date.soon().toISOString().split("T")[0],
+      status: "published",
     })),
   });
 
