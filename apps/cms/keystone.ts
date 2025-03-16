@@ -21,11 +21,11 @@ export default config(
       local_images: {
         kind: "local",
         type: "image",
-        generateUrl: (path) => `http://localhost:3000/images${path}`,
+        generateUrl: (path) => `http://localhost:3000/uploads${path}`,
         serverRoute: {
-          path: "/images",
+          path: "/uploads",
         },
-        storagePath: "public/images",
+        storagePath: "public/uploads",
       },
     },
     ui: {
