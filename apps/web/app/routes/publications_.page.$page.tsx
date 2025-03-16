@@ -27,8 +27,6 @@ import { IconChevronDown, IconSearch } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import { prisma } from "~/lib/prisma.server";
-import { Prisma, Sections } from "@prisma/client";
 import { NoResults } from "~/components/NoResults";
 import {
   Disclosure,
@@ -67,7 +65,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const searchParams = parseSearchParams(url.searchParams);
   const page = params.page ? Number(params.page) : 1;
-
+  /*
   const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.PUBLICATIONS_HERO,
@@ -142,13 +140,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   handleNotFound(
     paginatedPublications.data.length,
     ...Object.values(searchParams),
-  );
+  );*/
 
   return json({
-    heroSection,
-    researchAreas,
-    researchers,
-    paginatedPublications,
+    heroSection: {},
+    researchAreas: [],
+    researchers: [],
+    paginatedPublications: {},
     searchParams,
     url: request.url,
   });

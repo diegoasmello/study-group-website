@@ -8,7 +8,7 @@ import { IconArrowAltBack, IconArrowAltForward } from "./icons";
 import { ButtonLink } from "./ButtonLink";
 
 export type CarouselHomeItem = {
-  id: number;
+  id: string;
   type: "action" | "event";
   slug: string;
   title: string;

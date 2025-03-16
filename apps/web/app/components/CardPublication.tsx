@@ -15,7 +15,7 @@ interface CardPublicationProps
     date: Date;
     link: string;
     researchers: {
-      id: number;
+      id: string;
       name: string;
     }[];
   };

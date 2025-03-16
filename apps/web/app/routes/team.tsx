@@ -1,4 +1,3 @@
-import { Prisma, Sections, TeamMember } from "@prisma/client";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { CardTeamMember } from "~/components/CardTeamMember";
@@ -32,7 +31,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const page = Number(url.searchParams.get("page") ?? "1");
 
-  const heroSection = await prisma.sectionsContent.findFirst({
+  /* const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.TEAM_HERO,
     },
@@ -46,8 +45,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     {
       page: page,
     },
-  );
-  return json({ paginatedTeamMembers, heroSection, url: request.url });
+  );*/
+  return json({ paginatedTeamMembers: [], heroSection: {}, url: request.url });
 }
 
 export default function Team() {

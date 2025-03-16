@@ -11,7 +11,6 @@ import { Container } from "~/components/Container";
 import { IconCalendar, IconContract, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { Tooltip } from "~/components/Tooltip";
-import { prisma } from "~/lib/prisma.server";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
@@ -24,7 +23,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const publication = await prisma.publication.findUnique({
+  /* const publication = await prisma.publication.findUnique({
     where: {
       slug: params.slug,
     },
@@ -63,9 +62,9 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         ],
       })),
     },
-  });
+  });*/
 
-  return json({ publication, related, url: request.url });
+  return json({ publication: {}, related: [], url: request.url });
 }
 
 export default function ViewPublication() {

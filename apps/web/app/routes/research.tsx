@@ -8,7 +8,6 @@ import { Carousel } from "~/components/Carousel";
 import { CardProject } from "~/components/CardProject";
 import clsx from "clsx";
 import { twJoin } from "tailwind-merge";
-import { Prisma, Sections } from "@prisma/client";
 import { getRootMatch, metaTags } from "~/utils";
 import { LoaderFunctionArgs } from "@remix-run/node";
 
@@ -30,7 +29,7 @@ export const meta: MetaFunction<typeof loader> = ({
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const heroSection = await prisma.sectionsContent.findFirst({
+  /* const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.RESEARCH_HERO,
     },
@@ -50,9 +49,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
         },
       },
     },
-  });
+  }); */
 
-  return json({ heroSection, researchAreas, url: request.url });
+  return json({ heroSection: {}, researchAreas: [], url: request.url });
 }
 
 export default function Research() {

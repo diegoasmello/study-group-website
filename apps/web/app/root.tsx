@@ -14,9 +14,29 @@ import "./tailwind.css";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { DefaultErrorBoundary } from "./components/DefaultErrorBoundary";
-import { Sections } from "@prisma/client";
-import { prisma } from "~/lib/prisma.server";
 import { metaTags } from "./utils";
+import { gql } from "graphql-request";
+import { client } from "./lib/graphql-client";
+import { RootQuery } from "./graphql/generated";
+
+const query = gql`
+  query Root {
+    sectionContents(where: { section: { equals: HOME_HERO } }) {
+      title
+      content
+    }
+    company(where: { id: 1 }) {
+      id
+      title
+      address
+      email
+      phone
+      facebookUrl
+      instagramUrl
+      youtubeUrl
+    }
+  }
+`;
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -41,17 +61,9 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const heroSection = await prisma.sectionsContent.findFirst({
-    where: {
-      section: Sections.HOME_HERO,
-    },
-  });
-  const company = await prisma.company.findFirst({
-    where: {
-      id: 1,
-    },
-  });
-  return json({ company, heroSection, url: request.url });
+  const { sectionContents, company } = await client.request<RootQuery>(query);
+
+  return json({ company, heroSection: sectionContents?.[0], url: request.url });
 }
 
 export default function App() {

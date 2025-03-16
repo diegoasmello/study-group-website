@@ -16,7 +16,6 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import { prisma } from "~/lib/prisma.server";
 import {
   createPaginator,
   getRootMatch,
@@ -48,7 +47,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const q = url.searchParams.get("q") || undefined;
   const page = params.page ? Number(params.page) : 1;
 
-  const heroSection = await prisma.sectionsContent.findFirst({
+  /* const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.ACTIONS_HERO,
     },
@@ -72,9 +71,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     },
   );
 
-  handleNotFound(paginatedActions.data.length, q);
+  handleNotFound(paginatedActions.data.length, q); */
 
-  return json({ heroSection, paginatedActions, q, url: request.url });
+  return json({ heroSection: {}, paginatedActions: [], q, url: request.url });
 }
 
 export default function ActionsPage() {

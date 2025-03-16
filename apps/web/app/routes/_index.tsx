@@ -9,11 +9,63 @@ import { IconArrowForward } from "~/components/icons/IconArrowForward";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { Carousel } from "~/components/Carousel";
 import { CarouselHome, CarouselHomeItem } from "~/components/CarouselHome";
-import { prisma } from "~/lib/prisma.server";
 import { ButtonLink } from "~/components/ButtonLink";
 import { useLoaderData } from "@remix-run/react";
-import { Sections } from "@prisma/client";
 import { getRootMatch, metaTags } from "~/utils";
+import { gql } from "graphql-request";
+import { client } from "~/lib/graphql-client";
+import { HomeQuery } from "~/graphql/generated";
+
+const query = gql`
+  query Home {
+    sectionContents(where: { section: { equals: HOME_HERO } }) {
+      title
+      content
+    }
+    researchAreas {
+      id
+      title
+      resume
+      icon {
+        url
+      }
+    }
+    events(take: 9, orderBy: { date: desc }) {
+      id
+      slug
+      title
+      resume
+      date
+      locale
+      link
+      image {
+        url
+      }
+    }
+    actions(take: 9, orderBy: { date: desc }) {
+      id
+      slug
+      title
+      resume
+      date
+      image {
+        url
+      }
+    }
+    publications(take: 5, orderBy: { date: desc }) {
+      id
+      slug
+      title
+      resume
+      date
+      link
+      researchers {
+        id
+        name
+      }
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -33,39 +85,15 @@ export const meta: MetaFunction<typeof loader> = ({
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const heroSection = await prisma.sectionsContent.findFirst({
-    where: {
-      section: Sections.HOME_HERO,
-    },
-  });
-  const researchAreas = await prisma.researchArea.findMany();
-  const events = await prisma.event.findMany({
-    orderBy: {
-      date: "desc",
-    },
-    take: 9,
-  });
-  const publications = await prisma.publication.findMany({
-    orderBy: {
-      date: "desc",
-    },
-    take: 5,
-    include: {
-      researchers: true,
-    },
-  });
-  const actions = await prisma.action.findMany({
-    orderBy: {
-      date: "desc",
-    },
-    take: 9,
-  });
+  const { actions, events, publications, researchAreas, sectionContents } =
+    await client.request<HomeQuery>(query);
+
   return json({
-    heroSection,
-    researchAreas,
-    events,
-    publications,
-    actions,
+    heroSection: sectionContents?.[0],
+    researchAreas: researchAreas ?? [],
+    events: events ?? [],
+    publications: publications ?? [],
+    actions: actions ?? [],
     url: request.url,
   });
 }
@@ -81,7 +109,7 @@ export default function Index() {
         slug: event.slug,
         title: event.title,
         description: event.resume,
-        image: event.image,
+        image: event.image.url,
         date: Number(event.date),
         type: "event",
       }),
@@ -92,7 +120,7 @@ export default function Index() {
         slug: action.slug,
         title: action.title,
         description: action.resume,
-        image: action.image,
+        image: action.image.url,
         date: Number(action.date),
         type: "action",
       }),
@@ -142,9 +170,13 @@ export default function Index() {
               key={researchArea.id}
               type="flat"
               title={researchArea.title}
-              text={researchArea.description}
+              text={researchArea.resume}
               icon={
-                <img src={researchArea.icon} alt="" className="size-[4.5rem]" />
+                <img
+                  src={researchArea.icon.url}
+                  alt=""
+                  className="size-[4.5rem]"
+                />
               }
             />
           ))}
@@ -173,7 +205,7 @@ export default function Index() {
                     event={{
                       slug: event.slug,
                       title: event.title,
-                      image: event.image,
+                      image: event.image.url,
                       date: new Date(event.date),
                       locale: event.locale,
                       link: event.link,
@@ -190,114 +222,116 @@ export default function Index() {
       </Container>
 
       {/* last publications */}
-      <Container className="flex flex-col gap-8 pb-16 items-center">
-        <h2 className="text-h3 text-center lg:text-left w-full">
-          Últimas publicações
-        </h2>
+      {publications.length && (
+        <Container className="flex flex-col gap-8 pb-16 items-center">
+          <h2 className="text-h3 text-center lg:text-left w-full">
+            Últimas publicações
+          </h2>
 
-        <div className="w-full lg:hidden">
-          <Carousel>
-            {(isSlideInView) =>
-              publications.map((publication, index) => (
-                <div
-                  key={publication.id}
-                  className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                >
-                  <CardPublication
-                    className="h-full"
-                    size="default"
-                    publication={{
-                      slug: publication.slug,
-                      title: publication.title,
-                      description: publication.resume,
-                      date: new Date(publication.date),
-                      researchers: publication.researchers,
-                      link: publication.link,
-                    }}
-                    hideShadow={!isSlideInView(index)}
-                  />
-                </div>
-              ))
-            }
-          </Carousel>
-        </div>
+          <div className="w-full lg:hidden">
+            <Carousel>
+              {(isSlideInView) =>
+                publications.map((publication, index) => (
+                  <div
+                    key={publication.id}
+                    className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                  >
+                    <CardPublication
+                      className="h-full"
+                      size="default"
+                      publication={{
+                        slug: publication.slug,
+                        title: publication.title,
+                        description: publication.resume,
+                        date: new Date(publication.date),
+                        researchers: publication.researchers ?? [],
+                        link: publication.link,
+                      }}
+                      hideShadow={!isSlideInView(index)}
+                    />
+                  </div>
+                ))
+              }
+            </Carousel>
+          </div>
 
-        <div className="grid-cols-4 grid-rows-2 gap-8 hidden lg:grid">
-          <div className="col-span-2 row-span-2">
-            <CardPublication
-              className="h-full"
-              size="extended"
-              publication={{
-                slug: publications[0].slug,
-                title: publications[0].title,
-                description: publications[0].resume,
-                date: new Date(publications[0].date),
-                researchers: publications[0].researchers,
-                link: publications[0].link,
-              }}
-            />
+          <div className="grid-cols-4 grid-rows-2 gap-8 hidden lg:grid">
+            <div className="col-span-2 row-span-2">
+              <CardPublication
+                className="h-full"
+                size="extended"
+                publication={{
+                  slug: publications[0].slug,
+                  title: publications[0].title,
+                  description: publications[0].resume,
+                  date: new Date(publications[0].date),
+                  researchers: publications[0].researchers ?? [],
+                  link: publications[0].link,
+                }}
+              />
+            </div>
+            <div className="col-start-3">
+              <CardPublication
+                className="h-full"
+                size="default"
+                publication={{
+                  slug: publications[1].slug,
+                  title: publications[1].title,
+                  description: publications[1].resume,
+                  date: new Date(publications[1].date),
+                  researchers: publications[1].researchers ?? [],
+                  link: publications[1].link,
+                }}
+              />
+            </div>
+            <div className="col-start-3 row-start-2">
+              <CardPublication
+                className="h-full"
+                size="default"
+                publication={{
+                  slug: publications[2].slug,
+                  title: publications[2].title,
+                  description: publications[2].resume,
+                  date: new Date(publications[2].date),
+                  researchers: publications[2].researchers ?? [],
+                  link: publications[2].link,
+                }}
+              />
+            </div>
+            <div className="col-start-4 row-start-1">
+              <CardPublication
+                className="h-full"
+                size="default"
+                publication={{
+                  slug: publications[3].slug,
+                  title: publications[3].title,
+                  description: publications[3].resume,
+                  date: new Date(publications[3].date),
+                  researchers: publications[3].researchers ?? [],
+                  link: publications[3].link,
+                }}
+              />
+            </div>
+            <div className="col-start-4 row-start-2">
+              <CardPublication
+                className="h-full"
+                size="default"
+                publication={{
+                  slug: publications[4].slug,
+                  title: publications[4].title,
+                  description: publications[4].resume,
+                  date: new Date(publications[4].date),
+                  researchers: publications[4].researchers ?? [],
+                  link: publications[4].link,
+                }}
+              />
+            </div>
           </div>
-          <div className="col-start-3">
-            <CardPublication
-              className="h-full"
-              size="default"
-              publication={{
-                slug: publications[1].slug,
-                title: publications[1].title,
-                description: publications[1].resume,
-                date: new Date(publications[1].date),
-                researchers: publications[1].researchers,
-                link: publications[1].link,
-              }}
-            />
-          </div>
-          <div className="col-start-3 row-start-2">
-            <CardPublication
-              className="h-full"
-              size="default"
-              publication={{
-                slug: publications[2].slug,
-                title: publications[2].title,
-                description: publications[2].resume,
-                date: new Date(publications[2].date),
-                researchers: publications[2].researchers,
-                link: publications[2].link,
-              }}
-            />
-          </div>
-          <div className="col-start-4 row-start-1">
-            <CardPublication
-              className="h-full"
-              size="default"
-              publication={{
-                slug: publications[3].slug,
-                title: publications[3].title,
-                description: publications[3].resume,
-                date: new Date(publications[3].date),
-                researchers: publications[3].researchers,
-                link: publications[3].link,
-              }}
-            />
-          </div>
-          <div className="col-start-4 row-start-2">
-            <CardPublication
-              className="h-full"
-              size="default"
-              publication={{
-                slug: publications[4].slug,
-                title: publications[4].title,
-                description: publications[4].resume,
-                date: new Date(publications[4].date),
-                researchers: publications[4].researchers,
-                link: publications[4].link,
-              }}
-            />
-          </div>
-        </div>
-        <Link to={`/publications`} className="text-center">
-          Ver todas publicações <IconArrowForward className="size-5" />
-        </Link>
-      </Container>
+          <Link to={`/publications`} className="text-center">
+            Ver todas publicações <IconArrowForward className="size-5" />
+          </Link>
+        </Container>
+      )}
 
       {/* actions carousel */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
@@ -315,7 +349,7 @@ export default function Index() {
                     action={{
                       slug: action.slug,
                       title: action.title,
-                      image: action.image,
+                      image: action.image.url,
                       date: new Date(action.date),
                     }}
                     hideShadow={!isSlideInView(index)}

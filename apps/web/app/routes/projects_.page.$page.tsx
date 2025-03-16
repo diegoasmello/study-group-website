@@ -1,4 +1,3 @@
-import { Prisma, Project, Sections } from "@prisma/client";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { CardProject } from "~/components/CardProject";
@@ -35,7 +34,7 @@ const paginate = createPaginator({ perPage: 9 });
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
 
-  const heroSection = await prisma.sectionsContent.findFirst({
+  /* const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.PROJECTS_HERO,
     },
@@ -58,9 +57,9 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     },
   );
 
-  handleNotFound(paginatedProjects.data.length);
+  handleNotFound(paginatedProjects.data.length); */
 
-  return json({ paginatedProjects, heroSection, url: request.url });
+  return json({ paginatedProjects: {}, heroSection: {}, url: request.url });
 }
 
 export default function Projects() {

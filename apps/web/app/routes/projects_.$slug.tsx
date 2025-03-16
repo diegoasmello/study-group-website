@@ -10,7 +10,6 @@ import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
 import { ExternalLink } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
-import { prisma } from "~/lib/prisma.server";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
@@ -23,7 +22,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const project = await prisma.project.findUnique({
+  /* const project = await prisma.project.findUnique({
     where: {
       slug: params.slug,
     },
@@ -59,9 +58,9 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         ],
       })),
     },
-  });
+  }); */
 
-  return json({ project, related, url: request.url });
+  return json({ project: {}, related: [], url: request.url });
 }
 
 export default function ViewProject() {

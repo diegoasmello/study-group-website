@@ -5,10 +5,8 @@ import { Container } from "~/components/Container";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import data from "~/data";
-
 import { IconArrowForward } from "~/components/icons";
 import clsx from "clsx";
-import { Sections } from "@prisma/client";
 import { getRootMatch, metaTags } from "~/utils";
 import { LoaderFunctionArgs } from "@remix-run/node";
 
@@ -29,7 +27,7 @@ export const meta: MetaFunction<typeof loader> = ({
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const heroSection = await prisma.sectionsContent.findFirst({
+  /* const heroSection = await prisma.sectionsContent.findFirst({
     where: {
       section: Sections.HISTORY_HERO,
     },
@@ -38,8 +36,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     where: {
       section: Sections.HISTORY_SECTION,
     },
-  });
-  return json({ historySections, heroSection, url: request.url });
+  }); */
+  return json({ historySections: [], heroSection: {}, url: request.url });
 }
 
 export default function History() {

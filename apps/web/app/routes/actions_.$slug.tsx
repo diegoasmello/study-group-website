@@ -5,7 +5,6 @@ import { CardAction } from "~/components/CardAction";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
-import { prisma } from "~/lib/prisma.server";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
@@ -18,7 +17,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const action = await prisma.action.findUnique({
+  /*const action = await prisma.action.findUnique({
     where: {
       slug: params.slug,
     },
@@ -51,9 +50,9 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         ],
       })),
     },
-  });
+  }); */
 
-  return json({ action, related, url: request.url });
+  return json({ action: {}, related: [], url: request.url });
 }
 
 export default function ViewAction() {
