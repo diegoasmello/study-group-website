@@ -1,16 +1,46 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
+import { gql } from "graphql-request";
 import { CardProject } from "~/components/CardProject";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import {
-  createPaginator,
-  getRootMatch,
-  handleNotFound,
-  metaTags,
-} from "~/utils";
+  ProjectsPageHeroQuery,
+  ProjectsPageHeroQueryVariables,
+  ProjectsPageQuery,
+} from "~/graphql/generated";
+import { client } from "~/lib/graphql-client";
+import { getRootMatch, handleNotFound, metaTags, paginate } from "~/utils";
+
+const pageQuery = gql`
+  query ProjectsPage($take: Int, $skip: Int) {
+    data: projects(
+      take: $take
+      skip: $skip
+      where: { status: { equals: "published" } }
+    ) {
+      id
+      slug
+      title
+      image {
+        url
+      }
+    }
+    count: projectsCount
+  }
+`;
+
+const heroQuery = gql`
+  query ProjectsPageHero {
+    sectionContents(where: { section: { equals: PROJECTS_HERO } }) {
+      id
+      title
+      content
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -29,37 +59,27 @@ export const meta: MetaFunction<typeof loader> = ({
   });
 };
 
-const paginate = createPaginator({ perPage: 9 });
-
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
 
-  /* const heroSection = await prisma.sectionsContent.findFirst({
-    where: {
-      section: Sections.PROJECTS_HERO,
-    },
+  const paginatedProjects = await paginate<
+    ProjectsPageQuery["data"],
+    ProjectsPageHeroQueryVariables
+  >(pageQuery, {
+    currentPage: page,
+    perPage: 9,
   });
-  const paginatedProjects = await paginate<Project, Prisma.ProjectFindManyArgs>(
-    prisma.project,
-    {
-      include: {
-        researchers: true,
-      },
-      where: {
-        published: true,
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
-    },
-    {
-      page: page,
-    },
-  );
 
-  handleNotFound(paginatedProjects.data.length); */
+  const { sectionContents } =
+    await client.request<ProjectsPageHeroQuery>(heroQuery);
 
-  return json({ paginatedProjects: {}, heroSection: {}, url: request.url });
+  handleNotFound(paginatedProjects?.data?.length);
+
+  return json({
+    paginatedProjects: paginatedProjects,
+    heroSection: sectionContents?.[0],
+    url: request.url,
+  });
 }
 
 export default function Projects() {
@@ -86,14 +106,14 @@ export default function Projects() {
       />
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
-          {projects.map((project) => (
+          {projects?.map((project) => (
             <div key={project.id} className="col-span-12 lg:col-span-4">
               <CardProject
                 className="h-full"
                 project={{
                   slug: project.slug,
                   title: project.title,
-                  image: project.image,
+                  image: project.image.url,
                 }}
               />
             </div>

@@ -35,12 +35,71 @@ import {
 } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
 import clsx from "clsx";
+import { getRootMatch, handleNotFound, metaTags, paginate } from "~/utils";
+import { gql } from "graphql-request";
+import { client } from "~/lib/graphql-client";
 import {
-  createPaginator,
-  getRootMatch,
-  handleNotFound,
-  metaTags,
-} from "~/utils";
+  PublicationsPageHeroQuery,
+  PublicationsPageQuery,
+  PublicationsPageQueryVariables,
+  ResearchAreasQuery,
+  ResearchersQuery,
+} from "~/graphql/generated";
+
+const pageQuery = gql`
+  query PublicationsPage($query: String, $take: Int, $skip: Int) {
+    data: publications(
+      take: $take
+      skip: $skip
+      where: {
+        status: { equals: "published" }
+        title: { contains: $query, mode: insensitive }
+      }
+    ) {
+      id
+      slug
+      title
+      link
+      date
+      resume
+      researchers {
+        id
+        name
+      }
+    }
+    count: publicationsCount
+  }
+`;
+
+const researchAreasQuery = gql`
+  query ResearchAreas {
+    researchAreas {
+      id
+      title
+    }
+  }
+`;
+
+const researchersQuery = gql`
+  query Researchers {
+    researchers(
+      where: { publications: { every: { status: { equals: "published" } } } }
+    ) {
+      id
+      name
+    }
+  }
+`;
+
+const heroQuery = gql`
+  query PublicationsPageHero {
+    sectionContents(where: { section: { equals: EVENTS_HERO } }) {
+      id
+      title
+      content
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -59,37 +118,31 @@ export const meta: MetaFunction<typeof loader> = ({
   });
 };
 
-const paginate = createPaginator({ perPage: 5 });
-
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const searchParams = parseSearchParams(url.searchParams);
   const page = params.page ? Number(params.page) : 1;
+
+  const paginatedPublications = await paginate<
+    PublicationsPageQuery["data"],
+    PublicationsPageQueryVariables
+  >(
+    pageQuery,
+    {
+      currentPage: page,
+      perPage: 6,
+    },
+    { query: searchParams.query ?? "" },
+  );
+
+  const { sectionContents } =
+    await client.request<PublicationsPageHeroQuery>(heroQuery);
+  const { researchAreas } =
+    await client.request<ResearchAreasQuery>(researchAreasQuery);
+  const { researchers } =
+    await client.request<ResearchersQuery>(researchersQuery);
   /*
-  const heroSection = await prisma.sectionsContent.findFirst({
-    where: {
-      section: Sections.PUBLICATIONS_HERO,
-    },
-  });
-  const researchAreas = await prisma.researchArea.findMany({
-    select: {
-      id: true,
-      title: true,
-    },
-  });
-  const researchers = await prisma.researcher.findMany({
-    select: {
-      id: true,
-      name: true,
-    },
-    where: {
-      publications: {
-        every: {
-          published: true,
-        },
-      },
-    },
-  });
+  
   const paginatedPublications = await paginate<
     Prisma.PublicationGetPayload<{
       include: {
@@ -135,18 +188,18 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     {
       page: page,
     },
-  );
+  ); */
 
   handleNotFound(
-    paginatedPublications.data.length,
+    paginatedPublications?.data?.length,
     ...Object.values(searchParams),
-  );*/
+  );
 
   return json({
-    heroSection: {},
-    researchAreas: [],
-    researchers: [],
-    paginatedPublications: {},
+    heroSection: sectionContents?.[0],
+    researchAreas: researchAreas,
+    researchers: researchers,
+    paginatedPublications: paginatedPublications,
     searchParams,
     url: request.url,
   });
@@ -165,10 +218,10 @@ export default function PublicationsPage() {
 
   const researchersInputItems = [
     { label: "Todos", value: "" },
-    ...researchers.map((researcher) => ({
+    ...(researchers?.map((researcher) => ({
       label: researcher.name,
       value: researcher.id.toString(),
-    })),
+    })) ?? []),
   ];
 
   const dateRangeDefaultValue: DateRange = {
@@ -204,14 +257,14 @@ export default function PublicationsPage() {
         />
         <FormControl label="Áreas de pesquisa">
           <div className="flex flex-col gap-2">
-            {researchAreas.map((researchArea) => (
+            {researchAreas?.map((researchArea) => (
               <CheckboxInput
                 name="researchAreas[]"
                 key={researchArea.id}
                 label={researchArea.title}
                 value={researchArea.id}
                 defaultChecked={parsedSearchParams.researchAreas?.includes(
-                  researchArea.id,
+                  Number(researchArea.id), // arrumar
                 )}
               />
             ))}
@@ -289,10 +342,10 @@ export default function PublicationsPage() {
           </div>
 
           <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
-            {isFiltering && !publications.length ? (
+            {isFiltering && !publications?.length ? (
               <NoResults className="pt-5" />
             ) : (
-              publications.map((publication) => (
+              publications?.map((publication) => (
                 <CardPublication
                   key={publication.id}
                   size="extended"
@@ -300,8 +353,8 @@ export default function PublicationsPage() {
                   publication={{
                     slug: publication.slug,
                     title: publication.title,
-                    description: publication.content,
-                    researchers: publication.researchers,
+                    description: publication.resume,
+                    researchers: publication.researchers ?? [],
                     date: new Date(publication.date),
                     link: publication.link,
                   }}
@@ -317,7 +370,7 @@ export default function PublicationsPage() {
           </div>
         </section>
         <section className="grid grid-cols-12 gap-6">
-          {!!publications.length && (
+          {!!publications?.length && (
             <div className="col-span-12 flex justify-center mt-8">
               <Paginator {...paginatedMeta} />
             </div>

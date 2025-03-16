@@ -14,10 +14,10 @@ import { useLoaderData } from "@remix-run/react";
 import { getRootMatch, metaTags } from "~/utils";
 import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client";
-import { HomeQuery } from "~/graphql/generated";
+import { HomeRouteQuery } from "~/graphql/generated";
 
 const query = gql`
-  query Home {
+  query HomeRoute {
     sectionContents(where: { section: { equals: HOME_HERO } }) {
       title
       content
@@ -86,7 +86,7 @@ export const meta: MetaFunction<typeof loader> = ({
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { actions, events, publications, researchAreas, sectionContents } =
-    await client.request<HomeQuery>(query);
+    await client.request<HomeRouteQuery>(query);
 
   return json({
     heroSection: sectionContents?.[0],

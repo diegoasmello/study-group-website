@@ -1,4 +1,3 @@
-import { Action, Prisma, Sections } from "@prisma/client";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
   Form,
@@ -7,6 +6,7 @@ import {
   useLoaderData,
   useSubmit,
 } from "@remix-run/react";
+import { gql } from "graphql-request";
 import { useEffect } from "react";
 import { CardAction } from "~/components/CardAction";
 import { Container } from "~/components/Container";
@@ -17,11 +17,44 @@ import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import {
-  createPaginator,
-  getRootMatch,
-  handleNotFound,
-  metaTags,
-} from "~/utils";
+  ActionsPageHeroQuery,
+  ActionsPageQuery,
+  ActionsPageQueryVariables,
+} from "~/graphql/generated";
+import { client } from "~/lib/graphql-client";
+import { getRootMatch, handleNotFound, metaTags, paginate } from "~/utils";
+
+const pageQuery = gql`
+  query ActionsPage($query: String, $take: Int, $skip: Int) {
+    data: actions(
+      take: $take
+      skip: $skip
+      where: {
+        status: { equals: "published" }
+        title: { contains: $query, mode: insensitive }
+      }
+    ) {
+      id
+      slug
+      title
+      date
+      image {
+        url
+      }
+    }
+    count: actionsCount
+  }
+`;
+
+const heroQuery = gql`
+  query ActionsPageHero {
+    sectionContents(where: { section: { equals: ACTIONS_HERO } }) {
+      id
+      title
+      content
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -40,40 +73,34 @@ export const meta: MetaFunction<typeof loader> = ({
   });
 };
 
-const paginate = createPaginator({ perPage: 6 });
-
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const url = new URL(request.url);
-  const q = url.searchParams.get("q") || undefined;
+  const q = url.searchParams.get("q");
   const page = params.page ? Number(params.page) : 1;
 
-  /* const heroSection = await prisma.sectionsContent.findFirst({
-    where: {
-      section: Sections.ACTIONS_HERO,
-    },
-  });
-  const paginatedActions = await paginate<Action, Prisma.ActionFindManyArgs>(
-    prisma.action,
+  const paginatedActions = await paginate<
+    ActionsPageQuery["data"],
+    ActionsPageQueryVariables
+  >(
+    pageQuery,
     {
-      where: {
-        published: true,
-        title: {
-          contains: q,
-          mode: "insensitive",
-        },
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
+      currentPage: page,
+      perPage: 6,
     },
-    {
-      page: page,
-    },
+    { query: q ?? "" },
   );
 
-  handleNotFound(paginatedActions.data.length, q); */
+  const { sectionContents } =
+    await client.request<ActionsPageHeroQuery>(heroQuery);
 
-  return json({ heroSection: {}, paginatedActions: [], q, url: request.url });
+  handleNotFound(paginatedActions?.data?.length, q);
+
+  return json({
+    heroSection: sectionContents?.[0],
+    paginatedActions,
+    q,
+    url: request.url,
+  });
 }
 
 export default function ActionsPage() {
@@ -133,12 +160,12 @@ export default function ActionsPage() {
             />
           </Form>
 
-          {isFiltering && !actions.length ? (
+          {isFiltering && !actions?.length ? (
             <div className="col-span-12 mb-10">
               <NoResults />
             </div>
           ) : (
-            actions.map((action) => (
+            actions?.map((action) => (
               <div key={action.id} className="col-span-12 lg:col-span-6">
                 <CardAction
                   size="extended"
@@ -146,7 +173,7 @@ export default function ActionsPage() {
                   action={{
                     slug: action.slug,
                     title: action.title,
-                    image: action.image,
+                    image: action.image.url,
                     date: new Date(action.date),
                   }}
                 />
@@ -154,7 +181,7 @@ export default function ActionsPage() {
             ))
           )}
 
-          {!!actions.length && (
+          {!!actions?.length && (
             <div className="col-span-12 flex justify-center mt-8 mb-10">
               <Paginator {...metaPaginated} />
             </div>

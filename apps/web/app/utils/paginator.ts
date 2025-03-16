@@ -1,4 +1,6 @@
-export type PaginatedMeta = {
+import { client } from "~/lib/graphql-client";
+
+export type PageMeta = {
   total: number;
   lastPage: number;
   currentPage: number;
@@ -7,49 +9,35 @@ export type PaginatedMeta = {
   next: number | null;
 };
 
-export interface PaginatedResult<T> {
-  data: T[];
-  meta: PaginatedMeta;
+interface Result<T> {
+  data: T;
+  meta: PageMeta;
 }
 
-export type PaginateOptions = {
-  page?: number | string;
-  perPage?: number | string;
-};
-export type PaginateFunction = <T, K>(
-  model: any,
-  args?: K,
-  options?: PaginateOptions,
-) => Promise<PaginatedResult<T>>;
+export async function paginate<T, V>(
+  query: string,
+  pageInfo: { currentPage: number; perPage: number },
+  variables?: Omit<V, "take" | "skip">,
+): Promise<Result<T>> {
+  const { perPage, currentPage } = pageInfo;
+  const skip = currentPage > 0 ? perPage * (currentPage - 1) : 0;
 
-export const createPaginator = (
-  defaultOptions: PaginateOptions,
-): PaginateFunction => {
-  return async (model, args: any = { where: undefined }, options) => {
-    const page = Number(options?.page || defaultOptions?.page) || 1;
-    const perPage = Number(options?.perPage || defaultOptions?.perPage) || 10;
+  const { data, count: total } = await client.request<{
+    data: T;
+    count: number;
+  }>(query, { ...variables, take: perPage, skip });
 
-    const skip = page > 0 ? perPage * (page - 1) : 0;
-    const [total, data] = await Promise.all([
-      model.count({ where: args.where }),
-      model.findMany({
-        ...args,
-        take: perPage,
-        skip,
-      }),
-    ]);
-    const lastPage = Math.ceil(total / perPage);
+  const lastPage = Math.ceil(total / perPage);
 
-    return {
-      data,
-      meta: {
-        total,
-        lastPage,
-        currentPage: page,
-        perPage,
-        prev: page > 1 ? page - 1 : null,
-        next: page < lastPage ? page + 1 : null,
-      },
-    };
+  return {
+    data: data,
+    meta: {
+      total,
+      lastPage,
+      currentPage,
+      perPage,
+      prev: currentPage > 1 ? currentPage - 1 : null,
+      next: currentPage < lastPage ? currentPage + 1 : null,
+    },
   };
-};
+}

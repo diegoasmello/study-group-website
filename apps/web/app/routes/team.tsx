@@ -1,12 +1,43 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
+import { gql } from "graphql-request";
 import { CardTeamMember } from "~/components/CardTeamMember";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import { prisma } from "~/lib/prisma.server";
-import { createPaginator, getRootMatch, metaTags } from "~/utils";
+import { TeamPageHeroQuery, TeamPageQuery } from "~/graphql/generated";
+import { client } from "~/lib/graphql-client";
+import { getRootMatch, metaTags, paginate } from "~/utils";
+
+const pageQuery = gql`
+  query TeamPage($take: Int, $skip: Int) {
+    data: teamMembers(
+      take: $take
+      skip: $skip
+      where: { status: { equals: "published" } }
+    ) {
+      id
+      name
+      role
+      link
+      image {
+        url
+      }
+    }
+    count: teamMembersCount
+  }
+`;
+
+const heroQuery = gql`
+  query TeamPageHero {
+    sectionContents(where: { section: { equals: TEAM_HERO } }) {
+      id
+      title
+      content
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -25,28 +56,26 @@ export const meta: MetaFunction<typeof loader> = ({
   });
 };
 
-const paginate = createPaginator({ perPage: 9 });
-
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const page = Number(url.searchParams.get("page") ?? "1");
 
-  /* const heroSection = await prisma.sectionsContent.findFirst({
-    where: {
-      section: Sections.TEAM_HERO,
-    },
-  });
-  const paginatedTeamMembers = await paginate<
-    TeamMember,
-    Prisma.TeamMemberFindManyArgs
-  >(
-    prisma.teamMember,
-    {},
+  const paginatedTeamMembers = await paginate<TeamPageQuery["data"]>(
+    pageQuery,
     {
-      page: page,
+      currentPage: page,
+      perPage: 9,
     },
-  );*/
-  return json({ paginatedTeamMembers: [], heroSection: {}, url: request.url });
+  );
+
+  const { sectionContents } =
+    await client.request<TeamPageHeroQuery>(heroQuery);
+
+  return json({
+    paginatedTeamMembers,
+    heroSection: sectionContents?.[0],
+    url: request.url,
+  });
 }
 
 export default function Team() {
@@ -55,7 +84,7 @@ export default function Team() {
     paginatedTeamMembers: { data: teamMembers, meta: paginatedMeta },
   } = useLoaderData<typeof loader>();
 
-  if (!heroSection) return null;
+  if (!heroSection || !teamMembers) return null;
 
   return (
     <main className="pb-20">
@@ -79,7 +108,7 @@ export default function Team() {
                 teamMember={{
                   name: teamMember.name,
                   role: teamMember.role,
-                  image: teamMember.image,
+                  image: teamMember.image.url,
                   link: teamMember.link,
                 }}
               />

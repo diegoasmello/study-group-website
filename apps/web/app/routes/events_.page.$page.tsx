@@ -1,4 +1,3 @@
-import { Event, Prisma, Sections } from "@prisma/client";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
   Form,
@@ -7,6 +6,7 @@ import {
   useLoaderData,
   useSubmit,
 } from "@remix-run/react";
+import { gql } from "graphql-request";
 import { useEffect } from "react";
 import { CardEvent } from "~/components/CardEvent";
 import { Container } from "~/components/Container";
@@ -17,11 +17,46 @@ import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import {
-  createPaginator,
-  getRootMatch,
-  handleNotFound,
-  metaTags,
-} from "~/utils";
+  EventsPageHeroQuery,
+  EventsPageQuery,
+  EventsPageQueryVariables,
+} from "~/graphql/generated";
+import { client } from "~/lib/graphql-client";
+import { getRootMatch, handleNotFound, metaTags, paginate } from "~/utils";
+
+const pageQuery = gql`
+  query EventsPage($query: String, $take: Int, $skip: Int) {
+    data: events(
+      take: $take
+      skip: $skip
+      where: {
+        status: { equals: "published" }
+        title: { contains: $query, mode: insensitive }
+      }
+    ) {
+      id
+      slug
+      title
+      date
+      locale
+      link
+      image {
+        url
+      }
+    }
+    count: eventsCount
+  }
+`;
+
+const heroQuery = gql`
+  query EventsPageHero {
+    sectionContents(where: { section: { equals: EVENTS_HERO } }) {
+      id
+      title
+      content
+    }
+  }
+`;
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -40,40 +75,34 @@ export const meta: MetaFunction<typeof loader> = ({
   });
 };
 
-const paginate = createPaginator({ perPage: 6 });
-
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const url = new URL(request.url);
-  const q = url.searchParams.get("q") || undefined;
+  const q = url.searchParams.get("q");
   const page = params.page ? Number(params.page) : 1;
 
-  /* const heroSection = await prisma.sectionsContent.findFirst({
-    where: {
-      section: Sections.EVENTS_HERO,
-    },
-  });
-  const paginatedEvents = await paginate<Event, Prisma.EventFindManyArgs>(
-    prisma.event,
+  const paginatedEvents = await paginate<
+    EventsPageQuery["data"],
+    EventsPageQueryVariables
+  >(
+    pageQuery,
     {
-      where: {
-        published: true,
-        title: {
-          contains: q,
-          mode: "insensitive",
-        },
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
+      currentPage: page,
+      perPage: 6,
     },
-    {
-      page: page,
-    },
+    { query: q ?? "" },
   );
 
-  handleNotFound(paginatedEvents.data.length, q); */
+  const { sectionContents } =
+    await client.request<EventsPageHeroQuery>(heroQuery);
 
-  return json({ heroSection: {}, paginatedEvents: {}, q, url: request.url });
+  handleNotFound(paginatedEvents?.data?.length, q);
+
+  return json({
+    heroSection: sectionContents?.[0],
+    paginatedEvents,
+    q,
+    url: request.url,
+  });
 }
 
 export default function EventsPage() {
@@ -133,12 +162,12 @@ export default function EventsPage() {
             />
           </Form>
 
-          {isFiltering && !events.length ? (
+          {isFiltering && !events?.length ? (
             <div className="col-span-12 mb-10">
               <NoResults />
             </div>
           ) : (
-            events.map((event) => (
+            events?.map((event) => (
               <div key={event.id} className="col-span-12 lg:col-span-6">
                 <CardEvent
                   size="extended"
@@ -146,7 +175,7 @@ export default function EventsPage() {
                   event={{
                     slug: event.slug,
                     title: event.title,
-                    image: event.image,
+                    image: event.image.url,
                     date: new Date(event.date),
                     locale: event.locale,
                     link: event.link,
@@ -156,7 +185,7 @@ export default function EventsPage() {
             ))
           )}
 
-          {!!events.length && (
+          {!!events?.length && (
             <div className="col-span-12 flex justify-center mt-8 mb-10">
               <Paginator {...metaPaginated} />
             </div>
