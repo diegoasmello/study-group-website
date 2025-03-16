@@ -17,9 +17,6 @@ const config: CodegenConfig = {
         "typescript-operations",
         "typescript-graphql-request",
       ],
-      config: {
-        avoidOptionals: true,
-      },
     },
   },
 };
