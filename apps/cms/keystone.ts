@@ -2,9 +2,16 @@ import "dotenv/config";
 import { config } from "@keystone-6/core";
 import { session, withAuth } from "./auth";
 import { lists } from "./schema";
+import { static as static_ } from "express";
+import { join } from "path";
 
 export default config(
   withAuth({
+    server: {
+      extendExpressApp: (app) => {
+        app.use("/assets", static_(join(process.cwd(), "public/assets")));
+      },
+    },
     db: {
       provider: "postgresql",
       url: process.env.DATABASE_URL,
