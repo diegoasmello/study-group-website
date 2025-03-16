@@ -3,15 +3,15 @@
 
 type Action {
   id: ID!
-  title: String
-  slug: String
-  keywords: String
-  resume: String
-  content: Action_content_Document
-  image: ImageFieldOutput
-  date: CalendarDay
+  title: String!
+  slug: String!
+  keywords: String!
+  resume: String!
+  content: Action_content_Document!
+  image: ImageFieldOutput!
+  date: CalendarDay!
   publishedAt: DateTime
-  status: String
+  status: String!
 }
 
 type Action_content_Document {
@@ -178,19 +178,19 @@ input ActionCreateInput {
 
 type Project {
   id: ID!
-  title: String
-  slug: String
-  keywords: String
-  content: Project_content_Document
-  image: ImageFieldOutput
-  link: String
-  startDate: CalendarDay
-  endDate: CalendarDay
+  title: String!
+  slug: String!
+  keywords: String!
+  content: Project_content_Document!
+  image: ImageFieldOutput!
+  link: String!
+  startDate: CalendarDay!
+  endDate: CalendarDay!
   researchers(where: ResearcherWhereInput! = {}, orderBy: [ResearcherOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ResearcherWhereUniqueInput): [Researcher!]
   researchersCount(where: ResearcherWhereInput! = {}): Int
   researchArea: ResearchArea
   publishedAt: DateTime
-  status: String
+  status: String!
 }
 
 type Project_content_Document {
@@ -297,18 +297,18 @@ input ResearchAreaRelateToOneForCreateInput {
 
 type Event {
   id: ID!
-  title: String
-  slug: String
-  keywords: String
-  resume: String
-  content: Event_content_Document
-  image: ImageFieldOutput
-  link: String
-  workload: Int
-  date: CalendarDay
-  locale: String
+  title: String!
+  slug: String!
+  keywords: String!
+  resume: String!
+  content: Event_content_Document!
+  image: ImageFieldOutput!
+  link: String!
+  workload: Int!
+  date: CalendarDay!
+  locale: String!
   publishedAt: DateTime
-  status: String
+  status: String!
 }
 
 type Event_content_Document {
@@ -330,14 +330,14 @@ input EventWhereInput {
   keywords: StringFilter
   resume: StringFilter
   link: StringFilter
-  workload: IntNullableFilter
+  workload: IntFilter
   date: CalendarDayFilter
   locale: StringFilter
   publishedAt: DateTimeNullableFilter
   status: StringFilter
 }
 
-input IntNullableFilter {
+input IntFilter {
   equals: Int
   in: [Int!]
   notIn: [Int!]
@@ -345,7 +345,7 @@ input IntNullableFilter {
   lte: Int
   gt: Int
   gte: Int
-  not: IntNullableFilter
+  not: IntFilter
 }
 
 input EventOrderByInput {
@@ -399,22 +399,22 @@ input EventCreateInput {
 
 type Publication {
   id: ID!
-  title: String
-  slug: String
-  keywords: String
-  resume: String
-  content: Publication_content_Document
-  image: ImageFieldOutput
-  link: String
-  date: CalendarDay
+  title: String!
+  slug: String!
+  keywords: String!
+  resume: String!
+  content: Publication_content_Document!
+  image: ImageFieldOutput!
+  link: String!
+  date: CalendarDay!
   researchers(where: ResearcherWhereInput! = {}, orderBy: [ResearcherOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ResearcherWhereUniqueInput): [Researcher!]
   researchersCount(where: ResearcherWhereInput! = {}): Int
   researchArea: ResearchArea
-  magazine: String
-  doi: String
-  license: String
+  magazine: String!
+  doi: String!
+  license: String!
   publishedAt: DateTime
-  status: String
+  status: String!
 }
 
 type Publication_content_Document {
@@ -504,12 +504,12 @@ input PublicationCreateInput {
 
 type TeamMember {
   id: ID!
-  name: String
-  role: String
-  image: ImageFieldOutput
-  link: String
+  name: String!
+  role: String!
+  image: ImageFieldOutput!
+  link: String!
   publishedAt: DateTime
-  status: String
+  status: String!
 }
 
 input TeamMemberWhereUniqueInput {
@@ -562,17 +562,17 @@ input TeamMemberCreateInput {
 
 type ResearchArea {
   id: ID!
-  title: String
-  resume: String
-  content: ResearchArea_content_Document
-  image: ImageFieldOutput
-  icon: ImageFieldOutput
+  title: String!
+  resume: String!
+  content: ResearchArea_content_Document!
+  image: ImageFieldOutput!
+  icon: ImageFieldOutput!
   projects(where: ProjectWhereInput! = {}, orderBy: [ProjectOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectWhereUniqueInput): [Project!]
   projectsCount(where: ProjectWhereInput! = {}): Int
   publications(where: PublicationWhereInput! = {}, orderBy: [PublicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PublicationWhereUniqueInput): [Publication!]
   publicationsCount(where: PublicationWhereInput! = {}): Int
   publishedAt: DateTime
-  status: String
+  status: String!
 }
 
 type ResearchArea_content_Document {
@@ -671,13 +671,13 @@ input PublicationRelateToManyForCreateInput {
 
 type Researcher {
   id: ID!
-  name: String
+  name: String!
   projects(where: ProjectWhereInput! = {}, orderBy: [ProjectOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectWhereUniqueInput): [Project!]
   projectsCount(where: ProjectWhereInput! = {}): Int
   publications(where: PublicationWhereInput! = {}, orderBy: [PublicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PublicationWhereUniqueInput): [Publication!]
   publicationsCount(where: PublicationWhereInput! = {}): Int
   publishedAt: DateTime
-  status: String
+  status: String!
 }
 
 input ResearcherWhereUniqueInput {
@@ -726,9 +726,9 @@ input ResearcherCreateInput {
 
 type SectionContent {
   id: ID!
-  title: String
-  content: String
-  section: SectionContentSectionType
+  title: String!
+  content: String!
+  section: SectionContentSectionType!
 }
 
 enum SectionContentSectionType {
@@ -790,13 +790,13 @@ input SectionContentCreateInput {
 
 type Company {
   id: ID!
-  title: String
-  address: String
-  phone: String
-  email: String
-  facebookUrl: String
-  instagramUrl: String
-  youtubeUrl: String
+  title: String!
+  address: String!
+  phone: String!
+  email: String!
+  facebookUrl: String!
+  instagramUrl: String!
+  youtubeUrl: String!
 }
 
 input CompanyWhereUniqueInput {

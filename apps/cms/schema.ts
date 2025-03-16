@@ -22,6 +22,7 @@ const statusSelect = select({
   validation: { isRequired: true },
   defaultValue: "draft",
   ui: { displayMode: "segmented-control" },
+  graphql: { isNonNull: { read: true } },
 });
 
 const contentDocument = document({
@@ -31,6 +32,7 @@ const contentDocument = document({
     [1, 1],
     [1, 1, 1],
   ],
+  graphql: { isNonNull: { read: true } },
 });
 
 export const lists: Record<string, ListConfig<any>> = {
@@ -39,6 +41,7 @@ export const lists: Record<string, ListConfig<any>> = {
     fields: {
       title: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       slug: text({
         isIndexed: "unique",
@@ -46,20 +49,29 @@ export const lists: Record<string, ListConfig<any>> = {
           createView: { fieldMode: "hidden" },
           itemView: { fieldMode: "hidden" },
         },
+        graphql: { isNonNull: { read: true } },
       }),
       keywords: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
         ui: {
           description: "Separe words by semicolon (;)",
         },
+        graphql: { isNonNull: { read: true } },
       }),
       resume: text({
         ui: { displayMode: "textarea" },
         validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: image({ storage: "local_images" }),
-      date: calendarDay({ validation: { isRequired: true } }),
+      image: image({
+        storage: "local_images",
+        graphql: { isNonNull: { read: true } },
+      }),
+      date: calendarDay({
+        validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
+      }),
       publishedAt: timestamp({
         db: { updatedAt: true },
         ui: {
@@ -96,6 +108,7 @@ export const lists: Record<string, ListConfig<any>> = {
     fields: {
       title: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       slug: text({
         isIndexed: "unique",
@@ -103,20 +116,32 @@ export const lists: Record<string, ListConfig<any>> = {
           createView: { fieldMode: "hidden" },
           itemView: { fieldMode: "hidden" },
         },
+        graphql: { isNonNull: { read: true } },
       }),
       keywords: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
         ui: {
           description: "Separe words by semicolon (;)",
         },
+        graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: image({ storage: "local_images" }),
+      image: image({
+        storage: "local_images",
+        graphql: { isNonNull: { read: true } },
+      }),
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
-      startDate: calendarDay({ validation: { isRequired: true } }),
-      endDate: calendarDay({ validation: { isRequired: true } }),
+      startDate: calendarDay({
+        validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
+      }),
+      endDate: calendarDay({
+        validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
+      }),
       researchers: relationship({ ref: "Researcher.projects", many: true }),
       researchArea: relationship({
         ref: "ResearchArea.projects",
@@ -157,6 +182,7 @@ export const lists: Record<string, ListConfig<any>> = {
     fields: {
       title: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       slug: text({
         isIndexed: "unique",
@@ -164,25 +190,41 @@ export const lists: Record<string, ListConfig<any>> = {
           createView: { fieldMode: "hidden" },
           itemView: { fieldMode: "hidden" },
         },
+        graphql: { isNonNull: { read: true } },
       }),
       keywords: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
         ui: {
           description: "Separe words by semicolon (;)",
         },
+        graphql: { isNonNull: { read: true } },
       }),
       resume: text({
         ui: { displayMode: "textarea" },
         validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: image({ storage: "local_images" }),
+      image: image({
+        storage: "local_images",
+        graphql: { isNonNull: { read: true } },
+      }),
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
-      workload: integer(),
-      date: calendarDay({ validation: { isRequired: true } }),
-      locale: text(),
+      workload: integer({
+        validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
+      }),
+      date: calendarDay({
+        validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
+      }),
+      locale: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
+      }),
       publishedAt: timestamp({
         db: { updatedAt: true },
         ui: {
@@ -218,6 +260,7 @@ export const lists: Record<string, ListConfig<any>> = {
     fields: {
       title: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       slug: text({
         isIndexed: "unique",
@@ -225,23 +268,33 @@ export const lists: Record<string, ListConfig<any>> = {
           createView: { fieldMode: "hidden" },
           itemView: { fieldMode: "hidden" },
         },
+        graphql: { isNonNull: { read: true } },
       }),
       keywords: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
         ui: {
           description: "Separe words by semicolon (;)",
         },
+        graphql: { isNonNull: { read: true } },
       }),
       resume: text({
         ui: { displayMode: "textarea" },
         validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: image({ storage: "local_images" }),
+      image: image({
+        storage: "local_images",
+        graphql: { isNonNull: { read: true } },
+      }),
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
-      date: calendarDay({ validation: { isRequired: true } }),
+      date: calendarDay({
+        validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
+      }),
       researchers: relationship({
         ref: "Researcher.publications",
         many: true,
@@ -250,9 +303,18 @@ export const lists: Record<string, ListConfig<any>> = {
         ref: "ResearchArea.publications",
         many: false,
       }),
-      magazine: text(),
-      doi: text(),
-      license: text(),
+      magazine: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
+      }),
+      doi: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
+      }),
+      license: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
+      }),
       publishedAt: timestamp({
         db: { updatedAt: true },
         ui: {
@@ -288,13 +350,19 @@ export const lists: Record<string, ListConfig<any>> = {
     fields: {
       name: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       role: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
-      image: image({ storage: "local_images" }),
+      image: image({
+        storage: "local_images",
+        graphql: { isNonNull: { read: true } },
+      }),
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       publishedAt: timestamp({
         db: { updatedAt: true },
@@ -325,14 +393,22 @@ export const lists: Record<string, ListConfig<any>> = {
     fields: {
       title: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       resume: text({
         ui: { displayMode: "textarea" },
         validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: image({ storage: "local_images" }),
-      icon: image({ storage: "local_images" }),
+      image: image({
+        storage: "local_images",
+        graphql: { isNonNull: { read: true } },
+      }),
+      icon: image({
+        storage: "local_images",
+        graphql: { isNonNull: { read: true } },
+      }),
       projects: relationship({ ref: "Project.researchArea", many: true }),
       publications: relationship({
         ref: "Publication.researchArea",
@@ -372,6 +448,7 @@ export const lists: Record<string, ListConfig<any>> = {
     fields: {
       name: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       projects: relationship({ ref: "Project.researchers", many: true }),
       publications: relationship({
@@ -406,10 +483,12 @@ export const lists: Record<string, ListConfig<any>> = {
     fields: {
       title: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       content: text({
         ui: { displayMode: "textarea" },
         validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
       }),
       section: select({
         options: [
@@ -451,6 +530,8 @@ export const lists: Record<string, ListConfig<any>> = {
           },
         ],
         type: "enum",
+        validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
       }),
     },
   }),
@@ -459,22 +540,31 @@ export const lists: Record<string, ListConfig<any>> = {
     fields: {
       title: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
-      address: text({ validation: { isRequired: true } }),
+      address: text({
+        validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
+      }),
       phone: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       email: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       facebookUrl: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       instagramUrl: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
       youtubeUrl: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
       }),
     },
     isSingleton: true,

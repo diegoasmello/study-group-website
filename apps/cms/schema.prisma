@@ -65,7 +65,7 @@ model Event {
   image_height    Int?
   image_extension String?
   link            String    @default("")
-  workload        Int?
+  workload        Int
   date            DateTime  @postgresql.Date
   locale          String    @default("")
   publishedAt     DateTime? @updatedAt
@@ -143,10 +143,10 @@ model Researcher {
 }
 
 model SectionContent {
-  id      String                     @id @default(cuid())
-  title   String                     @default("")
-  content String                     @default("")
-  section SectionContentSectionType?
+  id      String                    @id @default(cuid())
+  title   String                    @default("")
+  content String                    @default("")
+  section SectionContentSectionType
 }
 
 model Company {
