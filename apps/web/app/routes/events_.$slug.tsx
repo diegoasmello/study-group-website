@@ -1,3 +1,4 @@
+import { DocumentRenderer } from "@keystone-6/document-renderer";
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
 import { gql } from "graphql-request";
@@ -15,6 +16,7 @@ import {
   EventQueryVariables,
   EventRelatedQuery,
   EventRelatedQueryVariables,
+  EventStatusType,
   QueryMode,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client";
@@ -75,7 +77,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     { slug: params.slug },
   );
 
-  handleNotFound(event, event?.status === "published");
+  handleNotFound(event, event?.status === EventStatusType.Published);
 
   const { terms } = getRelatedTerms(event?.title, event?.keywords);
 
@@ -85,7 +87,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   >(relatedQuery, {
     where: {
       status: {
-        equals: "published",
+        equals: EventStatusType.Published,
       },
       OR: terms.map((term) => ({
         OR: [
@@ -125,10 +127,9 @@ export default function ViewEvent() {
         <section className="grid grid-cols-12 gap-x-8 gap-y-10 lg:gap-y-6">
           <div className="col-span-12 lg:col-span-8">
             <h1 className="text-h1 text-gray-950 mb-6">{event.title}</h1>
-            <div
-              className="mb-6 text-gray-950 grid gap-2"
-              dangerouslySetInnerHTML={{ __html: event.content }}
-            />
+            <div className="mb-6 text-gray-950">
+              <DocumentRenderer document={event.content.document} />
+            </div>
             <nav className="flex gap-4 mb-6">
               <ButtonLink to={event.link} external>
                 Inscrever-se

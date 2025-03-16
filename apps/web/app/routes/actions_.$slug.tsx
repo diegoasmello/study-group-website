@@ -11,10 +11,12 @@ import {
   ActionQueryVariables,
   ActionRelatedQuery,
   ActionRelatedQueryVariables,
+  ActionStatusType,
   QueryMode,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
+import { DocumentRenderer } from "@keystone-6/document-renderer";
 
 // where published
 const query = gql`
@@ -65,7 +67,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     { slug: params.slug },
   );
 
-  handleNotFound(action, action?.status === "published");
+  handleNotFound(action, action?.status === ActionStatusType.Published);
 
   const { terms } = getRelatedTerms(action?.title, action?.keywords);
 
@@ -75,7 +77,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   >(relatedQuery, {
     where: {
       status: {
-        equals: "published",
+        equals: ActionStatusType.Published,
       },
       OR: terms.map((term) => ({
         OR: [
@@ -115,10 +117,9 @@ export default function ViewAction() {
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="col-span-12">
             <h1 className="text-h1 text-gray-950 mb-6">{action.title}</h1>
-            <div
-              className="mb-6 text-gray-950 grid gap-2"
-              dangerouslySetInnerHTML={{ __html: action.content }}
-            />
+            <div className="mb-6 text-gray-950">
+              <DocumentRenderer document={action.content.document} />
+            </div>
             <nav className="flex gap-4 mb-6">
               <ButtonShare>Compartilhar</ButtonShare>
             </nav>

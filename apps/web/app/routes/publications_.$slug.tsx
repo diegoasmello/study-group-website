@@ -1,3 +1,4 @@
+import { DocumentRenderer } from "@keystone-6/document-renderer";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { gql } from "graphql-request";
@@ -17,6 +18,7 @@ import {
   PublicationQueryVariables,
   PublicationRelatedQuery,
   PublicationRelatedQueryVariables,
+  PublicationStatusType,
   QueryMode,
 } from "~/graphql/generated";
 
@@ -81,7 +83,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     PublicationQueryVariables
   >(query, { slug: params.slug });
 
-  handleNotFound(publication, publication?.status === "published");
+  handleNotFound(
+    publication,
+    publication?.status === PublicationStatusType.Published,
+  );
 
   const { terms } = getRelatedTerms(publication?.title, publication?.keywords);
 
@@ -91,7 +96,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   >(relatedQuery, {
     where: {
       status: {
-        equals: "published",
+        equals: PublicationStatusType.Published,
       },
       OR: terms.map((term) => ({
         OR: [
@@ -149,10 +154,9 @@ export default function ViewPublication() {
               )}
             </ul>
             <h2 className="text-h4 text-gray-950 mb-2">Resumo</h2>
-            <div
-              className="mb-6 text-gray-950 grid gap-2"
-              dangerouslySetInnerHTML={{ __html: publication.content }}
-            />
+            <div className="mb-6 text-gray-950">
+              <DocumentRenderer document={publication.content.document} />
+            </div>
             <nav className="flex gap-4 lg:mb-6">
               <ButtonLink to={publication.link} external>
                 Ler

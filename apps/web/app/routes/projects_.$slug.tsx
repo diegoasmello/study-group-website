@@ -11,11 +11,13 @@ import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
 import { ExternalLink } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import { DocumentRenderer } from "@keystone-6/document-renderer";
 import {
   ProjectQuery,
   ProjectQueryVariables,
   ProjectRelatedQuery,
   ProjectRelatedQueryVariables,
+  ProjectStatusType,
   QueryMode,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client";
@@ -75,7 +77,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     { slug: params.slug },
   );
 
-  handleNotFound(project, project?.status === "published");
+  handleNotFound(project, project?.status === ProjectStatusType.Published);
 
   const { terms } = getRelatedTerms(project?.title, project?.keywords);
 
@@ -85,7 +87,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   >(relatedQuery, {
     where: {
       status: {
-        equals: "published",
+        equals: ProjectStatusType.Published,
       },
       OR: terms.map((term) => ({
         OR: [
@@ -125,10 +127,9 @@ export default function ViewProject() {
               className="size-[11.25rem] rounded-3xl object-cover mb-6"
             />
             <h1 className="text-h1 text-gray-950 mb-6">{project.title}</h1>
-            <div
-              className="mb-6 text-gray-950 grid gap-2"
-              dangerouslySetInnerHTML={{ __html: project.content }}
-            />
+            <div className="mb-6 text-gray-950">
+              <DocumentRenderer document={project.content.document} />
+            </div>
             <nav className="flex gap-4 lg:mb-6">
               <ButtonLink to={project.link} external>
                 Visitar projeto

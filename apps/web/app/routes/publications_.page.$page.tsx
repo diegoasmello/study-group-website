@@ -42,6 +42,7 @@ import {
   PublicationsPageHeroQuery,
   PublicationsPageQuery,
   PublicationsPageQueryVariables,
+  PublicationStatusType,
   QueryMode,
   ResearchAreasQuery,
   ResearchersQuery,
@@ -138,7 +139,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     {
       where: {
         status: {
-          equals: "published",
+          equals: PublicationStatusType.Published,
         },
         researchers: {
           some: searchParams.researcher?.value

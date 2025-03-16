@@ -13,6 +13,7 @@ import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client";
 import { ResearchPageQuery } from "~/graphql/generated";
 import { ArrayElement } from "~/types";
+import { DocumentRenderer } from "@keystone-6/document-renderer";
 
 const query = gql`
   query ResearchPage {
@@ -148,10 +149,9 @@ const ResearchItemSection = ({
                   <img src={item.icon.url} alt="" />
                 </IconWrapper>
                 <h2 className="text-h3 text-gray-950">{item.title}</h2>
-                <div
-                  className="text-gray-800 grid gap-2"
-                  dangerouslySetInnerHTML={{ __html: item.content }}
-                />
+                <div className="text-gray-800">
+                  <DocumentRenderer document={item.content.document} />
+                </div>
               </div>
             </div>
           </section>
