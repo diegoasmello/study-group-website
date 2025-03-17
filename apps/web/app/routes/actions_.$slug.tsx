@@ -5,6 +5,7 @@ import { ButtonShare } from "~/components/ButtonShare";
 import { CardAction } from "~/components/CardAction";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
+import { DocumentRenderer } from "~/components/DocumentRenderer";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import {
   ActionQuery,
@@ -16,7 +17,6 @@ import {
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
-import { DocumentRenderer } from "@keystone-6/document-renderer";
 
 // where published
 const query = gql`

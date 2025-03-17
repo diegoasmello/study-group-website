@@ -1,4 +1,4 @@
-import { DocumentRenderer } from "@keystone-6/document-renderer";
+import { DocumentRenderer } from "~/components/DocumentRenderer";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { gql } from "graphql-request";

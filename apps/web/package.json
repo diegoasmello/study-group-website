@@ -9,7 +9,9 @@
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/server/index.js",
     "generate:graphql": "graphql-codegen",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "prestart": "yarn generate:graphql",
+    "predev": "yarn generate:graphql"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",

@@ -11,7 +11,7 @@ import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
 import { ExternalLink } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
-import { DocumentRenderer } from "@keystone-6/document-renderer";
+import { DocumentRenderer } from "~/components/DocumentRenderer";
 import {
   ProjectQuery,
   ProjectQueryVariables,

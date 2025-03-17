@@ -13,7 +13,7 @@ import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client";
 import { ResearchPageQuery } from "~/graphql/generated";
 import { ArrayElement } from "~/types";
-import { DocumentRenderer } from "@keystone-6/document-renderer";
+import { DocumentRenderer } from "~/components/DocumentRenderer";
 
 const query = gql`
   query ResearchPage {
