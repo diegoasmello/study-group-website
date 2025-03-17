@@ -64,7 +64,7 @@ const relatedQuery = gql`
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   return metaTags({
     title: data?.project?.title,
-    description: "", // resume ?
+    description: undefined,
     url: data?.url,
     pathname: location.pathname,
   });
