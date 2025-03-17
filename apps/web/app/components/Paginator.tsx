@@ -1,7 +1,7 @@
 import { useLocation } from "@remix-run/react";
 import { IconChevronRight, IconChevronLeft } from "./icons";
 import { ButtonLink } from "./ButtonLink";
-import { PageMeta } from "~/utils";
+import { PageMeta } from "~/utils/paginator.server";
 
 export function Paginator(props: PageMeta) {
   const { currentPage, prev, next, lastPage } = props;
