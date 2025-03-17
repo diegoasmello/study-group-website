@@ -37,7 +37,7 @@ async function main() {
         title: "Reading and Writing",
         resume: faker.lorem.sentence({ min: 10, max: 16 }),
         content: createContent(4),
-        icon: prepareFile("reading-writing-icon.jpg"),
+        icon: prepareFile("reading-writing-icon.png", "image/png"),
         image: prepareFile("placeholder.jpg"),
         status: "published",
       },
@@ -45,7 +45,7 @@ async function main() {
         title: "Multilinguism",
         resume: faker.lorem.sentence({ min: 10, max: 16 }),
         content: createContent(4),
-        icon: prepareFile("multilinguism-icon.jpg"),
+        icon: prepareFile("multilinguism-icon.png", "image/png"),
         image: prepareFile("placeholder.jpg"),
         status: "published",
       },
@@ -53,7 +53,7 @@ async function main() {
         title: "Transculturality",
         resume: faker.lorem.sentence({ min: 10, max: 16 }),
         content: createContent(4),
-        icon: prepareFile("transculturality-icon.jpg"),
+        icon: prepareFile("transculturality-icon.png", "image/png"),
         image: prepareFile("placeholder.jpg"),
         status: "published",
       },
@@ -238,13 +238,16 @@ async function main() {
   console.log(`✅ Seed data inserted`);
 }
 
-function prepareFile(path_: string) {
+function prepareFile(
+  path_: string,
+  mimetype: "image/jpeg" | "image/png" = "image/jpeg",
+) {
   const path = resolve(`${__dirname}/seed/${path_}`);
   const upload = new Upload();
   upload.resolve({
     createReadStream: () => createReadStream(path),
     filename: basename(path),
-    mimetype: "image/jpeg",
+    mimetype: mimetype,
     encoding: "utf-8",
   });
   return { upload };

@@ -116,12 +116,6 @@ export default function Research() {
   );
 }
 
-const IconWrapper = ({ children }: { children: JSX.Element }) => (
-  <div className="size-[4rem] bg-primary-lighter flex items-center justify-center rounded-2xl">
-    {children}
-  </div>
-);
-
 const ResearchItemSection = ({
   item,
   index,
@@ -151,9 +145,9 @@ const ResearchItemSection = ({
                   isOdd && "lg:col-start-7",
                 )}
               >
-                <IconWrapper>
-                  <img src={item.icon.url} alt="" />
-                </IconWrapper>
+                <div className="size-[4rem] bg-primary-lighter flex items-center justify-center rounded-2xl">
+                  <img src={item.icon.url} alt="" className="size-[3rem]" />
+                </div>
                 <h2 className="text-h3 text-gray-950">{item.title}</h2>
                 <div className="text-gray-800">
                   <DocumentRenderer document={item.content.document} />
