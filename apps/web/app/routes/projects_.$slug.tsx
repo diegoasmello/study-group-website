@@ -133,7 +133,7 @@ export default function ViewProject() {
               <ButtonLink to={project.link} external>
                 Visitar projeto
               </ButtonLink>
-              <ButtonShare skin="ghost">Compartilhar</ButtonShare>
+              <ButtonShare skin="ghost">Share</ButtonShare>
             </nav>
           </div>
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
@@ -141,7 +141,7 @@ export default function ViewProject() {
               <div className="flex flex-col items-start gap-4">
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    Pesquisador(es)
+                    Researchers
                   </span>
                   <span className="text-gray-950">
                     {project.researchers?.length
@@ -156,16 +156,16 @@ export default function ViewProject() {
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    Período
+                    Period
                   </span>
                   <span className="text-gray-950">
-                    De {new Date(project.startDate).toLocaleDateString()} até{" "}
+                    From {new Date(project.startDate).toLocaleDateString()} to{" "}
                     {new Date(project.endDate).toLocaleDateString()}
                   </span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <ExternalLink to={project.link}>
-                  <IconArrowForward className="size-5" /> Visitar projeto
+                  <IconArrowForward className="size-5" /> Visit project
                 </ExternalLink>
               </div>
             </CardContainer>
@@ -173,7 +173,7 @@ export default function ViewProject() {
           </div>
           {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6 ">
-              <h2 className="text-h3 text-gray-950">Outros projetos</h2>
+              <h2 className="text-h3 text-gray-950">Other projects</h2>
               <div className="w-full">
                 <Carousel>
                   {(isSlideInView) =>

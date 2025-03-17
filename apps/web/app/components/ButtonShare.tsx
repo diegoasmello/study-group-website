@@ -25,10 +25,10 @@ export function ButtonShare(props: ButtonShareProps) {
       </PopoverButton>
       <PopoverPanel
         anchor="top start"
-        className={`z-20 rounded-2xl p-6 bg-white shadow-custom-2 flex flex-col gap-6 transition duration-100 ease-out [--anchor-gap:1rem]`}
+        className={`z-20 rounded-2xl p-6 bg-white shadow-custom-2 flex flex-col gap-4 transition duration-100 ease-out [--anchor-gap:1rem]`}
       >
         <div className="flex flex-col gap-2">
-          <span className="text-gray-950 font-medium">Compartilhar via</span>
+          <span className="text-gray-950 font-medium">Share by</span>
           <nav className="flex items-center justify-between">
             <button className="text-whatsapp group">
               <WhatsappIcon className="rounded-full border border-whatsapp-idle group-hover:border-whatsapp" />
@@ -52,12 +52,12 @@ export function ButtonShare(props: ButtonShareProps) {
           </nav>
         </div>
         <div className="flex flex-col gap-2">
-          <span className="text-gray-950 font-medium">Ou copie o link</span>
+          <span className="text-gray-950 font-medium">Or copy the link</span>
           <div className="flex flex-row gap-2">
             <TextInput placeholder={currentUrl} />
             <Tooltip text="Copiado para área de transferência!">
               <Button skin="ghost" size="md" onClick={handleCopyUrl}>
-                Copiar
+                Copy
               </Button>
             </Tooltip>
           </div>

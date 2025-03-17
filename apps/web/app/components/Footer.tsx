@@ -49,34 +49,34 @@ export function Footer(props: FooterProps) {
           </div>
           <div className="flex items-start gap-[7.5rem]">
             <nav className="flex-col items-start gap-6 hidden lg:flex">
-              <span className="font-semibold">Sobre</span>
+              <span className="font-semibold">About</span>
               <Link to="./" className="underline">
-                História
+                History
               </Link>
               <Link to="./" className="underline">
-                Pesquisa
+                Research
               </Link>
               <Link to="./" className="underline">
-                Equipe
+                Team
               </Link>
             </nav>
             <nav className="flex-col items-start gap-6 hidden lg:flex">
-              <span className="font-semibold">Conteúdos</span>
+              <span className="font-semibold">Content</span>
               <Link to="./" className="underline">
-                Publicações
+                Publications
               </Link>
               <Link to="./" className="underline">
-                Eventos e Cursos
+                Events
               </Link>
               <Link to="./" className="underline">
-                Ações
+                Actions
               </Link>
               <Link to="./" className="underline">
-                Projetos
+                Projects
               </Link>
             </nav>
             <nav className="flex flex-col items-start gap-6">
-              <span className="font-semibold">Contato</span>
+              <span className="font-semibold">Contact</span>
               <span>{company.phone}</span>
               <span>{company.email}</span>
               <span>{company.address}</span>

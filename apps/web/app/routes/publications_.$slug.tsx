@@ -154,15 +154,15 @@ export default function ViewPublication() {
                 </li>
               )}
             </ul>
-            <h2 className="text-h4 text-gray-950 mb-2">Resumo</h2>
+            <h2 className="text-h4 text-gray-950 mb-2">Resume</h2>
             <div className="mb-6 text-gray-950">
               <DocumentRenderer document={publication.content.document} />
             </div>
             <nav className="flex gap-4 lg:mb-6">
               <ButtonLink to={publication.link} external>
-                Ler
+                Read
               </ButtonLink>
-              <ButtonShare skin="ghost">Compartilhar</ButtonShare>
+              <ButtonShare skin="ghost">Share</ButtonShare>
             </nav>
           </div>
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
@@ -170,7 +170,7 @@ export default function ViewPublication() {
               <div className="flex flex-col items-start gap-4">
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    Revista
+                    Magazine
                   </span>
                   <span className="text-gray-950">{publication.magazine}.</span>
                 </div>
@@ -184,7 +184,7 @@ export default function ViewPublication() {
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    Licença
+                    License
                   </span>
                   <span className="text-gray-950">{publication.license}</span>
                 </div>
@@ -197,7 +197,7 @@ export default function ViewPublication() {
                     onClick={handleCopyCitation}
                   >
                     <IconContract className="size-4" />
-                    Citar
+                    Quote
                   </Button>
                 </Tooltip>
               </div>
@@ -206,9 +206,7 @@ export default function ViewPublication() {
           </div>
           {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6">
-              <h2 className="text-h3 text-gray-950">
-                Publicações relacionadas
-              </h2>
+              <h2 className="text-h3 text-gray-950">Related publications</h2>
               <div className="w-full">
                 <Carousel>
                   {(isSlideInView) =>

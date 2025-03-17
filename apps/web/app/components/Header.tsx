@@ -219,7 +219,7 @@ export function Header() {
                         required
                       />
                       <Button size="md" skin="ghost">
-                        Buscar
+                        Search
                       </Button>
                     </Form>
                   </DropdownMenu>

@@ -18,13 +18,12 @@ interface CardEventProps extends Pick<CardProps, "hideShadow" | "className"> {
 export function CardEvent(props: CardEventProps) {
   const { event, size, hideLocale, hideShadow, className } = props;
 
-  const hasInscricao = event.date.getTime() > Date.now();
+  const hasSubscribe = event.date.getTime() > Date.now();
 
   return (
     <Card
       size={size}
       title={event.title}
-      titleMaxLines={3}
       image={event.image}
       hideShadow={hideShadow}
       className={className}
@@ -46,14 +45,14 @@ export function CardEvent(props: CardEventProps) {
         <nav className="flex items-center gap-2">
           <ButtonLink
             to={`/events/${event.slug}`}
-            skin={hasInscricao ? "primary" : "ghost"}
+            skin={hasSubscribe ? "primary" : "ghost"}
             size="md"
           >
-            Saiba mais
+            See more
           </ButtonLink>
-          {hasInscricao && (
+          {hasSubscribe && (
             <ButtonLink skin="ghost" size="md" to={event.link}>
-              Inscrever-se
+              Subscribe
             </ButtonLink>
           )}
         </nav>

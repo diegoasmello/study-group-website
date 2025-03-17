@@ -131,9 +131,9 @@ export default function ViewEvent() {
             </div>
             <nav className="flex gap-4 mb-6">
               <ButtonLink to={event.link} external>
-                Inscrever-se
+                Subscribe
               </ButtonLink>
-              <ButtonShare skin="ghost">Compartilhar</ButtonShare>
+              <ButtonShare skin="ghost">Share</ButtonShare>
             </nav>
           </div>
           <div className="col-span-12 lg:col-span-4">
@@ -141,14 +141,14 @@ export default function ViewEvent() {
               <div className="flex flex-col items-start gap-4">
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    Carga horária
+                    Workload
                   </span>
-                  <span className="text-gray-950">{event.workload} horas</span>
+                  <span className="text-gray-950">{event.workload} hours</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    Data e hora
+                    Date
                   </span>
                   <p className="text-gray-950">
                     {new Date(event.date).toLocaleDateString()}
@@ -157,21 +157,21 @@ export default function ViewEvent() {
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    Local
+                    Locale
                   </span>
                   <span className="text-gray-950">{event.locale}</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <ExternalLink to={event.link}>
-                  <IconArrowForward className="size-5" /> Clique aqui para se
-                  inscrever
+                  <IconArrowForward className="size-5" /> Click here to
+                  subscribe
                 </ExternalLink>
               </div>
             </CardContainer>
           </div>
           {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6">
-              <h2 className="text-h3 text-gray-950">Outros eventos</h2>
+              <h2 className="text-h3 text-gray-950">Related events</h2>
               <div className="w-full">
                 <Carousel>
                   {(isSlideInView) =>

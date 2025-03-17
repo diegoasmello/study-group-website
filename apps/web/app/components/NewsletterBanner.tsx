@@ -42,9 +42,9 @@ export function NewsletterBanner() {
     <div className="bg-primary-lighter py-10 px-6 lg:px-16 rounded-[3.25rem] relative overflow-hidden grid grid-cols-12">
       <div className="col-span-12 lg:col-span-3 flex flex-col gap-6 items-start">
         <span className="text-h3 text-primary">
-          Participe de
+          Join our
           <br />
-          nosso grupo!
+          group!
         </span>
         <fetcher.Form
           method="post"
@@ -55,16 +55,17 @@ export function NewsletterBanner() {
             id="email"
             name="email"
             type="email"
-            placeholder="Digite seu e-mail"
+            placeholder="Enter your email"
             required
             className="bg-white"
           />
           <Button
             skin="outline"
+            size="md"
             onClick={() => setIsModalOpen((prev) => !prev)}
             disabled={fetcher.state === "submitting"}
           >
-            Enviar
+            Submit
           </Button>
         </fetcher.Form>
       </div>

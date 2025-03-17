@@ -19,7 +19,6 @@ export function CardAction(props: CardActionProps) {
     <Card
       size={size}
       title={action.title}
-      titleMaxLines={3}
       image={action.image}
       hideShadow={hideShadow}
       className={className}
@@ -35,7 +34,7 @@ export function CardAction(props: CardActionProps) {
           skin={size === "extended" ? "primary" : "ghost"}
           size="md"
         >
-          Saiba mais
+          See more
         </ButtonLink>
       }
     />

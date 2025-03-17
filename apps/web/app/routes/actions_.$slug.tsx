@@ -120,12 +120,12 @@ export default function ViewAction() {
               <DocumentRenderer document={action.content.document} />
             </div>
             <nav className="flex gap-4 mb-6">
-              <ButtonShare>Compartilhar</ButtonShare>
+              <ButtonShare>Share</ButtonShare>
             </nav>
           </div>
           {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6">
-              <h2 className="text-h3 text-gray-950">Outras ações</h2>
+              <h2 className="text-h3 text-gray-950">Other actions</h2>
               <div className="w-full">
                 <Carousel>
                   {(isSlideInView) =>

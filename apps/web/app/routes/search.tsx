@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
-import { json, MetaFunction, redirect, useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json, redirect, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
 import { CardResearch } from "~/components/CardResearch";
@@ -9,10 +9,15 @@ import { TextInput } from "~/components/form-fields/TextInput";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import data from "~/data";
+import { getRootMatch } from "~/utils";
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction<typeof loader> = ({ matches }) => {
+  const {
+    data: { company },
+  } = getRootMatch(matches);
   // metatags
-  return [{ title: data.search.title + " | " + data.site.title }];
+
+  return [{ title: data.search.title + " | " + company?.title }];
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {

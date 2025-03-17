@@ -28,7 +28,7 @@ export function DateRangeInput(props: DateRangeInputProps) {
               : undefined
           }
         />
-        <span className="text-gray-950 font-medium">até</span>
+        <span className="text-gray-950 font-medium">to</span>
         <TextInput
           name="endDate"
           type="date"

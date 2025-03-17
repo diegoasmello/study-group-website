@@ -97,7 +97,7 @@ export default function History() {
       <Container>
         <div className="mt-20 mb-10">
           <div className="flex flex-col gap-8 mb-14">
-            <h2 className="text-h3 text-gray-950">Conheça nossa equipe</h2>
+            <h2 className="text-h3 text-gray-950">Meet our team</h2>
             <div className="w-full">
               <Carousel>
                 {(isSlideInView) =>
@@ -126,7 +126,7 @@ export default function History() {
           </div>
           <div className="flex flex-col items-center">
             <Link to="/team">
-              Veja toda a equipe <IconArrowForward className="size-5" />
+              See the entire team <IconArrowForward className="size-5" />
             </Link>
           </div>
         </div>

@@ -14,13 +14,13 @@ export function CardResearch({ className }: CardResearchProps) {
       />
       <section className="grid grid-cols-12">
         <div className="col-span-8 flex flex-col items-start gap-4">
-          <span className="text-h4 text-gray-950">Nossa pesquisa</span>
+          <span className="text-h4 text-gray-950">Our research</span>
           <p className="mb-2">
-            Saiba mais sobre a nossa pesquisa e aprofunde-se no mundo de
-            descobertas e conhecimento!
+            Learn more about our research and delve into the world of discovery
+            and knowledge!
           </p>
           <ButtonLink to="/research" skin="ghost" size="md">
-            Saiba mais
+            See more
           </ButtonLink>
         </div>
       </section>

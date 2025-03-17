@@ -23,7 +23,7 @@ export function CardProject(props: CardProjectProps) {
       className={className}
       actions={
         <ButtonLink to={`/projects/${project.slug}`} skin="ghost" size="md">
-          Saiba mais
+          See more
         </ButtonLink>
       }
     />

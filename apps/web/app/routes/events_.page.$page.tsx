@@ -158,7 +158,7 @@ export default function EventsPage() {
               id="q"
               type="search"
               defaultValue={q || ""}
-              placeholder="Pesquise por título, data ou palavras-chave"
+              placeholder="Search by title, date or keywords"
               className="w-full lg:w-[34vw]"
               Icon={IconSearch}
             />

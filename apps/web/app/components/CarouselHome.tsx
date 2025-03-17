@@ -108,7 +108,7 @@ const Item = ({ item }: { item: CarouselHomeItem }) => {
                     : `/events/${item.slug}`
                 }
               >
-                Saiba mais
+                See more
               </ButtonLink>
             </div>
           </div>

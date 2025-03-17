@@ -139,22 +139,22 @@ export default function Index() {
           <div className="col-span-12 lg:col-span-6">
             <img
               src="/assets/card-image.png"
-              alt="Sobre o grupo"
+              alt="About the group"
               className="w-full rounded-3xl"
             />
           </div>
 
           <div className="col-span-12 lg:col-span-5 flex flex-col gap-6">
             <div className="flex flex-col gap-4">
-              <span className="text-primary font-medium">Sobre o grupo</span>
+              <span className="text-primary font-medium">About the group</span>
               <span className="text-h2">{heroSection?.title}</span>
               <p className="text-gray-800">{heroSection?.content}</p>
             </div>
 
             <nav className="flex flex-row gap-4">
-              <ButtonLink to={"/history"}>História</ButtonLink>
+              <ButtonLink to={"/history"}>History</ButtonLink>
               <ButtonLink to={"/team"} skin="outline">
-                Equipe
+                Team
               </ButtonLink>
             </nav>
           </div>
@@ -163,7 +163,7 @@ export default function Index() {
 
       {/* research section */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
-        <h2 className="text-h3">Áreas de pesquisa</h2>
+        <h2 className="text-h3">Research areas</h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {researchAreas.map((researchArea) => (
             <Card
@@ -182,14 +182,13 @@ export default function Index() {
           ))}
         </div>
         <Link to={`/research`} className="text-center">
-          Saiba mais sobre nossa pesquisa{" "}
-          <IconArrowForward className="size-5" />
+          Learn more about our research <IconArrowForward className="size-5" />
         </Link>
       </Container>
 
       {/* events carousel */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
-        <h2 className="text-h3">Eventos e Cursos</h2>
+        <h2 className="text-h3">Events and Courses</h2>
         <div className="w-full">
           <Carousel>
             {(isSlideInView) =>
@@ -217,7 +216,7 @@ export default function Index() {
           </Carousel>
         </div>
         <Link to={`/events`} className="text-center">
-          Ver todos eventos <IconArrowForward className="size-5" />
+          See all events <IconArrowForward className="size-5" />
         </Link>
       </Container>
 
@@ -225,7 +224,7 @@ export default function Index() {
       {publications.length && (
         <Container className="flex flex-col gap-8 pb-16 items-center">
           <h2 className="text-h3 text-center lg:text-left w-full">
-            Últimas publicações
+            Latest publications
           </h2>
 
           <div className="w-full lg:hidden">
@@ -328,14 +327,14 @@ export default function Index() {
             </div>
           </div>
           <Link to={`/publications`} className="text-center">
-            Ver todas publicações <IconArrowForward className="size-5" />
+            See all publications <IconArrowForward className="size-5" />
           </Link>
         </Container>
       )}
 
       {/* actions carousel */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
-        <h2 className="text-h3">Últimas ações</h2>
+        <h2 className="text-h3">Latest actions</h2>
         <div className="w-full">
           <Carousel>
             {(isSlideInView) =>
@@ -360,7 +359,7 @@ export default function Index() {
           </Carousel>
         </div>
         <Link to={`/actions`} className="text-center">
-          Ver todas ações <IconArrowForward className="size-5" />
+          See all actions <IconArrowForward className="size-5" />
         </Link>
       </Container>
 

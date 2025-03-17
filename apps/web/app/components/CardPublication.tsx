@@ -33,7 +33,6 @@ export function CardPublication(props: CardPublicationProps) {
       className={className}
       size={size}
       title={publication.title}
-      titleMaxLines={3}
       hideShadow={hideShadow}
       grow="text"
       subtitle={
@@ -66,11 +65,11 @@ export function CardPublication(props: CardPublicationProps) {
             skin={size === "extended" ? "primary" : "ghost"}
             size="md"
           >
-            Ver mais
+            See more
           </ButtonLink>
           {size === "extended" && (
             <ButtonLink skin="ghost" size="md" to={publication.link} external>
-              Ler
+              Read
             </ButtonLink>
           )}
         </nav>

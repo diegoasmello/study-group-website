@@ -99,7 +99,7 @@ const researchersQuery = gql`
 
 const heroQuery = gql`
   query PublicationsPageHero {
-    sectionContents(where: { section: { equals: EVENTS_HERO } }) {
+    sectionContents(where: { section: { equals: PUBLICATIONS_HERO } }) {
       id
       title
       content
@@ -232,12 +232,12 @@ export default function PublicationsPage() {
         <TextInput
           id="q"
           name="q"
-          placeholder="Pesquisa por título ou autor"
+          placeholder="Search by title or author"
           Icon={IconSearch}
           className="w-full"
           defaultValue={parsedSearchParams.query}
         />
-        <FormControl label="Áreas de pesquisa">
+        <FormControl label="Research areas">
           <div className="flex flex-col gap-2">
             {researchAreas?.map((researchArea) => (
               <CheckboxInput
@@ -254,7 +254,7 @@ export default function PublicationsPage() {
         </FormControl>
         <ComboboxInput
           name="researcher"
-          label="Autor(a)"
+          label="Author"
           immediate
           items={researchersInputItems}
           defaultValue={
@@ -262,14 +262,14 @@ export default function PublicationsPage() {
           }
         />
         <DateRangeInput
-          label="Período da publicação"
+          label="Publication period"
           defaultValue={dateRangeDefaultValue}
         />
         <nav className="flex gap-2">
-          <Button size="md">Buscar</Button>
+          <Button size="md">Search</Button>
           {flags.CLEAR_FILTERS_ENABLED && isFiltering && (
             <Button size="md" skin="ghost" type="button">
-              Limpar filtros
+              Clear filters
             </Button>
           )}
         </nav>

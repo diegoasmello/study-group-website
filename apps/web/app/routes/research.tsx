@@ -166,7 +166,7 @@ const ResearchItemSection = ({
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="col-span-12">
-            <h3 className="text-h4 mb-6">Projetos relacionados</h3>
+            <h3 className="text-h4 mb-6">Related projects</h3>
             <div className="w-full">
               <Carousel>
                 {() =>
