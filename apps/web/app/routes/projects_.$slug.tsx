@@ -23,7 +23,6 @@ import {
 import { client } from "~/lib/graphql-client";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
-// where published
 const query = gql`
   query Project($slug: String) {
     project(where: { slug: $slug }) {

@@ -22,7 +22,6 @@ import {
 import { client } from "~/lib/graphql-client";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
-// where published
 const query = gql`
   query Event($slug: String) {
     event(where: { slug: $slug }) {

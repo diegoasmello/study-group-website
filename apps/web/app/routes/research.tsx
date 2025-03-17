@@ -95,7 +95,13 @@ export default function Research() {
 
       <div className="flex flex-col gap-16 mb-20">
         {researchAreas?.map((researchArea, index) => (
-          <ResearchItemSection key={index} item={researchArea} index={index} /> // fixxxx
+          <ResearchItemSection
+            key={index}
+            index={index}
+            item={
+              researchArea as ArrayElement<ResearchPageQuery["researchAreas"]>
+            }
+          />
         ))}
       </div>
 

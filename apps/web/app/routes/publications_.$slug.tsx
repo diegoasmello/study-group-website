@@ -25,7 +25,6 @@ import {
 import { client } from "~/lib/graphql-client";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
-// where published
 const query = gql`
   query Publication($slug: String) {
     publication(where: { slug: $slug }) {
@@ -126,7 +125,9 @@ export default function ViewPublication() {
   if (!publication) return null;
 
   const handleCopyCitation = () => {
-    navigator.clipboard.writeText(createCitation(publication)); // fixxxxxx
+    navigator.clipboard.writeText(
+      createCitation(publication as PublicationQuery["publication"]),
+    );
   };
 
   return (
