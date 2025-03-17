@@ -29,12 +29,22 @@ const query = gql`
       title
       content
     }
+    teamMembers(take: 9, where: { status: { equals: published } }) {
+      id
+      name
+      role
+      link
+      image {
+        url
+      }
+    }
   }
 `;
 
 export const meta: MetaFunction<typeof loader> = ({
   data: dbData,
   matches,
+  location,
 }) => {
   const {
     data: { company },
@@ -49,18 +59,20 @@ export const meta: MetaFunction<typeof loader> = ({
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { heroSections, historySections } =
+  const { heroSections, historySections, teamMembers } =
     await client.request<HistoryPageQuery>(query);
 
   return json({
     historySections,
+    teamMembers,
     heroSection: heroSections?.[0],
     url: request.url,
   });
 }
 
 export default function History() {
-  const { historySections, heroSection } = useLoaderData<typeof loader>();
+  const { historySections, heroSection, teamMembers } =
+    useLoaderData<typeof loader>();
 
   if (!heroSection || !historySections) return null;
 
@@ -95,15 +107,14 @@ export default function History() {
 
       {/* fixxx */}
       <Container>
-        <div className="mt-20 mb-10">
-          <div className="flex flex-col gap-8 mb-14">
-            <h2 className="text-h3 text-gray-950">Meet our team</h2>
-            <div className="w-full">
-              <Carousel>
-                {(isSlideInView) =>
-                  Array(9)
-                    .fill(null)
-                    .map((_, index) => (
+        {teamMembers?.length && (
+          <div className="mt-20 mb-10">
+            <div className="flex flex-col gap-8 mb-14">
+              <h2 className="text-h3 text-gray-950">Meet our team</h2>
+              <div className="w-full">
+                <Carousel>
+                  {(isSlideInView) =>
+                    teamMembers.map((teamMember, index) => (
                       <div
                         key={index}
                         className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
@@ -112,24 +123,25 @@ export default function History() {
                           type="float"
                           hideShadow={!isSlideInView(index)}
                           teamMember={{
-                            name: "Harry Potter",
-                            role: "Auror",
-                            image: "/assets/card-image.png",
-                            link: "/",
+                            name: teamMember.name,
+                            role: teamMember.role,
+                            image: teamMember.image.url,
+                            link: teamMember.link,
                           }}
                         />
                       </div>
                     ))
-                }
-              </Carousel>
+                  }
+                </Carousel>
+              </div>
+            </div>
+            <div className="flex flex-col items-center">
+              <Link to="/team">
+                See the entire team <IconArrowForward className="size-5" />
+              </Link>
             </div>
           </div>
-          <div className="flex flex-col items-center">
-            <Link to="/team">
-              See the entire team <IconArrowForward className="size-5" />
-            </Link>
-          </div>
-        </div>
+        )}
         <NewsletterBanner />
       </Container>
     </main>
