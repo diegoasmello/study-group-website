@@ -16,7 +16,6 @@ export interface CardProps
   actions?: JSX.Element | null;
   subtitle?: JSX.Element | null;
   label?: JSX.Element | null;
-  titleMaxLines?: 1 | 2 | 3 | 4 | 5 | 6;
   hideShadow?: boolean;
   grow?: "icon" | "label" | "title" | "subtitle" | "text";
 }
@@ -33,16 +32,12 @@ export function Card(props: CardProps) {
     subtitle,
     label,
     actions,
-    // titleMaxLines,
     className,
     hideShadow,
     grow = "title",
   } = props;
 
   const sizeClass = sizeStyles[size];
-
-  // const hasTitleMaxLines =
-  //   titleMaxLines !== null && titleMaxLines !== undefined;
 
   return (
     <CardContainer
