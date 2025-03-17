@@ -25,7 +25,7 @@ import { TextInput } from "./form-fields/TextInput";
 import { IconMenu } from "./icons/IconMenu";
 import clsx from "clsx";
 import { getBreakpoint } from "~/utils";
-import { flags } from "flags";
+import { flags } from "~/flags";
 
 export function Header() {
   const location = useLocation();

@@ -47,7 +47,7 @@ import {
   ResearchAreasQuery,
   ResearchersQuery,
 } from "~/graphql/generated";
-import { flags } from "flags";
+import { flags } from "~/flags";
 import { paginate } from "~/utils/paginator.server";
 
 const pageQuery = gql`
