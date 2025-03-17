@@ -8,7 +8,6 @@ import { FormControl } from "~/components/form-fields/FormControl";
 import { TextInput } from "~/components/form-fields/TextInput";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
-import data from "~/data";
 import { getRootMatch } from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
@@ -17,7 +16,7 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   } = getRootMatch(matches);
   // metatags
 
-  return [{ title: data.search.title + " | " + company?.title }];
+  return [{ title: "Search | " + company?.title }];
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -35,7 +34,7 @@ export default function Search() {
   return (
     <main className="pb-20 bg-page">
       <PageBanner
-        title={data.search.title}
+        title="Search"
         text={`Exibindo 3 resultados para “${q}”:`}
         illustration={
           <img

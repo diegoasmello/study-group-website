@@ -4,7 +4,6 @@ import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { Link } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
-import data from "~/data";
 import { IconArrowForward } from "~/components/icons";
 import clsx from "clsx";
 import { getRootMatch, metaTags } from "~/utils";
@@ -42,7 +41,7 @@ export const meta: MetaFunction<typeof loader> = ({
   } = getRootMatch(matches);
 
   return metaTags({
-    title: data?.history?.title + " | " + company?.title,
+    title: "Our history | " + company?.title,
     description: dbData?.heroSection?.content,
     pathname: location.pathname,
     url: dbData?.url,
@@ -70,7 +69,7 @@ export default function History() {
       <div className="bg-primary-lighter pt-14 pb-16 mb-12 relative overflow-hidden">
         <Container className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="flex flex-col gap-2 col-span-12 col-start-1 lg:col-span-4 lg:col-start-7">
-            <h1 className="text-primary font-medium">{data.history.title}</h1>
+            <h1 className="text-primary font-medium">Our history</h1>
             <span className="text-h2">{heroSection.title}</span>
             <p className="text-lead-1 text-gray-800">{heroSection.content}</p>
           </div>
