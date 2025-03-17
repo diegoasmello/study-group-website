@@ -47,6 +47,7 @@ import {
   ResearchAreasQuery,
   ResearchersQuery,
 } from "~/graphql/generated";
+import { flags } from "flags";
 
 const pageQuery = gql`
   query PublicationsPage(
@@ -218,12 +219,6 @@ export default function PublicationsPage() {
   const isFiltering = !!Object.values(parsedSearchParams).filter((i) => i)
     .length;
 
-  // const clearFilters = () => {
-  //   // setSearchParams("", { flushSync: true });
-  //   // navigate(".");
-  //   submit(null)
-  // };
-
   if (!heroSection) return null;
 
   function FilterForm() {
@@ -271,16 +266,11 @@ export default function PublicationsPage() {
         />
         <nav className="flex gap-2">
           <Button size="md">Buscar</Button>
-          {/* {isFiltering && (
-          <Button
-            size="md"
-            skin="ghost"
-            type="button"
-            onClick={resetFilters}
-          >
-            Limpar filtros
-          </Button>
-        )} */}
+          {flags.CLEAR_FILTERS_ENABLED && isFiltering && (
+            <Button size="md" skin="ghost" type="button">
+              Limpar filtros
+            </Button>
+          )}
         </nav>
       </Form>
     );

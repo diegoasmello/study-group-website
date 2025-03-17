@@ -25,6 +25,7 @@ import { TextInput } from "./form-fields/TextInput";
 import { IconMenu } from "./icons/IconMenu";
 import clsx from "clsx";
 import { getBreakpoint } from "~/utils";
+import { flags } from "flags";
 
 export function Header() {
   const location = useLocation();
@@ -184,21 +185,23 @@ export function Header() {
 
           <nav className="hidden lg:block">
             <ul className="flex flex-row items-center gap-2">
-              <li>
-                <Dropdown>
-                  <DropdownButton as={Fragment}>
-                    <Button size="md" skin="ghost" hasIcon>
-                      <span>PT</span>
-                      <IconChevronDown className="size-6" />
-                    </Button>
-                  </DropdownButton>
-                  <DropdownMenu>
-                    <DropdownItemButton>Português</DropdownItemButton>
-                    <DropdownItemButton>English</DropdownItemButton>
-                    <DropdownItemButton>Español</DropdownItemButton>
-                  </DropdownMenu>
-                </Dropdown>
-              </li>
+              {flags.INTERNATIONALIZATION_ENABLED && (
+                <li>
+                  <Dropdown>
+                    <DropdownButton as={Fragment}>
+                      <Button size="md" skin="ghost" hasIcon>
+                        <span>PT</span>
+                        <IconChevronDown className="size-6" />
+                      </Button>
+                    </DropdownButton>
+                    <DropdownMenu>
+                      <DropdownItemButton>Português</DropdownItemButton>
+                      <DropdownItemButton>English</DropdownItemButton>
+                      <DropdownItemButton>Español</DropdownItemButton>
+                    </DropdownMenu>
+                  </Dropdown>
+                </li>
+              )}
               <li>
                 <Dropdown>
                   <DropdownButton as={Fragment}>
