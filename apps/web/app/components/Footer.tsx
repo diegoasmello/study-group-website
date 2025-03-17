@@ -4,17 +4,10 @@ import { IconYoutube } from "./icons/IconYoutube";
 import { IconInstagram } from "./icons/IconInstagram";
 import { IconFacebook } from "./icons/IconFacebook";
 import { ExternalLink } from "./Link";
+import { RootQuery } from "~/graphql/generated";
 
 interface FooterProps {
-  company: {
-    title: string;
-    address: string;
-    phone: string;
-    email: string;
-    facebookUrl: string;
-    instagramUrl: string;
-    youtubeUrl: string;
-  } | null;
+  company: RootQuery["company"];
 }
 
 export function Footer(props: FooterProps) {
