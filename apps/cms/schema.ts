@@ -37,6 +37,11 @@ const contentDocument = document({
   isFilterable: true,
 });
 
+const imageField = image({
+  storage: "local_images",
+  graphql: { isNonNull: { read: true } },
+});
+
 export const lists: Record<string, ListConfig<any>> = {
   Action: list({
     access: allowAll,
@@ -66,10 +71,7 @@ export const lists: Record<string, ListConfig<any>> = {
         graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: image({
-        storage: "local_images",
-        graphql: { isNonNull: { read: true } },
-      }),
+      image: imageField,
       date: calendarDay({
         validation: { isRequired: true },
         graphql: { isNonNull: { read: true } },
@@ -128,10 +130,7 @@ export const lists: Record<string, ListConfig<any>> = {
         graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: image({
-        storage: "local_images",
-        graphql: { isNonNull: { read: true } },
-      }),
+      image: imageField,
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
         graphql: { isNonNull: { read: true } },
@@ -207,10 +206,7 @@ export const lists: Record<string, ListConfig<any>> = {
         graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: image({
-        storage: "local_images",
-        graphql: { isNonNull: { read: true } },
-      }),
+      image: imageField,
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
         graphql: { isNonNull: { read: true } },
@@ -285,10 +281,7 @@ export const lists: Record<string, ListConfig<any>> = {
         graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: image({
-        storage: "local_images",
-        graphql: { isNonNull: { read: true } },
-      }),
+      image: imageField,
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
         graphql: { isNonNull: { read: true } },
@@ -358,10 +351,7 @@ export const lists: Record<string, ListConfig<any>> = {
         validation: { isRequired: true, length: { min: 1, max: 200 } },
         graphql: { isNonNull: { read: true } },
       }),
-      image: image({
-        storage: "local_images",
-        graphql: { isNonNull: { read: true } },
-      }),
+      image: imageField,
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
         graphql: { isNonNull: { read: true } },
@@ -403,14 +393,8 @@ export const lists: Record<string, ListConfig<any>> = {
         graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: image({
-        storage: "local_images",
-        graphql: { isNonNull: { read: true } },
-      }),
-      icon: image({
-        storage: "local_images",
-        graphql: { isNonNull: { read: true } },
-      }),
+      image: imageField,
+      icon: imageField,
       projects: relationship({ ref: "Project.researchArea", many: true }),
       publications: relationship({
         ref: "Publication.researchArea",
@@ -492,6 +476,7 @@ export const lists: Record<string, ListConfig<any>> = {
         validation: { isRequired: true },
         graphql: { isNonNull: { read: true } },
       }),
+      image: image({ storage: "local_images" }),
       section: select({
         options: [
           {

@@ -812,6 +812,7 @@ type SectionContent {
   id: ID!
   title: String!
   content: String!
+  image: ImageFieldOutput
   section: SectionContentSectionType!
 }
 
@@ -858,6 +859,7 @@ input SectionContentOrderByInput {
 input SectionContentUpdateInput {
   title: String
   content: String
+  image: ImageFieldInput
   section: SectionContentSectionType
 }
 
@@ -869,6 +871,7 @@ input SectionContentUpdateArgs {
 input SectionContentCreateInput {
   title: String
   content: String
+  image: ImageFieldInput
   section: SectionContentSectionType
 }
 

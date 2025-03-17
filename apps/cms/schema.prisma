@@ -143,10 +143,15 @@ model Researcher {
 }
 
 model SectionContent {
-  id      String                    @id @default(cuid())
-  title   String                    @default("")
-  content String                    @default("")
-  section SectionContentSectionType
+  id              String                    @id @default(cuid())
+  title           String                    @default("")
+  content         String                    @default("")
+  image_id        String?
+  image_filesize  Int?
+  image_width     Int?
+  image_height    Int?
+  image_extension String?
+  section         SectionContentSectionType
 }
 
 model Company {

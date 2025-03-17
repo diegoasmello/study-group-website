@@ -171,6 +171,7 @@ async function main() {
         section: "HOME_HERO",
         title: "New directions for language teaching in times of globalization",
         content: faker.lorem.paragraph(10),
+        image: prepareFile("placeholder.jpg"),
       },
       {
         section: "RESEARCH_HERO",

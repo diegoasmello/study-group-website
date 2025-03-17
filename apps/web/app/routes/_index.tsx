@@ -21,6 +21,9 @@ const query = gql`
     sectionContents(where: { section: { equals: HOME_HERO } }) {
       title
       content
+      image {
+        url
+      }
     }
     researchAreas {
       id
@@ -138,17 +141,19 @@ export default function Index() {
         <div className="grid grid-cols-12 gap-8 items-center">
           <div className="col-span-12 lg:col-span-6">
             <img
-              src="/assets/card-image.png"
+              src={heroSection?.image?.url}
               alt="About the group"
               className="w-full rounded-3xl"
             />
           </div>
 
           <div className="col-span-12 lg:col-span-5 flex flex-col gap-6">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               <span className="text-primary font-medium">About the group</span>
-              <span className="text-h2">{heroSection?.title}</span>
-              <p className="text-gray-800">{heroSection?.content}</p>
+              <div className="flex flex-col gap-4">
+                <span className="text-h2">{heroSection?.title}</span>
+                <p className="text-gray-800">{heroSection?.content}</p>
+              </div>
             </div>
 
             <nav className="flex flex-row gap-4">
