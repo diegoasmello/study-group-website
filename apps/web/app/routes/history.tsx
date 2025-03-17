@@ -10,7 +10,7 @@ import clsx from "clsx";
 import { getRootMatch, metaTags } from "~/utils";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { gql } from "graphql-request";
-import { client } from "~/lib/graphql-client";
+import { client } from "~/lib/graphql-client.server";
 import { HistoryPageQuery } from "~/graphql/generated";
 import { ArrayElement } from "~/types";
 

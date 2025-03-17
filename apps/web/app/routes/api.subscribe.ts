@@ -4,7 +4,7 @@ import {
   AddNewsletterListMutation,
   AddNewsletterListMutationVariables,
 } from "~/graphql/generated";
-import { client } from "~/lib/graphql-client";
+import { client } from "~/lib/graphql-client.server";
 
 const mutation = gql`
   mutation AddNewsletterList($data: NewsletterListCreateInput!) {

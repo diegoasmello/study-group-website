@@ -11,8 +11,9 @@ import {
   ProjectsPageHeroQueryVariables,
   ProjectsPageQuery,
 } from "~/graphql/generated";
-import { client } from "~/lib/graphql-client";
-import { getRootMatch, handleNotFound, metaTags, paginate } from "~/utils";
+import { client } from "~/lib/graphql-client.server";
+import { getRootMatch, handleNotFound, metaTags } from "~/utils";
+import { paginate } from "~/utils/paginator.server";
 
 const pageQuery = gql`
   query ProjectsPage($take: Int, $skip: Int) {

@@ -16,7 +16,7 @@ import { Footer } from "./components/Footer";
 import { DefaultErrorBoundary } from "./components/DefaultErrorBoundary";
 import { metaTags } from "./utils";
 import { gql } from "graphql-request";
-import { client } from "./lib/graphql-client";
+import { client } from "./lib/graphql-client.server";
 import { RootQuery } from "./graphql/generated";
 
 const query = gql`

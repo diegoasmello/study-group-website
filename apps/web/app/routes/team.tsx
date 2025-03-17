@@ -11,8 +11,9 @@ import {
   TeamPageHeroQuery,
   TeamPageQuery,
 } from "~/graphql/generated";
-import { client } from "~/lib/graphql-client";
-import { getRootMatch, metaTags, paginate } from "~/utils";
+import { client } from "~/lib/graphql-client.server";
+import { getRootMatch, metaTags } from "~/utils";
+import { paginate } from "~/utils/paginator.server";
 
 const pageQuery = gql`
   query TeamPage($take: Int, $skip: Int) {

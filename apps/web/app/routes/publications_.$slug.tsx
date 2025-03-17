@@ -22,7 +22,7 @@ import {
   QueryMode,
 } from "~/graphql/generated";
 
-import { client } from "~/lib/graphql-client";
+import { client } from "~/lib/graphql-client.server";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
 const query = gql`

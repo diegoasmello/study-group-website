@@ -35,9 +35,9 @@ import {
 } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
 import clsx from "clsx";
-import { getRootMatch, handleNotFound, metaTags, paginate } from "~/utils";
+import { getRootMatch, handleNotFound, metaTags } from "~/utils";
 import { gql } from "graphql-request";
-import { client } from "~/lib/graphql-client";
+import { client } from "~/lib/graphql-client.server";
 import {
   PublicationsPageHeroQuery,
   PublicationsPageQuery,
@@ -48,6 +48,7 @@ import {
   ResearchersQuery,
 } from "~/graphql/generated";
 import { flags } from "flags";
+import { paginate } from "~/utils/paginator.server";
 
 const pageQuery = gql`
   query PublicationsPage(

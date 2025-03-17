@@ -15,7 +15,7 @@ import {
   ActionStatusType,
   QueryMode,
 } from "~/graphql/generated";
-import { client } from "~/lib/graphql-client";
+import { client } from "~/lib/graphql-client.server";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
 const query = gql`

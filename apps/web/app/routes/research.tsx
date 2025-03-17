@@ -10,7 +10,7 @@ import { twJoin } from "tailwind-merge";
 import { getRootMatch, metaTags } from "~/utils";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { gql } from "graphql-request";
-import { client } from "~/lib/graphql-client";
+import { client } from "~/lib/graphql-client.server";
 import { ResearchPageQuery } from "~/graphql/generated";
 import { ArrayElement } from "~/types";
 import { DocumentRenderer } from "~/components/DocumentRenderer";

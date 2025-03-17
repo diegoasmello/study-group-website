@@ -13,7 +13,7 @@ import { ButtonLink } from "~/components/ButtonLink";
 import { useLoaderData } from "@remix-run/react";
 import { getRootMatch, metaTags } from "~/utils";
 import { gql } from "graphql-request";
-import { client } from "~/lib/graphql-client";
+import { client } from "~/lib/graphql-client.server";
 import { HomePageQuery } from "~/graphql/generated";
 
 const query = gql`
