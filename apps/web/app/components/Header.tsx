@@ -39,7 +39,10 @@ export function Header() {
   const navRef = useRef<HTMLDivElement | null>(null);
   const lastScrollY = useRef(0);
   const submit = useSubmit();
-  const [indicatorStyle, setIndicatorStyle] = useState({});
+  const [indicatorStyle, setIndicatorStyle] = useState<{
+    width?: string;
+    left?: string;
+  }>({});
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [isPageOnTop, setIsPageOnTop] = useState(true);
@@ -66,11 +69,18 @@ export function Header() {
         ".active",
       ) as HTMLElement;
 
+      console.log(activeLink);
+
       if (activeLink) {
         setIndicatorStyle({
           width: `${activeLink.offsetWidth}px`,
           left: `${activeLink.offsetLeft}px`,
         });
+      } else {
+        setIndicatorStyle((prev) => ({
+          width: `0px`,
+          left: prev.left,
+        }));
       }
     };
 
@@ -182,7 +192,7 @@ export function Header() {
                   ) : (
                     <NavLink
                       className={({ isActive }) =>
-                        isActive
+                        isActive && location.pathname !== "/search"
                           ? "active text-primary border-primary"
                           : "text-gray-950 hover:text-primary"
                       }
@@ -237,6 +247,7 @@ export function Header() {
                   </DropdownButton>
                   <DropdownMenu className="w-auto p-3" anchor="bottom end">
                     <Form
+                      id="search-form"
                       action="/search"
                       className="flex gap-2"
                       onKeyDown={(e) =>
