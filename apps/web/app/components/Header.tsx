@@ -4,6 +4,7 @@ import {
   NavLink,
   useLocation,
   useSearchParams,
+  useSubmit,
 } from "@remix-run/react";
 import { Button } from "./Button";
 import { Container } from "./Container";
@@ -37,6 +38,7 @@ export function Header() {
   const location = useLocation();
   const navRef = useRef<HTMLDivElement | null>(null);
   const lastScrollY = useRef(0);
+  const submit = useSubmit();
   const [indicatorStyle, setIndicatorStyle] = useState({});
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
@@ -112,6 +114,12 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const onSearchButton = () => {
+    setTimeout(() => {
+      document.getElementById("search-input")?.focus();
+    });
+  };
 
   return (
     <header
@@ -214,14 +222,30 @@ export function Header() {
               <li>
                 <Dropdown>
                   <DropdownButton as={Fragment}>
-                    <Button size="md" skin="ghost" className="w-[2.75rem] px-0">
+                    <Button
+                      size="md"
+                      skin="ghost"
+                      className="w-[2.75rem] px-0"
+                      onClick={onSearchButton}
+                      onKeyDown={(e) =>
+                        (e.code === "Enter" || e.code === "Space") &&
+                        onSearchButton()
+                      }
+                    >
                       <IconSearch className="size-6" />
                     </Button>
                   </DropdownButton>
                   <DropdownMenu className="w-auto p-3" anchor="bottom end">
-                    <Form action="/search" className="flex gap-2">
+                    <Form
+                      action="/search"
+                      className="flex gap-2"
+                      onKeyDown={(e) =>
+                        e.code === "Enter" && submit(e.currentTarget)
+                      }
+                    >
                       <TextInput
                         name="q"
+                        id="search-input"
                         Icon={IconSearch}
                         placeholder="Busque pelo site"
                         className="w-[14rem]"
