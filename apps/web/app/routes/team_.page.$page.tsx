@@ -7,16 +7,16 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import {
-  TeamPageQueryVariables,
-  TeamPageHeroQuery,
-  TeamPageQuery,
+  TeamMembersPaginatedQuery,
+  TeamMembersPaginatedQueryVariables,
+  TeamMembersPageQuery,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
 import { getRootMatch, handleNotFound, metaTags } from "~/utils";
 import { paginate } from "~/utils/paginator.server";
 
-const pageQuery = gql`
-  query TeamPage($take: Int, $skip: Int) {
+const TEAM_MEMBERS_QUERY = gql`
+  query TeamMembersPaginated($take: Int, $skip: Int) {
     data: teamMembers(
       take: $take
       skip: $skip
@@ -34,8 +34,8 @@ const pageQuery = gql`
   }
 `;
 
-const heroQuery = gql`
-  query TeamPageHero {
+const PAGE_QUERY = gql`
+  query TeamMembersPage {
     sectionContents(where: { section: { equals: TEAM_HERO } }) {
       id
       title
@@ -65,10 +65,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
 
   const paginatedTeamMembers = await paginate<
-    TeamPageQuery["data"],
-    TeamPageQueryVariables
+    TeamMembersPaginatedQuery["data"],
+    TeamMembersPaginatedQueryVariables
   >({
-    query: pageQuery,
+    query: TEAM_MEMBERS_QUERY,
     pageInfo: {
       currentPage: page,
       perPage: 9,
@@ -78,7 +78,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   handleNotFound(paginatedTeamMembers?.data?.length);
 
   const { sectionContents } =
-    await client.request<TeamPageHeroQuery>(heroQuery);
+    await client.request<TeamMembersPageQuery>(PAGE_QUERY);
 
   return json({
     paginatedTeamMembers,

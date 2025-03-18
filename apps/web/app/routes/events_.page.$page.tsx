@@ -17,16 +17,16 @@ import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import {
-  EventsPageHeroQuery,
   EventsPageQuery,
-  EventsPageQueryVariables,
+  EventsPaginatedQuery,
+  EventsPaginatedQueryVariables,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
 import { getRootMatch, handleNotFound, metaTags } from "~/utils";
 import { paginate } from "~/utils/paginator.server";
 
-const pageQuery = gql`
-  query EventsPage($query: String, $take: Int, $skip: Int) {
+const EVENTS_QUERY = gql`
+  query EventsPaginated($query: String, $take: Int, $skip: Int) {
     data: events(
       take: $take
       skip: $skip
@@ -50,8 +50,8 @@ const pageQuery = gql`
   }
 `;
 
-const heroQuery = gql`
-  query EventsPageHero {
+const PAGE_QUERY = gql`
+  query EventsPage {
     sectionContents(where: { section: { equals: EVENTS_HERO } }) {
       id
       title
@@ -83,19 +83,18 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
 
   const paginatedEvents = await paginate<
-    EventsPageQuery["data"],
-    EventsPageQueryVariables
-  >(
-    pageQuery,
-    {
+    EventsPaginatedQuery["data"],
+    EventsPaginatedQueryVariables
+  >({
+    query: EVENTS_QUERY,
+    pageInfo: {
       currentPage: page,
       perPage: 6,
     },
-    { query: q ?? "" },
-  );
+    variables: { query: q ?? "" },
+  });
 
-  const { sectionContents } =
-    await client.request<EventsPageHeroQuery>(heroQuery);
+  const { sectionContents } = await client.request<EventsPageQuery>(PAGE_QUERY);
 
   handleNotFound(paginatedEvents?.data?.length, q);
 

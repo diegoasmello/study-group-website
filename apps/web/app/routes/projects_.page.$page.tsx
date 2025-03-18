@@ -7,16 +7,16 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import {
-  ProjectsPageHeroQuery,
-  ProjectsPageHeroQueryVariables,
   ProjectsPageQuery,
+  ProjectsPaginatedQuery,
+  ProjectsPaginatedQueryVariables,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
 import { getRootMatch, handleNotFound, metaTags } from "~/utils";
 import { paginate } from "~/utils/paginator.server";
 
-const pageQuery = gql`
-  query ProjectsPage($take: Int, $skip: Int) {
+const PROJECTS_QUERY = gql`
+  query ProjectsPaginated($take: Int, $skip: Int) {
     data: projects(
       take: $take
       skip: $skip
@@ -34,8 +34,8 @@ const pageQuery = gql`
   }
 `;
 
-const heroQuery = gql`
-  query ProjectsPageHero {
+const PAGE_QUERY = gql`
+  query ProjectsPage {
     sectionContents(where: { section: { equals: PROJECTS_HERO } }) {
       id
       title
@@ -65,15 +65,18 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
 
   const paginatedProjects = await paginate<
-    ProjectsPageQuery["data"],
-    ProjectsPageHeroQueryVariables
-  >(pageQuery, {
-    currentPage: page,
-    perPage: 9,
+    ProjectsPaginatedQuery["data"],
+    ProjectsPaginatedQueryVariables
+  >({
+    query: PROJECTS_QUERY,
+    pageInfo: {
+      currentPage: page,
+      perPage: 9,
+    },
   });
 
   const { sectionContents } =
-    await client.request<ProjectsPageHeroQuery>(heroQuery);
+    await client.request<ProjectsPageQuery>(PAGE_QUERY);
 
   handleNotFound(paginatedProjects?.data?.length);
 

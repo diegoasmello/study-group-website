@@ -17,17 +17,17 @@ import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import {
-  ActionsPageHeroQuery,
   ActionsPageQuery,
-  ActionsPageQueryVariables,
+  ActionsPaginatedQuery,
+  ActionsPaginatedQueryVariables,
 } from "~/graphql/generated";
 
 import { client } from "~/lib/graphql-client.server";
 import { getRootMatch, handleNotFound, metaTags } from "~/utils";
 import { paginate } from "~/utils/paginator.server";
 
-const pageQuery = gql`
-  query ActionsPage($query: String, $take: Int, $skip: Int) {
+const ACTIONS_QUERY = gql`
+  query ActionsPaginated($query: String, $take: Int, $skip: Int) {
     data: actions(
       take: $take
       skip: $skip
@@ -49,8 +49,8 @@ const pageQuery = gql`
   }
 `;
 
-const heroQuery = gql`
-  query ActionsPageHero {
+const PAGE_QUERY = gql`
+  query ActionsPage {
     sectionContents(where: { section: { equals: ACTIONS_HERO } }) {
       id
       title
@@ -82,19 +82,19 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
 
   const paginatedActions = await paginate<
-    ActionsPageQuery["data"],
-    ActionsPageQueryVariables
-  >(
-    pageQuery,
-    {
+    ActionsPaginatedQuery["data"],
+    ActionsPaginatedQueryVariables
+  >({
+    query: ACTIONS_QUERY,
+    pageInfo: {
       currentPage: page,
       perPage: 6,
     },
-    { query: q ?? "" },
-  );
+    variables: { query: q ?? "" },
+  });
 
   const { sectionContents } =
-    await client.request<ActionsPageHeroQuery>(heroQuery);
+    await client.request<ActionsPageQuery>(PAGE_QUERY);
 
   handleNotFound(paginatedActions?.data?.length, q);
 

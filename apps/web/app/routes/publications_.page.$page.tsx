@@ -39,19 +39,17 @@ import { getRootMatch, handleNotFound, metaTags } from "~/utils";
 import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client.server";
 import {
-  PublicationsPageHeroQuery,
   PublicationsPageQuery,
-  PublicationsPageQueryVariables,
+  PublicationsPaginatedQuery,
+  PublicationsPaginatedQueryVariables,
   PublicationStatusType,
   QueryMode,
-  ResearchAreasQuery,
-  ResearchersQuery,
 } from "~/graphql/generated";
 import { flags } from "~/flags";
 import { paginate } from "~/utils/paginator.server";
 
-const pageQuery = gql`
-  query PublicationsPage(
+const PUBLICATIONS_QUERY = gql`
+  query PublicationsPaginated(
     $where: PublicationWhereInput
     $take: Int
     $skip: Int
@@ -77,32 +75,22 @@ const pageQuery = gql`
   }
 `;
 
-const researchAreasQuery = gql`
-  query ResearchAreas {
+const PAGE_QUERY = gql`
+  query PublicationsPage {
+    sectionContents(where: { section: { equals: PUBLICATIONS_HERO } }) {
+      id
+      title
+      content
+    }
     researchAreas(where: { status: { equals: published } }) {
       id
       title
     }
-  }
-`;
-
-const researchersQuery = gql`
-  query Researchers {
     researchers(
       where: { publications: { every: { status: { equals: published } } } }
     ) {
       id
       name
-    }
-  }
-`;
-
-const heroQuery = gql`
-  query PublicationsPageHero {
-    sectionContents(where: { section: { equals: PUBLICATIONS_HERO } }) {
-      id
-      title
-      content
     }
   }
 `;
@@ -130,15 +118,15 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
 
   const paginatedPublications = await paginate<
-    PublicationsPageQuery["data"],
-    PublicationsPageQueryVariables
-  >(
-    pageQuery,
-    {
+    PublicationsPaginatedQuery["data"],
+    PublicationsPaginatedQueryVariables
+  >({
+    query: PUBLICATIONS_QUERY,
+    pageInfo: {
       currentPage: page,
       perPage: 6,
     },
-    {
+    variables: {
       where: {
         status: {
           equals: PublicationStatusType.Published,
@@ -169,14 +157,10 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         },
       },
     },
-  );
+  });
 
-  const { sectionContents } =
-    await client.request<PublicationsPageHeroQuery>(heroQuery);
-  const { researchAreas } =
-    await client.request<ResearchAreasQuery>(researchAreasQuery);
-  const { researchers } =
-    await client.request<ResearchersQuery>(researchersQuery);
+  const { sectionContents, researchAreas, researchers } =
+    await client.request<PublicationsPageQuery>(PAGE_QUERY);
 
   handleNotFound(
     paginatedPublications?.data?.length,
