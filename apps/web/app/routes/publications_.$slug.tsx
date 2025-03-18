@@ -189,7 +189,7 @@ export default function ViewPublication() {
                   <span className="text-gray-950">{publication.license}</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
-                <Tooltip text="Citação copiada para área de transferência!">
+                <Tooltip text="Copied to clipboard!">
                   <Button
                     skin="ghost"
                     size="md"

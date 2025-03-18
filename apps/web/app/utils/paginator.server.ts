@@ -14,25 +14,35 @@ interface Result<T> {
   meta: PageMeta;
 }
 
-export async function paginate<T, V>(
-  query: string,
-  pageInfo: { currentPage: number; perPage: number },
-  variables?: Omit<V, "take" | "skip">,
-): Promise<Result<T>> {
+type Response<ReturnType> = { data: ReturnType; count: number };
+
+export async function paginate<ReturnType, Variables, ResponseType = object>({
+  query,
+  pageInfo,
+  variables,
+  extract,
+}: {
+  query: string;
+  pageInfo: { currentPage: number; perPage: number };
+  variables?: Omit<Variables, "take" | "skip">;
+  extract?: (response: ResponseType) => { data: ReturnType; count: number };
+}): Promise<Result<ReturnType>> {
   const { perPage, currentPage } = pageInfo;
   const skip = currentPage > 0 ? perPage * (currentPage - 1) : 0;
 
-  const { data, count: total } = await client.request<{
-    data: T;
-    count: number;
-  }>(query, { ...variables, take: perPage, skip });
+  const response = await client.request<ResponseType & Response<ReturnType>>(
+    query,
+    { ...variables, take: perPage, skip },
+  );
 
-  const lastPage = Math.ceil(total / perPage);
+  const { data, count } = extract?.(response) ?? response;
+
+  const lastPage = Math.ceil(count / perPage);
 
   return {
     data: data,
     meta: {
-      total,
+      total: count,
       lastPage,
       currentPage,
       perPage,

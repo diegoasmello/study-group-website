@@ -24,7 +24,7 @@ export function PageBanner(props: PageBannerProps) {
           <h1 className="text-h1 text-primary text-nowrap">{title}</h1>
           <p className="text-lead-1 text-gray-900">{text}</p>
         </div>
-        <div className="hidden lg:block">{illustration}</div>
+        <div className="hidden lg:block select-none">{illustration}</div>
       </Container>
     </div>
   );

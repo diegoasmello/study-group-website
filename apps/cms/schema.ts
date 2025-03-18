@@ -93,8 +93,8 @@ export const lists: Record<string, ListConfig<any>> = {
         };
       },
       validate: async ({ addValidationError, resolvedData }) => {
-        documentRequired(resolvedData.content, addValidationError);
-        imageRequired(resolvedData.image, addValidationError);
+        // documentRequired(resolvedData.content, addValidationError);
+        // imageRequired(resolvedData.image, addValidationError);
       },
     },
     ui: {
@@ -326,8 +326,8 @@ export const lists: Record<string, ListConfig<any>> = {
           slug: slugify(resolvedData.title ?? item.title),
         };
       },
-      validate: async ({ addValidationError, resolvedData }) => {
-        imageRequired(resolvedData.image, addValidationError);
+      validate: async ({ addValidationError, resolvedData, item }) => {
+        // imageRequired(resolvedData.image ?? item.image, addValidationError);
       },
     },
     ui: {

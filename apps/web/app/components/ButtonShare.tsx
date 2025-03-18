@@ -55,7 +55,7 @@ export function ButtonShare(props: ButtonShareProps) {
           <span className="text-gray-950 font-medium">Or copy the link</span>
           <div className="flex flex-row gap-2">
             <TextInput placeholder={currentUrl} />
-            <Tooltip text="Copiado para área de transferência!">
+            <Tooltip text="Copied to clipboard!">
               <Button skin="ghost" size="md" onClick={handleCopyUrl}>
                 Copy
               </Button>

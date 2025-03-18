@@ -1,4 +1,10 @@
-import { Form, Link, NavLink, useLocation } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  NavLink,
+  useLocation,
+  useSearchParams,
+} from "@remix-run/react";
 import { Button } from "./Button";
 import { Container } from "./Container";
 import { Fragment, useEffect, useRef, useState } from "react";
@@ -39,6 +45,9 @@ export function Header() {
   const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(
     checkIsAboutMenuOpen(location.pathname),
   );
+  const [searchParams] = useSearchParams();
+  const searchInputDefaultValue =
+    location.pathname === "/search" ? (searchParams.get("q") ?? "") : "";
 
   useEffect(() => {
     setBreakpoint(Number(getBreakpoint("lg").split("rem")[0]));
@@ -217,8 +226,9 @@ export function Header() {
                         placeholder="Busque pelo site"
                         className="w-[14rem]"
                         required
+                        defaultValue={searchInputDefaultValue}
                       />
-                      <Button size="md" skin="ghost">
+                      <Button type="submit" size="md" skin="ghost">
                         Search
                       </Button>
                     </Form>

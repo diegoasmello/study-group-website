@@ -67,9 +67,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const paginatedTeamMembers = await paginate<
     TeamPageQuery["data"],
     TeamPageQueryVariables
-  >(pageQuery, {
-    currentPage: page,
-    perPage: 9,
+  >({
+    query: pageQuery,
+    pageInfo: {
+      currentPage: page,
+      perPage: 9,
+    },
   });
 
   handleNotFound(paginatedTeamMembers?.data?.length);

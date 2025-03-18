@@ -52,10 +52,16 @@ export function CarouselHome({ items }: { items: CarouselHomeItem[] }) {
       </div>
       <Container className="flex items-center justify-between mt-6">
         <nav className="flex-row gap-4 hidden lg:flex">
-          <button className="embla__prev group" onClick={scrollPrev}>
+          <button
+            className="embla__prev group cursor-pointer"
+            onClick={scrollPrev}
+          >
             <IconArrowAltBack className="size-8 text-gray-950 group-disabled:text-gray-300 group-hover:text-primary" />
           </button>
-          <button className="embla__next group" onClick={scrollNext}>
+          <button
+            className="embla__next group cursor-pointer"
+            onClick={scrollNext}
+          >
             <IconArrowAltForward className="size-8 text-gray-950 group-disabled:text-gray-300 group-hover:text-primary" />
           </button>
         </nav>

@@ -2,7 +2,7 @@ import { Card, CardProps } from "./Card";
 import { ButtonLink } from "./ButtonLink";
 
 interface CardProjectProps
-  extends Pick<CardProps, "hideShadow" | "type" | "className"> {
+  extends Pick<CardProps, "hideShadow" | "type" | "className" | "size"> {
   project: {
     slug: string;
     title: string;
@@ -11,16 +11,23 @@ interface CardProjectProps
 }
 
 export function CardProject(props: CardProjectProps) {
-  const { project, type = "float", hideShadow, className } = props;
+  const {
+    project,
+    size = "default",
+    type = "float",
+    hideShadow,
+    className,
+  } = props;
 
   return (
     <Card
       title={project.title}
       image={project.image}
-      imageAsIcon
+      imageAsIcon={size === "default"}
       hideShadow={hideShadow}
       type={type}
       className={className}
+      size={size}
       actions={
         <ButtonLink to={`/projects/${project.slug}`} skin="ghost" size="md">
           See more
