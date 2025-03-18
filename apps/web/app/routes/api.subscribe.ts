@@ -6,7 +6,7 @@ import {
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
 
-const mutation = gql`
+const ADD_NEWSLETTER_MUTATION = gql`
   mutation AddNewsletterList($data: NewsletterListCreateInput!) {
     createNewsletterList(data: $data) {
       id
@@ -26,7 +26,7 @@ export const action: ActionFunction = async ({ request }) => {
     await client.request<
       AddNewsletterListMutation,
       AddNewsletterListMutationVariables
-    >(mutation, { data: { email } });
+    >(ADD_NEWSLETTER_MUTATION, { data: { email } });
   } catch (e) {
     return json({ error: "Error" }, { status: 400 });
   }

@@ -16,7 +16,7 @@ import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client.server";
 import { HomePageQuery } from "~/graphql/generated";
 
-const query = gql`
+const HOME_PAGE_QUERY = gql`
   query HomePage {
     sectionContents(where: { section: { equals: HOME_HERO } }) {
       title
@@ -89,7 +89,7 @@ export const meta: MetaFunction<typeof loader> = ({
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { actions, events, publications, researchAreas, sectionContents } =
-    await client.request<HomePageQuery>(query);
+    await client.request<HomePageQuery>(HOME_PAGE_QUERY);
 
   return json({
     heroSection: sectionContents?.[0],

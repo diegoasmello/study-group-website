@@ -23,7 +23,7 @@ import {
 import { client } from "~/lib/graphql-client.server";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
-const query = gql`
+const PROJECT_QUERY = gql`
   query Project($slug: String) {
     project(where: { slug: $slug }) {
       id
@@ -48,7 +48,7 @@ const query = gql`
   }
 `;
 
-const relatedQuery = gql`
+const RELATED_QUERY = gql`
   query ProjectRelated($where: ProjectWhereInput) {
     projects(where: $where) {
       id
@@ -72,7 +72,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const { project } = await client.request<ProjectQuery, ProjectQueryVariables>(
-    query,
+    PROJECT_QUERY,
     { slug: params.slug },
   );
 
@@ -83,7 +83,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const { projects: related } = await client.request<
     ProjectRelatedQuery,
     ProjectRelatedQueryVariables
-  >(relatedQuery, {
+  >(RELATED_QUERY, {
     where: {
       status: {
         equals: ProjectStatusType.Published,

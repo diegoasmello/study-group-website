@@ -15,7 +15,7 @@ import { ResearchPageQuery } from "~/graphql/generated";
 import { ArrayElement } from "~/types";
 import { DocumentRenderer } from "~/components/DocumentRenderer";
 
-const query = gql`
+const RESEARCH_QUERY = gql`
   query ResearchPage {
     sectionContents(where: { section: { equals: RESEARCH_HERO } }) {
       id
@@ -64,7 +64,7 @@ export const meta: MetaFunction<typeof loader> = ({
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { researchAreas, sectionContents } =
-    await client.request<ResearchPageQuery>(query);
+    await client.request<ResearchPageQuery>(RESEARCH_QUERY);
 
   return json({
     heroSection: sectionContents?.[0],

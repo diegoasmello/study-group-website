@@ -18,7 +18,7 @@ import {
 import { client } from "~/lib/graphql-client.server";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
-const query = gql`
+const ACTION_QUERY = gql`
   query Action($slug: String) {
     action(where: { slug: $slug }) {
       id
@@ -37,7 +37,7 @@ const query = gql`
   }
 `;
 
-const relatedQuery = gql`
+const RELATED_QUERY = gql`
   query ActionRelated($where: ActionWhereInput) {
     actions(where: $where) {
       id
@@ -62,7 +62,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const { action } = await client.request<ActionQuery, ActionQueryVariables>(
-    query,
+    ACTION_QUERY,
     { slug: params.slug },
   );
 
@@ -73,7 +73,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const { actions: related } = await client.request<
     ActionRelatedQuery,
     ActionRelatedQueryVariables
-  >(relatedQuery, {
+  >(RELATED_QUERY, {
     where: {
       status: {
         equals: ActionStatusType.Published,

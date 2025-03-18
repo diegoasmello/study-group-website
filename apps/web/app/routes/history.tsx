@@ -13,7 +13,7 @@ import { client } from "~/lib/graphql-client.server";
 import { HistoryPageQuery } from "~/graphql/generated";
 import { ArrayElement } from "~/types";
 
-const query = gql`
+const HISTORY_PAGE_QUERY = gql`
   query HistoryPage {
     heroSections: sectionContents(
       where: { section: { equals: HISTORY_HERO } }
@@ -60,7 +60,7 @@ export const meta: MetaFunction<typeof loader> = ({
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { heroSections, historySections, teamMembers } =
-    await client.request<HistoryPageQuery>(query);
+    await client.request<HistoryPageQuery>(HISTORY_PAGE_QUERY);
 
   return json({
     historySections,

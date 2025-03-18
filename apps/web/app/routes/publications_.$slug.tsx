@@ -25,7 +25,7 @@ import {
 import { client } from "~/lib/graphql-client.server";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 
-const query = gql`
+const PUBLICATION_QUERY = gql`
   query Publication($slug: String) {
     publication(where: { slug: $slug }) {
       id
@@ -50,7 +50,7 @@ const query = gql`
   }
 `;
 
-const relatedQuery = gql`
+const RELATED_QUERY = gql`
   query PublicationRelated($where: PublicationWhereInput) {
     publications(where: $where) {
       id
@@ -80,7 +80,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const { publication } = await client.request<
     PublicationQuery,
     PublicationQueryVariables
-  >(query, { slug: params.slug });
+  >(PUBLICATION_QUERY, { slug: params.slug });
 
   handleNotFound(
     publication,
@@ -92,7 +92,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const { publications: related } = await client.request<
     PublicationRelatedQuery,
     PublicationRelatedQueryVariables
-  >(relatedQuery, {
+  >(RELATED_QUERY, {
     where: {
       status: {
         equals: PublicationStatusType.Published,
