@@ -1,5 +1,10 @@
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json, redirect, useLoaderData } from "@remix-run/react";
+import {
+  json,
+  redirect,
+  useLoaderData,
+  useSearchParams,
+} from "@remix-run/react";
 import { gql } from "graphql-request";
 import { CardContainer } from "~/components/Card";
 import { CardAction } from "~/components/CardAction";
@@ -8,8 +13,9 @@ import { CardProject } from "~/components/CardProject";
 import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
 import { Container } from "~/components/Container";
-import { FilterForm } from "~/components/FilterForm";
+import { FilterForm, parseSearchParams } from "~/components/FilterForm";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import {
@@ -99,7 +105,7 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
-  const q = url.searchParams.get("q");
+  const searchParams = parseSearchParams(url.searchParams);
   const page = params.page ? Number(params.page) : 1;
 
   const items = await paginate<
@@ -113,7 +119,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       perPage: 5,
     },
     variables: {
-      query: q,
+      query: searchParams.query,
     },
     extract: (response) => ({
       data: response.data?.items ?? [],
@@ -124,14 +130,16 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const { researchAreas, researchers } =
     await client.request<SearchFilterContentQuery>(FILTER_CONTENT_QUERY);
 
-  if (!q) return redirect("/");
+  if (!searchParams.query) return redirect("/");
 
-  return json({ q, items, researchAreas, researchers });
+  return json({ items, researchAreas, researchers });
 }
 
 export default function Search() {
-  const { q, items, researchAreas, researchers } =
-    useLoaderData<typeof loader>();
+  const { items, researchAreas, researchers } = useLoaderData<typeof loader>();
+
+  const [searchParams] = useSearchParams();
+  const parsedSearchParams = parseSearchParams(searchParams);
 
   const { data, meta } = items;
 
@@ -139,7 +147,7 @@ export default function Search() {
     <main className="pb-20 bg-page">
       <PageBanner
         title="Search"
-        text={`Showing ${meta.total} results for “${q}”:`} // pluralize
+        text={`Showing ${meta.total} results for “${parsedSearchParams.query}”:`} // pluralize
         illustration={
           <img
             src="/assets/illustrations/search.svg"
@@ -152,67 +160,71 @@ export default function Search() {
       <Container>
         <section className="grid grid-cols-12 gap-6">
           <div className="col-span-8 flex flex-col gap-6">
-            {data?.map((item) => {
-              if (item.__typename === "Action") {
-                return (
-                  <CardAction
-                    key={item.id}
-                    size="extended"
-                    action={{
-                      slug: item.slug,
-                      title: item.title,
-                      date: new Date(item.date),
-                      image: item.image.url,
-                    }}
-                  />
-                );
-              }
-              if (item.__typename === "Event") {
-                return (
-                  <CardEvent
-                    key={item.id}
-                    size="extended"
-                    event={{
-                      slug: item.slug,
-                      title: item.title,
-                      date: new Date(item.date),
-                      image: item.image.url,
-                      locale: item.locale,
-                      link: item.link,
-                    }}
-                  />
-                );
-              }
-              if (item.__typename === "Publication") {
-                return (
-                  <CardPublication
-                    key={item.id}
-                    size="extended"
-                    publication={{
-                      slug: item.slug,
-                      title: item.title,
-                      description: item.resume,
-                      date: new Date(item.date),
-                      link: item.link,
-                      researchers: item.researchers ?? [],
-                    }}
-                  />
-                );
-              }
-              if (item.__typename === "Project") {
-                return (
-                  <CardProject
-                    key={item.id}
-                    size="extended"
-                    project={{
-                      slug: item.slug,
-                      title: item.title,
-                      image: item.image.url,
-                    }}
-                  />
-                );
-              }
-            })}
+            {data?.length ? (
+              data.map((item) => {
+                if (item.__typename === "Action") {
+                  return (
+                    <CardAction
+                      key={item.id}
+                      size="extended"
+                      action={{
+                        slug: item.slug,
+                        title: item.title,
+                        date: new Date(item.date),
+                        image: item.image.url,
+                      }}
+                    />
+                  );
+                }
+                if (item.__typename === "Event") {
+                  return (
+                    <CardEvent
+                      key={item.id}
+                      size="extended"
+                      event={{
+                        slug: item.slug,
+                        title: item.title,
+                        date: new Date(item.date),
+                        image: item.image.url,
+                        locale: item.locale,
+                        link: item.link,
+                      }}
+                    />
+                  );
+                }
+                if (item.__typename === "Publication") {
+                  return (
+                    <CardPublication
+                      key={item.id}
+                      size="extended"
+                      publication={{
+                        slug: item.slug,
+                        title: item.title,
+                        description: item.resume,
+                        date: new Date(item.date),
+                        link: item.link,
+                        researchers: item.researchers ?? [],
+                      }}
+                    />
+                  );
+                }
+                if (item.__typename === "Project") {
+                  return (
+                    <CardProject
+                      key={item.id}
+                      size="extended"
+                      project={{
+                        slug: item.slug,
+                        title: item.title,
+                        image: item.image.url,
+                      }}
+                    />
+                  );
+                }
+              })
+            ) : (
+              <NoResults className="pt-5" />
+            )}
           </div>
           <div className="col-span-4 flex flex-col gap-6">
             <CardContainer className="p-6 flex flex-col items-start gap-6">
@@ -220,9 +232,7 @@ export default function Search() {
                 action="/search"
                 researchAreas={researchAreas ?? []}
                 researchers={researchers ?? []}
-                defaultValues={{
-                  q,
-                }}
+                defaultValues={parsedSearchParams}
               />
             </CardContainer>
             <CardResearch />

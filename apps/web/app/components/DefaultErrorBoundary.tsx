@@ -1,7 +1,7 @@
 import { Container } from "./Container";
 
 export function DefaultErrorBoundary() {
-  const message = "Essa página não foi encontrada...";
+  const message = "Page not found...";
 
   return (
     <Container className="pt-16 pb-20 grid justify-center gap-14">

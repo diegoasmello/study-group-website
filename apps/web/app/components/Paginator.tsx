@@ -4,9 +4,11 @@ import { ButtonLink } from "./ButtonLink";
 import { PageMeta } from "~/utils/paginator.server";
 
 export function Paginator(props: PageMeta) {
-  const { currentPage, prev, next, lastPage } = props;
+  const { currentPage, prev, next, lastPage, total, perPage } = props;
 
   const location = useLocation();
+
+  if (total <= perPage) return null;
 
   let route;
   const search = location.search;

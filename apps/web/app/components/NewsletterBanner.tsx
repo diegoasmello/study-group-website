@@ -93,13 +93,13 @@ const modalContent: Record<
   { title: string; description: string }
 > = {
   success: {
-    title: "Só esperar!",
+    title: "Just wait!",
     description:
-      "Seu e-mail foi salvo, em breve você reberá um e-mail com mais informações.",
+      "Your email has been saved, you will soon receive an email with more information.",
   },
   error: {
-    title: "Ops, algo deu errado.",
-    description: "Seu e-mail não pôde ser salvo, tente novamente mais tarde.",
+    title: "Oops, something went wrong.",
+    description: "Your email could not be saved, please try again later.",
   },
 };
 

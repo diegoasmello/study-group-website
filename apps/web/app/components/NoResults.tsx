@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 
-const TEXT = "Não foram encontrados resultados para essa busca...";
+const TEXT = "No results found for this search";
 
 export function NoResults({ className }: { className?: string }) {
   return (

@@ -172,7 +172,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     researchAreas: researchAreas,
     researchers: researchers,
     paginatedPublications: paginatedPublications,
-    searchParams,
     url: request.url,
   });
 }
