@@ -45,7 +45,7 @@ function imageRequired(
   const resolvedImage = resolvedData?.image;
   const hasPrevImage = !isEmpty(prevImage);
   const hasResolvedImage = !isEmpty(resolvedImage);
-  const isDeletingImage = hasResolvedImage && isObjAttrNull(resolvedImage);
+  const isDeletingImage = hasPrevImage && isObjAttrNull(resolvedImage);
 
   if ((!hasPrevImage && !hasResolvedImage) || isDeletingImage) {
     return addValidationError(errorMessage);
