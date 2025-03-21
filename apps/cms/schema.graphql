@@ -440,7 +440,6 @@ type Publication {
   keywords: String!
   resume: String!
   content: Publication_content_Document!
-  image: ImageFieldOutput!
   link: String!
   date: CalendarDay!
   researchers(where: ResearcherWhereInput! = {}, orderBy: [ResearcherOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ResearcherWhereUniqueInput): [Researcher!]
@@ -515,7 +514,6 @@ input PublicationUpdateInput {
   keywords: String
   resume: String
   content: JSON
-  image: ImageFieldInput
   link: String
   date: CalendarDay
   researchers: ResearcherRelateToManyForUpdateInput
@@ -538,7 +536,6 @@ input PublicationCreateInput {
   keywords: String
   resume: String
   content: JSON
-  image: ImageFieldInput
   link: String
   date: CalendarDay
   researchers: ResearcherRelateToManyForCreateInput

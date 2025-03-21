@@ -73,27 +73,22 @@ model Event {
 }
 
 model Publication {
-  id              String                @id @default(cuid())
-  title           String                @default("")
-  slug            String                @unique @default("")
-  keywords        String                @default("")
-  resume          String                @default("")
-  content         Json                  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  image_id        String?
-  image_filesize  Int?
-  image_width     Int?
-  image_height    Int?
-  image_extension String?
-  link            String                @default("")
-  date            DateTime              @postgresql.Date
-  researchers     Researcher[]          @relation("Publication_researchers")
-  researchArea    ResearchArea?         @relation("Publication_researchArea", fields: [researchAreaId], references: [id])
-  researchAreaId  String?               @map("researchArea")
-  magazine        String                @default("")
-  doi             String                @default("")
-  license         String                @default("")
-  publishedAt     DateTime?             @updatedAt
-  status          PublicationStatusType @default(draft)
+  id             String                @id @default(cuid())
+  title          String                @default("")
+  slug           String                @unique @default("")
+  keywords       String                @default("")
+  resume         String                @default("")
+  content        Json                  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  link           String                @default("")
+  date           DateTime              @postgresql.Date
+  researchers    Researcher[]          @relation("Publication_researchers")
+  researchArea   ResearchArea?         @relation("Publication_researchArea", fields: [researchAreaId], references: [id])
+  researchAreaId String?               @map("researchArea")
+  magazine       String                @default("")
+  doi            String                @default("")
+  license        String                @default("")
+  publishedAt    DateTime?             @updatedAt
+  status         PublicationStatusType @default(draft)
 
   @@index([researchAreaId])
 }

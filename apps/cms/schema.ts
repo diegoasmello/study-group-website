@@ -14,6 +14,7 @@ import {
 import { imageRequired } from "./validations/image-validations";
 import { slugify } from "./utils/slugify";
 import { documentRequired } from "./validations/document-validations";
+import { relationshipRequired } from "./validations/relationship-validations";
 
 const statusSelect = select({
   options: [
@@ -168,6 +169,17 @@ export const lists: Record<string, ListConfig<any>> = {
       validate: async ({ item, resolvedData, addValidationError }) => {
         imageRequired(item, resolvedData, addValidationError);
         documentRequired(item, resolvedData, addValidationError);
+        relationshipRequired<
+          { researchAreaId: string },
+          { researchArea: { disconnect: boolean } }
+        >({
+          item,
+          resolvedData,
+          addValidationError,
+          extractRelationId: (item) => item?.researchAreaId,
+          extractRelation: (resolvedData) => resolvedData?.researchArea,
+          errorMessage: "Research Area must not be null",
+        });
       },
     },
     ui: {
@@ -284,7 +296,6 @@ export const lists: Record<string, ListConfig<any>> = {
         graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: imageField, // fix
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
         graphql: { isNonNull: { read: true } },
@@ -330,8 +341,18 @@ export const lists: Record<string, ListConfig<any>> = {
         };
       },
       validate: async ({ addValidationError, resolvedData, item }) => {
-        // imageRequired(resolvedData.image ?? item.image, addValidationError);
         documentRequired(item, resolvedData, addValidationError);
+        relationshipRequired<
+          { researchAreaId: string },
+          { researchArea: { disconnect: boolean } }
+        >({
+          item,
+          resolvedData,
+          addValidationError,
+          extractRelationId: (item) => item?.researchAreaId,
+          extractRelation: (resolvedData) => resolvedData?.researchArea,
+          errorMessage: "Research Area must not be null",
+        });
       },
     },
     ui: {
