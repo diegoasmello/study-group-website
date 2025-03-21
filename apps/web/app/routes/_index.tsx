@@ -26,7 +26,7 @@ const HOME_PAGE_QUERY = gql`
         url
       }
     }
-    researchAreas {
+    researchAreas(where: { status: { equals: published } }) {
       id
       title
       resume
@@ -34,7 +34,11 @@ const HOME_PAGE_QUERY = gql`
         url
       }
     }
-    events(take: 9, orderBy: { publishedAt: desc }) {
+    events(
+      take: 9
+      orderBy: { publishedAt: desc }
+      where: { status: { equals: published } }
+    ) {
       id
       slug
       title
@@ -46,7 +50,11 @@ const HOME_PAGE_QUERY = gql`
         url
       }
     }
-    actions(take: 9, orderBy: { publishedAt: desc }) {
+    actions(
+      take: 9
+      orderBy: { publishedAt: desc }
+      where: { status: { equals: published } }
+    ) {
       id
       slug
       title
@@ -56,7 +64,11 @@ const HOME_PAGE_QUERY = gql`
         url
       }
     }
-    publications(take: 5, orderBy: { publishedAt: desc }) {
+    publications(
+      take: 5
+      orderBy: { publishedAt: desc }
+      where: { status: { equals: published } }
+    ) {
       id
       slug
       title
@@ -173,7 +185,7 @@ export default function Index() {
       {/* research section */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
         <h2 className="text-h3">Research areas</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="w-full gap-8 grid grid-cols-1 lg:grid-cols-3">
           {researchAreas?.length ? (
             researchAreas.map((researchArea) => (
               <Card

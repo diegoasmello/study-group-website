@@ -15,6 +15,7 @@ import { imageRequired } from "./validations/image-validations";
 import { slugify } from "./utils/slugify";
 import { documentRequired } from "./validations/document-validations";
 import { relationshipRequired } from "./validations/relationship-validations";
+import { ImageExtension } from "@keystone-6/core/types";
 
 const statusSelect = select({
   options: [
@@ -95,7 +96,7 @@ export const lists: Record<string, ListConfig<any>> = {
         };
       },
       validate: async ({ item, resolvedData, addValidationError }) => {
-        imageRequired(item, resolvedData, addValidationError);
+        imageRequired({ item, resolvedData, addValidationError });
         documentRequired(item, resolvedData, addValidationError);
       },
     },
@@ -167,7 +168,7 @@ export const lists: Record<string, ListConfig<any>> = {
         };
       },
       validate: async ({ item, resolvedData, addValidationError }) => {
-        imageRequired(item, resolvedData, addValidationError);
+        imageRequired({ item, resolvedData, addValidationError });
         documentRequired(item, resolvedData, addValidationError);
         relationshipRequired<
           { researchAreaId: string },
@@ -254,7 +255,7 @@ export const lists: Record<string, ListConfig<any>> = {
         };
       },
       validate: async ({ item, resolvedData, addValidationError }) => {
-        imageRequired(item, resolvedData, addValidationError);
+        imageRequired({ item, resolvedData, addValidationError });
         documentRequired(item, resolvedData, addValidationError);
       },
     },
@@ -392,7 +393,7 @@ export const lists: Record<string, ListConfig<any>> = {
     },
     hooks: {
       validate: async ({ item, resolvedData, addValidationError }) => {
-        imageRequired(item, resolvedData, addValidationError);
+        imageRequired({ item, resolvedData, addValidationError });
       },
     },
     ui: {
@@ -436,13 +437,27 @@ export const lists: Record<string, ListConfig<any>> = {
     },
     hooks: {
       validate: async ({ item, resolvedData, addValidationError }) => {
-        imageRequired(item, resolvedData, addValidationError);
-        imageRequired(
+        imageRequired({ item, resolvedData, addValidationError });
+        imageRequired<{
+          icon_id: string;
+          icon_filesize: number;
+          icon_width: number;
+          icon_height: number;
+          icon_extension: ImageExtension;
+        }>({
           item,
           resolvedData,
+          extractItemImage: (item) => ({
+            id: item.icon_id,
+            filesize: item.icon_filesize,
+            width: item.icon_width,
+            height: item.icon_height,
+            extension: item.icon_extension,
+          }),
+          extractResolvedImage: (resolvedData) => resolvedData.icon,
           addValidationError,
-          "Icon must not be null",
-        ); // fix
+          errorMessage: "Icon must not be null",
+        }); // fix
         documentRequired(item, resolvedData, addValidationError);
       },
     },
