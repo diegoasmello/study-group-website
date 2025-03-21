@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "keystone dev",
-    "seed": "tsx seed.ts",
+    "seed": "tsx seed/seed.ts",
     "reset": "rm -f public/uploads/* && keystone prisma db push --force-reset"
   },
   "dependencies": {

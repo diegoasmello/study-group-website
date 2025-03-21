@@ -1,5 +1,5 @@
 import { getContext } from "@keystone-6/core/context";
-import config from "./keystone";
+import config from "../keystone";
 import * as PrismaModule from ".prisma/client";
 import { faker } from "@faker-js/faker";
 import { TypeInfo } from ".keystone/types";
@@ -76,7 +76,6 @@ async function main() {
             .join("; "),
           resume: faker.lorem.paragraph(15),
           content: createContent(),
-          image: prepareFile("placeholder.jpg"),
           date: faker.date.soon().toISOString().split("T")[0],
           link: faker.internet.url(),
           magazine: faker.book.title(),
@@ -261,7 +260,7 @@ function prepareFile(
   path_: string,
   mimetype: "image/jpeg" | "image/png" = "image/jpeg",
 ) {
-  const path = resolve(`${__dirname}/seed/${path_}`);
+  const path = resolve(`${__dirname}/${path_}`);
   const upload = new Upload();
   upload.resolve({
     createReadStream: () => createReadStream(path),
