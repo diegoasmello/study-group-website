@@ -1,26 +1,17 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
-  Form,
   json,
   MetaFunction,
   useLoaderData,
   useSearchParams,
 } from "@remix-run/react";
 import { parseISO } from "date-fns";
-import { Button } from "~/components/Button";
 import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
 import { Container } from "~/components/Container";
-import { CheckboxInput } from "~/components/form-fields/CheckboxInput";
-import {
-  ComboboxInput,
-  ComboboxItem,
-} from "~/components/form-fields/ComboboxInput";
-import { DateRangeInput } from "~/components/form-fields/DateRangeInput";
-import { FormControl } from "~/components/form-fields/FormControl";
-import { TextInput } from "~/components/form-fields/TextInput";
-import { IconChevronDown, IconSearch } from "~/components/icons";
+import { ComboboxItem } from "~/components/form-fields/ComboboxInput";
+import { IconChevronDown } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
@@ -42,7 +33,6 @@ import {
   PublicationStatusType,
   QueryMode,
 } from "~/graphql/generated";
-import { flags } from "~/flags";
 import { paginate } from "~/utils/paginator.server";
 import { FilterForm } from "~/components/FilterForm";
 
