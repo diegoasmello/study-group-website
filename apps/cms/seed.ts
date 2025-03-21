@@ -14,7 +14,7 @@ async function main() {
 
   console.log(`🌱 Inserting seed data`);
 
-  await context.db.TeamMember.createMany({
+  const teamMembers = await context.db.TeamMember.createMany({
     data: Array.from({ length: NUMBER_OF_ITEMS }).map(() => ({
       name: faker.person.fullName(),
       link: faker.internet.url(),
@@ -24,12 +24,16 @@ async function main() {
     })),
   });
 
+  console.log(`Inserted ${teamMembers.length} team members`);
+
   const researchers = await context.db.Researcher.createMany({
     data: Array.from({ length: NUMBER_OF_ITEMS }).map(() => ({
       name: faker.person.fullName(),
       status: "published",
     })),
   });
+
+  console.log(`Inserted ${researchers.length} researchers`);
 
   const researchAreas = await context.db.ResearchArea.createMany({
     data: [
@@ -59,6 +63,8 @@ async function main() {
       },
     ],
   });
+
+  console.log(`Inserted ${researchAreas.length} research areas`);
 
   Array.from({ length: NUMBER_OF_ITEMS }).forEach(
     async () =>
@@ -93,6 +99,8 @@ async function main() {
       }),
   );
 
+  console.log(`Inserted ${NUMBER_OF_ITEMS} publications`);
+
   await context.db.Event.createMany({
     data: Array.from({ length: NUMBER_OF_ITEMS }).map(() => ({
       title: faker.lorem.sentence({ min: 7, max: 15 }),
@@ -109,6 +117,8 @@ async function main() {
       status: "published",
     })),
   });
+
+  console.log(`Inserted ${NUMBER_OF_ITEMS} events`);
 
   Array.from({ length: NUMBER_OF_ITEMS }).forEach(
     async () =>
@@ -138,6 +148,8 @@ async function main() {
       }),
   );
 
+  console.log(`Inserted ${NUMBER_OF_ITEMS} projects`);
+
   await context.db.Action.createMany({
     data: Array.from({ length: NUMBER_OF_ITEMS }).map(() => ({
       title: faker.lorem.sentence({ min: 7, max: 15 }),
@@ -152,6 +164,8 @@ async function main() {
     })),
   });
 
+  console.log(`Inserted ${NUMBER_OF_ITEMS} actions`);
+
   await context.db.Company.createOne({
     data: {
       title: "study-group-site",
@@ -165,7 +179,9 @@ async function main() {
     },
   });
 
-  await context.db.SectionContent.createMany({
+  console.log(`Inserted company`);
+
+  const sectionContents = await context.db.SectionContent.createMany({
     data: [
       {
         section: "HOME_HERO",
@@ -235,6 +251,8 @@ async function main() {
       },
     ],
   });
+
+  console.log(`Inserted ${sectionContents.length} section contents`);
 
   console.log(`✅ Seed data inserted`);
 }
