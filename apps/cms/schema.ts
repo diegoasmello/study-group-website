@@ -11,8 +11,9 @@ import {
   text,
   timestamp,
 } from "@keystone-6/core/fields";
-import { documentRequired, imageRequired } from "./validator";
-import { slugify } from "./utils";
+import { imageRequired } from "./validations/image-validations";
+import { slugify } from "./utils/slugify";
+import { documentRequired } from "./validations/document-validations";
 
 const statusSelect = select({
   options: [
@@ -92,9 +93,9 @@ export const lists: Record<string, ListConfig<any>> = {
           slug: slugify(resolvedData.title ?? item.title),
         };
       },
-      validate: async ({ addValidationError, resolvedData }) => {
-        // documentRequired(resolvedData.content, addValidationError);
-        // imageRequired(resolvedData.image, addValidationError);
+      validate: async ({ item, resolvedData, addValidationError }) => {
+        imageRequired(item, resolvedData, addValidationError);
+        documentRequired(item, resolvedData, addValidationError);
       },
     },
     ui: {
@@ -164,8 +165,9 @@ export const lists: Record<string, ListConfig<any>> = {
           slug: slugify(resolvedData.title ?? item.title),
         };
       },
-      validate: async ({ addValidationError, resolvedData }) => {
-        imageRequired(resolvedData.image, addValidationError);
+      validate: async ({ item, resolvedData, addValidationError }) => {
+        imageRequired(item, resolvedData, addValidationError);
+        documentRequired(item, resolvedData, addValidationError);
       },
     },
     ui: {
@@ -239,8 +241,9 @@ export const lists: Record<string, ListConfig<any>> = {
           slug: slugify(resolvedData.title ?? item.title),
         };
       },
-      validate: async ({ addValidationError, resolvedData }) => {
-        imageRequired(resolvedData.image, addValidationError);
+      validate: async ({ item, resolvedData, addValidationError }) => {
+        imageRequired(item, resolvedData, addValidationError);
+        documentRequired(item, resolvedData, addValidationError);
       },
     },
     ui: {
@@ -281,7 +284,7 @@ export const lists: Record<string, ListConfig<any>> = {
         graphql: { isNonNull: { read: true } },
       }),
       content: contentDocument,
-      image: imageField,
+      image: imageField, // fix
       link: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },
         graphql: { isNonNull: { read: true } },
@@ -328,6 +331,7 @@ export const lists: Record<string, ListConfig<any>> = {
       },
       validate: async ({ addValidationError, resolvedData, item }) => {
         // imageRequired(resolvedData.image ?? item.image, addValidationError);
+        documentRequired(item, resolvedData, addValidationError);
       },
     },
     ui: {
@@ -366,8 +370,8 @@ export const lists: Record<string, ListConfig<any>> = {
       status: statusSelect,
     },
     hooks: {
-      validate: async ({ addValidationError, resolvedData }) => {
-        imageRequired(resolvedData.image, addValidationError);
+      validate: async ({ item, resolvedData, addValidationError }) => {
+        imageRequired(item, resolvedData, addValidationError);
       },
     },
     ui: {
@@ -410,13 +414,15 @@ export const lists: Record<string, ListConfig<any>> = {
       status: statusSelect,
     },
     hooks: {
-      validate: async ({ addValidationError, resolvedData }) => {
-        imageRequired(resolvedData.image, addValidationError);
+      validate: async ({ item, resolvedData, addValidationError }) => {
+        imageRequired(item, resolvedData, addValidationError);
         imageRequired(
-          resolvedData.icon,
+          item,
+          resolvedData,
           addValidationError,
           "Icon must not be null",
-        );
+        ); // fix
+        documentRequired(item, resolvedData, addValidationError);
       },
     },
     ui: {
