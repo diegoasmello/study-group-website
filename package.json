@@ -1,5 +1,6 @@
 {
   "name": "study-group-site",
+  "packageManager": "npm@10.8.2",
   "private": true,
   "workspaces": {
     "packages": [
@@ -7,9 +8,9 @@
     ]
   },
   "scripts": {
+    "dev": "turbo run dev --parallel",
     "dev:web": "cd apps/web && npm run dev",
     "dev:cms": "cd apps/cms && npm run dev",
-    "dev": "npm run dev:web",
     "build": "npm run build:web",
     "build:web": "cd apps/web && npm run build",
     "db:seed": "cd apps/cms && npm run seed",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "eslint": "^8.38.0",
     "prettier": "3.5.0",
+    "turbo": "^2.4.4",
     "typescript": "^5.8.2"
   }
 }
