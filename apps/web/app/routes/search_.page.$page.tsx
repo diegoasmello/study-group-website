@@ -27,6 +27,79 @@ import { client } from "~/lib/graphql-client.server";
 import { getRootMatch } from "~/utils";
 import { paginate } from "~/utils/paginator.server";
 
+const QUERY_FRONTEND = gql`
+  query SearchFrontend($query: String, $researchAreas: [ID!], $researcher: ID) {
+    actions(
+      where: {
+        status: { equals: published }
+        title: { contains: $query, mode: insensitive }
+      }
+    ) {
+      id
+      slug
+      title
+      image {
+        url
+      }
+      date
+      __typename
+    }
+    publications(
+      where: {
+        status: { equals: published }
+        title: { contains: $query, mode: insensitive }
+        researchers: { some: { id: { equals: $researcher } } }
+        researchArea: { id: { in: $researchAreas } }
+      }
+    ) {
+      id
+      slug
+      title
+      resume
+      date
+      link
+      researchers {
+        id
+        name
+      }
+      __typename
+    }
+    events(
+      where: {
+        status: { equals: published }
+        title: { contains: $query, mode: insensitive }
+      }
+    ) {
+      id
+      slug
+      title
+      date
+      locale
+      link
+      image {
+        url
+      }
+      __typename
+    }
+    projects(
+      where: {
+        status: { equals: published }
+        title: { contains: $query, mode: insensitive }
+        researchers: { some: { id: { equals: $researcher } } }
+        researchArea: { id: { in: $researchAreas } }
+      }
+    ) {
+      id
+      slug
+      title
+      image {
+        url
+      }
+      __typename
+    }
+  }
+`;
+
 const SEARCH_QUERY = gql`
   query Search($query: String, $skip: Int, $take: Int) {
     data: search(query: $query, skip: $skip, take: $take) {

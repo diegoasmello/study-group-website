@@ -22,7 +22,7 @@ import {
   EventsPaginatedQueryVariables,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
-import { getRootMatch, handleNotFound, metaTags } from "~/utils";
+import { checkPageNotFound, getRootMatch, metaTags } from "~/utils";
 import { paginate } from "~/utils/paginator.server";
 
 const EVENTS_QUERY = gql`
@@ -46,7 +46,12 @@ const EVENTS_QUERY = gql`
         url
       }
     }
-    count: eventsCount(where: { status: { equals: published } })
+    count: eventsCount(
+      where: {
+        status: { equals: published }
+        title: { contains: $query, mode: insensitive }
+      }
+    )
   }
 `;
 
@@ -96,7 +101,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const { sectionContents } = await client.request<EventsPageQuery>(PAGE_QUERY);
 
-  handleNotFound(paginatedEvents?.data?.length, q);
+  checkPageNotFound({ page, lastPage: paginatedEvents.meta.lastPage });
 
   return json({
     heroSection: sectionContents?.[0],
@@ -122,7 +127,13 @@ export default function EventsPage() {
     }
   }, [q]);
 
-  if (!heroSection) return null;
+  if (!heroSection)
+    return (
+      <div className="py-20">
+        <NoResults text="No data found" />;
+      </div>
+    );
+
   const isFiltering = !!q?.length;
 
   return (
@@ -163,12 +174,18 @@ export default function EventsPage() {
             />
           </Form>
 
-          {isFiltering && !events?.length ? (
+          {!events?.length ? (
             <div className="col-span-12 mb-10">
-              <NoResults />
+              <NoResults
+                text={
+                  isFiltering
+                    ? "No results found for this search"
+                    : "No data found"
+                }
+              />
             </div>
           ) : (
-            events?.map((event) => (
+            events.map((event) => (
               <div key={event.id} className="col-span-12 lg:col-span-6">
                 <CardEvent
                   size="extended"

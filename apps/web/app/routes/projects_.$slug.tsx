@@ -88,6 +88,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       status: {
         equals: ProjectStatusType.Published,
       },
+      id: {
+        not: {
+          equals: project?.id,
+        },
+      },
       OR: terms.map((term) => ({
         OR: [
           {

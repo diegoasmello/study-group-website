@@ -12,6 +12,7 @@ import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client.server";
 import { HistoryPageQuery } from "~/graphql/generated";
 import { ArrayElement } from "~/types";
+import { NoResults } from "~/components/NoResults";
 
 const HISTORY_PAGE_QUERY = gql`
   query HistoryPage {
@@ -74,7 +75,12 @@ export default function History() {
   const { historySections, heroSection, teamMembers } =
     useLoaderData<typeof loader>();
 
-  if (!heroSection || !historySections) return null;
+  if (!heroSection || !historySections)
+    return (
+      <div className="py-20">
+        <NoResults text="No data found" />;
+      </div>
+    );
 
   return (
     <main className="pb-20 bg-page">
@@ -105,10 +111,9 @@ export default function History() {
         ))}
       </Container>
 
-      {/* fixxx */}
       <Container>
-        {teamMembers?.length && (
-          <div className="mt-20 mb-10">
+        {!!teamMembers?.length && (
+          <div className="mt-20">
             <div className="flex flex-col gap-8 mb-14">
               <h2 className="text-h3 text-gray-950">Meet our team</h2>
               <div className="w-full">
@@ -142,7 +147,7 @@ export default function History() {
             </div>
           </div>
         )}
-        <NewsletterBanner />
+        <NewsletterBanner className="mt-10" />
       </Container>
     </main>
   );

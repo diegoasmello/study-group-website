@@ -35,7 +35,7 @@ import {
 } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
 import clsx from "clsx";
-import { getRootMatch, handleNotFound, metaTags } from "~/utils";
+import { checkPageNotFound, getRootMatch, metaTags } from "~/utils";
 import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client.server";
 import {
@@ -71,7 +71,7 @@ const PUBLICATIONS_QUERY = gql`
         name
       }
     }
-    count: publicationsCount(where: { status: { equals: published } })
+    count: publicationsCount(where: $where)
   }
 `;
 
@@ -162,10 +162,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const { sectionContents, researchAreas, researchers } =
     await client.request<PublicationsPageQuery>(PAGE_QUERY);
 
-  handleNotFound(
-    paginatedPublications?.data?.length,
-    ...Object.values(searchParams),
-  );
+  checkPageNotFound({ page, lastPage: paginatedPublications.meta.lastPage });
 
   return json({
     heroSection: sectionContents?.[0],
@@ -203,7 +200,12 @@ export default function PublicationsPage() {
   const isFiltering = !!Object.values(parsedSearchParams).filter((i) => i)
     .length;
 
-  if (!heroSection) return null;
+  if (!heroSection)
+    return (
+      <div className="py-20">
+        <NoResults text="No data found" />;
+      </div>
+    );
 
   function FilterForm() {
     return (
@@ -302,10 +304,17 @@ export default function PublicationsPage() {
           </div>
 
           <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
-            {isFiltering && !publications?.length ? (
-              <NoResults className="pt-5" />
+            {!publications?.length ? (
+              <NoResults
+                className="pt-5"
+                text={
+                  isFiltering
+                    ? "No results found for this search"
+                    : "No data found"
+                }
+              />
             ) : (
-              publications?.map((publication) => (
+              publications.map((publication) => (
                 <CardPublication
                   key={publication.id}
                   size="extended"

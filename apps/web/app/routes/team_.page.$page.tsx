@@ -4,6 +4,7 @@ import { gql } from "graphql-request";
 import { CardTeamMember } from "~/components/CardTeamMember";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import {
@@ -12,7 +13,7 @@ import {
   TeamMembersPageQuery,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
-import { getRootMatch, handleNotFound, metaTags } from "~/utils";
+import { checkPageNotFound, getRootMatch, metaTags } from "~/utils";
 import { paginate } from "~/utils/paginator.server";
 
 const TEAM_MEMBERS_QUERY = gql`
@@ -75,7 +76,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     },
   });
 
-  handleNotFound(paginatedTeamMembers?.data?.length);
+  checkPageNotFound({ page, lastPage: paginatedTeamMembers.meta.lastPage });
 
   const { sectionContents } =
     await client.request<TeamMembersPageQuery>(PAGE_QUERY);
@@ -93,7 +94,12 @@ export default function Team() {
     paginatedTeamMembers: { data: teamMembers, meta: paginatedMeta },
   } = useLoaderData<typeof loader>();
 
-  if (!heroSection || !teamMembers) return null;
+  if (!heroSection)
+    return (
+      <div className="py-20">
+        <NoResults text="No data found" />;
+      </div>
+    );
 
   return (
     <main className="pb-20">
@@ -111,18 +117,24 @@ export default function Team() {
       />
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
-          {teamMembers.map((teamMember) => (
-            <div key={teamMember.id} className="col-span-12 lg:col-span-4">
-              <CardTeamMember
-                teamMember={{
-                  name: teamMember.name,
-                  role: teamMember.role,
-                  image: teamMember.image.url,
-                  link: teamMember.link,
-                }}
-              />
+          {!teamMembers?.length ? (
+            <div className="col-span-12">
+              <NoResults text="No data found" />
             </div>
-          ))}
+          ) : (
+            teamMembers.map((teamMember) => (
+              <div key={teamMember.id} className="col-span-12 lg:col-span-4">
+                <CardTeamMember
+                  teamMember={{
+                    name: teamMember.name,
+                    role: teamMember.role,
+                    image: teamMember.image.url,
+                    link: teamMember.link,
+                  }}
+                />
+              </div>
+            ))
+          )}
           <div className="col-span-12 flex justify-center mt-8 mb-10">
             <Paginator {...paginatedMeta} />
           </div>

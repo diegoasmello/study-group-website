@@ -88,6 +88,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       status: {
         equals: EventStatusType.Published,
       },
+      id: {
+        not: {
+          equals: event?.id,
+        },
+      },
       OR: terms.map((term) => ({
         OR: [
           {

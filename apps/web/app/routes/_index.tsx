@@ -134,57 +134,64 @@ export default function Index() {
 
   return (
     <main className="pt-8 pb-20  bg-page">
-      <CarouselHome items={carouselItems} />
+      {carouselItems.length > 0 && <CarouselHome items={carouselItems} />}
 
-      {/* about section */}
-      <Container className="pt-14 pb-20">
-        <div className="grid grid-cols-12 gap-8 items-center">
-          <div className="col-span-12 lg:col-span-6">
-            <img
-              src={heroSection?.image?.url}
-              alt="About the group"
-              className="w-full rounded-3xl"
-            />
-          </div>
-
-          <div className="col-span-12 lg:col-span-5 flex flex-col gap-6">
-            <div className="flex flex-col gap-2">
-              <span className="text-primary font-medium">About the group</span>
-              <div className="flex flex-col gap-4">
-                <span className="text-h2">{heroSection?.title}</span>
-                <p className="text-gray-800">{heroSection?.content}</p>
-              </div>
+      {heroSection && (
+        <Container className="pt-14 pb-20">
+          <div className="grid grid-cols-12 gap-8 items-center">
+            <div className="col-span-12 lg:col-span-6">
+              <img
+                src={heroSection.image?.url}
+                alt="About the group"
+                className="w-full rounded-3xl"
+              />
             </div>
 
-            <nav className="flex flex-row gap-4">
-              <ButtonLink to={"/history"}>History</ButtonLink>
-              <ButtonLink to={"/team"} skin="outline">
-                Team
-              </ButtonLink>
-            </nav>
+            <div className="col-span-12 lg:col-span-5 flex flex-col gap-6">
+              <div className="flex flex-col gap-2">
+                <span className="text-primary font-medium">
+                  About the group
+                </span>
+                <div className="flex flex-col gap-4">
+                  <span className="text-h2">{heroSection.title}</span>
+                  <p className="text-gray-800">{heroSection.content}</p>
+                </div>
+              </div>
+
+              <nav className="flex flex-row gap-4">
+                <ButtonLink to={"/history"}>History</ButtonLink>
+                <ButtonLink to={"/team"} skin="outline">
+                  Team
+                </ButtonLink>
+              </nav>
+            </div>
           </div>
-        </div>
-      </Container>
+        </Container>
+      )}
 
       {/* research section */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
         <h2 className="text-h3">Research areas</h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {researchAreas.map((researchArea) => (
-            <Card
-              key={researchArea.id}
-              type="flat"
-              title={researchArea.title}
-              text={researchArea.resume}
-              icon={
-                <img
-                  src={researchArea.icon.url}
-                  alt=""
-                  className="size-[4.5rem]"
-                />
-              }
-            />
-          ))}
+          {researchAreas?.length ? (
+            researchAreas.map((researchArea) => (
+              <Card
+                key={researchArea.id}
+                type="flat"
+                title={researchArea.title}
+                text={researchArea.resume}
+                icon={
+                  <img
+                    src={researchArea.icon.url}
+                    alt=""
+                    className="size-[4.5rem]"
+                  />
+                }
+              />
+            ))
+          ) : (
+            <div className="col-span-1 lg:col-span-3">No data found</div>
+          )}
         </div>
         <Link to={`/research`} className="text-center">
           Learn more about our research <IconArrowForward className="size-5" />
@@ -194,39 +201,44 @@ export default function Index() {
       {/* events carousel */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
         <h2 className="text-h3">Events and Courses</h2>
-        <div className="w-full">
-          <Carousel>
-            {(isSlideInView) =>
-              events.map((event, index) => (
-                <div
-                  key={event.id}
-                  className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                >
-                  <CardEvent
-                    size="default"
-                    hideShadow={!isSlideInView(index)}
-                    hideLocale
-                    event={{
-                      slug: event.slug,
-                      title: event.title,
-                      image: event.image.url,
-                      date: new Date(event.date),
-                      locale: event.locale,
-                      link: event.link,
-                    }}
-                  />
-                </div>
-              ))
-            }
-          </Carousel>
-        </div>
+        {events?.length ? (
+          <div className="w-full">
+            <Carousel>
+              {(isSlideInView) =>
+                events.map((event, index) => (
+                  <div
+                    key={event.id}
+                    className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                  >
+                    <CardEvent
+                      size="default"
+                      hideShadow={!isSlideInView(index)}
+                      hideLocale
+                      event={{
+                        slug: event.slug,
+                        title: event.title,
+                        image: event.image.url,
+                        date: new Date(event.date),
+                        locale: event.locale,
+                        link: event.link,
+                      }}
+                    />
+                  </div>
+                ))
+              }
+            </Carousel>
+          </div>
+        ) : (
+          <div>No data found</div>
+        )}
+
         <Link to={`/events`} className="text-center">
           See all events <IconArrowForward className="size-5" />
         </Link>
       </Container>
 
       {/* last publications */}
-      {publications.length && (
+      {publications.length === 5 && (
         <Container className="flex flex-col gap-8 pb-16 items-center">
           <h2 className="text-h3 text-center lg:text-left w-full">
             Latest publications
@@ -340,29 +352,33 @@ export default function Index() {
       {/* actions carousel */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
         <h2 className="text-h3">Latest actions</h2>
-        <div className="w-full">
-          <Carousel>
-            {(isSlideInView) =>
-              actions.map((action, index) => (
-                <div
-                  key={action.id}
-                  className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                >
-                  <CardAction
-                    size="default"
-                    action={{
-                      slug: action.slug,
-                      title: action.title,
-                      image: action.image.url,
-                      date: new Date(action.date),
-                    }}
-                    hideShadow={!isSlideInView(index)}
-                  />
-                </div>
-              ))
-            }
-          </Carousel>
-        </div>
+        {actions?.length ? (
+          <div className="w-full">
+            <Carousel>
+              {(isSlideInView) =>
+                actions.map((action, index) => (
+                  <div
+                    key={action.id}
+                    className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                  >
+                    <CardAction
+                      size="default"
+                      action={{
+                        slug: action.slug,
+                        title: action.title,
+                        image: action.image.url,
+                        date: new Date(action.date),
+                      }}
+                      hideShadow={!isSlideInView(index)}
+                    />
+                  </div>
+                ))
+              }
+            </Carousel>
+          </div>
+        ) : (
+          <div>No data found</div>
+        )}
         <Link to={`/actions`} className="text-center">
           See all actions <IconArrowForward className="size-5" />
         </Link>

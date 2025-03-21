@@ -4,6 +4,7 @@ import { gql } from "graphql-request";
 import { CardProject } from "~/components/CardProject";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
+import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
 import {
@@ -12,7 +13,7 @@ import {
   ProjectsPaginatedQueryVariables,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
-import { getRootMatch, handleNotFound, metaTags } from "~/utils";
+import { checkPageNotFound, getRootMatch, metaTags } from "~/utils";
 import { paginate } from "~/utils/paginator.server";
 
 const PROJECTS_QUERY = gql`
@@ -78,7 +79,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const { sectionContents } =
     await client.request<ProjectsPageQuery>(PAGE_QUERY);
 
-  handleNotFound(paginatedProjects?.data?.length);
+  checkPageNotFound({ page, lastPage: paginatedProjects.meta.lastPage });
 
   return json({
     paginatedProjects: paginatedProjects,
@@ -93,7 +94,12 @@ export default function Projects() {
     heroSection,
   } = useLoaderData<typeof loader>();
 
-  if (!heroSection) return null;
+  if (!heroSection)
+    return (
+      <div className="py-20">
+        <NoResults text="No data found" />;
+      </div>
+    );
 
   return (
     <main className="pb-20 bg-page">
@@ -111,18 +117,24 @@ export default function Projects() {
       />
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
-          {projects?.map((project) => (
-            <div key={project.id} className="col-span-12 lg:col-span-4">
-              <CardProject
-                className="h-full"
-                project={{
-                  slug: project.slug,
-                  title: project.title,
-                  image: project.image.url,
-                }}
-              />
+          {!projects?.length ? (
+            <div className="col-span-12">
+              <NoResults text="No data found" />
             </div>
-          ))}
+          ) : (
+            projects.map((project) => (
+              <div key={project.id} className="col-span-12 lg:col-span-4">
+                <CardProject
+                  className="h-full"
+                  project={{
+                    slug: project.slug,
+                    title: project.title,
+                    image: project.image.url,
+                  }}
+                />
+              </div>
+            ))
+          )}
           <div className="col-span-12 flex justify-center mt-8 mb-10">
             <Paginator {...paginatedMeta} />
           </div>

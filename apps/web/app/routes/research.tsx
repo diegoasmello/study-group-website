@@ -14,6 +14,7 @@ import { client } from "~/lib/graphql-client.server";
 import { ResearchPageQuery } from "~/graphql/generated";
 import { ArrayElement } from "~/types";
 import { DocumentRenderer } from "~/components/DocumentRenderer";
+import { NoResults } from "~/components/NoResults";
 
 const RESEARCH_QUERY = gql`
   query ResearchPage {
@@ -68,7 +69,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   return json({
     heroSection: sectionContents?.[0],
-    researchAreas,
+    researchAreas: researchAreas ?? [],
     url: request.url,
   });
 }
@@ -76,7 +77,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function Research() {
   const { heroSection, researchAreas } = useLoaderData<typeof loader>();
 
-  if (!heroSection) return null;
+  if (!heroSection || !researchAreas.length)
+    return (
+      <div className="py-20">
+        <NoResults text="No data found" />;
+      </div>
+    );
 
   return (
     <main className="pb-20">
@@ -94,7 +100,7 @@ export default function Research() {
       />
 
       <div className="flex flex-col gap-16 mb-20">
-        {researchAreas?.map((researchArea, index) => (
+        {researchAreas.map((researchArea, index) => (
           <ResearchItemSection
             key={index}
             index={index}

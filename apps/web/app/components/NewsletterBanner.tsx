@@ -9,12 +9,12 @@ import { TextInput } from "./form-fields/TextInput";
 import { useEffect, useState } from "react";
 import { IconSuccess } from "./icons/IconSuccess";
 import { IconCancel } from "./icons/IconCancel";
-import { twJoin } from "tailwind-merge";
+import { twJoin, twMerge } from "tailwind-merge";
 import { useFetcher } from "@remix-run/react";
 
 type NewsletterStatus = "success" | "error";
 
-export function NewsletterBanner() {
+export function NewsletterBanner({ className }: { className?: string }) {
   const fetcher = useFetcher<{
     success?: boolean;
     error?: string;
@@ -39,7 +39,12 @@ export function NewsletterBanner() {
   }, [fetcher]);
 
   return (
-    <div className="bg-primary-lighter py-10 px-6 lg:px-16 rounded-[3.25rem] relative overflow-hidden grid grid-cols-12">
+    <div
+      className={twMerge(
+        "bg-primary-lighter py-10 px-6 lg:px-16 rounded-[3.25rem] relative overflow-hidden grid grid-cols-12",
+        className,
+      )}
+    >
       <div className="col-span-12 lg:col-span-3 flex flex-col gap-6 items-start">
         <span className="text-h3 text-primary">
           Join our

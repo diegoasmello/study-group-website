@@ -23,7 +23,7 @@ import {
 } from "~/graphql/generated";
 
 import { client } from "~/lib/graphql-client.server";
-import { getRootMatch, handleNotFound, metaTags } from "~/utils";
+import { checkPageNotFound, getRootMatch, metaTags } from "~/utils";
 import { paginate } from "~/utils/paginator.server";
 
 const ACTIONS_QUERY = gql`
@@ -45,7 +45,12 @@ const ACTIONS_QUERY = gql`
         url
       }
     }
-    count: actionsCount(where: { status: { equals: published } })
+    count: actionsCount(
+      where: {
+        status: { equals: published }
+        title: { contains: $query, mode: insensitive }
+      }
+    )
   }
 `;
 
@@ -96,7 +101,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const { sectionContents } =
     await client.request<ActionsPageQuery>(PAGE_QUERY);
 
-  handleNotFound(paginatedActions?.data?.length, q);
+  checkPageNotFound({ page, lastPage: paginatedActions.meta.lastPage });
 
   return json({
     heroSection: sectionContents?.[0],
@@ -121,7 +126,12 @@ export default function ActionsPage() {
     }
   }, [q]);
 
-  if (!heroSection) return null;
+  if (!heroSection)
+    return (
+      <div className="py-20">
+        <NoResults text="No data found" />;
+      </div>
+    );
 
   const isFiltering = !!q?.length;
 
@@ -163,12 +173,18 @@ export default function ActionsPage() {
             />
           </Form>
 
-          {isFiltering && !actions?.length ? (
+          {!actions?.length ? (
             <div className="col-span-12 mb-10">
-              <NoResults />
+              <NoResults
+                text={
+                  isFiltering
+                    ? "No results found for this search"
+                    : "No data found"
+                }
+              />
             </div>
           ) : (
-            actions?.map((action) => (
+            actions.map((action) => (
               <div key={action.id} className="col-span-12 lg:col-span-6">
                 <CardAction
                   size="extended"

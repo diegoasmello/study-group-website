@@ -8,3 +8,15 @@ export function handleNotFound(
     });
   }
 }
+
+export function checkPageNotFound({
+  page,
+  lastPage,
+}: {
+  page: number;
+  lastPage: number;
+}) {
+  if (page > lastPage && lastPage > 0) {
+    return handleNotFound(false);
+  }
+}
