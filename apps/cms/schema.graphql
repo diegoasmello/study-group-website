@@ -1154,15 +1154,7 @@ type Query {
   usersCount(where: UserWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
-  search(query: String, skip: Int = 0, take: Int = 10): SearchResultConnection
 }
-
-type SearchResultConnection {
-  items: [SearchResult!]
-  totalCount: Int
-}
-
-union SearchResult = Action | Publication | Event | Project
 
 union AuthenticatedItem = User
 

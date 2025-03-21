@@ -1,10 +1,5 @@
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import {
-  json,
-  redirect,
-  useLoaderData,
-  useSearchParams,
-} from "@remix-run/react";
+import { json, useLoaderData, useSearchParams } from "@remix-run/react";
 import { parseISO } from "date-fns";
 import { gql } from "graphql-request";
 import { CardContainer } from "~/components/Card";
@@ -25,15 +20,23 @@ import {
   SearchQueryVariables,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
+
 import { getRootMatch } from "~/utils";
 import { paginate } from "~/utils/paginator.server";
 
-const QUERY_FRONTEND = gql`
-  query SearchFrontend($query: String, $researchAreas: [ID!], $researcher: ID) {
+const SEARCH_QUERY = gql`
+  query Search(
+    $query: String
+    $researchAreas: [ID!]
+    $researcher: ID
+    $startDate: CalendarDay
+    $endDate: CalendarDay
+  ) {
     actions(
       where: {
         status: { equals: published }
         title: { contains: $query, mode: insensitive }
+        date: { gte: $startDate, lte: $endDate }
       }
     ) {
       id
@@ -51,6 +54,7 @@ const QUERY_FRONTEND = gql`
         title: { contains: $query, mode: insensitive }
         researchers: { some: { id: { equals: $researcher } } }
         researchArea: { id: { in: $researchAreas } }
+        date: { gte: $startDate, lte: $endDate }
       }
     ) {
       id
@@ -69,6 +73,7 @@ const QUERY_FRONTEND = gql`
       where: {
         status: { equals: published }
         title: { contains: $query, mode: insensitive }
+        date: { gte: $startDate, lte: $endDate }
       }
     ) {
       id
@@ -88,6 +93,8 @@ const QUERY_FRONTEND = gql`
         title: { contains: $query, mode: insensitive }
         researchers: { some: { id: { equals: $researcher } } }
         researchArea: { id: { in: $researchAreas } }
+        startDate: { gte: $startDate }
+        endDate: { lte: $endDate }
       }
     ) {
       id
@@ -100,60 +107,58 @@ const QUERY_FRONTEND = gql`
     }
   }
 `;
-
-const SEARCH_QUERY = gql`
-  query Search($query: String, $skip: Int, $take: Int) {
-    data: search(query: $query, skip: $skip, take: $take) {
-      totalCount
-      items {
-        ... on Action {
-          id
-          slug
-          title
-          image {
-            url
-          }
-          date
-          __typename
-        }
-        ... on Publication {
-          id
-          slug
-          title
-          resume
-          date
-          link
-          researchers {
-            id
-            name
-          }
-          __typename
-        }
-        ... on Event {
-          id
-          slug
-          title
-          date
-          locale
-          link
-          image {
-            url
-          }
-          __typename
-        }
-        ... on Project {
-          id
-          slug
-          title
-          image {
-            url
-          }
-          __typename
-        }
-      }
-    }
-  }
-`;
+//   query Search($query: String, $skip: Int, $take: Int) {
+//     data: search(query: $query, skip: $skip, take: $take) {
+//       totalCount
+//       items {
+//         ... on Action {
+//           id
+//           slug
+//           title
+//           image {
+//             url
+//           }
+//           date
+//           __typename
+//         }
+//         ... on Publication {
+//           id
+//           slug
+//           title
+//           resume
+//           date
+//           link
+//           researchers {
+//             id
+//             name
+//           }
+//           __typename
+//         }
+//         ... on Event {
+//           id
+//           slug
+//           title
+//           date
+//           locale
+//           link
+//           image {
+//             url
+//           }
+//           __typename
+//         }
+//         ... on Project {
+//           id
+//           slug
+//           title
+//           image {
+//             url
+//           }
+//           __typename
+//         }
+//       }
+//     }
+//   }
+// `;
 
 const FILTER_CONTENT_QUERY = gql`
   query SearchFilterContent {
@@ -183,7 +188,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
 
   const items = await paginate<
-    NonNullable<SearchQuery["data"]>["items"],
+    Array<
+      SearchQuery["actions"] &
+        SearchQuery["events"] &
+        SearchQuery["publications"] &
+        SearchQuery["projects"]
+    >,
     SearchQueryVariables,
     SearchQuery
   >({
@@ -193,18 +203,41 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       perPage: 5,
     },
     variables: {
+      researcher: searchParams.researcher?.value,
+      researchAreas: searchParams.researchAreas,
       query: searchParams.query,
+      startDate: searchParams.startDate || undefined,
+      endDate: searchParams.endDate || undefined,
     },
     extract: (response) => ({
-      data: response.data?.items ?? [],
-      count: response.data?.totalCount ?? 0,
+      count:
+        (response.actions ?? [])?.length +
+        (response.events ?? [])?.length +
+        (response.publications ?? [])?.length +
+        (response.projects ?? [])?.length,
+      data: [
+        ...(response.actions ?? []).map((item) => ({
+          ...item,
+          __typename: "Action",
+        })),
+        ...(response.publications ?? []).map((item) => ({
+          ...item,
+          __typename: "Publication",
+        })),
+        ...(response.events ?? []).map((item) => ({
+          ...item,
+          __typename: "Event",
+        })),
+        ...(response.projects ?? []).map((item) => ({
+          ...item,
+          __typename: "Project",
+        })),
+      ],
     }),
   });
 
   const { researchAreas, researchers } =
     await client.request<SearchFilterContentQuery>(FILTER_CONTENT_QUERY);
-
-  if (!searchParams.query) return redirect("/");
 
   return json({ items, researchAreas, researchers });
 }
@@ -221,7 +254,7 @@ export default function Search() {
     <main className="pb-20 bg-page">
       <PageBanner
         title="Search"
-        text={`Showing ${meta.total} results for “${parsedSearchParams.query}”:`} // pluralize
+        text={`Showing ${meta.total} results:`} // pluralize
         illustration={
           <img
             src="/assets/illustrations/search.svg"
