@@ -6,6 +6,7 @@ import {
   useLoaderData,
   useSubmit,
 } from "@remix-run/react";
+import { parseISO } from "date-fns";
 import { gql } from "graphql-request";
 import { useEffect } from "react";
 import { CardAction } from "~/components/CardAction";
@@ -193,7 +194,7 @@ export default function ActionsPage() {
                     slug: action.slug,
                     title: action.title,
                     image: action.image.url,
-                    date: new Date(action.date),
+                    date: parseISO(action.date),
                   }}
                 />
               </div>

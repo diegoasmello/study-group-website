@@ -24,6 +24,7 @@ import {
 
 import { client } from "~/lib/graphql-client.server";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
+import { parseISO } from "date-fns";
 
 const PUBLICATION_QUERY = gql`
   query Publication($slug: String) {
@@ -144,7 +145,7 @@ export default function ViewPublication() {
             <ul className="flex flex-col gap-2 mb-8">
               <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
                 <IconCalendar className="size-4" />
-                <span>{new Date(publication.date).toLocaleDateString()}</span>
+                <span>{parseISO(publication.date).toLocaleDateString()}</span>
               </li>
               {publication.researchers?.length && (
                 <li className="flex items-center gap-4 text-gray-800 fill-gray-800">
@@ -228,7 +229,7 @@ export default function ViewPublication() {
                             title: relatedPublication.title,
                             description: relatedPublication.resume,
                             researchers: relatedPublication.researchers ?? [],
-                            date: new Date(relatedPublication.date),
+                            date: parseISO(relatedPublication.date),
                             link: relatedPublication.link,
                           }}
                         />
@@ -256,7 +257,7 @@ function createCitation(publication: PublicationQuery["publication"]): string {
     researchers?.map((author) => formatAuthor(author.name)) ?? [],
   );
 
-  return `${authors} ${title} ${magazine}. ${new Date(date).getFullYear()}.`;
+  return `${authors} ${title} ${magazine}. ${parseISO(date).getFullYear()}.`;
 }
 
 function formatAuthor(fullName: string) {

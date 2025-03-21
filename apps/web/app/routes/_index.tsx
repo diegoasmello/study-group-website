@@ -15,6 +15,7 @@ import { getRootMatch, metaTags } from "~/utils";
 import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client.server";
 import { HomePageQuery } from "~/graphql/generated";
+import { parseISO } from "date-fns";
 
 const HOME_PAGE_QUERY = gql`
   query HomePage {
@@ -218,7 +219,7 @@ export default function Index() {
                         slug: event.slug,
                         title: event.title,
                         image: event.image.url,
-                        date: new Date(event.date),
+                        date: parseISO(event.date),
                         locale: event.locale,
                         link: event.link,
                       }}
@@ -259,7 +260,7 @@ export default function Index() {
                         slug: publication.slug,
                         title: publication.title,
                         description: publication.resume,
-                        date: new Date(publication.date),
+                        date: parseISO(publication.date),
                         researchers: publication.researchers ?? [],
                         link: publication.link,
                       }}
@@ -280,7 +281,7 @@ export default function Index() {
                   slug: publications[0].slug,
                   title: publications[0].title,
                   description: publications[0].resume,
-                  date: new Date(publications[0].date),
+                  date: parseISO(publications[0].date),
                   researchers: publications[0].researchers ?? [],
                   link: publications[0].link,
                 }}
@@ -294,7 +295,7 @@ export default function Index() {
                   slug: publications[1].slug,
                   title: publications[1].title,
                   description: publications[1].resume,
-                  date: new Date(publications[1].date),
+                  date: parseISO(publications[1].date),
                   researchers: publications[1].researchers ?? [],
                   link: publications[1].link,
                 }}
@@ -308,7 +309,7 @@ export default function Index() {
                   slug: publications[2].slug,
                   title: publications[2].title,
                   description: publications[2].resume,
-                  date: new Date(publications[2].date),
+                  date: parseISO(publications[2].date),
                   researchers: publications[2].researchers ?? [],
                   link: publications[2].link,
                 }}
@@ -322,7 +323,7 @@ export default function Index() {
                   slug: publications[3].slug,
                   title: publications[3].title,
                   description: publications[3].resume,
-                  date: new Date(publications[3].date),
+                  date: parseISO(publications[3].date),
                   researchers: publications[3].researchers ?? [],
                   link: publications[3].link,
                 }}
@@ -336,7 +337,7 @@ export default function Index() {
                   slug: publications[4].slug,
                   title: publications[4].title,
                   description: publications[4].resume,
-                  date: new Date(publications[4].date),
+                  date: parseISO(publications[4].date),
                   researchers: publications[4].researchers ?? [],
                   link: publications[4].link,
                 }}
@@ -367,7 +368,7 @@ export default function Index() {
                         slug: action.slug,
                         title: action.title,
                         image: action.image.url,
-                        date: new Date(action.date),
+                        date: parseISO(action.date),
                       }}
                       hideShadow={!isSlideInView(index)}
                     />

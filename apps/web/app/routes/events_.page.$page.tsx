@@ -6,6 +6,7 @@ import {
   useLoaderData,
   useSubmit,
 } from "@remix-run/react";
+import { parseISO } from "date-fns";
 import { gql } from "graphql-request";
 import { useEffect } from "react";
 import { CardEvent } from "~/components/CardEvent";
@@ -194,7 +195,7 @@ export default function EventsPage() {
                     slug: event.slug,
                     title: event.title,
                     image: event.image.url,
-                    date: new Date(event.date),
+                    date: parseISO(event.date),
                     locale: event.locale,
                     link: event.link,
                   }}

@@ -21,6 +21,7 @@ import {
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
+import { parseISO } from "date-fns";
 
 const EVENT_QUERY = gql`
   query Event($slug: String) {
@@ -156,7 +157,7 @@ export default function ViewEvent() {
                     Date
                   </span>
                   <p className="text-gray-950">
-                    {new Date(event.date).toLocaleDateString()}
+                    {parseISO(event.date).toLocaleDateString()}
                   </p>
                 </div>
                 <hr className="w-full border-primary-lighter" />
@@ -193,7 +194,7 @@ export default function ViewEvent() {
                             slug: relatedEvent.slug,
                             title: relatedEvent.title,
                             image: relatedEvent.image.url,
-                            date: new Date(relatedEvent.date),
+                            date: parseISO(relatedEvent.date),
                             locale: relatedEvent.locale,
                             link: relatedEvent.link,
                           }}

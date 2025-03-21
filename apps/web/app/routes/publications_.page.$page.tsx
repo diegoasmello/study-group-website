@@ -17,10 +17,7 @@ import {
   ComboboxInput,
   ComboboxItem,
 } from "~/components/form-fields/ComboboxInput";
-import {
-  DateRange,
-  DateRangeInput,
-} from "~/components/form-fields/DateRangeInput";
+import { DateRangeInput } from "~/components/form-fields/DateRangeInput";
 import { FormControl } from "~/components/form-fields/FormControl";
 import { TextInput } from "~/components/form-fields/TextInput";
 import { IconChevronDown, IconSearch } from "~/components/icons";
@@ -47,6 +44,7 @@ import {
 } from "~/graphql/generated";
 import { flags } from "~/flags";
 import { paginate } from "~/utils/paginator.server";
+import { FilterForm } from "~/components/FilterForm";
 
 const PUBLICATIONS_QUERY = gql`
   query PublicationsPaginated(
@@ -152,8 +150,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
           },
         },
         date: {
-          gte: searchParams.startDate,
-          lte: searchParams.endDate,
+          ...(searchParams.startDate ? { gte: searchParams.startDate } : {}),
+          ...(searchParams.endDate ? { lte: searchParams.endDate } : {}),
         },
       },
     },
@@ -184,19 +182,6 @@ export default function PublicationsPage() {
   const [searchParams] = useSearchParams();
   const parsedSearchParams = parseSearchParams(searchParams);
 
-  const researchersInputItems = [
-    { label: "Todos", value: "" },
-    ...(researchers?.map((researcher) => ({
-      label: researcher.name,
-      value: researcher.id.toString(),
-    })) ?? []),
-  ];
-
-  const dateRangeDefaultValue: DateRange = {
-    endDate: parsedSearchParams.endDate,
-    startDate: parsedSearchParams.startDate,
-  };
-
   const isFiltering = !!Object.values(parsedSearchParams).filter((i) => i)
     .length;
 
@@ -206,61 +191,6 @@ export default function PublicationsPage() {
         <NoResults text="No data found" />;
       </div>
     );
-
-  function FilterForm() {
-    return (
-      <Form
-        className="flex flex-col items-start gap-6"
-        id="publication-filter"
-        action="/publications"
-      >
-        <TextInput
-          id="q"
-          name="q"
-          placeholder="Search by title or author"
-          Icon={IconSearch}
-          className="w-full"
-          defaultValue={parsedSearchParams.query}
-        />
-        <FormControl label="Research areas">
-          <div className="flex flex-col gap-2">
-            {researchAreas?.map((researchArea) => (
-              <CheckboxInput
-                name="researchAreas[]"
-                key={researchArea.id}
-                label={researchArea.title}
-                value={researchArea.id}
-                defaultChecked={parsedSearchParams.researchAreas?.includes(
-                  researchArea.id,
-                )}
-              />
-            ))}
-          </div>
-        </FormControl>
-        <ComboboxInput
-          name="researcher"
-          label="Author"
-          immediate
-          items={researchersInputItems}
-          defaultValue={
-            parsedSearchParams.researcher ?? researchersInputItems[0]
-          }
-        />
-        <DateRangeInput
-          label="Publication period"
-          defaultValue={dateRangeDefaultValue}
-        />
-        <nav className="flex gap-2">
-          <Button size="md">Search</Button>
-          {flags.CLEAR_FILTERS_ENABLED && isFiltering && (
-            <Button size="md" skin="ghost" type="button">
-              Clear filters
-            </Button>
-          )}
-        </nav>
-      </Form>
-    );
-  }
 
   return (
     <main className="pb-20 bg-page">
@@ -295,7 +225,13 @@ export default function PublicationsPage() {
                       />
                     </DisclosureButton>
                     <DisclosurePanel className="mt-4">
-                      <FilterForm />
+                      <FilterForm
+                        action="/publications"
+                        className="flex flex-col items-start gap-6"
+                        researchAreas={researchAreas ?? []}
+                        researchers={researchers ?? []}
+                        defaultValues={parsedSearchParams}
+                      />
                     </DisclosurePanel>
                   </Fragment>
                 )}
@@ -324,7 +260,7 @@ export default function PublicationsPage() {
                     title: publication.title,
                     description: publication.resume,
                     researchers: publication.researchers ?? [],
-                    date: new Date(publication.date),
+                    date: parseISO(publication.date),
                     link: publication.link,
                   }}
                 />
@@ -333,7 +269,13 @@ export default function PublicationsPage() {
           </div>
           <div className="col-span-12 lg:col-span-4 flex-col gap-6 hidden lg:flex">
             <CardContainer className="p-6">
-              <FilterForm />
+              <FilterForm
+                action="/publications"
+                className="flex flex-col items-start gap-6"
+                researchAreas={researchAreas ?? []}
+                researchers={researchers ?? []}
+                defaultValues={parsedSearchParams}
+              />
             </CardContainer>
             <CardResearch />
           </div>
@@ -357,15 +299,15 @@ function parseSearchParams(searchParams: URLSearchParams) {
   const researcher: ComboboxItem = JSON.parse(
     decodeURIComponent(searchParams.get("researcher")!),
   );
-  const startDate = searchParams.get("startDate");
-  const endDate = searchParams.get("startDate");
+  const startDate = searchParams.get("startDate") ?? undefined;
+  const endDate = searchParams.get("endDate") ?? undefined;
   const researchAreas = searchParams.getAll("researchAreas[]");
 
   return {
     query: searchParams.get("q") ?? undefined,
     researchAreas: researchAreas.length ? researchAreas : undefined,
     researcher: researcher,
-    startDate: startDate ? parseISO(startDate) : undefined,
-    endDate: endDate ? parseISO(endDate) : undefined,
+    startDate: startDate,
+    endDate: endDate,
   };
 }

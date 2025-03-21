@@ -22,6 +22,7 @@ import {
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
+import { parseISO } from "date-fns";
 
 const PROJECT_QUERY = gql`
   query Project($slug: String) {
@@ -164,8 +165,8 @@ export default function ViewProject() {
                     Period
                   </span>
                   <span className="text-gray-950">
-                    From {new Date(project.startDate).toLocaleDateString()} to{" "}
-                    {new Date(project.endDate).toLocaleDateString()}
+                    From {parseISO(project.startDate).toLocaleDateString()} to{" "}
+                    {parseISO(project.endDate).toLocaleDateString()}
                   </span>
                 </div>
                 <hr className="w-full border-primary-lighter" />

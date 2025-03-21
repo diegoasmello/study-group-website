@@ -5,6 +5,7 @@ import {
   useLoaderData,
   useSearchParams,
 } from "@remix-run/react";
+import { parseISO } from "date-fns";
 import { gql } from "graphql-request";
 import { CardContainer } from "~/components/Card";
 import { CardAction } from "~/components/CardAction";
@@ -243,7 +244,7 @@ export default function Search() {
                       action={{
                         slug: item.slug,
                         title: item.title,
-                        date: new Date(item.date),
+                        date: parseISO(item.date),
                         image: item.image.url,
                       }}
                     />
@@ -257,7 +258,7 @@ export default function Search() {
                       event={{
                         slug: item.slug,
                         title: item.title,
-                        date: new Date(item.date),
+                        date: parseISO(item.date),
                         image: item.image.url,
                         locale: item.locale,
                         link: item.link,
@@ -274,7 +275,7 @@ export default function Search() {
                         slug: item.slug,
                         title: item.title,
                         description: item.resume,
-                        date: new Date(item.date),
+                        date: parseISO(item.date),
                         link: item.link,
                         researchers: item.researchers ?? [],
                       }}

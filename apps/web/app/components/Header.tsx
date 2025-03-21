@@ -69,8 +69,6 @@ export function Header() {
         ".active",
       ) as HTMLElement;
 
-      console.log(activeLink);
-
       if (activeLink) {
         setIndicatorStyle({
           width: `${activeLink.offsetWidth}px`,

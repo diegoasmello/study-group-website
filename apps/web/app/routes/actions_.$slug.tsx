@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
+import { parseISO } from "date-fns";
 import { gql } from "graphql-request";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardAction } from "~/components/CardAction";
@@ -145,7 +146,7 @@ export default function ViewAction() {
                             slug: relatedAction.slug,
                             title: relatedAction.title,
                             image: relatedAction.image.url,
-                            date: new Date(relatedAction.date),
+                            date: parseISO(relatedAction.date),
                           }}
                           hideShadow={!isSlideInView(index)}
                         />
