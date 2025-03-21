@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "keystone dev",
     "seed": "tsx seed.ts",
-    "reset": "keystone prisma db push --force-reset"
+    "reset": "rm public/uploads/* && keystone prisma db push --force-reset"
   },
   "dependencies": {
     "@keystone-6/auth": "^8.1.0",
