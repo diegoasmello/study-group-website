@@ -4,7 +4,7 @@ export function handleNotFound(
   if (items.every((item) => !item)) {
     throw new Response(null, {
       status: 404,
-      statusText: "Not Found",
+      statusText: "Page not found",
     });
   }
 }

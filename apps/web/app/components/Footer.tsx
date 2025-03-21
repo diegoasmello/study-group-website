@@ -7,7 +7,7 @@ import { ExternalLink } from "./Link";
 import { RootQuery } from "~/graphql/generated";
 
 interface FooterProps {
-  company: RootQuery["company"];
+  company?: RootQuery["company"];
 }
 
 export function Footer(props: FooterProps) {

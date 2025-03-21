@@ -70,6 +70,20 @@ export default function App() {
   const { company } = useLoaderData<typeof loader>();
 
   return (
+    <Document company={company}>
+      <Outlet />
+    </Document>
+  );
+}
+
+function Document({
+  children,
+  company,
+}: {
+  children: React.ReactNode;
+  company?: RootQuery["company"];
+}) {
+  return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
@@ -79,7 +93,7 @@ export default function App() {
       </head>
       <body className="pt-20">
         <Header />
-        <Outlet />
+        {children}
         <Footer company={company} />
         <ScrollRestoration />
         <Scripts />
@@ -89,5 +103,9 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
-  return <DefaultErrorBoundary />;
+  return (
+    <Document>
+      <DefaultErrorBoundary />;
+    </Document>
+  );
 }

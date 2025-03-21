@@ -17,7 +17,11 @@ export function NoResults({
         <span className="text-gray-600 text-center text-h3">{text}</span>
       </div>
       <div className="col-span-12 grid justify-center">
-        <img src="/assets/illustrations/no-results.svg" alt={text} />
+        <img
+          className="-ml-4"
+          src="/assets/illustrations/no-results.svg"
+          alt={text}
+        />
       </div>
     </div>
   );
