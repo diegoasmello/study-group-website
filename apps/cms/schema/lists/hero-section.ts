@@ -13,12 +13,12 @@ export const HeroSection: ListConfig<any> = list({
   },
   fields: {
     title: text({
-      validation: { isRequired: true, length: { min: 1, max: 200 } },
+      validation: { isRequired: true, length: { min: 1, max: 100 } },
       graphql: { isNonNull: { read: true } },
     }),
     content: text({
       ui: { displayMode: "textarea" },
-      validation: { isRequired: true },
+      validation: { isRequired: true, length: { min: 1, max: 100 } },
       graphql: { isNonNull: { read: true } },
     }),
   },

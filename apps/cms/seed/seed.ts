@@ -193,7 +193,7 @@ async function main() {
   await context.db.HistorySection.createOne({
     data: {
       title: "Our history",
-      content: faker.lorem.paragraph(2),
+      content: faker.lorem.paragraph(1),
     },
   });
 
@@ -202,7 +202,7 @@ async function main() {
   await context.db.ResearchSection.createOne({
     data: {
       title: "Our research",
-      content: faker.lorem.paragraph(2),
+      content: faker.lorem.paragraph(1),
     },
   });
 
@@ -211,7 +211,7 @@ async function main() {
   await context.db.TeamSection.createOne({
     data: {
       title: "Our team",
-      content: faker.lorem.paragraph(2),
+      content: faker.lorem.paragraph(1),
     },
   });
 
@@ -220,7 +220,7 @@ async function main() {
   await context.db.PublicationsSection.createOne({
     data: {
       title: "Publications",
-      content: faker.lorem.paragraph(2),
+      content: faker.lorem.paragraph(1),
     },
   });
 
@@ -229,7 +229,7 @@ async function main() {
   await context.db.EventsSection.createOne({
     data: {
       title: "Events",
-      content: faker.lorem.paragraph(2),
+      content: faker.lorem.paragraph(1),
     },
   });
 
@@ -238,7 +238,7 @@ async function main() {
   await context.db.ActionsSection.createOne({
     data: {
       title: "Actions",
-      content: faker.lorem.paragraph(2),
+      content: faker.lorem.paragraph(1),
     },
   });
 
@@ -247,7 +247,7 @@ async function main() {
   await context.db.ProjectsSection.createOne({
     data: {
       title: "Projects",
-      content: faker.lorem.paragraph(2),
+      content: faker.lorem.paragraph(1),
     },
   });
 
