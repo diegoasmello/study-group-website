@@ -11,7 +11,6 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client.server";
 import { HistoryPageQuery } from "~/graphql/generated";
-import { ArrayElement } from "~/types";
 import { NoResults } from "~/components/NoResults";
 
 const HISTORY_PAGE_QUERY = gql`
@@ -62,7 +61,7 @@ export const meta: MetaFunction<typeof loader> = ({
 
   return metaTags({
     title: "Our history | " + company?.title,
-    description: dbData?.heroSection?.content,
+    description: dbData?.historySection?.content,
     pathname: location.pathname,
     url: dbData?.url,
   });
