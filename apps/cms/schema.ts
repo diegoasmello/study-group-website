@@ -1,5 +1,5 @@
-import { list, type ListConfig } from "@keystone-6/core";
-import { allowAll } from "@keystone-6/core/access";
+import { group, list, type ListConfig } from "@keystone-6/core";
+import { allowAll, denyAll } from "@keystone-6/core/access";
 import { document } from "@keystone-6/fields-document";
 import {
   calendarDay,
@@ -43,6 +43,29 @@ const contentDocument = document({
 const imageField = image({
   storage: "local_images",
   graphql: { isNonNull: { read: true } },
+});
+
+const sectionList = list({
+  access: {
+    operation: {
+      create: denyAll,
+      delete: denyAll,
+      query: allowAll,
+      update: allowAll,
+    },
+  },
+  fields: {
+    title: text({
+      validation: { isRequired: true, length: { min: 1, max: 200 } },
+      graphql: { isNonNull: { read: true } },
+    }),
+    content: text({
+      ui: { displayMode: "textarea" },
+      validation: { isRequired: true },
+      graphql: { isNonNull: { read: true } },
+    }),
+  },
+  isSingleton: true,
 });
 
 export const lists: Record<string, ListConfig<any>> = {
@@ -502,70 +525,116 @@ export const lists: Record<string, ListConfig<any>> = {
       },
     },
   }),
-  SectionContent: list({
-    access: allowAll,
-    ui: {
-      hideCreate: true,
-      hideDelete: true,
+  HomeSection: sectionList,
+  ResearchSection: sectionList,
+  TeamSection: sectionList,
+  HistorySection: sectionList,
+  PublicationsSection: sectionList,
+  EventsSection: sectionList,
+  ActionsSection: sectionList,
+  ProjectsSection: sectionList,
+  History: list({
+    access: {
+      operation: {
+        create: denyAll,
+        delete: denyAll,
+        query: allowAll,
+        update: allowAll,
+      },
     },
     fields: {
-      title: text({
-        validation: { isRequired: true, length: { min: 1, max: 200 } },
-        graphql: { isNonNull: { read: true } },
+      ...group({
+        label: "First section",
+        fields: {
+          titleOne: text({
+            label: "Title",
+            validation: { isRequired: true, length: { min: 1, max: 200 } },
+            graphql: { isNonNull: { read: true } },
+          }),
+          contentOne: text({
+            label: "Content",
+            ui: { displayMode: "textarea" },
+            validation: { isRequired: true },
+            graphql: { isNonNull: { read: true } },
+          }),
+        },
       }),
-      content: text({
-        ui: { displayMode: "textarea" },
-        validation: { isRequired: true },
-        graphql: { isNonNull: { read: true } },
+      ...group({
+        label: "Second section",
+        fields: {
+          titleTwo: text({
+            label: "Title",
+            validation: { isRequired: true, length: { min: 1, max: 200 } },
+            graphql: { isNonNull: { read: true } },
+          }),
+          contentTwo: text({
+            label: "Content",
+            ui: { displayMode: "textarea" },
+            validation: { isRequired: true },
+            graphql: { isNonNull: { read: true } },
+          }),
+        },
       }),
-      image: image({ storage: "local_images" }),
-      section: select({
-        options: [
-          {
-            label: "Home",
-            value: "HOME_HERO",
-          },
-          {
-            label: "Research",
-            value: "RESEARCH_HERO",
-          },
-          {
-            label: "Team",
-            value: "TEAM_HERO",
-          },
-          {
-            label: "Publications",
-            value: "PUBLICATIONS_HERO",
-          },
-          {
-            label: "Events",
-            value: "EVENTS_HERO",
-          },
-          {
-            label: "Actions",
-            value: "ACTIONS_HERO",
-          },
-          {
-            label: "Projects",
-            value: "PROJECTS_HERO",
-          },
-          {
-            label: "History Hero",
-            value: "HISTORY_HERO",
-          },
-          {
-            label: "History Section",
-            value: "HISTORY_SECTION",
-          },
-        ],
-        type: "enum",
-        validation: { isRequired: true },
-        graphql: { isNonNull: { read: true } },
+      ...group({
+        label: "Third section",
+        fields: {
+          titleThree: text({
+            label: "Title",
+            validation: { isRequired: true, length: { min: 1, max: 200 } },
+            graphql: { isNonNull: { read: true } },
+          }),
+          contentThree: text({
+            label: "Content",
+            ui: { displayMode: "textarea" },
+            validation: { isRequired: true },
+            graphql: { isNonNull: { read: true } },
+          }),
+        },
+      }),
+      ...group({
+        label: "Fourth section",
+        fields: {
+          titleFour: text({
+            label: "Title",
+            validation: { isRequired: true, length: { min: 1, max: 200 } },
+            graphql: { isNonNull: { read: true } },
+          }),
+          contentFour: text({
+            label: "Content",
+            ui: { displayMode: "textarea" },
+            validation: { isRequired: true },
+            graphql: { isNonNull: { read: true } },
+          }),
+        },
+      }),
+      ...group({
+        label: "Fifth section",
+        fields: {
+          titleFive: text({
+            label: "Title",
+            validation: { isRequired: true, length: { min: 1, max: 200 } },
+            graphql: { isNonNull: { read: true } },
+          }),
+          contentFive: text({
+            label: "Content",
+            ui: { displayMode: "textarea" },
+            validation: { isRequired: true },
+            graphql: { isNonNull: { read: true } },
+          }),
+        },
       }),
     },
+    isSingleton: true,
   }),
   Company: list({
-    access: allowAll,
+    access: {
+      operation: {
+        create: denyAll,
+        delete: denyAll,
+        query: allowAll,
+        update: allowAll,
+      },
+    },
     fields: {
       title: text({
         validation: { isRequired: true, length: { min: 1, max: 200 } },

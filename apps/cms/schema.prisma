@@ -137,16 +137,66 @@ model Researcher {
   status       ResearcherStatusType @default(draft)
 }
 
-model SectionContent {
-  id              String                    @id @default(cuid())
-  title           String                    @default("")
-  content         String                    @default("")
-  image_id        String?
-  image_filesize  Int?
-  image_width     Int?
-  image_height    Int?
-  image_extension String?
-  section         SectionContentSectionType
+model HomeSection {
+  id      Int    @id
+  title   String @default("")
+  content String @default("")
+}
+
+model ResearchSection {
+  id      Int    @id
+  title   String @default("")
+  content String @default("")
+}
+
+model TeamSection {
+  id      Int    @id
+  title   String @default("")
+  content String @default("")
+}
+
+model HistorySection {
+  id      Int    @id
+  title   String @default("")
+  content String @default("")
+}
+
+model PublicationsSection {
+  id      Int    @id
+  title   String @default("")
+  content String @default("")
+}
+
+model EventsSection {
+  id      Int    @id
+  title   String @default("")
+  content String @default("")
+}
+
+model ActionsSection {
+  id      Int    @id
+  title   String @default("")
+  content String @default("")
+}
+
+model ProjectsSection {
+  id      Int    @id
+  title   String @default("")
+  content String @default("")
+}
+
+model History {
+  id           Int    @id
+  titleOne     String @default("")
+  contentOne   String @default("")
+  titleTwo     String @default("")
+  contentTwo   String @default("")
+  titleThree   String @default("")
+  contentThree String @default("")
+  titleFour    String @default("")
+  contentFour  String @default("")
+  titleFive    String @default("")
+  contentFive  String @default("")
 }
 
 model Company {
@@ -205,16 +255,4 @@ enum ResearchAreaStatusType {
 enum ResearcherStatusType {
   published
   draft
-}
-
-enum SectionContentSectionType {
-  HOME_HERO
-  RESEARCH_HERO
-  TEAM_HERO
-  PUBLICATIONS_HERO
-  EVENTS_HERO
-  ACTIONS_HERO
-  PROJECTS_HERO
-  HISTORY_HERO
-  HISTORY_SECTION
 }

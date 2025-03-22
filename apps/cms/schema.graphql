@@ -805,71 +805,404 @@ input ResearcherCreateInput {
   status: ResearcherStatusType
 }
 
-type SectionContent {
+type HomeSection {
   id: ID!
   title: String!
   content: String!
-  image: ImageFieldOutput
-  section: SectionContentSectionType!
 }
 
-enum SectionContentSectionType {
-  HOME_HERO
-  RESEARCH_HERO
-  TEAM_HERO
-  PUBLICATIONS_HERO
-  EVENTS_HERO
-  ACTIONS_HERO
-  PROJECTS_HERO
-  HISTORY_HERO
-  HISTORY_SECTION
-}
-
-input SectionContentWhereUniqueInput {
+input HomeSectionWhereUniqueInput {
   id: ID
 }
 
-input SectionContentWhereInput {
-  AND: [SectionContentWhereInput!]
-  OR: [SectionContentWhereInput!]
-  NOT: [SectionContentWhereInput!]
+input HomeSectionWhereInput {
+  AND: [HomeSectionWhereInput!]
+  OR: [HomeSectionWhereInput!]
+  NOT: [HomeSectionWhereInput!]
   id: IDFilter
   title: StringFilter
   content: StringFilter
-  section: SectionContentSectionTypeNullableFilter
 }
 
-input SectionContentSectionTypeNullableFilter {
-  equals: SectionContentSectionType
-  in: [SectionContentSectionType!]
-  notIn: [SectionContentSectionType!]
-  not: SectionContentSectionTypeNullableFilter
-}
-
-input SectionContentOrderByInput {
+input HomeSectionOrderByInput {
   id: OrderDirection
   title: OrderDirection
   content: OrderDirection
-  section: OrderDirection
 }
 
-input SectionContentUpdateInput {
+input HomeSectionUpdateInput {
   title: String
   content: String
-  image: ImageFieldInput
-  section: SectionContentSectionType
 }
 
-input SectionContentUpdateArgs {
-  where: SectionContentWhereUniqueInput!
-  data: SectionContentUpdateInput!
+input HomeSectionUpdateArgs {
+  where: HomeSectionWhereUniqueInput! = {id: 1}
+  data: HomeSectionUpdateInput!
 }
 
-input SectionContentCreateInput {
+input HomeSectionCreateInput {
   title: String
   content: String
-  image: ImageFieldInput
-  section: SectionContentSectionType
+}
+
+type ResearchSection {
+  id: ID!
+  title: String!
+  content: String!
+}
+
+input ResearchSectionWhereUniqueInput {
+  id: ID
+}
+
+input ResearchSectionWhereInput {
+  AND: [ResearchSectionWhereInput!]
+  OR: [ResearchSectionWhereInput!]
+  NOT: [ResearchSectionWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  content: StringFilter
+}
+
+input ResearchSectionOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  content: OrderDirection
+}
+
+input ResearchSectionUpdateInput {
+  title: String
+  content: String
+}
+
+input ResearchSectionUpdateArgs {
+  where: ResearchSectionWhereUniqueInput! = {id: 1}
+  data: ResearchSectionUpdateInput!
+}
+
+input ResearchSectionCreateInput {
+  title: String
+  content: String
+}
+
+type TeamSection {
+  id: ID!
+  title: String!
+  content: String!
+}
+
+input TeamSectionWhereUniqueInput {
+  id: ID
+}
+
+input TeamSectionWhereInput {
+  AND: [TeamSectionWhereInput!]
+  OR: [TeamSectionWhereInput!]
+  NOT: [TeamSectionWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  content: StringFilter
+}
+
+input TeamSectionOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  content: OrderDirection
+}
+
+input TeamSectionUpdateInput {
+  title: String
+  content: String
+}
+
+input TeamSectionUpdateArgs {
+  where: TeamSectionWhereUniqueInput! = {id: 1}
+  data: TeamSectionUpdateInput!
+}
+
+input TeamSectionCreateInput {
+  title: String
+  content: String
+}
+
+type HistorySection {
+  id: ID!
+  title: String!
+  content: String!
+}
+
+input HistorySectionWhereUniqueInput {
+  id: ID
+}
+
+input HistorySectionWhereInput {
+  AND: [HistorySectionWhereInput!]
+  OR: [HistorySectionWhereInput!]
+  NOT: [HistorySectionWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  content: StringFilter
+}
+
+input HistorySectionOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  content: OrderDirection
+}
+
+input HistorySectionUpdateInput {
+  title: String
+  content: String
+}
+
+input HistorySectionUpdateArgs {
+  where: HistorySectionWhereUniqueInput! = {id: 1}
+  data: HistorySectionUpdateInput!
+}
+
+input HistorySectionCreateInput {
+  title: String
+  content: String
+}
+
+type PublicationsSection {
+  id: ID!
+  title: String!
+  content: String!
+}
+
+input PublicationsSectionWhereUniqueInput {
+  id: ID
+}
+
+input PublicationsSectionWhereInput {
+  AND: [PublicationsSectionWhereInput!]
+  OR: [PublicationsSectionWhereInput!]
+  NOT: [PublicationsSectionWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  content: StringFilter
+}
+
+input PublicationsSectionOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  content: OrderDirection
+}
+
+input PublicationsSectionUpdateInput {
+  title: String
+  content: String
+}
+
+input PublicationsSectionUpdateArgs {
+  where: PublicationsSectionWhereUniqueInput! = {id: 1}
+  data: PublicationsSectionUpdateInput!
+}
+
+input PublicationsSectionCreateInput {
+  title: String
+  content: String
+}
+
+type EventsSection {
+  id: ID!
+  title: String!
+  content: String!
+}
+
+input EventsSectionWhereUniqueInput {
+  id: ID
+}
+
+input EventsSectionWhereInput {
+  AND: [EventsSectionWhereInput!]
+  OR: [EventsSectionWhereInput!]
+  NOT: [EventsSectionWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  content: StringFilter
+}
+
+input EventsSectionOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  content: OrderDirection
+}
+
+input EventsSectionUpdateInput {
+  title: String
+  content: String
+}
+
+input EventsSectionUpdateArgs {
+  where: EventsSectionWhereUniqueInput! = {id: 1}
+  data: EventsSectionUpdateInput!
+}
+
+input EventsSectionCreateInput {
+  title: String
+  content: String
+}
+
+type ActionsSection {
+  id: ID!
+  title: String!
+  content: String!
+}
+
+input ActionsSectionWhereUniqueInput {
+  id: ID
+}
+
+input ActionsSectionWhereInput {
+  AND: [ActionsSectionWhereInput!]
+  OR: [ActionsSectionWhereInput!]
+  NOT: [ActionsSectionWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  content: StringFilter
+}
+
+input ActionsSectionOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  content: OrderDirection
+}
+
+input ActionsSectionUpdateInput {
+  title: String
+  content: String
+}
+
+input ActionsSectionUpdateArgs {
+  where: ActionsSectionWhereUniqueInput! = {id: 1}
+  data: ActionsSectionUpdateInput!
+}
+
+input ActionsSectionCreateInput {
+  title: String
+  content: String
+}
+
+type ProjectsSection {
+  id: ID!
+  title: String!
+  content: String!
+}
+
+input ProjectsSectionWhereUniqueInput {
+  id: ID
+}
+
+input ProjectsSectionWhereInput {
+  AND: [ProjectsSectionWhereInput!]
+  OR: [ProjectsSectionWhereInput!]
+  NOT: [ProjectsSectionWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  content: StringFilter
+}
+
+input ProjectsSectionOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  content: OrderDirection
+}
+
+input ProjectsSectionUpdateInput {
+  title: String
+  content: String
+}
+
+input ProjectsSectionUpdateArgs {
+  where: ProjectsSectionWhereUniqueInput! = {id: 1}
+  data: ProjectsSectionUpdateInput!
+}
+
+input ProjectsSectionCreateInput {
+  title: String
+  content: String
+}
+
+type History {
+  id: ID!
+  titleOne: String!
+  contentOne: String!
+  titleTwo: String!
+  contentTwo: String!
+  titleThree: String!
+  contentThree: String!
+  titleFour: String!
+  contentFour: String!
+  titleFive: String!
+  contentFive: String!
+}
+
+input HistoryWhereUniqueInput {
+  id: ID
+}
+
+input HistoryWhereInput {
+  AND: [HistoryWhereInput!]
+  OR: [HistoryWhereInput!]
+  NOT: [HistoryWhereInput!]
+  id: IDFilter
+  titleOne: StringFilter
+  contentOne: StringFilter
+  titleTwo: StringFilter
+  contentTwo: StringFilter
+  titleThree: StringFilter
+  contentThree: StringFilter
+  titleFour: StringFilter
+  contentFour: StringFilter
+  titleFive: StringFilter
+  contentFive: StringFilter
+}
+
+input HistoryOrderByInput {
+  id: OrderDirection
+  titleOne: OrderDirection
+  contentOne: OrderDirection
+  titleTwo: OrderDirection
+  contentTwo: OrderDirection
+  titleThree: OrderDirection
+  contentThree: OrderDirection
+  titleFour: OrderDirection
+  contentFour: OrderDirection
+  titleFive: OrderDirection
+  contentFive: OrderDirection
+}
+
+input HistoryUpdateInput {
+  titleOne: String
+  contentOne: String
+  titleTwo: String
+  contentTwo: String
+  titleThree: String
+  contentThree: String
+  titleFour: String
+  contentFour: String
+  titleFive: String
+  contentFive: String
+}
+
+input HistoryUpdateArgs {
+  where: HistoryWhereUniqueInput! = {id: 1}
+  data: HistoryUpdateInput!
+}
+
+input HistoryCreateInput {
+  titleOne: String
+  contentOne: String
+  titleTwo: String
+  contentTwo: String
+  titleThree: String
+  contentThree: String
+  titleFour: String
+  contentFour: String
+  titleFive: String
+  contentFive: String
 }
 
 type Company {
@@ -1069,12 +1402,60 @@ type Mutation {
   updateResearchers(data: [ResearcherUpdateArgs!]!): [Researcher]
   deleteResearcher(where: ResearcherWhereUniqueInput!): Researcher
   deleteResearchers(where: [ResearcherWhereUniqueInput!]!): [Researcher]
-  createSectionContent(data: SectionContentCreateInput!): SectionContent
-  createSectionContents(data: [SectionContentCreateInput!]!): [SectionContent]
-  updateSectionContent(where: SectionContentWhereUniqueInput!, data: SectionContentUpdateInput!): SectionContent
-  updateSectionContents(data: [SectionContentUpdateArgs!]!): [SectionContent]
-  deleteSectionContent(where: SectionContentWhereUniqueInput!): SectionContent
-  deleteSectionContents(where: [SectionContentWhereUniqueInput!]!): [SectionContent]
+  createHomeSection(data: HomeSectionCreateInput!): HomeSection
+  createHomeSections(data: [HomeSectionCreateInput!]!): [HomeSection]
+  updateHomeSection(where: HomeSectionWhereUniqueInput! = {id: 1}, data: HomeSectionUpdateInput!): HomeSection
+  updateHomeSections(data: [HomeSectionUpdateArgs!]!): [HomeSection]
+  deleteHomeSection(where: HomeSectionWhereUniqueInput! = {id: 1}): HomeSection
+  deleteHomeSections(where: [HomeSectionWhereUniqueInput!]!): [HomeSection]
+  createResearchSection(data: ResearchSectionCreateInput!): ResearchSection
+  createResearchSections(data: [ResearchSectionCreateInput!]!): [ResearchSection]
+  updateResearchSection(where: ResearchSectionWhereUniqueInput! = {id: 1}, data: ResearchSectionUpdateInput!): ResearchSection
+  updateResearchSections(data: [ResearchSectionUpdateArgs!]!): [ResearchSection]
+  deleteResearchSection(where: ResearchSectionWhereUniqueInput! = {id: 1}): ResearchSection
+  deleteResearchSections(where: [ResearchSectionWhereUniqueInput!]!): [ResearchSection]
+  createTeamSection(data: TeamSectionCreateInput!): TeamSection
+  createTeamSections(data: [TeamSectionCreateInput!]!): [TeamSection]
+  updateTeamSection(where: TeamSectionWhereUniqueInput! = {id: 1}, data: TeamSectionUpdateInput!): TeamSection
+  updateTeamSections(data: [TeamSectionUpdateArgs!]!): [TeamSection]
+  deleteTeamSection(where: TeamSectionWhereUniqueInput! = {id: 1}): TeamSection
+  deleteTeamSections(where: [TeamSectionWhereUniqueInput!]!): [TeamSection]
+  createHistorySection(data: HistorySectionCreateInput!): HistorySection
+  createHistorySections(data: [HistorySectionCreateInput!]!): [HistorySection]
+  updateHistorySection(where: HistorySectionWhereUniqueInput! = {id: 1}, data: HistorySectionUpdateInput!): HistorySection
+  updateHistorySections(data: [HistorySectionUpdateArgs!]!): [HistorySection]
+  deleteHistorySection(where: HistorySectionWhereUniqueInput! = {id: 1}): HistorySection
+  deleteHistorySections(where: [HistorySectionWhereUniqueInput!]!): [HistorySection]
+  createPublicationsSection(data: PublicationsSectionCreateInput!): PublicationsSection
+  createPublicationsSections(data: [PublicationsSectionCreateInput!]!): [PublicationsSection]
+  updatePublicationsSection(where: PublicationsSectionWhereUniqueInput! = {id: 1}, data: PublicationsSectionUpdateInput!): PublicationsSection
+  updatePublicationsSections(data: [PublicationsSectionUpdateArgs!]!): [PublicationsSection]
+  deletePublicationsSection(where: PublicationsSectionWhereUniqueInput! = {id: 1}): PublicationsSection
+  deletePublicationsSections(where: [PublicationsSectionWhereUniqueInput!]!): [PublicationsSection]
+  createEventsSection(data: EventsSectionCreateInput!): EventsSection
+  createEventsSections(data: [EventsSectionCreateInput!]!): [EventsSection]
+  updateEventsSection(where: EventsSectionWhereUniqueInput! = {id: 1}, data: EventsSectionUpdateInput!): EventsSection
+  updateEventsSections(data: [EventsSectionUpdateArgs!]!): [EventsSection]
+  deleteEventsSection(where: EventsSectionWhereUniqueInput! = {id: 1}): EventsSection
+  deleteEventsSections(where: [EventsSectionWhereUniqueInput!]!): [EventsSection]
+  createActionsSection(data: ActionsSectionCreateInput!): ActionsSection
+  createActionsSections(data: [ActionsSectionCreateInput!]!): [ActionsSection]
+  updateActionsSection(where: ActionsSectionWhereUniqueInput! = {id: 1}, data: ActionsSectionUpdateInput!): ActionsSection
+  updateActionsSections(data: [ActionsSectionUpdateArgs!]!): [ActionsSection]
+  deleteActionsSection(where: ActionsSectionWhereUniqueInput! = {id: 1}): ActionsSection
+  deleteActionsSections(where: [ActionsSectionWhereUniqueInput!]!): [ActionsSection]
+  createProjectsSection(data: ProjectsSectionCreateInput!): ProjectsSection
+  createProjectsSections(data: [ProjectsSectionCreateInput!]!): [ProjectsSection]
+  updateProjectsSection(where: ProjectsSectionWhereUniqueInput! = {id: 1}, data: ProjectsSectionUpdateInput!): ProjectsSection
+  updateProjectsSections(data: [ProjectsSectionUpdateArgs!]!): [ProjectsSection]
+  deleteProjectsSection(where: ProjectsSectionWhereUniqueInput! = {id: 1}): ProjectsSection
+  deleteProjectsSections(where: [ProjectsSectionWhereUniqueInput!]!): [ProjectsSection]
+  createHistory(data: HistoryCreateInput!): History
+  createHistories(data: [HistoryCreateInput!]!): [History]
+  updateHistory(where: HistoryWhereUniqueInput! = {id: 1}, data: HistoryUpdateInput!): History
+  updateHistories(data: [HistoryUpdateArgs!]!): [History]
+  deleteHistory(where: HistoryWhereUniqueInput! = {id: 1}): History
+  deleteHistories(where: [HistoryWhereUniqueInput!]!): [History]
   createCompany(data: CompanyCreateInput!): Company
   createCompanies(data: [CompanyCreateInput!]!): [Company]
   updateCompany(where: CompanyWhereUniqueInput! = {id: 1}, data: CompanyUpdateInput!): Company
@@ -1137,9 +1518,33 @@ type Query {
   researcher(where: ResearcherWhereUniqueInput!): Researcher
   researchers(where: ResearcherWhereInput! = {}, orderBy: [ResearcherOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ResearcherWhereUniqueInput): [Researcher!]
   researchersCount(where: ResearcherWhereInput! = {}): Int
-  sectionContent(where: SectionContentWhereUniqueInput!): SectionContent
-  sectionContents(where: SectionContentWhereInput! = {}, orderBy: [SectionContentOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: SectionContentWhereUniqueInput): [SectionContent!]
-  sectionContentsCount(where: SectionContentWhereInput! = {}): Int
+  homeSection(where: HomeSectionWhereUniqueInput! = {id: 1}): HomeSection
+  homeSections(where: HomeSectionWhereInput! = {id: {equals: 1}}, orderBy: [HomeSectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: HomeSectionWhereUniqueInput): [HomeSection!]
+  homeSectionsCount(where: HomeSectionWhereInput! = {id: {equals: 1}}): Int
+  researchSection(where: ResearchSectionWhereUniqueInput! = {id: 1}): ResearchSection
+  researchSections(where: ResearchSectionWhereInput! = {id: {equals: 1}}, orderBy: [ResearchSectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ResearchSectionWhereUniqueInput): [ResearchSection!]
+  researchSectionsCount(where: ResearchSectionWhereInput! = {id: {equals: 1}}): Int
+  teamSection(where: TeamSectionWhereUniqueInput! = {id: 1}): TeamSection
+  teamSections(where: TeamSectionWhereInput! = {id: {equals: 1}}, orderBy: [TeamSectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TeamSectionWhereUniqueInput): [TeamSection!]
+  teamSectionsCount(where: TeamSectionWhereInput! = {id: {equals: 1}}): Int
+  historySection(where: HistorySectionWhereUniqueInput! = {id: 1}): HistorySection
+  historySections(where: HistorySectionWhereInput! = {id: {equals: 1}}, orderBy: [HistorySectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: HistorySectionWhereUniqueInput): [HistorySection!]
+  historySectionsCount(where: HistorySectionWhereInput! = {id: {equals: 1}}): Int
+  publicationsSection(where: PublicationsSectionWhereUniqueInput! = {id: 1}): PublicationsSection
+  publicationsSections(where: PublicationsSectionWhereInput! = {id: {equals: 1}}, orderBy: [PublicationsSectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PublicationsSectionWhereUniqueInput): [PublicationsSection!]
+  publicationsSectionsCount(where: PublicationsSectionWhereInput! = {id: {equals: 1}}): Int
+  eventsSection(where: EventsSectionWhereUniqueInput! = {id: 1}): EventsSection
+  eventsSections(where: EventsSectionWhereInput! = {id: {equals: 1}}, orderBy: [EventsSectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: EventsSectionWhereUniqueInput): [EventsSection!]
+  eventsSectionsCount(where: EventsSectionWhereInput! = {id: {equals: 1}}): Int
+  actionsSection(where: ActionsSectionWhereUniqueInput! = {id: 1}): ActionsSection
+  actionsSections(where: ActionsSectionWhereInput! = {id: {equals: 1}}, orderBy: [ActionsSectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActionsSectionWhereUniqueInput): [ActionsSection!]
+  actionsSectionsCount(where: ActionsSectionWhereInput! = {id: {equals: 1}}): Int
+  projectsSection(where: ProjectsSectionWhereUniqueInput! = {id: 1}): ProjectsSection
+  projectsSections(where: ProjectsSectionWhereInput! = {id: {equals: 1}}, orderBy: [ProjectsSectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectsSectionWhereUniqueInput): [ProjectsSection!]
+  projectsSectionsCount(where: ProjectsSectionWhereInput! = {id: {equals: 1}}): Int
+  history(where: HistoryWhereUniqueInput! = {id: 1}): History
+  histories(where: HistoryWhereInput! = {id: {equals: 1}}, orderBy: [HistoryOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: HistoryWhereUniqueInput): [History!]
+  historiesCount(where: HistoryWhereInput! = {id: {equals: 1}}): Int
   company(where: CompanyWhereUniqueInput! = {id: 1}): Company
   companies(where: CompanyWhereInput! = {id: {equals: 1}}, orderBy: [CompanyOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CompanyWhereUniqueInput): [Company!]
   companiesCount(where: CompanyWhereInput! = {id: {equals: 1}}): Int
