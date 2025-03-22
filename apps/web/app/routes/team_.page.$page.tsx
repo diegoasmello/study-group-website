@@ -37,7 +37,7 @@ const TEAM_MEMBERS_QUERY = gql`
 
 const PAGE_QUERY = gql`
   query TeamMembersPage {
-    sectionContents(where: { section: { equals: TEAM_HERO } }) {
+    teamSection {
       id
       title
       content
@@ -78,12 +78,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
   checkPageNotFound({ page, lastPage: paginatedTeamMembers.meta.lastPage });
 
-  const { sectionContents } =
+  const { teamSection } =
     await client.request<TeamMembersPageQuery>(PAGE_QUERY);
 
   return json({
     paginatedTeamMembers,
-    heroSection: sectionContents?.[0],
+    heroSection: teamSection,
     url: request.url,
   });
 }

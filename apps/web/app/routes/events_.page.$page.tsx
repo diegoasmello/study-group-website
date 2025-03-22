@@ -58,7 +58,7 @@ const EVENTS_QUERY = gql`
 
 const PAGE_QUERY = gql`
   query EventsPage {
-    sectionContents(where: { section: { equals: EVENTS_HERO } }) {
+    eventsSection {
       id
       title
       content
@@ -100,12 +100,12 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     variables: { query: q ?? "" },
   });
 
-  const { sectionContents } = await client.request<EventsPageQuery>(PAGE_QUERY);
+  const { eventsSection } = await client.request<EventsPageQuery>(PAGE_QUERY);
 
   checkPageNotFound({ page, lastPage: paginatedEvents.meta.lastPage });
 
   return json({
-    heroSection: sectionContents?.[0],
+    heroSection: eventsSection,
     paginatedEvents,
     q,
     url: request.url,

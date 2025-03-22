@@ -19,7 +19,8 @@ import { parseISO } from "date-fns";
 
 const HOME_PAGE_QUERY = gql`
   query HomePage {
-    sectionContents(where: { section: { equals: HOME_HERO } }) {
+    homeSection {
+      id
       title
       content
       image {
@@ -101,11 +102,11 @@ export const meta: MetaFunction<typeof loader> = ({
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { actions, events, publications, researchAreas, sectionContents } =
+  const { actions, events, publications, researchAreas, homeSection } =
     await client.request<HomePageQuery>(HOME_PAGE_QUERY);
 
   return json({
-    heroSection: sectionContents?.[0],
+    heroSection: homeSection,
     researchAreas: researchAreas ?? [],
     events: events ?? [],
     publications: publications ?? [],

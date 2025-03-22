@@ -16,19 +16,28 @@ import { NoResults } from "~/components/NoResults";
 
 const HISTORY_PAGE_QUERY = gql`
   query HistoryPage {
-    heroSections: sectionContents(
-      where: { section: { equals: HISTORY_HERO } }
-    ) {
+    historySection {
       id
       title
       content
     }
-    historySections: sectionContents(
-      where: { section: { equals: HISTORY_SECTION } }
-    ) {
+    homeSection {
       id
       title
       content
+    }
+    history {
+      id
+      titleOne
+      contentOne
+      titleTwo
+      contentTwo
+      titleThree
+      contentThree
+      titleFour
+      contentFour
+      titleFive
+      contentFive
     }
     teamMembers(take: 9, where: { status: { equals: published } }) {
       id
@@ -60,36 +69,47 @@ export const meta: MetaFunction<typeof loader> = ({
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { heroSections, historySections, teamMembers } =
+  const { history, historySection, homeSection, teamMembers } =
     await client.request<HistoryPageQuery>(HISTORY_PAGE_QUERY);
 
   return json({
-    historySections,
+    history,
     teamMembers,
-    heroSection: heroSections?.[0],
+    historySection,
+    homeSection,
     url: request.url,
   });
 }
 
 export default function History() {
-  const { historySections, heroSection, teamMembers } =
+  const { history, historySection, homeSection, teamMembers } =
     useLoaderData<typeof loader>();
 
-  if (!heroSection || !historySections)
+  if (!historySection || !history || !homeSection)
     return (
       <div className="py-20">
         <NoResults text="No data found" />;
       </div>
     );
 
+  const historyList: Array<{ title: string; content: string }> = [
+    { title: history.titleOne, content: history.contentOne },
+    { title: history.titleTwo, content: history.contentTwo },
+    { title: history.titleThree, content: history.contentThree },
+    { title: history.titleFour, content: history.contentFour },
+    { title: history.titleFive, content: history.contentFive },
+  ];
+
   return (
     <main className="pb-20 bg-page">
       <div className="bg-primary-lighter pt-14 pb-16 mb-12 relative overflow-hidden">
         <Container className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="flex flex-col gap-2 col-span-12 col-start-1 lg:col-span-4 lg:col-start-7">
-            <h1 className="text-primary font-medium">Our history</h1>
-            <span className="text-h2">{heroSection.title}</span>
-            <p className="text-lead-1 text-gray-800">{heroSection.content}</p>
+            <h1 className="text-primary font-medium">{historySection.title}</h1>
+            <span className="text-h2">{homeSection.title}</span>
+            <p className="text-lead-1 text-gray-800">
+              {historySection.content}
+            </p>
           </div>
         </Container>
         <img
@@ -100,13 +120,13 @@ export default function History() {
       </div>
 
       <Container className="grid gap-y-20">
-        {historySections.map((historySection, index) => (
+        {historyList.map((historyListItem, index) => (
           <HistorySection
             key={index}
             index={index}
-            section={historySection}
+            section={historyListItem}
             align={index % 2 === 0 ? "right" : "left"}
-            isLastItem={index === historySections.length - 1}
+            isLastItem={index === historyList.length - 1}
           />
         ))}
       </Container>
@@ -154,7 +174,7 @@ export default function History() {
 }
 
 const HistorySection = (props: {
-  section: ArrayElement<HistoryPageQuery["historySections"]>;
+  section: { title: string; content: string };
   align: "left" | "right";
   index: number;
   isLastItem: boolean;

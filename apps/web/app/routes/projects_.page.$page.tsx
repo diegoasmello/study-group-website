@@ -37,7 +37,7 @@ const PROJECTS_QUERY = gql`
 
 const PAGE_QUERY = gql`
   query ProjectsPage {
-    sectionContents(where: { section: { equals: PROJECTS_HERO } }) {
+    projectsSection {
       id
       title
       content
@@ -76,14 +76,14 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     },
   });
 
-  const { sectionContents } =
+  const { projectsSection } =
     await client.request<ProjectsPageQuery>(PAGE_QUERY);
 
   checkPageNotFound({ page, lastPage: paginatedProjects.meta.lastPage });
 
   return json({
     paginatedProjects: paginatedProjects,
-    heroSection: sectionContents?.[0],
+    heroSection: projectsSection,
     url: request.url,
   });
 }

@@ -21,7 +21,8 @@ import { RootQuery } from "./graphql/generated";
 
 const query = gql`
   query Root {
-    sectionContents(where: { section: { equals: HOME_HERO } }) {
+    homeSection {
+      id
       title
       content
     }
@@ -61,9 +62,9 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { sectionContents, company } = await client.request<RootQuery>(query);
+  const { homeSection, company } = await client.request<RootQuery>(query);
 
-  return json({ company, heroSection: sectionContents?.[0], url: request.url });
+  return json({ company, heroSection: homeSection, url: request.url });
 }
 
 export default function App() {

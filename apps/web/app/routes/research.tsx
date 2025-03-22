@@ -18,7 +18,7 @@ import { NoResults } from "~/components/NoResults";
 
 const RESEARCH_QUERY = gql`
   query ResearchPage {
-    sectionContents(where: { section: { equals: RESEARCH_HERO } }) {
+    researchSection {
       id
       title
       content
@@ -64,11 +64,11 @@ export const meta: MetaFunction<typeof loader> = ({
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { researchAreas, sectionContents } =
+  const { researchAreas, researchSection } =
     await client.request<ResearchPageQuery>(RESEARCH_QUERY);
 
   return json({
-    heroSection: sectionContents?.[0],
+    heroSection: researchSection,
     researchAreas: researchAreas ?? [],
     url: request.url,
   });
