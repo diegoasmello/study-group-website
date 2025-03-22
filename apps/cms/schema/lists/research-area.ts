@@ -59,7 +59,7 @@ export const ResearchArea: ListConfig<any> = list({
         extractResolvedImage: (resolvedData) => resolvedData.icon,
         addValidationError,
         errorMessage: "Icon must not be null",
-      }); // fix
+      });
       documentRequired(item, resolvedData, addValidationError);
     },
   },
