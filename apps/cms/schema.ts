@@ -547,6 +547,11 @@ export const lists: Record<string, ListConfig<any>> = {
       image: imageField,
     },
     isSingleton: true,
+    hooks: {
+      validate: async ({ item, resolvedData, addValidationError }) => {
+        imageRequired({ item, resolvedData, addValidationError });
+      },
+    },
   }),
   ResearchSection: sectionList,
   TeamSection: sectionList,
