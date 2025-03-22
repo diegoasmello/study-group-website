@@ -71,20 +71,22 @@ export const Project: ListConfig<any> = list({
         slug: slugify(resolvedData.title ?? item.title),
       };
     },
-    validate: async ({ item, resolvedData, addValidationError }) => {
-      imageRequired({ item, resolvedData, addValidationError });
-      documentRequired(item, resolvedData, addValidationError);
-      relationshipRequired<
-        { researchAreaId: string },
-        { researchArea: { disconnect: boolean } }
-      >({
-        item,
-        resolvedData,
-        addValidationError,
-        extractRelationId: (item) => item?.researchAreaId,
-        extractRelation: (resolvedData) => resolvedData?.researchArea,
-        errorMessage: "Research Area must not be null",
-      });
+    validate: async ({ item, resolvedData, operation, addValidationError }) => {
+      if (operation !== "delete") {
+        imageRequired({ item, resolvedData, addValidationError });
+        documentRequired(item, resolvedData, addValidationError);
+        relationshipRequired<
+          { researchAreaId: string },
+          { researchArea: { disconnect: boolean } }
+        >({
+          item,
+          resolvedData,
+          addValidationError,
+          extractRelationId: (item) => item?.researchAreaId,
+          extractRelation: (resolvedData) => resolvedData?.researchArea,
+          errorMessage: "Research Area must not be null",
+        });
+      }
     },
   },
   ui: {

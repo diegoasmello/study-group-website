@@ -27,8 +27,10 @@ export const HomeSection: ListConfig<any> = list({
   },
   isSingleton: true,
   hooks: {
-    validate: async ({ item, resolvedData, addValidationError }) => {
-      imageRequired({ item, resolvedData, addValidationError });
+    validate: async ({ item, resolvedData, operation, addValidationError }) => {
+      if (operation !== "delete") {
+        imageRequired({ item, resolvedData, addValidationError });
+      }
     },
   },
 });

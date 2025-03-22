@@ -38,29 +38,31 @@ export const ResearchArea: ListConfig<any> = list({
     status: statusField,
   },
   hooks: {
-    validate: async ({ item, resolvedData, addValidationError }) => {
-      imageRequired({ item, resolvedData, addValidationError });
-      imageRequired<{
-        icon_id: string;
-        icon_filesize: number;
-        icon_width: number;
-        icon_height: number;
-        icon_extension: ImageExtension;
-      }>({
-        item,
-        resolvedData,
-        extractItemImage: (item) => ({
-          id: item.icon_id,
-          filesize: item.icon_filesize,
-          width: item.icon_width,
-          height: item.icon_height,
-          extension: item.icon_extension,
-        }),
-        extractResolvedImage: (resolvedData) => resolvedData.icon,
-        addValidationError,
-        errorMessage: "Icon must not be null",
-      });
-      documentRequired(item, resolvedData, addValidationError);
+    validate: async ({ item, resolvedData, operation, addValidationError }) => {
+      if (operation !== "delete") {
+        imageRequired({ item, resolvedData, addValidationError });
+        imageRequired<{
+          icon_id: string;
+          icon_filesize: number;
+          icon_width: number;
+          icon_height: number;
+          icon_extension: ImageExtension;
+        }>({
+          item,
+          resolvedData,
+          extractItemImage: (item) => ({
+            id: item.icon_id,
+            filesize: item.icon_filesize,
+            width: item.icon_width,
+            height: item.icon_height,
+            extension: item.icon_extension,
+          }),
+          extractResolvedImage: (resolvedData) => resolvedData.icon,
+          addValidationError,
+          errorMessage: "Icon must not be null",
+        });
+        documentRequired(item, resolvedData, addValidationError);
+      }
     },
   },
   ui: {

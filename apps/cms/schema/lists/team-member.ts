@@ -31,8 +31,10 @@ export const TeamMember: ListConfig<any> = list({
     status: statusField,
   },
   hooks: {
-    validate: async ({ item, resolvedData, addValidationError }) => {
-      imageRequired({ item, resolvedData, addValidationError });
+    validate: async ({ item, resolvedData, operation, addValidationError }) => {
+      if (operation !== "delete") {
+        imageRequired({ item, resolvedData, addValidationError });
+      }
     },
   },
   ui: {

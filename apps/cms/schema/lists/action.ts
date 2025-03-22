@@ -57,9 +57,11 @@ export const Action: ListConfig<any> = list({
         slug: slugify(resolvedData.title ?? item.title),
       };
     },
-    validate: async ({ item, resolvedData, addValidationError }) => {
-      imageRequired({ item, resolvedData, addValidationError });
-      documentRequired(item, resolvedData, addValidationError);
+    validate: async ({ item, resolvedData, operation, addValidationError }) => {
+      if (operation !== "delete") {
+        imageRequired({ item, resolvedData, addValidationError });
+        documentRequired(item, resolvedData, addValidationError);
+      }
     },
   },
   ui: {
