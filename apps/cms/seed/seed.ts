@@ -180,78 +180,95 @@ async function main() {
 
   console.log(`Inserted company`);
 
-  const sectionContents = await context.db.SectionContent.createMany({
-    data: [
-      {
-        section: "HOME_HERO",
-        title: "New directions for language teaching in times of globalization",
-        content: faker.lorem.paragraph(10),
-        image: prepareFile("placeholder.jpg"),
-      },
-      {
-        section: "RESEARCH_HERO",
-        title: "Our research",
-        content: faker.lorem.paragraph(2),
-      },
-      {
-        section: "TEAM_HERO",
-        title: "Our team",
-        content: faker.lorem.paragraph(2),
-      },
-      {
-        section: "PUBLICATIONS_HERO",
-        title: "Publications",
-        content: faker.lorem.paragraph(2),
-      },
-      {
-        section: "EVENTS_HERO",
-        title: "Events",
-        content: faker.lorem.paragraph(2),
-      },
-      {
-        section: "ACTIONS_HERO",
-        title: "Actions",
-        content: faker.lorem.paragraph(2),
-      },
-      {
-        section: "PROJECTS_HERO",
-        title: "Projects",
-        content: faker.lorem.paragraph(2),
-      },
-      {
-        section: "HISTORY_HERO",
-        title: "New directions for language teaching in times of globalization",
-        content: faker.lorem.paragraph(3),
-      },
-      {
-        section: "HISTORY_SECTION",
-        title: "Inspiring origins",
-        content: faker.lorem.paragraph(15),
-      },
-      {
-        section: "HISTORY_SECTION",
-        title: "First steps",
-        content: faker.lorem.paragraph(15),
-      },
-      {
-        section: "HISTORY_SECTION",
-        title: "Commitment to depth",
-        content: faker.lorem.paragraph(15),
-      },
-      {
-        section: "HISTORY_SECTION",
-        title: "Collaboration and growth",
-        content: faker.lorem.paragraph(15),
-      },
-      {
-        section: "HISTORY_SECTION",
-        title: "Glimpsing the future",
-        content: faker.lorem.paragraph(15),
-      },
-    ],
+  await context.db.HomeSection.createOne({
+    data: {
+      title: "New directions for language teaching in times of globalization",
+      content: faker.lorem.paragraph(10),
+      image: prepareFile("placeholder.jpg"),
+    },
   });
 
-  console.log(`Inserted ${sectionContents.length} section contents`);
+  console.log(`Inserted home section`);
+
+  await context.db.HistorySection.createOne({
+    data: {
+      title: "Our history",
+      content: faker.lorem.paragraph(10),
+    },
+  });
+
+  console.log(`Inserted history section`);
+
+  await context.db.ResearchSection.createOne({
+    data: {
+      title: "Our research",
+      content: faker.lorem.paragraph(10),
+    },
+  });
+
+  console.log(`Inserted research section`);
+
+  await context.db.TeamSection.createOne({
+    data: {
+      title: "Our team",
+      content: faker.lorem.paragraph(10),
+    },
+  });
+
+  console.log(`Inserted team section`);
+
+  await context.db.PublicationsSection.createOne({
+    data: {
+      title: "Publications",
+      content: faker.lorem.paragraph(10),
+    },
+  });
+
+  console.log(`Inserted publications section`);
+
+  await context.db.EventsSection.createOne({
+    data: {
+      title: "Events",
+      content: faker.lorem.paragraph(10),
+    },
+  });
+
+  console.log(`Inserted events section`);
+
+  await context.db.ActionsSection.createOne({
+    data: {
+      title: "Actions",
+      content: faker.lorem.paragraph(10),
+    },
+  });
+
+  console.log(`Inserted actions section`);
+
+  await context.db.ProjectsSection.createOne({
+    data: {
+      title: "Projects",
+      content: faker.lorem.paragraph(10),
+    },
+  });
+
+  console.log(`Inserted projects section`);
+
+  await context.db.History.createOne({
+    data: {
+      titleOne: "Inspiring origins",
+      contentOne: faker.lorem.paragraph(15),
+      titleTwo: "First steps",
+      contentTwo: faker.lorem.paragraph(15),
+      titleThree: "Commitment to depth",
+      contentThree: faker.lorem.paragraph(15),
+      titleFour: "Collaboration and growth",
+      contentFour: faker.lorem.paragraph(15),
+      titleFive: "Glimpsing the future",
+      contentFive: faker.lorem.paragraph(15),
+    },
+  });
+
+  console.log(`Inserted history page content`);
 
   console.log(`✅ Seed data inserted`);
 }

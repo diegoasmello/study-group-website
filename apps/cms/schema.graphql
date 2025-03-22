@@ -809,6 +809,7 @@ type HomeSection {
   id: ID!
   title: String!
   content: String!
+  image: ImageFieldOutput!
 }
 
 input HomeSectionWhereUniqueInput {
@@ -833,6 +834,7 @@ input HomeSectionOrderByInput {
 input HomeSectionUpdateInput {
   title: String
   content: String
+  image: ImageFieldInput
 }
 
 input HomeSectionUpdateArgs {
@@ -843,6 +845,7 @@ input HomeSectionUpdateArgs {
 input HomeSectionCreateInput {
   title: String
   content: String
+  image: ImageFieldInput
 }
 
 type ResearchSection {

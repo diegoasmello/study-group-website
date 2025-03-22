@@ -48,7 +48,7 @@ const imageField = image({
 const sectionList = list({
   access: {
     operation: {
-      create: denyAll,
+      create: allowAll,
       delete: denyAll,
       query: allowAll,
       update: allowAll,
@@ -525,7 +525,29 @@ export const lists: Record<string, ListConfig<any>> = {
       },
     },
   }),
-  HomeSection: sectionList,
+  HomeSection: list({
+    access: {
+      operation: {
+        create: allowAll,
+        delete: denyAll,
+        query: allowAll,
+        update: allowAll,
+      },
+    },
+    fields: {
+      title: text({
+        validation: { isRequired: true, length: { min: 1, max: 200 } },
+        graphql: { isNonNull: { read: true } },
+      }),
+      content: text({
+        ui: { displayMode: "textarea" },
+        validation: { isRequired: true },
+        graphql: { isNonNull: { read: true } },
+      }),
+      image: imageField,
+    },
+    isSingleton: true,
+  }),
   ResearchSection: sectionList,
   TeamSection: sectionList,
   HistorySection: sectionList,
@@ -536,7 +558,7 @@ export const lists: Record<string, ListConfig<any>> = {
   History: list({
     access: {
       operation: {
-        create: denyAll,
+        create: allowAll,
         delete: denyAll,
         query: allowAll,
         update: allowAll,
@@ -629,7 +651,7 @@ export const lists: Record<string, ListConfig<any>> = {
   Company: list({
     access: {
       operation: {
-        create: denyAll,
+        create: allowAll,
         delete: denyAll,
         query: allowAll,
         update: allowAll,
