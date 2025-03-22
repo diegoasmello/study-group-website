@@ -4,6 +4,7 @@ import { TextInput } from "./form-fields/TextInput";
 import { Fragment } from "react/jsx-runtime";
 import { useEffect, useState } from "react";
 import { Tooltip } from "./Tooltip";
+import { flags } from "~/flags";
 
 interface ButtonShareProps extends ButtonProps {}
 
@@ -25,36 +26,41 @@ export function ButtonShare(props: ButtonShareProps) {
       </PopoverButton>
       <PopoverPanel
         anchor="top start"
-        className={`z-20 rounded-2xl p-6 bg-white shadow-custom-2 flex flex-col gap-4 transition duration-100 ease-out [--anchor-gap:1rem]`}
+        className={`z-20 rounded-2xl p-5 bg-white shadow-custom-2 flex flex-col gap-4 transition duration-100 ease-out [--anchor-gap:1rem]`}
       >
+        {flags.SOCIAL_LINKS_ENABLED && (
+          <div className="flex flex-col gap-2">
+            <span className="text-gray-950 font-medium">Share by</span>
+            <nav className="flex items-center justify-between">
+              <button className="text-whatsapp group">
+                <WhatsappIcon className="rounded-full border border-whatsapp-idle group-hover:border-whatsapp" />
+              </button>
+
+              <button className="text-facebook group">
+                <FacebookIcon className="rounded-full border border-facebook-idle group-hover:border-facebook" />
+              </button>
+
+              <button className="text-instagram group">
+                <InstagramIcon className="rounded-full border border-instagram-idle group-hover:border-instagram" />
+              </button>
+
+              <button className="text-twitter group">
+                <TwitterIcon className="rounded-full border border-twitter-idle group-hover:border-twitter" />
+              </button>
+
+              <button className="text-telegram group">
+                <TelegramIcon className="rounded-full border border-telegram-idle group-hover:border-telegram" />
+              </button>
+            </nav>
+          </div>
+        )}
         <div className="flex flex-col gap-2">
-          <span className="text-gray-950 font-medium">Share by</span>
-          <nav className="flex items-center justify-between">
-            <button className="text-whatsapp group">
-              <WhatsappIcon className="rounded-full border border-whatsapp-idle group-hover:border-whatsapp" />
-            </button>
-
-            <button className="text-facebook group">
-              <FacebookIcon className="rounded-full border border-facebook-idle group-hover:border-facebook" />
-            </button>
-
-            <button className="text-instagram group">
-              <InstagramIcon className="rounded-full border border-instagram-idle group-hover:border-instagram" />
-            </button>
-
-            <button className="text-twitter group">
-              <TwitterIcon className="rounded-full border border-twitter-idle group-hover:border-twitter" />
-            </button>
-
-            <button className="text-telegram group">
-              <TelegramIcon className="rounded-full border border-telegram-idle group-hover:border-telegram" />
-            </button>
-          </nav>
-        </div>
-        <div className="flex flex-col gap-2">
-          <span className="text-gray-950 font-medium">Or copy the link</span>
+          <span className="text-gray-950 font-medium">
+            {flags.SOCIAL_LINKS_ENABLED ? "Or copy " : "Copy "}
+            the link
+          </span>
           <div className="flex flex-row gap-2">
-            <TextInput placeholder={currentUrl} />
+            <TextInput placeholder={currentUrl} disabled />
             <Tooltip text="Copied to clipboard!">
               <Button skin="ghost" size="md" onClick={handleCopyUrl}>
                 Copy
