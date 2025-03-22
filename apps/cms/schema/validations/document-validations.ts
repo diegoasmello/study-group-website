@@ -1,5 +1,5 @@
 import { BaseItem } from "@keystone-6/core/types";
-import { isEmpty, isEmptyArray } from "../utils/checks";
+import { isEmpty, isEmptyArray } from "../../utils/checks";
 
 function isBlockTextEmpty(block: object & { text: string }) {
   const text = block.text;

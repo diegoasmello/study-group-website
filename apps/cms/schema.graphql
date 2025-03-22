@@ -188,6 +188,349 @@ input ActionCreateInput {
   status: ActionStatusType
 }
 
+type Company {
+  id: ID!
+  title: String!
+  address: String!
+  phone: String!
+  email: String!
+  facebookUrl: String!
+  instagramUrl: String!
+  youtubeUrl: String!
+}
+
+input CompanyWhereUniqueInput {
+  id: ID
+}
+
+input CompanyWhereInput {
+  AND: [CompanyWhereInput!]
+  OR: [CompanyWhereInput!]
+  NOT: [CompanyWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  address: StringFilter
+  phone: StringFilter
+  email: StringFilter
+  facebookUrl: StringFilter
+  instagramUrl: StringFilter
+  youtubeUrl: StringFilter
+}
+
+input CompanyOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  address: OrderDirection
+  phone: OrderDirection
+  email: OrderDirection
+  facebookUrl: OrderDirection
+  instagramUrl: OrderDirection
+  youtubeUrl: OrderDirection
+}
+
+input CompanyUpdateInput {
+  title: String
+  address: String
+  phone: String
+  email: String
+  facebookUrl: String
+  instagramUrl: String
+  youtubeUrl: String
+}
+
+input CompanyUpdateArgs {
+  where: CompanyWhereUniqueInput! = {id: 1}
+  data: CompanyUpdateInput!
+}
+
+input CompanyCreateInput {
+  title: String
+  address: String
+  phone: String
+  email: String
+  facebookUrl: String
+  instagramUrl: String
+  youtubeUrl: String
+}
+
+type Event {
+  id: ID!
+  title: String!
+  slug: String!
+  keywords: String!
+  resume: String!
+  content: Event_content_Document!
+  image: ImageFieldOutput!
+  link: String!
+  workload: Int!
+  date: CalendarDay!
+  locale: String!
+  publishedAt: DateTime
+  status: EventStatusType!
+}
+
+type Event_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+enum EventStatusType {
+  published
+  draft
+}
+
+input EventWhereUniqueInput {
+  id: ID
+  slug: String
+}
+
+input EventWhereInput {
+  AND: [EventWhereInput!]
+  OR: [EventWhereInput!]
+  NOT: [EventWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  slug: StringFilter
+  keywords: StringFilter
+  resume: StringFilter
+  link: StringFilter
+  workload: IntFilter
+  date: CalendarDayFilter
+  locale: StringFilter
+  publishedAt: DateTimeNullableFilter
+  status: EventStatusTypeNullableFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntFilter
+}
+
+input EventStatusTypeNullableFilter {
+  equals: EventStatusType
+  in: [EventStatusType!]
+  notIn: [EventStatusType!]
+  not: EventStatusTypeNullableFilter
+}
+
+input EventOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  slug: OrderDirection
+  keywords: OrderDirection
+  resume: OrderDirection
+  link: OrderDirection
+  workload: OrderDirection
+  date: OrderDirection
+  locale: OrderDirection
+  publishedAt: OrderDirection
+  status: OrderDirection
+}
+
+input EventUpdateInput {
+  title: String
+  slug: String
+  keywords: String
+  resume: String
+  content: JSON
+  image: ImageFieldInput
+  link: String
+  workload: Int
+  date: CalendarDay
+  locale: String
+  publishedAt: DateTime
+  status: EventStatusType
+}
+
+input EventUpdateArgs {
+  where: EventWhereUniqueInput!
+  data: EventUpdateInput!
+}
+
+input EventCreateInput {
+  title: String
+  slug: String
+  keywords: String
+  resume: String
+  content: JSON
+  image: ImageFieldInput
+  link: String
+  workload: Int
+  date: CalendarDay
+  locale: String
+  publishedAt: DateTime
+  status: EventStatusType
+}
+
+type History {
+  id: ID!
+  titleOne: String!
+  contentOne: String!
+  titleTwo: String!
+  contentTwo: String!
+  titleThree: String!
+  contentThree: String!
+  titleFour: String!
+  contentFour: String!
+  titleFive: String!
+  contentFive: String!
+}
+
+input HistoryWhereUniqueInput {
+  id: ID
+}
+
+input HistoryWhereInput {
+  AND: [HistoryWhereInput!]
+  OR: [HistoryWhereInput!]
+  NOT: [HistoryWhereInput!]
+  id: IDFilter
+  titleOne: StringFilter
+  contentOne: StringFilter
+  titleTwo: StringFilter
+  contentTwo: StringFilter
+  titleThree: StringFilter
+  contentThree: StringFilter
+  titleFour: StringFilter
+  contentFour: StringFilter
+  titleFive: StringFilter
+  contentFive: StringFilter
+}
+
+input HistoryOrderByInput {
+  id: OrderDirection
+  titleOne: OrderDirection
+  contentOne: OrderDirection
+  titleTwo: OrderDirection
+  contentTwo: OrderDirection
+  titleThree: OrderDirection
+  contentThree: OrderDirection
+  titleFour: OrderDirection
+  contentFour: OrderDirection
+  titleFive: OrderDirection
+  contentFive: OrderDirection
+}
+
+input HistoryUpdateInput {
+  titleOne: String
+  contentOne: String
+  titleTwo: String
+  contentTwo: String
+  titleThree: String
+  contentThree: String
+  titleFour: String
+  contentFour: String
+  titleFive: String
+  contentFive: String
+}
+
+input HistoryUpdateArgs {
+  where: HistoryWhereUniqueInput! = {id: 1}
+  data: HistoryUpdateInput!
+}
+
+input HistoryCreateInput {
+  titleOne: String
+  contentOne: String
+  titleTwo: String
+  contentTwo: String
+  titleThree: String
+  contentThree: String
+  titleFour: String
+  contentFour: String
+  titleFive: String
+  contentFive: String
+}
+
+type HomeSection {
+  id: ID!
+  title: String!
+  content: String!
+  image: ImageFieldOutput!
+}
+
+input HomeSectionWhereUniqueInput {
+  id: ID
+}
+
+input HomeSectionWhereInput {
+  AND: [HomeSectionWhereInput!]
+  OR: [HomeSectionWhereInput!]
+  NOT: [HomeSectionWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  content: StringFilter
+}
+
+input HomeSectionOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  content: OrderDirection
+}
+
+input HomeSectionUpdateInput {
+  title: String
+  content: String
+  image: ImageFieldInput
+}
+
+input HomeSectionUpdateArgs {
+  where: HomeSectionWhereUniqueInput! = {id: 1}
+  data: HomeSectionUpdateInput!
+}
+
+input HomeSectionCreateInput {
+  title: String
+  content: String
+  image: ImageFieldInput
+}
+
+type NewsletterList {
+  id: ID!
+  email: String
+  publishedAt: DateTime
+}
+
+input NewsletterListWhereUniqueInput {
+  id: ID
+  email: String
+}
+
+input NewsletterListWhereInput {
+  AND: [NewsletterListWhereInput!]
+  OR: [NewsletterListWhereInput!]
+  NOT: [NewsletterListWhereInput!]
+  id: IDFilter
+  email: StringFilter
+  publishedAt: DateTimeNullableFilter
+}
+
+input NewsletterListOrderByInput {
+  id: OrderDirection
+  email: OrderDirection
+  publishedAt: OrderDirection
+}
+
+input NewsletterListUpdateInput {
+  email: String
+  publishedAt: DateTime
+}
+
+input NewsletterListUpdateArgs {
+  where: NewsletterListWhereUniqueInput!
+  data: NewsletterListUpdateInput!
+}
+
+input NewsletterListCreateInput {
+  email: String
+  publishedAt: DateTime
+}
+
 type Project {
   id: ID!
   title: String!
@@ -319,120 +662,6 @@ input ResearchAreaRelateToOneForCreateInput {
   connect: ResearchAreaWhereUniqueInput
 }
 
-type Event {
-  id: ID!
-  title: String!
-  slug: String!
-  keywords: String!
-  resume: String!
-  content: Event_content_Document!
-  image: ImageFieldOutput!
-  link: String!
-  workload: Int!
-  date: CalendarDay!
-  locale: String!
-  publishedAt: DateTime
-  status: EventStatusType!
-}
-
-type Event_content_Document {
-  document(hydrateRelationships: Boolean! = false): JSON!
-}
-
-enum EventStatusType {
-  published
-  draft
-}
-
-input EventWhereUniqueInput {
-  id: ID
-  slug: String
-}
-
-input EventWhereInput {
-  AND: [EventWhereInput!]
-  OR: [EventWhereInput!]
-  NOT: [EventWhereInput!]
-  id: IDFilter
-  title: StringFilter
-  slug: StringFilter
-  keywords: StringFilter
-  resume: StringFilter
-  link: StringFilter
-  workload: IntFilter
-  date: CalendarDayFilter
-  locale: StringFilter
-  publishedAt: DateTimeNullableFilter
-  status: EventStatusTypeNullableFilter
-}
-
-input IntFilter {
-  equals: Int
-  in: [Int!]
-  notIn: [Int!]
-  lt: Int
-  lte: Int
-  gt: Int
-  gte: Int
-  not: IntFilter
-}
-
-input EventStatusTypeNullableFilter {
-  equals: EventStatusType
-  in: [EventStatusType!]
-  notIn: [EventStatusType!]
-  not: EventStatusTypeNullableFilter
-}
-
-input EventOrderByInput {
-  id: OrderDirection
-  title: OrderDirection
-  slug: OrderDirection
-  keywords: OrderDirection
-  resume: OrderDirection
-  link: OrderDirection
-  workload: OrderDirection
-  date: OrderDirection
-  locale: OrderDirection
-  publishedAt: OrderDirection
-  status: OrderDirection
-}
-
-input EventUpdateInput {
-  title: String
-  slug: String
-  keywords: String
-  resume: String
-  content: JSON
-  image: ImageFieldInput
-  link: String
-  workload: Int
-  date: CalendarDay
-  locale: String
-  publishedAt: DateTime
-  status: EventStatusType
-}
-
-input EventUpdateArgs {
-  where: EventWhereUniqueInput!
-  data: EventUpdateInput!
-}
-
-input EventCreateInput {
-  title: String
-  slug: String
-  keywords: String
-  resume: String
-  content: JSON
-  image: ImageFieldInput
-  link: String
-  workload: Int
-  date: CalendarDay
-  locale: String
-  publishedAt: DateTime
-  status: EventStatusType
-}
-
 type Publication {
   id: ID!
   title: String!
@@ -545,76 +774,6 @@ input PublicationCreateInput {
   license: String
   publishedAt: DateTime
   status: PublicationStatusType
-}
-
-type TeamMember {
-  id: ID!
-  name: String!
-  role: String!
-  image: ImageFieldOutput!
-  link: String!
-  publishedAt: DateTime
-  status: TeamMemberStatusType!
-}
-
-enum TeamMemberStatusType {
-  published
-  draft
-}
-
-input TeamMemberWhereUniqueInput {
-  id: ID
-}
-
-input TeamMemberWhereInput {
-  AND: [TeamMemberWhereInput!]
-  OR: [TeamMemberWhereInput!]
-  NOT: [TeamMemberWhereInput!]
-  id: IDFilter
-  name: StringFilter
-  role: StringFilter
-  link: StringFilter
-  publishedAt: DateTimeNullableFilter
-  status: TeamMemberStatusTypeNullableFilter
-}
-
-input TeamMemberStatusTypeNullableFilter {
-  equals: TeamMemberStatusType
-  in: [TeamMemberStatusType!]
-  notIn: [TeamMemberStatusType!]
-  not: TeamMemberStatusTypeNullableFilter
-}
-
-input TeamMemberOrderByInput {
-  id: OrderDirection
-  name: OrderDirection
-  role: OrderDirection
-  link: OrderDirection
-  publishedAt: OrderDirection
-  status: OrderDirection
-}
-
-input TeamMemberUpdateInput {
-  name: String
-  role: String
-  image: ImageFieldInput
-  link: String
-  publishedAt: DateTime
-  status: TeamMemberStatusType
-}
-
-input TeamMemberUpdateArgs {
-  where: TeamMemberWhereUniqueInput!
-  data: TeamMemberUpdateInput!
-}
-
-input TeamMemberCreateInput {
-  name: String
-  role: String
-  image: ImageFieldInput
-  link: String
-  publishedAt: DateTime
-  status: TeamMemberStatusType
 }
 
 type ResearchArea {
@@ -805,47 +964,127 @@ input ResearcherCreateInput {
   status: ResearcherStatusType
 }
 
-type HomeSection {
+type TeamMember {
   id: ID!
-  title: String!
-  content: String!
+  name: String!
+  role: String!
   image: ImageFieldOutput!
+  link: String!
+  publishedAt: DateTime
+  status: TeamMemberStatusType!
 }
 
-input HomeSectionWhereUniqueInput {
+enum TeamMemberStatusType {
+  published
+  draft
+}
+
+input TeamMemberWhereUniqueInput {
   id: ID
 }
 
-input HomeSectionWhereInput {
-  AND: [HomeSectionWhereInput!]
-  OR: [HomeSectionWhereInput!]
-  NOT: [HomeSectionWhereInput!]
+input TeamMemberWhereInput {
+  AND: [TeamMemberWhereInput!]
+  OR: [TeamMemberWhereInput!]
+  NOT: [TeamMemberWhereInput!]
   id: IDFilter
-  title: StringFilter
-  content: StringFilter
+  name: StringFilter
+  role: StringFilter
+  link: StringFilter
+  publishedAt: DateTimeNullableFilter
+  status: TeamMemberStatusTypeNullableFilter
 }
 
-input HomeSectionOrderByInput {
+input TeamMemberStatusTypeNullableFilter {
+  equals: TeamMemberStatusType
+  in: [TeamMemberStatusType!]
+  notIn: [TeamMemberStatusType!]
+  not: TeamMemberStatusTypeNullableFilter
+}
+
+input TeamMemberOrderByInput {
   id: OrderDirection
-  title: OrderDirection
-  content: OrderDirection
+  name: OrderDirection
+  role: OrderDirection
+  link: OrderDirection
+  publishedAt: OrderDirection
+  status: OrderDirection
 }
 
-input HomeSectionUpdateInput {
-  title: String
-  content: String
+input TeamMemberUpdateInput {
+  name: String
+  role: String
   image: ImageFieldInput
+  link: String
+  publishedAt: DateTime
+  status: TeamMemberStatusType
 }
 
-input HomeSectionUpdateArgs {
-  where: HomeSectionWhereUniqueInput! = {id: 1}
-  data: HomeSectionUpdateInput!
+input TeamMemberUpdateArgs {
+  where: TeamMemberWhereUniqueInput!
+  data: TeamMemberUpdateInput!
 }
 
-input HomeSectionCreateInput {
-  title: String
-  content: String
+input TeamMemberCreateInput {
+  name: String
+  role: String
   image: ImageFieldInput
+  link: String
+  publishedAt: DateTime
+  status: TeamMemberStatusType
+}
+
+type User {
+  id: ID!
+  name: String
+  email: String
+  password: PasswordState
+  publishedAt: DateTime
+}
+
+type PasswordState {
+  isSet: Boolean!
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  email: StringFilter
+  publishedAt: DateTimeNullableFilter
+}
+
+input UserOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  email: OrderDirection
+  publishedAt: OrderDirection
+}
+
+input UserUpdateInput {
+  name: String
+  email: String
+  password: String
+  publishedAt: DateTime
+}
+
+input UserUpdateArgs {
+  where: UserWhereUniqueInput!
+  data: UserUpdateInput!
+}
+
+input UserCreateInput {
+  name: String
+  email: String
+  password: String
+  publishedAt: DateTime
 }
 
 type ResearchSection {
@@ -1128,235 +1367,6 @@ input ProjectsSectionCreateInput {
   content: String
 }
 
-type History {
-  id: ID!
-  titleOne: String!
-  contentOne: String!
-  titleTwo: String!
-  contentTwo: String!
-  titleThree: String!
-  contentThree: String!
-  titleFour: String!
-  contentFour: String!
-  titleFive: String!
-  contentFive: String!
-}
-
-input HistoryWhereUniqueInput {
-  id: ID
-}
-
-input HistoryWhereInput {
-  AND: [HistoryWhereInput!]
-  OR: [HistoryWhereInput!]
-  NOT: [HistoryWhereInput!]
-  id: IDFilter
-  titleOne: StringFilter
-  contentOne: StringFilter
-  titleTwo: StringFilter
-  contentTwo: StringFilter
-  titleThree: StringFilter
-  contentThree: StringFilter
-  titleFour: StringFilter
-  contentFour: StringFilter
-  titleFive: StringFilter
-  contentFive: StringFilter
-}
-
-input HistoryOrderByInput {
-  id: OrderDirection
-  titleOne: OrderDirection
-  contentOne: OrderDirection
-  titleTwo: OrderDirection
-  contentTwo: OrderDirection
-  titleThree: OrderDirection
-  contentThree: OrderDirection
-  titleFour: OrderDirection
-  contentFour: OrderDirection
-  titleFive: OrderDirection
-  contentFive: OrderDirection
-}
-
-input HistoryUpdateInput {
-  titleOne: String
-  contentOne: String
-  titleTwo: String
-  contentTwo: String
-  titleThree: String
-  contentThree: String
-  titleFour: String
-  contentFour: String
-  titleFive: String
-  contentFive: String
-}
-
-input HistoryUpdateArgs {
-  where: HistoryWhereUniqueInput! = {id: 1}
-  data: HistoryUpdateInput!
-}
-
-input HistoryCreateInput {
-  titleOne: String
-  contentOne: String
-  titleTwo: String
-  contentTwo: String
-  titleThree: String
-  contentThree: String
-  titleFour: String
-  contentFour: String
-  titleFive: String
-  contentFive: String
-}
-
-type Company {
-  id: ID!
-  title: String!
-  address: String!
-  phone: String!
-  email: String!
-  facebookUrl: String!
-  instagramUrl: String!
-  youtubeUrl: String!
-}
-
-input CompanyWhereUniqueInput {
-  id: ID
-}
-
-input CompanyWhereInput {
-  AND: [CompanyWhereInput!]
-  OR: [CompanyWhereInput!]
-  NOT: [CompanyWhereInput!]
-  id: IDFilter
-  title: StringFilter
-  address: StringFilter
-  phone: StringFilter
-  email: StringFilter
-  facebookUrl: StringFilter
-  instagramUrl: StringFilter
-  youtubeUrl: StringFilter
-}
-
-input CompanyOrderByInput {
-  id: OrderDirection
-  title: OrderDirection
-  address: OrderDirection
-  phone: OrderDirection
-  email: OrderDirection
-  facebookUrl: OrderDirection
-  instagramUrl: OrderDirection
-  youtubeUrl: OrderDirection
-}
-
-input CompanyUpdateInput {
-  title: String
-  address: String
-  phone: String
-  email: String
-  facebookUrl: String
-  instagramUrl: String
-  youtubeUrl: String
-}
-
-input CompanyUpdateArgs {
-  where: CompanyWhereUniqueInput! = {id: 1}
-  data: CompanyUpdateInput!
-}
-
-input CompanyCreateInput {
-  title: String
-  address: String
-  phone: String
-  email: String
-  facebookUrl: String
-  instagramUrl: String
-  youtubeUrl: String
-}
-
-type NewsletterList {
-  id: ID!
-  email: String
-}
-
-input NewsletterListWhereUniqueInput {
-  id: ID
-  email: String
-}
-
-input NewsletterListWhereInput {
-  AND: [NewsletterListWhereInput!]
-  OR: [NewsletterListWhereInput!]
-  NOT: [NewsletterListWhereInput!]
-  id: IDFilter
-  email: StringFilter
-}
-
-input NewsletterListOrderByInput {
-  id: OrderDirection
-  email: OrderDirection
-}
-
-input NewsletterListUpdateInput {
-  email: String
-}
-
-input NewsletterListUpdateArgs {
-  where: NewsletterListWhereUniqueInput!
-  data: NewsletterListUpdateInput!
-}
-
-input NewsletterListCreateInput {
-  email: String
-}
-
-type User {
-  id: ID!
-  name: String
-  email: String
-  password: PasswordState
-}
-
-type PasswordState {
-  isSet: Boolean!
-}
-
-input UserWhereUniqueInput {
-  id: ID
-  email: String
-}
-
-input UserWhereInput {
-  AND: [UserWhereInput!]
-  OR: [UserWhereInput!]
-  NOT: [UserWhereInput!]
-  id: IDFilter
-  name: StringFilter
-  email: StringFilter
-}
-
-input UserOrderByInput {
-  id: OrderDirection
-  name: OrderDirection
-  email: OrderDirection
-}
-
-input UserUpdateInput {
-  name: String
-  email: String
-  password: String
-}
-
-input UserUpdateArgs {
-  where: UserWhereUniqueInput!
-  data: UserUpdateInput!
-}
-
-input UserCreateInput {
-  name: String
-  email: String
-  password: String
-}
-
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -1369,30 +1379,48 @@ type Mutation {
   updateActions(data: [ActionUpdateArgs!]!): [Action]
   deleteAction(where: ActionWhereUniqueInput!): Action
   deleteActions(where: [ActionWhereUniqueInput!]!): [Action]
-  createProject(data: ProjectCreateInput!): Project
-  createProjects(data: [ProjectCreateInput!]!): [Project]
-  updateProject(where: ProjectWhereUniqueInput!, data: ProjectUpdateInput!): Project
-  updateProjects(data: [ProjectUpdateArgs!]!): [Project]
-  deleteProject(where: ProjectWhereUniqueInput!): Project
-  deleteProjects(where: [ProjectWhereUniqueInput!]!): [Project]
+  createCompany(data: CompanyCreateInput!): Company
+  createCompanies(data: [CompanyCreateInput!]!): [Company]
+  updateCompany(where: CompanyWhereUniqueInput! = {id: 1}, data: CompanyUpdateInput!): Company
+  updateCompanies(data: [CompanyUpdateArgs!]!): [Company]
+  deleteCompany(where: CompanyWhereUniqueInput! = {id: 1}): Company
+  deleteCompanies(where: [CompanyWhereUniqueInput!]!): [Company]
   createEvent(data: EventCreateInput!): Event
   createEvents(data: [EventCreateInput!]!): [Event]
   updateEvent(where: EventWhereUniqueInput!, data: EventUpdateInput!): Event
   updateEvents(data: [EventUpdateArgs!]!): [Event]
   deleteEvent(where: EventWhereUniqueInput!): Event
   deleteEvents(where: [EventWhereUniqueInput!]!): [Event]
+  createHistory(data: HistoryCreateInput!): History
+  createHistories(data: [HistoryCreateInput!]!): [History]
+  updateHistory(where: HistoryWhereUniqueInput! = {id: 1}, data: HistoryUpdateInput!): History
+  updateHistories(data: [HistoryUpdateArgs!]!): [History]
+  deleteHistory(where: HistoryWhereUniqueInput! = {id: 1}): History
+  deleteHistories(where: [HistoryWhereUniqueInput!]!): [History]
+  createHomeSection(data: HomeSectionCreateInput!): HomeSection
+  createHomeSections(data: [HomeSectionCreateInput!]!): [HomeSection]
+  updateHomeSection(where: HomeSectionWhereUniqueInput! = {id: 1}, data: HomeSectionUpdateInput!): HomeSection
+  updateHomeSections(data: [HomeSectionUpdateArgs!]!): [HomeSection]
+  deleteHomeSection(where: HomeSectionWhereUniqueInput! = {id: 1}): HomeSection
+  deleteHomeSections(where: [HomeSectionWhereUniqueInput!]!): [HomeSection]
+  createNewsletterList(data: NewsletterListCreateInput!): NewsletterList
+  createNewsletterLists(data: [NewsletterListCreateInput!]!): [NewsletterList]
+  updateNewsletterList(where: NewsletterListWhereUniqueInput!, data: NewsletterListUpdateInput!): NewsletterList
+  updateNewsletterLists(data: [NewsletterListUpdateArgs!]!): [NewsletterList]
+  deleteNewsletterList(where: NewsletterListWhereUniqueInput!): NewsletterList
+  deleteNewsletterLists(where: [NewsletterListWhereUniqueInput!]!): [NewsletterList]
+  createProject(data: ProjectCreateInput!): Project
+  createProjects(data: [ProjectCreateInput!]!): [Project]
+  updateProject(where: ProjectWhereUniqueInput!, data: ProjectUpdateInput!): Project
+  updateProjects(data: [ProjectUpdateArgs!]!): [Project]
+  deleteProject(where: ProjectWhereUniqueInput!): Project
+  deleteProjects(where: [ProjectWhereUniqueInput!]!): [Project]
   createPublication(data: PublicationCreateInput!): Publication
   createPublications(data: [PublicationCreateInput!]!): [Publication]
   updatePublication(where: PublicationWhereUniqueInput!, data: PublicationUpdateInput!): Publication
   updatePublications(data: [PublicationUpdateArgs!]!): [Publication]
   deletePublication(where: PublicationWhereUniqueInput!): Publication
   deletePublications(where: [PublicationWhereUniqueInput!]!): [Publication]
-  createTeamMember(data: TeamMemberCreateInput!): TeamMember
-  createTeamMembers(data: [TeamMemberCreateInput!]!): [TeamMember]
-  updateTeamMember(where: TeamMemberWhereUniqueInput!, data: TeamMemberUpdateInput!): TeamMember
-  updateTeamMembers(data: [TeamMemberUpdateArgs!]!): [TeamMember]
-  deleteTeamMember(where: TeamMemberWhereUniqueInput!): TeamMember
-  deleteTeamMembers(where: [TeamMemberWhereUniqueInput!]!): [TeamMember]
   createResearchArea(data: ResearchAreaCreateInput!): ResearchArea
   createResearchAreas(data: [ResearchAreaCreateInput!]!): [ResearchArea]
   updateResearchArea(where: ResearchAreaWhereUniqueInput!, data: ResearchAreaUpdateInput!): ResearchArea
@@ -1405,12 +1433,18 @@ type Mutation {
   updateResearchers(data: [ResearcherUpdateArgs!]!): [Researcher]
   deleteResearcher(where: ResearcherWhereUniqueInput!): Researcher
   deleteResearchers(where: [ResearcherWhereUniqueInput!]!): [Researcher]
-  createHomeSection(data: HomeSectionCreateInput!): HomeSection
-  createHomeSections(data: [HomeSectionCreateInput!]!): [HomeSection]
-  updateHomeSection(where: HomeSectionWhereUniqueInput! = {id: 1}, data: HomeSectionUpdateInput!): HomeSection
-  updateHomeSections(data: [HomeSectionUpdateArgs!]!): [HomeSection]
-  deleteHomeSection(where: HomeSectionWhereUniqueInput! = {id: 1}): HomeSection
-  deleteHomeSections(where: [HomeSectionWhereUniqueInput!]!): [HomeSection]
+  createTeamMember(data: TeamMemberCreateInput!): TeamMember
+  createTeamMembers(data: [TeamMemberCreateInput!]!): [TeamMember]
+  updateTeamMember(where: TeamMemberWhereUniqueInput!, data: TeamMemberUpdateInput!): TeamMember
+  updateTeamMembers(data: [TeamMemberUpdateArgs!]!): [TeamMember]
+  deleteTeamMember(where: TeamMemberWhereUniqueInput!): TeamMember
+  deleteTeamMembers(where: [TeamMemberWhereUniqueInput!]!): [TeamMember]
+  createUser(data: UserCreateInput!): User
+  createUsers(data: [UserCreateInput!]!): [User]
+  updateUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): User
+  updateUsers(data: [UserUpdateArgs!]!): [User]
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteUsers(where: [UserWhereUniqueInput!]!): [User]
   createResearchSection(data: ResearchSectionCreateInput!): ResearchSection
   createResearchSections(data: [ResearchSectionCreateInput!]!): [ResearchSection]
   updateResearchSection(where: ResearchSectionWhereUniqueInput! = {id: 1}, data: ResearchSectionUpdateInput!): ResearchSection
@@ -1453,30 +1487,6 @@ type Mutation {
   updateProjectsSections(data: [ProjectsSectionUpdateArgs!]!): [ProjectsSection]
   deleteProjectsSection(where: ProjectsSectionWhereUniqueInput! = {id: 1}): ProjectsSection
   deleteProjectsSections(where: [ProjectsSectionWhereUniqueInput!]!): [ProjectsSection]
-  createHistory(data: HistoryCreateInput!): History
-  createHistories(data: [HistoryCreateInput!]!): [History]
-  updateHistory(where: HistoryWhereUniqueInput! = {id: 1}, data: HistoryUpdateInput!): History
-  updateHistories(data: [HistoryUpdateArgs!]!): [History]
-  deleteHistory(where: HistoryWhereUniqueInput! = {id: 1}): History
-  deleteHistories(where: [HistoryWhereUniqueInput!]!): [History]
-  createCompany(data: CompanyCreateInput!): Company
-  createCompanies(data: [CompanyCreateInput!]!): [Company]
-  updateCompany(where: CompanyWhereUniqueInput! = {id: 1}, data: CompanyUpdateInput!): Company
-  updateCompanies(data: [CompanyUpdateArgs!]!): [Company]
-  deleteCompany(where: CompanyWhereUniqueInput! = {id: 1}): Company
-  deleteCompanies(where: [CompanyWhereUniqueInput!]!): [Company]
-  createNewsletterList(data: NewsletterListCreateInput!): NewsletterList
-  createNewsletterLists(data: [NewsletterListCreateInput!]!): [NewsletterList]
-  updateNewsletterList(where: NewsletterListWhereUniqueInput!, data: NewsletterListUpdateInput!): NewsletterList
-  updateNewsletterLists(data: [NewsletterListUpdateArgs!]!): [NewsletterList]
-  deleteNewsletterList(where: NewsletterListWhereUniqueInput!): NewsletterList
-  deleteNewsletterLists(where: [NewsletterListWhereUniqueInput!]!): [NewsletterList]
-  createUser(data: UserCreateInput!): User
-  createUsers(data: [UserCreateInput!]!): [User]
-  updateUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): User
-  updateUsers(data: [UserUpdateArgs!]!): [User]
-  deleteUser(where: UserWhereUniqueInput!): User
-  deleteUsers(where: [UserWhereUniqueInput!]!): [User]
   endSession: Boolean!
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
@@ -1503,27 +1513,39 @@ type Query {
   action(where: ActionWhereUniqueInput!): Action
   actions(where: ActionWhereInput! = {}, orderBy: [ActionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActionWhereUniqueInput): [Action!]
   actionsCount(where: ActionWhereInput! = {}): Int
-  project(where: ProjectWhereUniqueInput!): Project
-  projects(where: ProjectWhereInput! = {}, orderBy: [ProjectOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectWhereUniqueInput): [Project!]
-  projectsCount(where: ProjectWhereInput! = {}): Int
+  company(where: CompanyWhereUniqueInput! = {id: 1}): Company
+  companies(where: CompanyWhereInput! = {id: {equals: 1}}, orderBy: [CompanyOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CompanyWhereUniqueInput): [Company!]
+  companiesCount(where: CompanyWhereInput! = {id: {equals: 1}}): Int
   event(where: EventWhereUniqueInput!): Event
   events(where: EventWhereInput! = {}, orderBy: [EventOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: EventWhereUniqueInput): [Event!]
   eventsCount(where: EventWhereInput! = {}): Int
+  history(where: HistoryWhereUniqueInput! = {id: 1}): History
+  histories(where: HistoryWhereInput! = {id: {equals: 1}}, orderBy: [HistoryOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: HistoryWhereUniqueInput): [History!]
+  historiesCount(where: HistoryWhereInput! = {id: {equals: 1}}): Int
+  homeSection(where: HomeSectionWhereUniqueInput! = {id: 1}): HomeSection
+  homeSections(where: HomeSectionWhereInput! = {id: {equals: 1}}, orderBy: [HomeSectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: HomeSectionWhereUniqueInput): [HomeSection!]
+  homeSectionsCount(where: HomeSectionWhereInput! = {id: {equals: 1}}): Int
+  newsletterList(where: NewsletterListWhereUniqueInput!): NewsletterList
+  newsletterLists(where: NewsletterListWhereInput! = {}, orderBy: [NewsletterListOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NewsletterListWhereUniqueInput): [NewsletterList!]
+  newsletterListsCount(where: NewsletterListWhereInput! = {}): Int
+  project(where: ProjectWhereUniqueInput!): Project
+  projects(where: ProjectWhereInput! = {}, orderBy: [ProjectOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectWhereUniqueInput): [Project!]
+  projectsCount(where: ProjectWhereInput! = {}): Int
   publication(where: PublicationWhereUniqueInput!): Publication
   publications(where: PublicationWhereInput! = {}, orderBy: [PublicationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PublicationWhereUniqueInput): [Publication!]
   publicationsCount(where: PublicationWhereInput! = {}): Int
-  teamMember(where: TeamMemberWhereUniqueInput!): TeamMember
-  teamMembers(where: TeamMemberWhereInput! = {}, orderBy: [TeamMemberOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TeamMemberWhereUniqueInput): [TeamMember!]
-  teamMembersCount(where: TeamMemberWhereInput! = {}): Int
   researchArea(where: ResearchAreaWhereUniqueInput!): ResearchArea
   researchAreas(where: ResearchAreaWhereInput! = {}, orderBy: [ResearchAreaOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ResearchAreaWhereUniqueInput): [ResearchArea!]
   researchAreasCount(where: ResearchAreaWhereInput! = {}): Int
   researcher(where: ResearcherWhereUniqueInput!): Researcher
   researchers(where: ResearcherWhereInput! = {}, orderBy: [ResearcherOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ResearcherWhereUniqueInput): [Researcher!]
   researchersCount(where: ResearcherWhereInput! = {}): Int
-  homeSection(where: HomeSectionWhereUniqueInput! = {id: 1}): HomeSection
-  homeSections(where: HomeSectionWhereInput! = {id: {equals: 1}}, orderBy: [HomeSectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: HomeSectionWhereUniqueInput): [HomeSection!]
-  homeSectionsCount(where: HomeSectionWhereInput! = {id: {equals: 1}}): Int
+  teamMember(where: TeamMemberWhereUniqueInput!): TeamMember
+  teamMembers(where: TeamMemberWhereInput! = {}, orderBy: [TeamMemberOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TeamMemberWhereUniqueInput): [TeamMember!]
+  teamMembersCount(where: TeamMemberWhereInput! = {}): Int
+  user(where: UserWhereUniqueInput!): User
+  users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  usersCount(where: UserWhereInput! = {}): Int
   researchSection(where: ResearchSectionWhereUniqueInput! = {id: 1}): ResearchSection
   researchSections(where: ResearchSectionWhereInput! = {id: {equals: 1}}, orderBy: [ResearchSectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ResearchSectionWhereUniqueInput): [ResearchSection!]
   researchSectionsCount(where: ResearchSectionWhereInput! = {id: {equals: 1}}): Int
@@ -1545,18 +1567,6 @@ type Query {
   projectsSection(where: ProjectsSectionWhereUniqueInput! = {id: 1}): ProjectsSection
   projectsSections(where: ProjectsSectionWhereInput! = {id: {equals: 1}}, orderBy: [ProjectsSectionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectsSectionWhereUniqueInput): [ProjectsSection!]
   projectsSectionsCount(where: ProjectsSectionWhereInput! = {id: {equals: 1}}): Int
-  history(where: HistoryWhereUniqueInput! = {id: 1}): History
-  histories(where: HistoryWhereInput! = {id: {equals: 1}}, orderBy: [HistoryOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: HistoryWhereUniqueInput): [History!]
-  historiesCount(where: HistoryWhereInput! = {id: {equals: 1}}): Int
-  company(where: CompanyWhereUniqueInput! = {id: 1}): Company
-  companies(where: CompanyWhereInput! = {id: {equals: 1}}, orderBy: [CompanyOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CompanyWhereUniqueInput): [Company!]
-  companiesCount(where: CompanyWhereInput! = {id: {equals: 1}}): Int
-  newsletterList(where: NewsletterListWhereUniqueInput!): NewsletterList
-  newsletterLists(where: NewsletterListWhereInput! = {}, orderBy: [NewsletterListOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: NewsletterListWhereUniqueInput): [NewsletterList!]
-  newsletterListsCount(where: NewsletterListWhereInput! = {}): Int
-  user(where: UserWhereUniqueInput!): User
-  users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
-  usersCount(where: UserWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }

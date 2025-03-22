@@ -29,6 +29,68 @@ model Action {
   status          ActionStatusType @default(draft)
 }
 
+model Company {
+  id           Int    @id
+  title        String @default("")
+  address      String @default("")
+  phone        String @default("")
+  email        String @default("")
+  facebookUrl  String @default("")
+  instagramUrl String @default("")
+  youtubeUrl   String @default("")
+}
+
+model Event {
+  id              String          @id @default(cuid())
+  title           String          @default("")
+  slug            String          @unique @default("")
+  keywords        String          @default("")
+  resume          String          @default("")
+  content         Json            @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  image_id        String?
+  image_filesize  Int?
+  image_width     Int?
+  image_height    Int?
+  image_extension String?
+  link            String          @default("")
+  workload        Int
+  date            DateTime        @postgresql.Date
+  locale          String          @default("")
+  publishedAt     DateTime?       @updatedAt
+  status          EventStatusType @default(draft)
+}
+
+model History {
+  id           Int    @id
+  titleOne     String @default("")
+  contentOne   String @default("")
+  titleTwo     String @default("")
+  contentTwo   String @default("")
+  titleThree   String @default("")
+  contentThree String @default("")
+  titleFour    String @default("")
+  contentFour  String @default("")
+  titleFive    String @default("")
+  contentFive  String @default("")
+}
+
+model HomeSection {
+  id              Int     @id
+  title           String  @default("")
+  content         String  @default("")
+  image_id        String?
+  image_filesize  Int?
+  image_width     Int?
+  image_height    Int?
+  image_extension String?
+}
+
+model NewsletterList {
+  id          String    @id @default(cuid())
+  email       String    @unique @default("")
+  publishedAt DateTime? @updatedAt
+}
+
 model Project {
   id              String            @id @default(cuid())
   title           String            @default("")
@@ -52,26 +114,6 @@ model Project {
   @@index([researchAreaId])
 }
 
-model Event {
-  id              String          @id @default(cuid())
-  title           String          @default("")
-  slug            String          @unique @default("")
-  keywords        String          @default("")
-  resume          String          @default("")
-  content         Json            @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  image_id        String?
-  image_filesize  Int?
-  image_width     Int?
-  image_height    Int?
-  image_extension String?
-  link            String          @default("")
-  workload        Int
-  date            DateTime        @postgresql.Date
-  locale          String          @default("")
-  publishedAt     DateTime?       @updatedAt
-  status          EventStatusType @default(draft)
-}
-
 model Publication {
   id             String                @id @default(cuid())
   title          String                @default("")
@@ -91,20 +133,6 @@ model Publication {
   status         PublicationStatusType @default(draft)
 
   @@index([researchAreaId])
-}
-
-model TeamMember {
-  id              String               @id @default(cuid())
-  name            String               @default("")
-  role            String               @default("")
-  image_id        String?
-  image_filesize  Int?
-  image_width     Int?
-  image_height    Int?
-  image_extension String?
-  link            String               @default("")
-  publishedAt     DateTime?            @updatedAt
-  status          TeamMemberStatusType @default(draft)
 }
 
 model ResearchArea {
@@ -137,15 +165,26 @@ model Researcher {
   status       ResearcherStatusType @default(draft)
 }
 
-model HomeSection {
-  id              Int     @id
-  title           String  @default("")
-  content         String  @default("")
+model TeamMember {
+  id              String               @id @default(cuid())
+  name            String               @default("")
+  role            String               @default("")
   image_id        String?
   image_filesize  Int?
   image_width     Int?
   image_height    Int?
   image_extension String?
+  link            String               @default("")
+  publishedAt     DateTime?            @updatedAt
+  status          TeamMemberStatusType @default(draft)
+}
+
+model User {
+  id          String    @id @default(cuid())
+  name        String    @default("")
+  email       String    @unique @default("")
+  password    String
+  publishedAt DateTime? @updatedAt
 }
 
 model ResearchSection {
@@ -190,49 +229,7 @@ model ProjectsSection {
   content String @default("")
 }
 
-model History {
-  id           Int    @id
-  titleOne     String @default("")
-  contentOne   String @default("")
-  titleTwo     String @default("")
-  contentTwo   String @default("")
-  titleThree   String @default("")
-  contentThree String @default("")
-  titleFour    String @default("")
-  contentFour  String @default("")
-  titleFive    String @default("")
-  contentFive  String @default("")
-}
-
-model Company {
-  id           Int    @id
-  title        String @default("")
-  address      String @default("")
-  phone        String @default("")
-  email        String @default("")
-  facebookUrl  String @default("")
-  instagramUrl String @default("")
-  youtubeUrl   String @default("")
-}
-
-model NewsletterList {
-  id    String @id @default(cuid())
-  email String @unique @default("")
-}
-
-model User {
-  id       String @id @default(cuid())
-  name     String @default("")
-  email    String @unique @default("")
-  password String
-}
-
 enum ActionStatusType {
-  published
-  draft
-}
-
-enum ProjectStatusType {
   published
   draft
 }
@@ -242,12 +239,12 @@ enum EventStatusType {
   draft
 }
 
-enum PublicationStatusType {
+enum ProjectStatusType {
   published
   draft
 }
 
-enum TeamMemberStatusType {
+enum PublicationStatusType {
   published
   draft
 }
@@ -258,6 +255,11 @@ enum ResearchAreaStatusType {
 }
 
 enum ResearcherStatusType {
+  published
+  draft
+}
+
+enum TeamMemberStatusType {
   published
   draft
 }

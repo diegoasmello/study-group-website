@@ -1,5 +1,5 @@
 import { BaseItem, ImageData, ImageExtension } from "@keystone-6/core/types";
-import { isEmpty, isObjAttrNull } from "../utils/checks";
+import { isEmpty, isObjAttrNull } from "../../utils/checks";
 
 type ItemImage = {
   image_id: string;
