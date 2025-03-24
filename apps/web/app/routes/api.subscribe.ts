@@ -5,6 +5,7 @@ import {
   AddNewsletterListMutationVariables,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
+import i18next from "~/lib/i18next.server";
 
 const ADD_NEWSLETTER_MUTATION = gql`
   mutation AddNewsletterList($data: NewsletterListCreateInput!) {
@@ -14,14 +15,16 @@ const ADD_NEWSLETTER_MUTATION = gql`
   }
 `;
 
-// todo fix https://remix.run/resources/remix-i18next#translating-text-inside-loaders-or-actions
-
 export const action: ActionFunction = async ({ request }) => {
+  const t = await i18next.getFixedT(request);
   const formData = await request.formData();
   const email = formData.get("email");
 
   if (typeof email !== "string" || !email.includes("@")) {
-    return json({ error: "E-mail inválido" }, { status: 400 });
+    return json(
+      { error: t("NewsletterBanner.feedback.validations.invalidEmail") },
+      { status: 400 },
+    );
   }
 
   try {

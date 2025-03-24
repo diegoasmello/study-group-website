@@ -1,4 +1,4 @@
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 import { Card, CardProps } from "./Card";
 import { IconArrowForward } from "./icons";
 import { ExternalLink } from "./Link";
@@ -15,7 +15,7 @@ interface CardTeamMemberProps extends Pick<CardProps, "hideShadow" | "type"> {
 export function CardTeamMember(props: CardTeamMemberProps) {
   const { teamMember, type = "flat", hideShadow } = props;
 
-  const t = useTranslations("CardTeamMember");
+  const { t } = useTranslation();
 
   return (
     <Card
@@ -27,7 +27,8 @@ export function CardTeamMember(props: CardTeamMemberProps) {
       hideShadow={hideShadow}
       actions={
         <ExternalLink to={teamMember.link}>
-          {t("linkLabel")} <IconArrowForward className="size-5" />
+          {t("CardTeamMember.linkLabel")}{" "}
+          <IconArrowForward className="size-5" />
         </ExternalLink>
       }
     />

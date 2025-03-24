@@ -23,4 +23,5 @@ export default defineConfig({
     tailwindcss(),
     tsconfigPaths(),
   ],
+  optimizeDeps: { esbuildOptions: { target: "esnext" } },
 });

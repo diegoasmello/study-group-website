@@ -33,7 +33,7 @@ import { IconMenu } from "./icons/IconMenu";
 import clsx from "clsx";
 import { getBreakpoint } from "~/utils";
 import { flags } from "~/flags";
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 
 export function Header() {
   const location = useLocation();
@@ -52,7 +52,7 @@ export function Header() {
     checkIsAboutMenuOpen(location.pathname),
   );
   const [searchParams] = useSearchParams();
-  const t = useTranslations("Header");
+  const { t } = useTranslation();
 
   const searchInputDefaultValue =
     location.pathname === "/search" ? (searchParams.get("q") ?? "") : "";
@@ -179,13 +179,13 @@ export function Header() {
                             : "text-gray-950 hover:text-primary",
                         )}
                       >
-                        {t(navLink.localeMessageKey)}
+                        {t(`Header.${navLink.localeMessageKey}`)}
                         <IconChevronDown className="size-6 -mr-2" />
                       </DropdownButton>
                       <DropdownMenu anchorGap={18}>
                         {navLink.menu.map((item) => (
                           <DropdownItemLink key={item.href} to={item.href}>
-                            {t(item.localeMessageKey)}
+                            {t("Header." + item.localeMessageKey)}
                           </DropdownItemLink>
                         ))}
                       </DropdownMenu>
@@ -199,7 +199,7 @@ export function Header() {
                       }
                       to={navLink.href!}
                     >
-                      {t(navLink.localeMessageKey)}
+                      {t(`Header.${navLink.localeMessageKey}`)}
                     </NavLink>
                   )}
                 </li>
@@ -259,13 +259,13 @@ export function Header() {
                         name="q"
                         id="search-input"
                         Icon={IconSearch}
-                        placeholder={t("searchInputPlaceholder")}
+                        placeholder={t("Header." + "searchInputPlaceholder")}
                         className="w-[14rem]"
                         required
                         defaultValue={searchInputDefaultValue}
                       />
                       <Button type="submit" size="md" skin="ghost">
-                        {t("searchButtonLabel")}
+                        {t("Header." + "searchButtonLabel")}
                       </Button>
                     </Form>
                   </DropdownMenu>
@@ -293,7 +293,7 @@ function MobileSidebar({
   isAboutMenuOpen: boolean;
   setIsMobileSidebarOpen: (open: boolean) => void;
 }) {
-  const t = useTranslations("Header");
+  const { t } = useTranslation();
 
   return (
     <Transition show={isMobileSidebarOpen} as={Fragment}>
@@ -327,7 +327,7 @@ function MobileSidebar({
                                   "h-[2.75rem] w-full px-4 flex items-center gap-2 rounded-lg data-open:mb-2",
                                 )}
                               >
-                                {t(navLink.localeMessageKey)}
+                                {t(`Header.${navLink.localeMessageKey}`)}
                                 <IconChevronDown
                                   className={clsx(
                                     "size-6 -mr-2 transition-all",
@@ -352,7 +352,7 @@ function MobileSidebar({
                                       )
                                     }
                                   >
-                                    {t(item.localeMessageKey)}
+                                    {t("Header." + item.localeMessageKey)}
                                   </NavLink>
                                 ))}
                               </DisclosurePanel>
@@ -371,7 +371,7 @@ function MobileSidebar({
                           }
                           to={navLink.href!}
                         >
-                          {t(navLink.localeMessageKey)}
+                          {t(`Header.${navLink.localeMessageKey}`)}
                         </NavLink>
                       )}
                     </li>

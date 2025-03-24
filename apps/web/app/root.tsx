@@ -18,6 +18,9 @@ import { metaTags } from "./utils";
 import { gql } from "graphql-request";
 import { client } from "./lib/graphql-client.server";
 import { RootQuery } from "./graphql/generated";
+import i18next from "./lib/i18next.server";
+import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 const query = gql`
   query Root {
@@ -62,16 +65,30 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
+  const locale = await i18next.getLocale(request);
+
   const { homeSection, company } = await client.request<RootQuery>(query);
 
-  return json({ company, heroSection: homeSection, url: request.url });
+  return json({
+    company,
+    heroSection: homeSection,
+    url: request.url,
+    locale,
+  });
 }
 
+export const handle = {
+  i18n: "translation",
+};
+
 export default function App() {
-  const { company } = useLoaderData<typeof loader>();
+  const { company, locale } = useLoaderData<typeof loader>();
+
+  const { i18n } = useTranslation();
+  useChangeLanguage(locale);
 
   return (
-    <Document company={company}>
+    <Document company={company} lang={locale} dir={i18n.dir()}>
       <Outlet />
     </Document>
   );
@@ -80,12 +97,16 @@ export default function App() {
 function Document({
   children,
   company,
+  lang = "en",
+  dir,
 }: {
   children: React.ReactNode;
   company?: RootQuery["company"];
+  lang?: string;
+  dir?: string;
 }) {
   return (
-    <html lang="en">
+    <html lang={lang} dir={dir}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -109,4 +130,11 @@ export function ErrorBoundary() {
       <DefaultErrorBoundary />;
     </Document>
   );
+}
+
+function useChangeLanguage(locale: string) {
+  const { i18n } = useTranslation();
+  useEffect(() => {
+    if (i18n.language !== locale) i18n.changeLanguage(locale);
+  }, [locale, i18n]);
 }

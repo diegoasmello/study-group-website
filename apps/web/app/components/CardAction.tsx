@@ -1,7 +1,8 @@
 import { Card, CardProps, CardSize } from "./Card";
 import { ButtonLink } from "./ButtonLink";
 import { IconCalendar } from "./icons";
-import { useLocale, useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
+import { useLocale } from "~/lib/useLocale";
 
 interface CardActionProps extends Pick<CardProps, "hideShadow" | "className"> {
   size: CardSize;
@@ -17,7 +18,7 @@ export function CardAction(props: CardActionProps) {
   const { action, size, hideShadow, className } = props;
 
   const locale = useLocale();
-  const t = useTranslations("CardAction");
+  const { t } = useTranslation();
 
   return (
     <Card
@@ -38,7 +39,7 @@ export function CardAction(props: CardActionProps) {
           skin={size === "extended" ? "primary" : "ghost"}
           size="md"
         >
-          {t("primaryButtonLabel")}
+          {t("CardAction.primaryButtonLabel")}
         </ButtonLink>
       }
     />

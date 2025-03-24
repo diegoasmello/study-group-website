@@ -23,7 +23,8 @@ import {
 import { client } from "~/lib/graphql-client.server";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
-import { useLocale, useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
+import { useLocale } from "~/lib/useLocale";
 
 const PROJECT_QUERY = gql`
   query Project($slug: String) {
@@ -121,7 +122,7 @@ export default function ViewProject() {
   const { project, related } = useLoaderData<typeof loader>();
 
   const locale = useLocale();
-  const t = useTranslations("Project");
+  const { t } = useTranslation();
 
   if (!project) return null;
 
@@ -141,9 +142,11 @@ export default function ViewProject() {
             </div>
             <nav className="flex gap-4 lg:mb-6">
               <ButtonLink to={project.link} external>
-                {t("viewButtonLabel")}
+                {t("Project.viewButtonLabel")}
               </ButtonLink>
-              <ButtonShare skin="ghost">{t("shareButtonLabel")}</ButtonShare>
+              <ButtonShare skin="ghost">
+                {t("Project.shareButtonLabel")}
+              </ButtonShare>
             </nav>
           </div>
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
@@ -151,7 +154,7 @@ export default function ViewProject() {
               <div className="flex flex-col items-start gap-4">
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    {t("researchersTitle")}
+                    {t("Project.researchersTitle")}
                   </span>
                   <span className="text-gray-950">
                     {project.researchers?.length
@@ -166,20 +169,23 @@ export default function ViewProject() {
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    {t("periodTitle")}
+                    {t("Project.periodTitle")}
                   </span>
                   <span className="text-gray-950">
-                    <span className="capitalize">{t("periodFromLabel")} </span>
+                    <span className="capitalize">
+                      {t("Project.periodFromLabel")}{" "}
+                    </span>
                     <span className="lowercase">
                       {parseISO(project.startDate).toLocaleDateString(locale)}{" "}
-                      {t("periodToLabel")}{" "}
+                      {t("Project.periodToLabel")}{" "}
                       {parseISO(project.endDate).toLocaleDateString(locale)}
                     </span>
                   </span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <ExternalLink to={project.link}>
-                  <IconArrowForward className="size-5" /> {t("viewButtonLabel")}
+                  <IconArrowForward className="size-5" />{" "}
+                  {t("Project.viewButtonLabel")}
                 </ExternalLink>
               </div>
             </CardContainer>
@@ -187,7 +193,9 @@ export default function ViewProject() {
           </div>
           {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6 ">
-              <h2 className="text-h3 text-gray-950">{t("relatedTitle")}</h2>
+              <h2 className="text-h3 text-gray-950">
+                {t("Project.relatedTitle")}
+              </h2>
               <div className="w-full">
                 <Carousel>
                   {(isSlideInView) =>

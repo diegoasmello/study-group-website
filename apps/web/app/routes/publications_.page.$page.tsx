@@ -35,7 +35,7 @@ import {
 } from "~/graphql/generated";
 import { paginate } from "~/utils/paginator.server";
 import { FilterForm } from "~/components/FilterForm";
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 
 const PUBLICATIONS_QUERY = gql`
   query PublicationsPaginated(
@@ -170,7 +170,7 @@ export default function PublicationsPage() {
     paginatedPublications: { data: publications, meta: paginatedMeta },
   } = useLoaderData<typeof loader>();
 
-  const t = useTranslations("PublicationList");
+  const { t } = useTranslation();
 
   const [searchParams] = useSearchParams();
   const parsedSearchParams = parseSearchParams(searchParams);
@@ -181,7 +181,7 @@ export default function PublicationsPage() {
   if (!heroSection)
     return (
       <div className="py-20">
-        <NoResults text={t("empty")} />;
+        <NoResults text={t("PublicationList.empty")} />;
       </div>
     );
 
@@ -208,7 +208,7 @@ export default function PublicationsPage() {
                   <Fragment>
                     <DisclosureButton className="flex justify-between">
                       <span className="text-h5 text-primary uppercase font-medium">
-                        {t("filterTitle")}
+                        {t("PublicationList.filterTitle")}
                       </span>
                       <IconChevronDown
                         className={clsx(

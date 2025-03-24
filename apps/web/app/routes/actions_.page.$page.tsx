@@ -9,7 +9,7 @@ import {
 import { parseISO } from "date-fns";
 import { gql } from "graphql-request";
 import { useEffect } from "react";
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 import { CardAction } from "~/components/CardAction";
 import { Container } from "~/components/Container";
 import { TextInput } from "~/components/form-fields/TextInput";
@@ -120,7 +120,7 @@ export default function ActionsPage() {
   } = useLoaderData<typeof loader>();
 
   const submit = useSubmit();
-  const t = useTranslations("ActionList");
+  const { t } = useTranslation();
 
   useEffect(() => {
     const searchField = document.getElementById("q");
@@ -132,7 +132,7 @@ export default function ActionsPage() {
   if (!heroSection)
     return (
       <div className="py-20">
-        <NoResults text={t("empty")} />;
+        <NoResults text={t("ActionList.empty")} />;
       </div>
     );
 
@@ -170,7 +170,7 @@ export default function ActionsPage() {
               id="q"
               type="search"
               defaultValue={q || ""}
-              placeholder={t("filterPlaceholder")}
+              placeholder={t("ActionList.filterPlaceholder")}
               className="w-full lg:w-[34vw]"
               Icon={IconSearch}
             />

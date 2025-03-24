@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { gql } from "graphql-request";
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 import { CardProject } from "~/components/CardProject";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
@@ -95,12 +95,12 @@ export default function Projects() {
     heroSection,
   } = useLoaderData<typeof loader>();
 
-  const t = useTranslations("ProjectList");
+  const { t } = useTranslation();
 
   if (!heroSection)
     return (
       <div className="py-20">
-        <NoResults text={t("empty")} />;
+        <NoResults text={t("ProjectList.empty")} />;
       </div>
     );
 
@@ -122,7 +122,7 @@ export default function Projects() {
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
           {!projects?.length ? (
             <div className="col-span-12">
-              <NoResults text={t("empty")} />;
+              <NoResults text={t("ProjectList.empty")} />;
             </div>
           ) : (
             projects.map((project) => (

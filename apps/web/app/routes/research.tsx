@@ -15,7 +15,7 @@ import { ResearchPageQuery } from "~/graphql/generated";
 import { ArrayElement } from "~/types";
 import { DocumentRenderer } from "~/components/DocumentRenderer";
 import { NoResults } from "~/components/NoResults";
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 
 const RESEARCH_QUERY = gql`
   query ResearchPage {
@@ -78,12 +78,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function Research() {
   const { heroSection, researchAreas } = useLoaderData<typeof loader>();
 
-  const t = useTranslations("Research");
+  const { t } = useTranslation();
 
   if (!heroSection || !researchAreas.length)
     return (
       <div className="py-20">
-        <NoResults text={t("empty")} />;
+        <NoResults text={t("Research.empty")} />;
       </div>
     );
 
@@ -172,7 +172,9 @@ const ResearchItemSection = ({
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="col-span-12">
-            <h3 className="text-h4 mb-6">{t("relatedProjectsTitle")}</h3>
+            <h3 className="text-h4 mb-6">
+              {t("Research.relatedProjectsTitle")}
+            </h3>
             <div className="w-full">
               <Carousel>
                 {() =>

@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { IconArrowAltBack, IconArrowAltForward } from "./icons";
 import { ButtonLink } from "./ButtonLink";
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 
 export type CarouselHomeItem = {
   id: string;
@@ -81,7 +81,7 @@ export function CarouselHome({ items }: { items: CarouselHomeItem[] }) {
 }
 
 const Item = ({ item }: { item: CarouselHomeItem }) => {
-  const t = useTranslations("Home.mainCarousel");
+  const { t } = useTranslation();
 
   return (
     <section className="w-full relative">
@@ -95,7 +95,9 @@ const Item = ({ item }: { item: CarouselHomeItem }) => {
           <div className="col-span-12 lg:col-span-4">
             <div className="flex flex-col gap-8 items-start">
               <div className="flex flex-col gap-4">
-                <span className="text-primary font-medium">{t(item.type)}</span>
+                <span className="text-primary font-medium">
+                  {t(`Home.mainCarousel.${item.type}`)}
+                </span>
                 <span className="text-h1-display line-clamp-4">
                   {item.title}
                 </span>

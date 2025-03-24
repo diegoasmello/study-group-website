@@ -2,7 +2,7 @@ import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
 import { parseISO } from "date-fns";
 import { gql } from "graphql-request";
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardAction } from "~/components/CardAction";
 import { Carousel } from "~/components/Carousel";
@@ -110,7 +110,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 export default function ViewAction() {
   const { action, related } = useLoaderData<typeof loader>();
 
-  const t = useTranslations("Action");
+  const { t } = useTranslation();
 
   if (!action) return null;
 
@@ -129,12 +129,14 @@ export default function ViewAction() {
               <DocumentRenderer document={action.content.document} />
             </div>
             <nav className="flex gap-4 mb-6">
-              <ButtonShare>{t("shareButtonLabel")}</ButtonShare>
+              <ButtonShare>{t("Action.shareButtonLabel")}</ButtonShare>
             </nav>
           </div>
           {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6">
-              <h2 className="text-h3 text-gray-950">{t("relatedTitle")}</h2>
+              <h2 className="text-h3 text-gray-950">
+                {t("Action.relatedTitle")}
+              </h2>
               <div className="w-full">
                 <Carousel>
                   {(isSlideInView) =>

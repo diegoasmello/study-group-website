@@ -1,12 +1,12 @@
 import { CardContainer, CardProps } from "./Card";
 import { ButtonLink } from "./ButtonLink";
 import { twMerge } from "tailwind-merge";
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 
 interface CardResearchProps extends Pick<CardProps, "className"> {}
 
 export function CardResearch({ className }: CardResearchProps) {
-  const t = useTranslations("CardResearch");
+  const { t } = useTranslation();
 
   return (
     <CardContainer className={twMerge("p-6 relative", className)}>
@@ -17,10 +17,12 @@ export function CardResearch({ className }: CardResearchProps) {
       />
       <section className="grid grid-cols-12">
         <div className="col-span-8 flex flex-col items-start gap-4">
-          <span className="text-h4 text-gray-950">{t("title")}</span>
-          <p className="mb-2">{t("text")}</p>
+          <span className="text-h4 text-gray-950">
+            {t("CardResearch.title")}
+          </span>
+          <p className="mb-2">{t("CardResearch.text")}</p>
           <ButtonLink to="/research" skin="ghost" size="md">
-            {t("buttonLabel")}
+            {t("CardResearch.buttonLabel")}
           </ButtonLink>
         </div>
       </section>

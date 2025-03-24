@@ -22,7 +22,8 @@ import {
 import { client } from "~/lib/graphql-client.server";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
-import { useLocale, useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
+import { useLocale } from "~/lib/useLocale";
 
 const EVENT_QUERY = gql`
   query Event($slug: String) {
@@ -121,7 +122,7 @@ export default function ViewEvent() {
   const { event, related } = useLoaderData<typeof loader>();
 
   const locale = useLocale();
-  const t = useTranslations("Event");
+  const { t } = useTranslation();
 
   if (!event) return null;
 
@@ -141,9 +142,11 @@ export default function ViewEvent() {
             </div>
             <nav className="flex gap-4 mb-6">
               <ButtonLink to={event.link} external>
-                {t("subscribeButtonLabel")}
+                {t("Event.subscribeButtonLabel")}
               </ButtonLink>
-              <ButtonShare skin="ghost">{t("shareButtonLabel")}</ButtonShare>
+              <ButtonShare skin="ghost">
+                {t("Event.shareButtonLabel")}
+              </ButtonShare>
             </nav>
           </div>
           <div className="col-span-12 lg:col-span-4">
@@ -151,17 +154,17 @@ export default function ViewEvent() {
               <div className="flex flex-col items-start gap-4">
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    {t("workloadTitle")}
+                    {t("Event.workloadTitle")}
                   </span>
                   <span className="text-gray-950 lowercase">
                     {event.workload}{" "}
-                    {t("workloadText", { count: event.workload })}
+                    {t("Event.workloadText", { count: event.workload })}
                   </span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    {t("dateTitle")}
+                    {t("Event.dateTitle")}
                   </span>
                   <p className="text-gray-950">
                     {parseISO(event.date).toLocaleDateString(locale)}
@@ -170,21 +173,23 @@ export default function ViewEvent() {
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    {t("localeTitle")}
+                    {t("Event.localeTitle")}
                   </span>
                   <span className="text-gray-950">{event.locale}</span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <ExternalLink to={event.link}>
                   <IconArrowForward className="size-5" />{" "}
-                  {t("actionToSubscribeLabel")}
+                  {t("Event.actionToSubscribeLabel")}
                 </ExternalLink>
               </div>
             </CardContainer>
           </div>
           {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6">
-              <h2 className="text-h3 text-gray-950">{t("relatedTitle")}</h2>
+              <h2 className="text-h3 text-gray-950">
+                {t("Event.relatedTitle")}
+              </h2>
               <div className="w-full">
                 <Carousel>
                   {(isSlideInView) =>

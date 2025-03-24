@@ -1,6 +1,6 @@
 import { Card, CardProps } from "./Card";
 import { ButtonLink } from "./ButtonLink";
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 
 interface CardProjectProps
   extends Pick<CardProps, "hideShadow" | "type" | "className" | "size"> {
@@ -20,7 +20,7 @@ export function CardProject(props: CardProjectProps) {
     className,
   } = props;
 
-  const t = useTranslations("CardProject");
+  const { t } = useTranslation();
 
   return (
     <Card
@@ -33,7 +33,7 @@ export function CardProject(props: CardProjectProps) {
       size={size}
       actions={
         <ButtonLink to={`/projects/${project.slug}`} skin="ghost" size="md">
-          {t("primaryButtonLabel")}
+          {t("CardProject.primaryButtonLabel")}
         </ButtonLink>
       }
     />

@@ -1,0 +1,173 @@
+{
+  "Home": {
+    "mainCarousel": {
+      "event": "Event",
+      "action": "Action"
+    },
+    "aboutSection": {
+      "title": "About the group",
+      "historyButtonLabel": "History",
+      "teamButtonLabel": "Team"
+    },
+    "researchSection": {
+      "title": "Research areas",
+      "linkLabel": "Learn more about our research",
+      "empty": "No data found"
+    },
+    "eventsSection": {
+      "title": "Events and Courses",
+      "linkLabel": "See all events",
+      "empty": "No data found"
+    },
+    "publicationsSection": {
+      "title": "Latest publications",
+      "linkLabel": "See all publications",
+      "empty": "No data found"
+    },
+    "actionsSection": {
+      "title": "Latest actions",
+      "linkLabel": "See all actions",
+      "empty": "No data found"
+    }
+  },
+  "Action": {
+    "shareButtonLabel": "Share",
+    "relatedTitle": "Other actions"
+  },
+  "ActionList": {
+    "filterPlaceholder": "Search by title",
+    "empty": "No data found",
+    "emptySearch": "No results found for this search"
+  },
+  "Event": {
+    "subscribeButtonLabel": "Subscribe",
+    "shareButtonLabel": "Share",
+    "relatedTitle": "Related events",
+    "workloadTitle": "Workload",
+    "workloadText": "{count, plural, =0 {hours} =1 {hour} other {hours}}",
+    "dateTitle": "Date",
+    "localeTitle": "Locale",
+    "actionToSubscribeLabel": "Click here to subscribe"
+  },
+  "EventList": {
+    "filterPlaceholder": "Search by title",
+    "empty": "No data found",
+    "emptySearch": "No results found for this search"
+  },
+  "Project": {
+    "viewButtonLabel": "Visit project",
+    "shareButtonLabel": "Share",
+    "researchersTitle": "Researchers",
+    "periodTitle": "Period",
+    "periodFromLabel": "From",
+    "periodToLabel": "To",
+    "relatedTitle": "Other projects"
+  },
+  "ProjectList": {
+    "empty": "No data found"
+  },
+  "Publication": {
+    "resumeTitle": "Resume",
+    "readButtonLabel": "Read",
+    "shareButtonLabel": "Share",
+    "magazineTitle": "Magazine",
+    "doiTitle": "DOI",
+    "licenseTitle": "License",
+    "quoteButtonLabel": "Quote",
+    "quoteTooltipText": "Copied to clipboard!",
+    "relatedTitle": "Related publications"
+  },
+  "PublicationList": {
+    "filterTitle": "Filters",
+    "empty": "No data found",
+    "emptySearch": "No results found for this search"
+  },
+  "TeamList": {
+    "empty": "No data found"
+  },
+  "History": {
+    "teamTitle": "Meet our team",
+    "teamLinkLabel": "See the entire team",
+    "empty": "No data found"
+  },
+  "Research": {
+    "empty": "No data found",
+    "relatedProjectsTitle": "Related projects"
+  },
+  "Search": {
+    "title": "Search",
+    "showingLabel": "Showing",
+    "resultsLabel": "{count, plural, =0 {results} =1 {result} other {results}}"
+  },
+  "CardAction": {
+    "primaryButtonLabel": "See more"
+  },
+  "CardEvent": {
+    "primaryButtonLabel": "See more",
+    "secondaryButtonLabel": "Subscribe"
+  },
+  "CardProject": {
+    "primaryButtonLabel": "See more"
+  },
+  "CardPublication": {
+    "primaryButtonLabel": "See more",
+    "secondaryButtonLabel": "Read"
+  },
+  "CardResearch": {
+    "title": "Our research",
+    "text": "Learn more about our research and delve into the world of discovery and knowledge!",
+    "buttonLabel": "See more"
+  },
+  "CardTeamMember": {
+    "linkLabel": "Lattes"
+  },
+  "FilterForm": {
+    "allLabel": "All",
+    "textInputPlaceholder": "Search by title or author",
+    "researchAreasTitle": "Research areas",
+    "researcherTitle": "Author",
+    "periodTitle": "Period",
+    "searchButtonLabel": "Search",
+    "clearFilterButtonLabel": "Clear filters"
+  },
+  "Header": {
+    "searchInputPlaceholder": "Search the site",
+    "searchButtonLabel": "Search",
+    "homeNavLinkLabel": "Home",
+    "aboutNavLinkLabel": "About",
+    "publicationsNavLinkLabel": "Publications",
+    "eventsNavLinkLabel": "Events",
+    "actionsNavLinkLabel": "Actions",
+    "projectsNavLinkLabel": "Projects",
+    "historyNavLinkLabel": "History",
+    "researchNavLinkLabel": "Research",
+    "teamNavLinkLabel": "Team"
+  },
+  "Footer": {
+    "aboutSectionLabel": "About",
+    "contentSectionLabel": "Content",
+    "contactSectionLabel": "Contact"
+  },
+  "NewsletterBanner": {
+    "title": "Join our group!",
+    "emailInputPlaceholder": "Enter your email",
+    "submitButtonLabel": "Submit",
+    "feedback": {
+      "success": {
+        "title": "Just wait!",
+        "description": "Your email has been saved, you will soon receive an email with more information."
+      },
+      "error": {
+        "title": "Oops, something went wrong.",
+        "description": "Your email could not be saved, please try again later."
+      },
+      "closeButtonLabel": "Close",
+      "validations": {
+        "invalidEmail": "Invalid email"
+      }
+    }
+  },
+  "DateRangeInput": {
+    "to": "to"
+  }
+}

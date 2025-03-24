@@ -16,7 +16,7 @@ import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client.server";
 import { HomePageQuery } from "~/graphql/generated";
 import { parseISO } from "date-fns";
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 
 const HOME_PAGE_QUERY = gql`
   query HomePage {
@@ -120,7 +120,7 @@ export default function Index() {
   const { heroSection, researchAreas, events, publications, actions } =
     useLoaderData<typeof loader>();
 
-  const t = useTranslations("Home");
+  const { t } = useTranslation();
 
   const carouselItems: CarouselHomeItem[] = [
     ...events.map(
@@ -159,7 +159,7 @@ export default function Index() {
             <div className="col-span-12 lg:col-span-6">
               <img
                 src={heroSection.image?.url}
-                alt={t("aboutSection.title")}
+                alt={t("Home.aboutSection.title")}
                 className="w-full rounded-3xl"
               />
             </div>
@@ -167,7 +167,7 @@ export default function Index() {
             <div className="col-span-12 lg:col-span-5 flex flex-col gap-6">
               <div className="flex flex-col gap-2">
                 <span className="text-primary font-medium">
-                  {t("aboutSection.title")}
+                  {t("Home.aboutSection.title")}
                 </span>
                 <div className="flex flex-col gap-4">
                   <span className="text-h2">{heroSection.title}</span>
@@ -177,10 +177,10 @@ export default function Index() {
 
               <nav className="flex flex-row gap-4">
                 <ButtonLink to={"/history"}>
-                  {t("aboutSection.historyButtonLabel")}
+                  {t("Home.aboutSection.historyButtonLabel")}
                 </ButtonLink>
                 <ButtonLink to={"/team"} skin="outline">
-                  {t("aboutSection.teamButtonLabel")}
+                  {t("Home.aboutSection.teamButtonLabel")}
                 </ButtonLink>
               </nav>
             </div>
@@ -190,7 +190,7 @@ export default function Index() {
 
       {/* research section */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
-        <h2 className="text-h3">{t("researchSection.title")}</h2>
+        <h2 className="text-h3">{t("Home.researchSection.title")}</h2>
         <div className="w-full gap-8 grid grid-cols-1 lg:grid-cols-3">
           {researchAreas?.length ? (
             researchAreas.map((researchArea) => (
@@ -210,19 +210,19 @@ export default function Index() {
             ))
           ) : (
             <div className="col-span-1 lg:col-span-3">
-              {t("researchSection.empty")}
+              {t("Home.researchSection.empty")}
             </div>
           )}
         </div>
         <Link to={`/research`} className="text-center">
-          {t("researchSection.linkLabel")}{" "}
+          {t("Home.researchSection.linkLabel")}{" "}
           <IconArrowForward className="size-5" />
         </Link>
       </Container>
 
       {/* events carousel */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
-        <h2 className="text-h3">{t("eventsSection.title")}</h2>
+        <h2 className="text-h3">{t("Home.eventsSection.title")}</h2>
         {events?.length ? (
           <div className="w-full">
             <Carousel>
@@ -251,11 +251,12 @@ export default function Index() {
             </Carousel>
           </div>
         ) : (
-          <div>{t("eventsSection.empty")}</div>
+          <div>{t("Home.eventsSection.empty")}</div>
         )}
 
         <Link to={`/events`} className="text-center">
-          {t("eventsSection.linkLabel")} <IconArrowForward className="size-5" />
+          {t("Home.eventsSection.linkLabel")}{" "}
+          <IconArrowForward className="size-5" />
         </Link>
       </Container>
 
@@ -263,7 +264,7 @@ export default function Index() {
       {publications.length === 5 && (
         <Container className="flex flex-col gap-8 pb-16 items-center">
           <h2 className="text-h3 text-center lg:text-left w-full">
-            {t("publicationsSection.title")}
+            {t("Home.publicationsSection.title")}
           </h2>
 
           <div className="w-full lg:hidden">
@@ -366,7 +367,7 @@ export default function Index() {
             </div>
           </div>
           <Link to={`/publications`} className="text-center">
-            {t("publicationsSection.linkLabel")}{" "}
+            {t("Home.publicationsSection.linkLabel")}{" "}
             <IconArrowForward className="size-5" />
           </Link>
         </Container>
@@ -374,7 +375,7 @@ export default function Index() {
 
       {/* actions carousel */}
       <Container className="flex flex-col gap-8 pb-16 items-center">
-        <h2 className="text-h3">{t("actionsSection.title")}</h2>
+        <h2 className="text-h3">{t("Home.actionsSection.title")}</h2>
         {actions?.length ? (
           <div className="w-full">
             <Carousel>
@@ -400,10 +401,10 @@ export default function Index() {
             </Carousel>
           </div>
         ) : (
-          <div>{t("actionsSection.empty")}</div>
+          <div>{t("Home.actionsSection.empty")}</div>
         )}
         <Link to={`/actions`} className="text-center">
-          {t("actionsSection.linkLabel")}{" "}
+          {t("Home.actionsSection.linkLabel")}{" "}
           <IconArrowForward className="size-5" />
         </Link>
       </Container>

@@ -12,7 +12,7 @@ import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client.server";
 import { HistoryPageQuery } from "~/graphql/generated";
 import { NoResults } from "~/components/NoResults";
-import { useTranslations } from "use-intl";
+import { useTranslation } from "react-i18next";
 
 const HISTORY_PAGE_QUERY = gql`
   query HistoryPage {
@@ -85,12 +85,12 @@ export default function History() {
   const { history, historySection, homeSection, teamMembers } =
     useLoaderData<typeof loader>();
 
-  const t = useTranslations("History");
+  const { t } = useTranslation();
 
   if (!historySection || !history || !homeSection)
     return (
       <div className="py-20">
-        <NoResults text={t("empty")} />;
+        <NoResults text={t("History.empty")} />;
       </div>
     );
 
@@ -137,7 +137,9 @@ export default function History() {
         {!!teamMembers?.length && (
           <div className="mt-20">
             <div className="flex flex-col gap-8 mb-14">
-              <h2 className="text-h3 text-gray-950">{t("teamTitle")}</h2>
+              <h2 className="text-h3 text-gray-950">
+                {t("History.teamTitle")}
+              </h2>
               <div className="w-full">
                 <Carousel>
                   {(isSlideInView) =>
@@ -164,7 +166,8 @@ export default function History() {
             </div>
             <div className="flex flex-col items-center">
               <Link to="/team">
-                {t("teamLinkLabel")} <IconArrowForward className="size-5" />
+                {t("History.teamLinkLabel")}{" "}
+                <IconArrowForward className="size-5" />
               </Link>
             </div>
           </div>
