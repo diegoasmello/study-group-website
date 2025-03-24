@@ -1,3 +1,4 @@
+import { useTranslations } from "use-intl";
 import { Card, CardProps } from "./Card";
 import { IconArrowForward } from "./icons";
 import { ExternalLink } from "./Link";
@@ -14,6 +15,8 @@ interface CardTeamMemberProps extends Pick<CardProps, "hideShadow" | "type"> {
 export function CardTeamMember(props: CardTeamMemberProps) {
   const { teamMember, type = "flat", hideShadow } = props;
 
+  const t = useTranslations("CardTeamMember");
+
   return (
     <Card
       type={type}
@@ -24,7 +27,7 @@ export function CardTeamMember(props: CardTeamMemberProps) {
       hideShadow={hideShadow}
       actions={
         <ExternalLink to={teamMember.link}>
-          Lattes <IconArrowForward className="size-5" />
+          {t("linkLabel")} <IconArrowForward className="size-5" />
         </ExternalLink>
       }
     />

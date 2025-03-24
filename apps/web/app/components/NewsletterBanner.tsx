@@ -9,8 +9,9 @@ import { TextInput } from "./form-fields/TextInput";
 import { useEffect, useState } from "react";
 import { IconSuccess } from "./icons/IconSuccess";
 import { IconCancel } from "./icons/IconCancel";
-import { twJoin, twMerge } from "tailwind-merge";
+import { twMerge } from "tailwind-merge";
 import { useFetcher } from "@remix-run/react";
+import { useTranslations } from "use-intl";
 
 type NewsletterStatus = "success" | "error";
 
@@ -19,6 +20,8 @@ export function NewsletterBanner({ className }: { className?: string }) {
     success?: boolean;
     error?: string;
   }>();
+
+  const t = useTranslations("NewsletterBanner");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [status, setStatus] = useState<NewsletterStatus>();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
@@ -46,11 +49,7 @@ export function NewsletterBanner({ className }: { className?: string }) {
       )}
     >
       <div className="col-span-12 lg:col-span-3 flex flex-col gap-6 items-start">
-        <span className="text-h3 text-primary">
-          Join our
-          <br />
-          group!
-        </span>
+        <span className="text-h3 text-primary">{t("title")}</span>
         <fetcher.Form
           method="post"
           action="/api/subscribe"
@@ -60,7 +59,7 @@ export function NewsletterBanner({ className }: { className?: string }) {
             id="email"
             name="email"
             type="email"
-            placeholder="Enter your email"
+            placeholder={t("emailInputPlaceholder")}
             required
             className="bg-white"
           />
@@ -70,7 +69,7 @@ export function NewsletterBanner({ className }: { className?: string }) {
             onClick={() => setIsModalOpen((prev) => !prev)}
             disabled={fetcher.state === "submitting"}
           >
-            Submit
+            {t("submitButtonLabel")}
           </Button>
         </fetcher.Form>
       </div>
@@ -93,21 +92,6 @@ export function NewsletterBanner({ className }: { className?: string }) {
   );
 }
 
-const modalContent: Record<
-  NewsletterStatus,
-  { title: string; description: string }
-> = {
-  success: {
-    title: "Just wait!",
-    description:
-      "Your email has been saved, you will soon receive an email with more information.",
-  },
-  error: {
-    title: "Oops, something went wrong.",
-    description: "Your email could not be saved, please try again later.",
-  },
-};
-
 function NewsletterFeedbackModal({
   open,
   status,
@@ -119,6 +103,8 @@ function NewsletterFeedbackModal({
   errorMessage: string | undefined;
   onClose: () => void;
 }) {
+  const t = useTranslations("NewsletterBanner.feedback");
+
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogBackdrop className="fixed inset-0 bg-black/20 z-30" />
@@ -132,20 +118,23 @@ function NewsletterFeedbackModal({
               <IconCancel className="size-20 text-danger" />
             )}
             <div className="flex flex-col items-center gap-4">
-              <DialogTitle
-                className={twJoin(
-                  "text-h4",
-                  status === "success" ? "text-success" : "text-danger",
-                )}
-              >
-                {modalContent[status].title}
-              </DialogTitle>
+              {status === "success" && (
+                <DialogTitle className="text-h4 text-success">
+                  {t("success.title")}
+                </DialogTitle>
+              )}
+              {status === "error" && (
+                <DialogTitle className="text-h4 text-danger">
+                  {t("error.title")}
+                </DialogTitle>
+              )}
               <p className="text-center text-gray-700 mx-[4rem]">
-                {errorMessage ?? modalContent[status].description}
+                {status === "success" && t("success.description")}
+                {status === "error" && (errorMessage ?? t("error.description"))}
               </p>
             </div>
             <Button skin="ghost" size="md" onClick={onClose}>
-              Fechar
+              {t("closeButtonLabel")}
             </Button>
           </DialogPanel>
         </div>

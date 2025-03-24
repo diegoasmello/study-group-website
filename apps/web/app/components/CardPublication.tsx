@@ -2,6 +2,7 @@ import { Card, CardProps, CardSize } from "./Card";
 import { ButtonLink } from "./ButtonLink";
 import { IconCalendar, IconSignature } from "./icons";
 import { listFormat } from "~/utils";
+import { useLocale, useTranslations } from "use-intl";
 
 interface CardPublicationProps
   extends Pick<React.ComponentProps<"div">, "className">,
@@ -24,6 +25,9 @@ interface CardPublicationProps
 export function CardPublication(props: CardPublicationProps) {
   const { size, publication, hideShadow, hideText, className } = props;
 
+  const locale = useLocale();
+  const t = useTranslations("CardPublication");
+
   const researchersText = listFormat(
     publication?.researchers?.map((research) => research.name) ?? [],
   );
@@ -40,7 +44,7 @@ export function CardPublication(props: CardPublicationProps) {
           <div className="flex items-center gap-4 text-h5 text-gray-700 fill-gray-700">
             <div className="flex items-center gap-2">
               <IconCalendar className="size-4" />
-              {publication.date.toLocaleDateString()}
+              {publication.date.toLocaleDateString(locale)}
             </div>
             {publication.researchers?.length && (
               <div className="flex items-center gap-2">
@@ -65,11 +69,11 @@ export function CardPublication(props: CardPublicationProps) {
             skin={size === "extended" ? "primary" : "ghost"}
             size="md"
           >
-            See more
+            {t("primaryButtonLabel")}
           </ButtonLink>
           {size === "extended" && (
             <ButtonLink skin="ghost" size="md" to={publication.link} external>
-              Read
+              {t("secondaryButtonLabel")}
             </ButtonLink>
           )}
         </nav>

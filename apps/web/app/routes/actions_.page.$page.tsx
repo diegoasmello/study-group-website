@@ -9,6 +9,7 @@ import {
 import { parseISO } from "date-fns";
 import { gql } from "graphql-request";
 import { useEffect } from "react";
+import { useTranslations } from "use-intl";
 import { CardAction } from "~/components/CardAction";
 import { Container } from "~/components/Container";
 import { TextInput } from "~/components/form-fields/TextInput";
@@ -117,7 +118,9 @@ export default function ActionsPage() {
     paginatedActions: { data: actions, meta: metaPaginated },
     q,
   } = useLoaderData<typeof loader>();
+
   const submit = useSubmit();
+  const t = useTranslations("ActionList");
 
   useEffect(() => {
     const searchField = document.getElementById("q");
@@ -129,7 +132,7 @@ export default function ActionsPage() {
   if (!heroSection)
     return (
       <div className="py-20">
-        <NoResults text="No data found" />;
+        <NoResults text={t("empty")} />;
       </div>
     );
 
@@ -167,7 +170,7 @@ export default function ActionsPage() {
               id="q"
               type="search"
               defaultValue={q || ""}
-              placeholder="Search by title, date or keywords"
+              placeholder={t("filterPlaceholder")}
               className="w-full lg:w-[34vw]"
               Icon={IconSearch}
             />
@@ -175,13 +178,7 @@ export default function ActionsPage() {
 
           {!actions?.length ? (
             <div className="col-span-12 mb-10">
-              <NoResults
-                text={
-                  isFiltering
-                    ? "No results found for this search"
-                    : "No data found"
-                }
-              />
+              <NoResults text={isFiltering ? t("emptySearch") : t("empty")} />
             </div>
           ) : (
             actions.map((action) => (

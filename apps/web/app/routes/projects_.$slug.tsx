@@ -23,6 +23,7 @@ import {
 import { client } from "~/lib/graphql-client.server";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
+import { useLocale, useTranslations } from "use-intl";
 
 const PROJECT_QUERY = gql`
   query Project($slug: String) {
@@ -119,6 +120,9 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 export default function ViewProject() {
   const { project, related } = useLoaderData<typeof loader>();
 
+  const locale = useLocale();
+  const t = useTranslations("Project");
+
   if (!project) return null;
 
   return (
@@ -137,9 +141,9 @@ export default function ViewProject() {
             </div>
             <nav className="flex gap-4 lg:mb-6">
               <ButtonLink to={project.link} external>
-                Visitar projeto
+                {t("viewButtonLabel")}
               </ButtonLink>
-              <ButtonShare skin="ghost">Share</ButtonShare>
+              <ButtonShare skin="ghost">{t("shareButtonLabel")}</ButtonShare>
             </nav>
           </div>
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
@@ -147,7 +151,7 @@ export default function ViewProject() {
               <div className="flex flex-col items-start gap-4">
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    Researchers
+                    {t("researchersTitle")}
                   </span>
                   <span className="text-gray-950">
                     {project.researchers?.length
@@ -162,16 +166,20 @@ export default function ViewProject() {
                 <hr className="w-full border-primary-lighter" />
                 <div className="flex flex-col gap-2">
                   <span className="text-h5 uppercase font-medium text-gray-600">
-                    Period
+                    {t("periodTitle")}
                   </span>
                   <span className="text-gray-950">
-                    From {parseISO(project.startDate).toLocaleDateString()} to{" "}
-                    {parseISO(project.endDate).toLocaleDateString()}
+                    <span className="capitalize">{t("periodFromLabel")} </span>
+                    <span className="lowercase">
+                      {parseISO(project.startDate).toLocaleDateString(locale)}{" "}
+                      {t("periodToLabel")}{" "}
+                      {parseISO(project.endDate).toLocaleDateString(locale)}
+                    </span>
                   </span>
                 </div>
                 <hr className="w-full border-primary-lighter" />
                 <ExternalLink to={project.link}>
-                  <IconArrowForward className="size-5" /> Visit project
+                  <IconArrowForward className="size-5" /> {t("viewButtonLabel")}
                 </ExternalLink>
               </div>
             </CardContainer>
@@ -179,7 +187,7 @@ export default function ViewProject() {
           </div>
           {!!related?.length && (
             <div className="col-span-12 flex flex-col gap-6 ">
-              <h2 className="text-h3 text-gray-950">Other projects</h2>
+              <h2 className="text-h3 text-gray-950">{t("relatedTitle")}</h2>
               <div className="w-full">
                 <Carousel>
                   {(isSlideInView) =>

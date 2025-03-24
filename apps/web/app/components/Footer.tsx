@@ -5,6 +5,7 @@ import { IconInstagram } from "./icons/IconInstagram";
 import { IconFacebook } from "./icons/IconFacebook";
 import { ExternalLink } from "./Link";
 import { RootQuery } from "~/graphql/generated";
+import { useTranslations } from "use-intl";
 
 interface FooterProps {
   company?: RootQuery["company"];
@@ -12,6 +13,8 @@ interface FooterProps {
 
 export function Footer(props: FooterProps) {
   const { company } = props;
+
+  const t = useTranslations("Footer");
 
   return (
     <footer className="bg-primary-light text-white py-12 lg:pt-20 lg:pb-24">
@@ -49,35 +52,37 @@ export function Footer(props: FooterProps) {
           </div>
           <div className="flex items-start gap-[7.5rem]">
             <nav className="flex-col items-start gap-6 hidden lg:flex">
-              <span className="font-semibold">About</span>
+              <span className="font-semibold">{t("aboutSectionLabel")}</span>
               <Link to="./history" className="underline">
-                History
+                {t("historyLinkLabel")}
               </Link>
               <Link to="./research" className="underline">
-                Research
+                {t("researchLinkLabel")}
               </Link>
               <Link to="./team" className="underline">
-                Team
+                {t("teamLinkLabel")}
               </Link>
             </nav>
             <nav className="flex-col items-start gap-6 hidden lg:flex">
-              <span className="font-semibold">Content</span>
+              <span className="font-semibold">{t("contentSectionLabel")}</span>
               <Link to="./publications" className="underline">
-                Publications
+                {t("publicationsLinkLabel")}
               </Link>
               <Link to="./events" className="underline">
-                Events
+                {t("eventsLinkLabel")}
               </Link>
               <Link to="./actions" className="underline">
-                Actions
+                {t("actionsLinkLabel")}
               </Link>
               <Link to="./projects" className="underline">
-                Projects
+                {t("projectsLinkLabel")}
               </Link>
             </nav>
             {company && (
               <nav className="flex flex-col items-start gap-6">
-                <span className="font-semibold">Contact</span>
+                <span className="font-semibold">
+                  {t("contactSectionLabel")}
+                </span>
                 <span>{company.phone}</span>
                 <span>{company.email}</span>
                 <span>{company.address}</span>

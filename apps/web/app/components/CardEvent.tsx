@@ -1,6 +1,7 @@
 import { Card, CardProps, CardSize } from "./Card";
 import { ButtonLink } from "./ButtonLink";
 import { IconCalendar, IconLocation } from "./icons";
+import { useLocale, useTranslations } from "use-intl";
 
 interface CardEventProps extends Pick<CardProps, "hideShadow" | "className"> {
   size: CardSize;
@@ -18,6 +19,11 @@ interface CardEventProps extends Pick<CardProps, "hideShadow" | "className"> {
 export function CardEvent(props: CardEventProps) {
   const { event, size, hideLocale, hideShadow, className } = props;
 
+  const locale = useLocale();
+  const t = useTranslations("CardEvent");
+
+  console.log(locale);
+
   const hasSubscribe = event.date.getTime() > Date.now();
 
   return (
@@ -31,7 +37,7 @@ export function CardEvent(props: CardEventProps) {
         <div className="flex items-center gap-4 text-h5 text-gray-700 fill-gray-700">
           <div className="flex items-center gap-2">
             <IconCalendar className="size-4" />
-            {event.date.toLocaleDateString()}
+            {event.date.toLocaleDateString(locale)}
           </div>
           {!hideLocale && (
             <div className="flex items-center gap-2">
@@ -48,11 +54,11 @@ export function CardEvent(props: CardEventProps) {
             skin={hasSubscribe ? "primary" : "ghost"}
             size="md"
           >
-            See more
+            {t("primaryButtonLabel")}
           </ButtonLink>
           {hasSubscribe && (
             <ButtonLink skin="ghost" size="md" to={event.link}>
-              Subscribe
+              {t("secondaryButtonLabel")}
             </ButtonLink>
           )}
         </nav>

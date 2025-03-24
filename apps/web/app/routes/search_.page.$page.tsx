@@ -2,6 +2,7 @@ import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData, useSearchParams } from "@remix-run/react";
 import { parseISO } from "date-fns";
 import { gql } from "graphql-request";
+import { useTranslations } from "use-intl";
 import { CardContainer } from "~/components/Card";
 import { CardAction } from "~/components/CardAction";
 import { CardEvent } from "~/components/CardEvent";
@@ -245,6 +246,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 export default function Search() {
   const { items, researchAreas, researchers } = useLoaderData<typeof loader>();
 
+  const t = useTranslations("Search");
   const [searchParams] = useSearchParams();
   const parsedSearchParams = parseSearchParams(searchParams);
 
@@ -254,7 +256,7 @@ export default function Search() {
     <main className="pb-20 bg-page">
       <PageBanner
         title="Search"
-        text={`Showing ${meta.total} results:`} // pluralize
+        text={`${t("showingLabel")} ${meta.total} ${t("resultsLabel", { count: meta.total })}:`}
         illustration={
           <img
             src="/assets/illustrations/search.svg"

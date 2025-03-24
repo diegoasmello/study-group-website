@@ -1,5 +1,6 @@
 import { Card, CardProps } from "./Card";
 import { ButtonLink } from "./ButtonLink";
+import { useTranslations } from "use-intl";
 
 interface CardProjectProps
   extends Pick<CardProps, "hideShadow" | "type" | "className" | "size"> {
@@ -19,6 +20,8 @@ export function CardProject(props: CardProjectProps) {
     className,
   } = props;
 
+  const t = useTranslations("CardProject");
+
   return (
     <Card
       title={project.title}
@@ -30,7 +33,7 @@ export function CardProject(props: CardProjectProps) {
       size={size}
       actions={
         <ButtonLink to={`/projects/${project.slug}`} skin="ghost" size="md">
-          See more
+          {t("primaryButtonLabel")}
         </ButtonLink>
       }
     />

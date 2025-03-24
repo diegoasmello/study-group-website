@@ -1,3 +1,4 @@
+import { useLocale, useTranslations } from "use-intl";
 import { FormControl, FormControlProps } from "./FormControl";
 import { TextInput } from "./TextInput";
 
@@ -15,18 +16,23 @@ export type DateRange = {
 export function DateRangeInput(props: DateRangeInputProps) {
   const { label, defaultValue } = props;
 
+  const t = useTranslations("DateRangeInput");
+  const locale = useLocale();
+
   return (
     <FormControl label={label}>
       <div className="flex items-center gap-3 lg:gap-8">
         <TextInput
           name="startDate"
           type="date"
+          lang={locale}
           defaultValue={defaultValue?.startDate}
         />
-        <span className="text-gray-950 font-medium">to</span>
+        <span className="text-gray-950 font-medium">{t("to")}</span>
         <TextInput
           name="endDate"
           type="date"
+          lang={locale}
           defaultValue={defaultValue?.endDate}
         />
       </div>

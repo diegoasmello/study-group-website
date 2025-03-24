@@ -33,6 +33,7 @@ import { IconMenu } from "./icons/IconMenu";
 import clsx from "clsx";
 import { getBreakpoint } from "~/utils";
 import { flags } from "~/flags";
+import { useTranslations } from "use-intl";
 
 export function Header() {
   const location = useLocation();
@@ -51,6 +52,8 @@ export function Header() {
     checkIsAboutMenuOpen(location.pathname),
   );
   const [searchParams] = useSearchParams();
+  const t = useTranslations("Header");
+
   const searchInputDefaultValue =
     location.pathname === "/search" ? (searchParams.get("q") ?? "") : "";
 
@@ -176,13 +179,13 @@ export function Header() {
                             : "text-gray-950 hover:text-primary",
                         )}
                       >
-                        {navLink.label}
+                        {t(navLink.localeMessageKey)}
                         <IconChevronDown className="size-6 -mr-2" />
                       </DropdownButton>
                       <DropdownMenu anchorGap={18}>
                         {navLink.menu.map((item) => (
                           <DropdownItemLink key={item.href} to={item.href}>
-                            {item.label}
+                            {t(item.localeMessageKey)}
                           </DropdownItemLink>
                         ))}
                       </DropdownMenu>
@@ -196,7 +199,7 @@ export function Header() {
                       }
                       to={navLink.href!}
                     >
-                      {navLink.label}
+                      {t(navLink.localeMessageKey)}
                     </NavLink>
                   )}
                 </li>
@@ -256,13 +259,13 @@ export function Header() {
                         name="q"
                         id="search-input"
                         Icon={IconSearch}
-                        placeholder="Busque pelo site"
+                        placeholder={t("searchInputPlaceholder")}
                         className="w-[14rem]"
                         required
                         defaultValue={searchInputDefaultValue}
                       />
                       <Button type="submit" size="md" skin="ghost">
-                        Search
+                        {t("searchButtonLabel")}
                       </Button>
                     </Form>
                   </DropdownMenu>
@@ -290,6 +293,8 @@ function MobileSidebar({
   isAboutMenuOpen: boolean;
   setIsMobileSidebarOpen: (open: boolean) => void;
 }) {
+  const t = useTranslations("Header");
+
   return (
     <Transition show={isMobileSidebarOpen} as={Fragment}>
       <Dialog
@@ -322,7 +327,7 @@ function MobileSidebar({
                                   "h-[2.75rem] w-full px-4 flex items-center gap-2 rounded-lg data-open:mb-2",
                                 )}
                               >
-                                {navLink.label}
+                                {t(navLink.localeMessageKey)}
                                 <IconChevronDown
                                   className={clsx(
                                     "size-6 -mr-2 transition-all",
@@ -347,7 +352,7 @@ function MobileSidebar({
                                       )
                                     }
                                   >
-                                    {item.label}
+                                    {t(item.localeMessageKey)}
                                   </NavLink>
                                 ))}
                               </DisclosurePanel>
@@ -366,7 +371,7 @@ function MobileSidebar({
                           }
                           to={navLink.href!}
                         >
-                          {navLink.label}
+                          {t(navLink.localeMessageKey)}
                         </NavLink>
                       )}
                     </li>
@@ -387,40 +392,40 @@ function checkIsAboutMenuOpen(pathname: string) {
 
 const navLinks = [
   {
-    label: "Home",
     href: "./",
+    localeMessageKey: "homeNavLinkLabel",
   },
   {
-    label: "About",
+    localeMessageKey: "aboutNavLinkLabel",
     menu: [
       {
-        label: "History",
         href: "./history",
+        localeMessageKey: "historyNavLinkLabel",
       },
       {
-        label: "Research",
         href: "./research",
+        localeMessageKey: "researchNavLinkLabel",
       },
       {
-        label: "Team",
         href: "./team",
+        localeMessageKey: "teamNavLinkLabel",
       },
     ],
   },
   {
-    label: "Publications",
     href: "./publications",
+    localeMessageKey: "publicationsNavLinkLabel",
   },
   {
-    label: "Events",
     href: "./events",
+    localeMessageKey: "eventsNavLinkLabel",
   },
   {
-    label: "Actions",
     href: "./actions",
+    localeMessageKey: "actionsNavLinkLabel",
   },
   {
-    label: "Projects",
     href: "./projects",
+    localeMessageKey: "projectsNavLinkLabel",
   },
 ];

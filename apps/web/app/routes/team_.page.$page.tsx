@@ -1,6 +1,7 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
 import { gql } from "graphql-request";
+import { useTranslations } from "use-intl";
 import { CardTeamMember } from "~/components/CardTeamMember";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
@@ -94,10 +95,12 @@ export default function Team() {
     paginatedTeamMembers: { data: teamMembers, meta: paginatedMeta },
   } = useLoaderData<typeof loader>();
 
+  const t = useTranslations("TeamList");
+
   if (!heroSection)
     return (
       <div className="py-20">
-        <NoResults text="No data found" />;
+        <NoResults text={t("empty")} />;
       </div>
     );
 
@@ -119,7 +122,7 @@ export default function Team() {
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
           {!teamMembers?.length ? (
             <div className="col-span-12">
-              <NoResults text="No data found" />
+              <NoResults text={t("empty")} />;
             </div>
           ) : (
             teamMembers.map((teamMember) => (

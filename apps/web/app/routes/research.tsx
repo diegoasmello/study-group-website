@@ -15,6 +15,7 @@ import { ResearchPageQuery } from "~/graphql/generated";
 import { ArrayElement } from "~/types";
 import { DocumentRenderer } from "~/components/DocumentRenderer";
 import { NoResults } from "~/components/NoResults";
+import { useTranslations } from "use-intl";
 
 const RESEARCH_QUERY = gql`
   query ResearchPage {
@@ -77,10 +78,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function Research() {
   const { heroSection, researchAreas } = useLoaderData<typeof loader>();
 
+  const t = useTranslations("Research");
+
   if (!heroSection || !researchAreas.length)
     return (
       <div className="py-20">
-        <NoResults text="No data found" />;
+        <NoResults text={t("empty")} />;
       </div>
     );
 
@@ -107,6 +110,7 @@ export default function Research() {
             item={
               researchArea as ArrayElement<ResearchPageQuery["researchAreas"]>
             }
+            t={t}
           />
         ))}
       </div>
@@ -125,9 +129,11 @@ export default function Research() {
 const ResearchItemSection = ({
   item,
   index,
+  t,
 }: {
   item: ArrayElement<ResearchPageQuery["researchAreas"]>;
   index: number;
+  t: ReturnType<typeof useTranslations>;
 }) => {
   const isOdd = index % 2 === 0;
 
@@ -166,7 +172,7 @@ const ResearchItemSection = ({
       <Container>
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
           <div className="col-span-12">
-            <h3 className="text-h4 mb-6">Related projects</h3>
+            <h3 className="text-h4 mb-6">{t("relatedProjectsTitle")}</h3>
             <div className="w-full">
               <Carousel>
                 {() =>

@@ -14,6 +14,8 @@ const ADD_NEWSLETTER_MUTATION = gql`
   }
 `;
 
+// todo fix https://remix.run/resources/remix-i18next#translating-text-inside-loaders-or-actions
+
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const email = formData.get("email");

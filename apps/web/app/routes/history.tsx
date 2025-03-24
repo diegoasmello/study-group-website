@@ -12,6 +12,7 @@ import { gql } from "graphql-request";
 import { client } from "~/lib/graphql-client.server";
 import { HistoryPageQuery } from "~/graphql/generated";
 import { NoResults } from "~/components/NoResults";
+import { useTranslations } from "use-intl";
 
 const HISTORY_PAGE_QUERY = gql`
   query HistoryPage {
@@ -84,10 +85,12 @@ export default function History() {
   const { history, historySection, homeSection, teamMembers } =
     useLoaderData<typeof loader>();
 
+  const t = useTranslations("History");
+
   if (!historySection || !history || !homeSection)
     return (
       <div className="py-20">
-        <NoResults text="No data found" />;
+        <NoResults text={t("empty")} />;
       </div>
     );
 
@@ -134,7 +137,7 @@ export default function History() {
         {!!teamMembers?.length && (
           <div className="mt-20">
             <div className="flex flex-col gap-8 mb-14">
-              <h2 className="text-h3 text-gray-950">Meet our team</h2>
+              <h2 className="text-h3 text-gray-950">{t("teamTitle")}</h2>
               <div className="w-full">
                 <Carousel>
                   {(isSlideInView) =>
@@ -161,7 +164,7 @@ export default function History() {
             </div>
             <div className="flex flex-col items-center">
               <Link to="/team">
-                See the entire team <IconArrowForward className="size-5" />
+                {t("teamLinkLabel")} <IconArrowForward className="size-5" />
               </Link>
             </div>
           </div>

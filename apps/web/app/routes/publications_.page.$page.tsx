@@ -35,6 +35,7 @@ import {
 } from "~/graphql/generated";
 import { paginate } from "~/utils/paginator.server";
 import { FilterForm } from "~/components/FilterForm";
+import { useTranslations } from "use-intl";
 
 const PUBLICATIONS_QUERY = gql`
   query PublicationsPaginated(
@@ -169,6 +170,8 @@ export default function PublicationsPage() {
     paginatedPublications: { data: publications, meta: paginatedMeta },
   } = useLoaderData<typeof loader>();
 
+  const t = useTranslations("PublicationList");
+
   const [searchParams] = useSearchParams();
   const parsedSearchParams = parseSearchParams(searchParams);
 
@@ -178,7 +181,7 @@ export default function PublicationsPage() {
   if (!heroSection)
     return (
       <div className="py-20">
-        <NoResults text="No data found" />;
+        <NoResults text={t("empty")} />;
       </div>
     );
 
@@ -205,7 +208,7 @@ export default function PublicationsPage() {
                   <Fragment>
                     <DisclosureButton className="flex justify-between">
                       <span className="text-h5 text-primary uppercase font-medium">
-                        Filtros
+                        {t("filterTitle")}
                       </span>
                       <IconChevronDown
                         className={clsx(
@@ -233,11 +236,7 @@ export default function PublicationsPage() {
             {!publications?.length ? (
               <NoResults
                 className="pt-5"
-                text={
-                  isFiltering
-                    ? "No results found for this search"
-                    : "No data found"
-                }
+                text={isFiltering ? t("emptySearch") : t("empty")}
               />
             ) : (
               publications.map((publication) => (
