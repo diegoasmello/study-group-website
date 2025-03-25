@@ -44,7 +44,8 @@
     "shareButtonLabel": "Share",
     "relatedTitle": "Related events",
     "workloadTitle": "Workload",
-    "workloadText": "{count, plural, =0 {hours} =1 {hour} other {hours}}",
+    "workloadText_one": "hour",
+    "workloadText_other": "hours",
     "dateTitle": "Date",
     "localeTitle": "Locale",
     "actionToSubscribeLabel": "Click here to subscribe"
@@ -97,7 +98,9 @@
   "Search": {
     "title": "Search",
     "showingLabel": "Showing",
-    "resultsLabel": "{count, plural, =0 {results} =1 {result} other {results}}"
+    "resultsLabel_zero": "results",
+    "resultsLabel_one": "result",
+    "resultsLabel_other": "results"
   },
   "CardAction": {
     "primaryButtonLabel": "See more"
