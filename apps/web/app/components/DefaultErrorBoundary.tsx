@@ -1,15 +1,17 @@
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { Container } from "./Container";
 
+import { useTranslation } from "react-i18next";
+
 export function DefaultErrorBoundary() {
-  let message: string;
-
   const error = useRouteError();
+  const { t } = useTranslation();
 
+  let message: string;
   if (isRouteErrorResponse(error)) {
-    message = messages[error.status] ?? error.statusText;
+    message = t(`Errors.${error.status}`);
   } else {
-    message = "Something went wrong...";
+    message = t("Errors.default");
   }
 
   return (
@@ -23,11 +25,3 @@ export function DefaultErrorBoundary() {
     </Container>
   );
 }
-
-const messages: Record<number, string> = {
-  400: "Bad request",
-  401: "Unauthorized",
-  403: "Forbidden",
-  404: "Page not found",
-  405: "Method not allowed",
-};

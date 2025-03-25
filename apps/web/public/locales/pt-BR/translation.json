@@ -169,5 +169,13 @@
   },
   "DateRangeInput": {
     "to": "até"
+  },
+  "Errors": {
+    "400": "Requisição inválida",
+    "401": "Sem autorização",
+    "403": "Acesso proibido",
+    "404": "Página não encontrada",
+    "405": "Método não permitido",
+    "default": "Algo deu errado..."
   }
 }

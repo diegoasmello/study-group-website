@@ -102,8 +102,8 @@ function Document({
 }: {
   children: React.ReactNode;
   company?: RootQuery["company"];
-  lang?: string;
-  dir?: string;
+  lang: string;
+  dir: string;
 }) {
   return (
     <html lang={lang} dir={dir}>
@@ -125,8 +125,10 @@ function Document({
 }
 
 export function ErrorBoundary() {
+  const { i18n } = useTranslation();
+
   return (
-    <Document>
+    <Document lang={i18n.language} dir={i18n.dir()}>
       <DefaultErrorBoundary />;
     </Document>
   );

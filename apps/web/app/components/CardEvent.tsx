@@ -23,8 +23,6 @@ export function CardEvent(props: CardEventProps) {
   const locale = useLocale();
   const { t } = useTranslation();
 
-  console.log(locale);
-
   const hasSubscribe = event.date.getTime() > Date.now();
 
   return (

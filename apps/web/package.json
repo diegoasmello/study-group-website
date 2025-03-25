@@ -10,7 +10,6 @@
     "start": "remix-serve ./build/server/index.js",
     "generate:graphql": "graphql-codegen",
     "typecheck": "tsc",
-    "prestart": "npm run generate:graphql",
     "predev": "sleep 3 && npm run generate:graphql"
   },
   "dependencies": {
