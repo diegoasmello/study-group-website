@@ -110,7 +110,6 @@ export default function Research() {
             item={
               researchArea as ArrayElement<ResearchPageQuery["researchAreas"]>
             }
-            t={t}
           />
         ))}
       </div>
@@ -129,12 +128,11 @@ export default function Research() {
 const ResearchItemSection = ({
   item,
   index,
-  t,
 }: {
   item: ArrayElement<ResearchPageQuery["researchAreas"]>;
   index: number;
-  t: ReturnType<typeof useTranslations>;
 }) => {
+  const { t } = useTranslation();
   const isOdd = index % 2 === 0;
 
   return (

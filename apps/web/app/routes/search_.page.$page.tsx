@@ -21,6 +21,7 @@ import {
   SearchQueryVariables,
 } from "~/graphql/generated";
 import { client } from "~/lib/graphql-client.server";
+import { ArrayElement } from "~/types";
 
 import { getRootMatch } from "~/utils";
 import { paginate } from "~/utils/paginator.server";
@@ -108,58 +109,6 @@ const SEARCH_QUERY = gql`
     }
   }
 `;
-//   query Search($query: String, $skip: Int, $take: Int) {
-//     data: search(query: $query, skip: $skip, take: $take) {
-//       totalCount
-//       items {
-//         ... on Action {
-//           id
-//           slug
-//           title
-//           image {
-//             url
-//           }
-//           date
-//           __typename
-//         }
-//         ... on Publication {
-//           id
-//           slug
-//           title
-//           resume
-//           date
-//           link
-//           researchers {
-//             id
-//             name
-//           }
-//           __typename
-//         }
-//         ... on Event {
-//           id
-//           slug
-//           title
-//           date
-//           locale
-//           link
-//           image {
-//             url
-//           }
-//           __typename
-//         }
-//         ... on Project {
-//           id
-//           slug
-//           title
-//           image {
-//             url
-//           }
-//           __typename
-//         }
-//       }
-//     }
-//   }
-// `;
 
 const FILTER_CONTENT_QUERY = gql`
   query SearchFilterContent {
@@ -183,18 +132,20 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   return [{ title: "Search | " + company?.title }];
 };
 
+type SearchReturnType = Array<
+  | ArrayElement<SearchQuery["actions"]>
+  | ArrayElement<SearchQuery["events"]>
+  | ArrayElement<SearchQuery["publications"]>
+  | ArrayElement<SearchQuery["projects"]>
+>;
+
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const searchParams = parseSearchParams(url.searchParams);
   const page = params.page ? Number(params.page) : 1;
 
   const items = await paginate<
-    Array<
-      SearchQuery["actions"] &
-        SearchQuery["events"] &
-        SearchQuery["publications"] &
-        SearchQuery["projects"]
-    >,
+    SearchReturnType,
     SearchQueryVariables,
     SearchQuery
   >({
@@ -233,7 +184,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
           ...item,
           __typename: "Project",
         })),
-      ],
+      ] as SearchReturnType,
     }),
   });
 
