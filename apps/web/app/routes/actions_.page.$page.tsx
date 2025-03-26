@@ -178,7 +178,13 @@ export default function ActionsPage() {
 
           {!actions?.length ? (
             <div className="col-span-12 mb-10">
-              <NoResults text={isFiltering ? t("emptySearch") : t("empty")} />
+              <NoResults
+                text={
+                  isFiltering
+                    ? t("ActionList.emptySearch")
+                    : t("ActionList.empty")
+                }
+              />
             </div>
           ) : (
             actions.map((action) => (

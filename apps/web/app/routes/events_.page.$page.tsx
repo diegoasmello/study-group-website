@@ -179,7 +179,13 @@ export default function EventsPage() {
 
           {!events?.length ? (
             <div className="col-span-12 mb-10">
-              <NoResults text={isFiltering ? t("emptySearch") : t("empty")} />
+              <NoResults
+                text={
+                  isFiltering
+                    ? t("EventList.emptySearch")
+                    : t("EventList.empty")
+                }
+              />
             </div>
           ) : (
             events.map((event) => (

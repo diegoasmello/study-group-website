@@ -129,7 +129,7 @@ export function ErrorBoundary() {
 
   return (
     <Document lang={i18n.language} dir={i18n.dir()}>
-      <DefaultErrorBoundary />;
+      <DefaultErrorBoundary />
     </Document>
   );
 }

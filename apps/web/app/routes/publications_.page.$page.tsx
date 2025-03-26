@@ -236,7 +236,11 @@ export default function PublicationsPage() {
             {!publications?.length ? (
               <NoResults
                 className="pt-5"
-                text={isFiltering ? t("emptySearch") : t("empty")}
+                text={
+                  isFiltering
+                    ? t("PublicationList.emptySearch")
+                    : t("PublicationList.empty")
+                }
               />
             ) : (
               publications.map((publication) => (

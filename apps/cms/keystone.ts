@@ -33,7 +33,7 @@ export default config(
       local_images: {
         kind: "local",
         type: "image",
-        generateUrl: (path) => `/uploads${path}`,
+        generateUrl: (path) => `${process.env.STORAGE_URL}/uploads${path}`,
         serverRoute: {
           path: "/uploads",
         },
