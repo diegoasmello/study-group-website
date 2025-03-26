@@ -31,9 +31,9 @@ import {
 import { TextInput } from "./form-fields/TextInput";
 import { IconMenu } from "./icons/IconMenu";
 import clsx from "clsx";
-import { getBreakpoint } from "~/utils";
 import { flags } from "~/flags";
 import { useTranslation } from "react-i18next";
+import { useIsMobile } from "~/utils/use-mobile";
 
 export function Header() {
   const location = useLocation();
@@ -47,19 +47,15 @@ export function Header() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [isPageOnTop, setIsPageOnTop] = useState(true);
-  const [breakpoint, setBreakpoint] = useState<number>();
   const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(
     checkIsAboutMenuOpen(location.pathname),
   );
   const [searchParams] = useSearchParams();
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   const searchInputDefaultValue =
     location.pathname === "/search" ? (searchParams.get("q") ?? "") : "";
-
-  useEffect(() => {
-    setBreakpoint(Number(getBreakpoint("lg").split("rem")[0]));
-  }, []);
 
   useEffect(() => {
     setIsMobileSidebarOpen(false);
@@ -91,21 +87,10 @@ export function Header() {
   }, [location.pathname, isAboutMenuOpen]);
 
   useEffect(() => {
-    const updateSidebar = (event: UIEvent) => {
-      const target = event?.target as Window;
-      const widthInRem = Math.floor(target.innerWidth / 16);
-      if (
-        target &&
-        breakpoint &&
-        !isNaN(breakpoint) &&
-        widthInRem > breakpoint
-      ) {
-        setIsMobileSidebarOpen(false);
-      }
-    };
-    window.addEventListener("resize", updateSidebar);
-    return () => window.removeEventListener("resize", updateSidebar);
-  }, [breakpoint, isMobileSidebarOpen]);
+    if (!isMobile) {
+      setIsMobileSidebarOpen(false);
+    }
+  }, [isMobile]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -143,7 +128,7 @@ export function Header() {
       )}
     >
       <Container>
-        <div className="flex flex-row items-center justify-between">
+        <div className="grid grid-flow-col items-center justify-between">
           <button
             className="lg:hidden h-[5rem] w-[3.5rem] -ml-4 flex items-center justify-center"
             onClick={() => setIsMobileSidebarOpen((prevValue) => !prevValue)}
@@ -159,7 +144,7 @@ export function Header() {
             <img
               src="/assets/logo-dark.png"
               alt="Logo"
-              className="h-[2.5rem]"
+              className="w-[8.75rem]"
             />
           </Link>
 
@@ -211,7 +196,7 @@ export function Header() {
             />
           </nav>
 
-          <nav className="hidden lg:block">
+          <nav className="hidden lg:flex justify-end w-[8.75rem]">
             <ul className="flex flex-row items-center gap-2">
               {flags.INTERNATIONALIZATION_ENABLED && (
                 <li>
