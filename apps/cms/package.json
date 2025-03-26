@@ -5,7 +5,8 @@
     "dev": "keystone dev",
     "start": "keystone start",
     "build": "keystone build",
-    "migrate": "keystone prisma migrate deploy",
+    "predeploy": "keystone prisma migrate deploy",
+    "migrate": "keystone prisma migrate dev",
     "seed": "tsx seed/seed.ts",
     "reset": "rm -f public/uploads/* && keystone prisma db push --force-reset"
   },
