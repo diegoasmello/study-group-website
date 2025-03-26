@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "keystone dev",
     "start": "keystone start",
-    "build": "keystone build && keystone prisma migrate deploy",
+    "build": "keystone build",
+    "migrate": "keystone prisma migrate deploy",
     "seed": "tsx seed/seed.ts",
     "reset": "rm -f public/uploads/* && keystone prisma db push --force-reset"
   },
