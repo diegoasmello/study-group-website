@@ -33,7 +33,7 @@ export default config(
       local_images: {
         kind: "local",
         type: "image",
-        generateUrl: (path) => `http://localhost:3000/uploads${path}`,
+        generateUrl: (path) => `/uploads${path}`,
         serverRoute: {
           path: "/uploads",
         },
