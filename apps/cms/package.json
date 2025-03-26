@@ -1,6 +1,5 @@
 {
   "name": "cms",
-  "main": "keystone.ts",
   "private": true,
   "scripts": {
     "dev": "keystone dev",
