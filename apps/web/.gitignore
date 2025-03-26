@@ -1,5 +1,4 @@
 node_modules
-app/graphql/generated.ts
 /.cache
 /build
 .env
