@@ -279,16 +279,27 @@ function MobileSidebar({
   setIsMobileSidebarOpen: (open: boolean) => void;
 }) {
   const { t } = useTranslation();
+  const [navigated, setNavigated] = useState(false);
 
   const onMobileNavLinkClick = () => {
-    setTimeout(() => {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    });
+    setNavigated(true);
+  };
+
+  const afterLeave = () => {
+    if (navigated) {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 400);
+      setNavigated(false);
+    }
   };
 
   return (
-    <Transition show={isMobileSidebarOpen} as={Fragment}>
+    <Transition
+      show={isMobileSidebarOpen}
+      as={Fragment}
+      afterLeave={afterLeave}
+    >
       <Dialog
         as="div"
         className={"relative z-10 lg:hidden"}
@@ -336,7 +347,6 @@ function MobileSidebar({
                                     key={item.href}
                                     to={item.href}
                                     onClick={onMobileNavLinkClick}
-                                    preventScrollReset
                                     className={({ isActive }) =>
                                       twMerge(
                                         "h-[2.75rem] w-full px-4 flex items-center rounded-lg",
@@ -356,7 +366,6 @@ function MobileSidebar({
                       ) : (
                         <NavLink
                           onClick={onMobileNavLinkClick}
-                          preventScrollReset
                           className={({ isActive }) =>
                             twMerge(
                               "h-[2.75rem] w-full px-4 flex items-center rounded-lg",
