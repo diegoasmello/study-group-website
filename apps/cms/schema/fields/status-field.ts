@@ -6,7 +6,7 @@ export const statusField = select({
     { label: "Draft", value: "draft" },
   ],
   validation: { isRequired: true },
-  defaultValue: "draft",
+  defaultValue: "published",
   ui: { displayMode: "segmented-control" },
   graphql: { isNonNull: { read: true } },
   type: "enum",
