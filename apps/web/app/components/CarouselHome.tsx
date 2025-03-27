@@ -98,7 +98,7 @@ const Item = ({ item }: { item: CarouselHomeItem }) => {
                 <span className="text-primary font-medium">
                   {t(`Home.mainCarousel.${item.type}`)}
                 </span>
-                <span className="text-h1-display line-clamp-4 text-ellipsis">
+                <span className="text-h1 lg:text-h1-display line-clamp-4 text-ellipsis">
                   {item.title}
                 </span>
                 <p className="text-lead-1 text-gray-800 line-clamp-5">

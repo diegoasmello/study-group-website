@@ -1,8 +1,15 @@
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData, useSearchParams } from "@remix-run/react";
+import clsx from "clsx";
 import { parseISO } from "date-fns";
 import { gql } from "graphql-request";
 import { useTranslation } from "react-i18next";
+import { Fragment } from "react/jsx-runtime";
 import { CardContainer } from "~/components/Card";
 import { CardAction } from "~/components/CardAction";
 import { CardEvent } from "~/components/CardEvent";
@@ -11,6 +18,7 @@ import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
 import { Container } from "~/components/Container";
 import { FilterForm, parseSearchParams } from "~/components/FilterForm";
+import { IconChevronDown } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
@@ -203,6 +211,9 @@ export default function Search() {
 
   const { data, meta } = items;
 
+  const isFiltering = !!Object.values(parsedSearchParams).filter((i) => i)
+    .length;
+
   return (
     <main className="pb-20 bg-page">
       <PageBanner
@@ -219,7 +230,38 @@ export default function Search() {
       />
       <Container>
         <section className="grid grid-cols-12 gap-6">
-          <div className="col-span-8 flex flex-col gap-6">
+          <div className="col-span-12 grid lg:hidden">
+            <CardContainer className="p-6">
+              <Disclosure defaultOpen={isFiltering}>
+                {({ open }) => (
+                  <Fragment>
+                    <DisclosureButton className="flex justify-between">
+                      <span className="text-h5 text-primary uppercase font-medium">
+                        {t("PublicationList.filterTitle")}
+                      </span>
+                      <IconChevronDown
+                        className={clsx(
+                          "size-6 -mr-2 transition-all text-primary",
+                          open && "rotate-180",
+                        )}
+                      />
+                    </DisclosureButton>
+                    <DisclosurePanel className="mt-4">
+                      <FilterForm
+                        action="/publications"
+                        className="flex flex-col items-start gap-6"
+                        researchAreas={researchAreas ?? []}
+                        researchers={researchers ?? []}
+                        defaultValues={parsedSearchParams}
+                      />
+                    </DisclosurePanel>
+                  </Fragment>
+                )}
+              </Disclosure>
+            </CardContainer>
+          </div>
+
+          <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
             {data?.length ? (
               data.map((item) => {
                 if (item.__typename === "Action") {
@@ -283,10 +325,17 @@ export default function Search() {
                 }
               })
             ) : (
-              <NoResults className="pt-5" />
+              <NoResults
+                className="pt-5"
+                text={
+                  isFiltering
+                    ? t("PublicationList.emptySearch")
+                    : t("PublicationList.empty")
+                }
+              />
             )}
           </div>
-          <div className="col-span-4 flex flex-col gap-6">
+          <div className="col-span-12 lg:col-span-4 flex-col gap-6 hidden lg:flex">
             <CardContainer className="p-6 flex flex-col items-start gap-6">
               <FilterForm
                 action="/search"
