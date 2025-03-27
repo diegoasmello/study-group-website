@@ -22,6 +22,7 @@ export default config(
     server: {
       extendExpressApp: (app) => {
         app.use("/assets", static_(join(process.cwd(), "public/assets")));
+        app.use("/uploads", static_(join(process.cwd(), "public/uploads")));
       },
       cors: {
         origin: ["https://web-production-43fdf.up.railway.app/"],
