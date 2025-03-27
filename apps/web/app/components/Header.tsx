@@ -279,15 +279,41 @@ function MobileSidebar({
   setIsMobileSidebarOpen: (open: boolean) => void;
 }) {
   const { t } = useTranslation();
+  // const location = useLocation();
+  // const [prevLocation, setPrevLocation] = useState(location.pathname);
+  const [navigated, setNavigated] = useState(false);
+
+  // useEffect(() => {});
+
+  // const onClose = () => {
+  //   setIsMobileSidebarOpen(false);
+  // };
+
+  // const onMobileNavLinkClick = () => {
+  //   setTimeout(() => {
+  //     window.scrollTo(0, 0);
+  //   }, 400);
+  // };
 
   const onMobileNavLinkClick = () => {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 400);
+    setNavigated(true);
+  };
+
+  const afterLeave = () => {
+    if (navigated) {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 400);
+      setNavigated(false);
+    }
   };
 
   return (
-    <Transition show={isMobileSidebarOpen} as={Fragment}>
+    <Transition
+      show={isMobileSidebarOpen}
+      as={Fragment}
+      afterLeave={afterLeave}
+    >
       <Dialog
         as="div"
         className={"relative z-10 lg:hidden"}
