@@ -23,6 +23,10 @@ export default config(
       extendExpressApp: (app) => {
         app.use("/assets", static_(join(process.cwd(), "public/assets")));
       },
+      cors: {
+        origin: ["https://web-production-43fdf.up.railway.app/"],
+        credentials: true,
+      },
     },
     db: {
       provider: "postgresql",
