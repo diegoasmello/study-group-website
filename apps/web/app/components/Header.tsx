@@ -279,21 +279,7 @@ function MobileSidebar({
   setIsMobileSidebarOpen: (open: boolean) => void;
 }) {
   const { t } = useTranslation();
-  // const location = useLocation();
-  // const [prevLocation, setPrevLocation] = useState(location.pathname);
   const [navigated, setNavigated] = useState(false);
-
-  // useEffect(() => {});
-
-  // const onClose = () => {
-  //   setIsMobileSidebarOpen(false);
-  // };
-
-  // const onMobileNavLinkClick = () => {
-  //   setTimeout(() => {
-  //     window.scrollTo(0, 0);
-  //   }, 400);
-  // };
 
   const onMobileNavLinkClick = () => {
     setNavigated(true);
@@ -380,7 +366,6 @@ function MobileSidebar({
                       ) : (
                         <NavLink
                           onClick={onMobileNavLinkClick}
-                          preventScrollReset
                           className={({ isActive }) =>
                             twMerge(
                               "h-[2.75rem] w-full px-4 flex items-center rounded-lg",
