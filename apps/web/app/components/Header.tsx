@@ -334,6 +334,7 @@ function MobileSidebar({
                                     key={item.href}
                                     to={item.href}
                                     onClick={onMobileNavLinkClick}
+                                    preventScrollReset
                                     className={({ isActive }) =>
                                       twMerge(
                                         "h-[2.75rem] w-full px-4 flex items-center rounded-lg",
@@ -353,6 +354,7 @@ function MobileSidebar({
                       ) : (
                         <NavLink
                           onClick={onMobileNavLinkClick}
+                          preventScrollReset
                           className={({ isActive }) =>
                             twMerge(
                               "h-[2.75rem] w-full px-4 flex items-center rounded-lg",
