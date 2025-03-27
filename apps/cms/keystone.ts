@@ -26,6 +26,8 @@ export default config(
       },
       cors: {
         origin: ["https://web-production-43fdf.up.railway.app/"],
+        methods: ["GET", "OPTIONS"],
+        allowedHeaders: ["Content-Type"],
       },
     },
     db: {
