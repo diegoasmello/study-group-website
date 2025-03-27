@@ -181,7 +181,7 @@ export default function PublicationsPage() {
   if (!heroSection)
     return (
       <div className="py-20">
-        <NoResults text={t("PublicationList.empty")} />;
+        <NoResults text={t("PublicationList.empty")} />
       </div>
     );
 

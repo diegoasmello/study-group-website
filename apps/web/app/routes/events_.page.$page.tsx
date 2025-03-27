@@ -133,7 +133,7 @@ export default function EventsPage() {
   if (!heroSection)
     return (
       <div className="py-20">
-        <NoResults text={t("EventList.empty")} />;
+        <NoResults text={t("EventList.empty")} />
       </div>
     );
 

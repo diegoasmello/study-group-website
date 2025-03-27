@@ -100,7 +100,7 @@ export default function Projects() {
   if (!heroSection)
     return (
       <div className="py-20">
-        <NoResults text={t("ProjectList.empty")} />;
+        <NoResults text={t("ProjectList.empty")} />
       </div>
     );
 
@@ -122,7 +122,7 @@ export default function Projects() {
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
           {!projects?.length ? (
             <div className="col-span-12">
-              <NoResults text={t("ProjectList.empty")} />;
+              <NoResults text={t("ProjectList.empty")} />
             </div>
           ) : (
             projects.map((project) => (

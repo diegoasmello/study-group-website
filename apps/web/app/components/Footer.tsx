@@ -25,7 +25,7 @@ export function Footer(props: FooterProps) {
               <img
                 src="/assets/logo-light.png"
                 alt="Logo"
-                className="h-[5.75rem]"
+                className="h-auto w-[60%] lg:h-[5.75rem] lg:w-auto"
               />
             </Link>
             {company && (

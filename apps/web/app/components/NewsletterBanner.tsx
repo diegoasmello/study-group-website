@@ -44,7 +44,7 @@ export function NewsletterBanner({ className }: { className?: string }) {
   return (
     <div
       className={twMerge(
-        "bg-primary-lighter py-10 px-6 lg:px-16 rounded-[3.25rem] relative overflow-hidden grid grid-cols-12",
+        "bg-primary-lighter py-10 px-6 lg:px-16 rounded-3xl lg:rounded-[3.25rem] relative overflow-hidden grid grid-cols-12",
         className,
       )}
     >
@@ -131,7 +131,8 @@ function NewsletterFeedbackModal({
                 </DialogTitle>
               )}
               <p className="text-center text-gray-700 mx-[4rem]">
-                {status === "success" && t("success.description")}
+                {status === "success" &&
+                  t("NewsletterBanner.feedback.success.description")}
                 {status === "error" &&
                   (errorMessage ??
                     t("NewsletterBanner.feedback.error.description"))}

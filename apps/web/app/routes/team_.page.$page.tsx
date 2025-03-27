@@ -100,7 +100,7 @@ export default function Team() {
   if (!heroSection)
     return (
       <div className="py-20">
-        <NoResults text={t("TeamList.empty")} />;
+        <NoResults text={t("TeamList.empty")} />
       </div>
     );
 
@@ -122,7 +122,7 @@ export default function Team() {
         <section className="grid grid-cols-12 gap-x-8 gap-y-6">
           {!teamMembers?.length ? (
             <div className="col-span-12">
-              <NoResults text={t("TeamList.empty")} />;
+              <NoResults text={t("TeamList.empty")} />
             </div>
           ) : (
             teamMembers.map((teamMember) => (

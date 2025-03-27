@@ -24,7 +24,7 @@ const RESEARCH_QUERY = gql`
       title
       content
     }
-    researchAreas {
+    researchAreas(where: { status: { equals: published } }) {
       title
       image {
         url
@@ -83,7 +83,7 @@ export default function Research() {
   if (!heroSection || !researchAreas.length)
     return (
       <div className="py-20">
-        <NoResults text={t("Research.empty")} />;
+        <NoResults text={t("Research.empty")} />
       </div>
     );
 
@@ -167,36 +167,38 @@ const ResearchItemSection = ({
           </section>
         </Container>
       </div>
-      <Container>
-        <section className="grid grid-cols-12 gap-x-8 gap-y-6">
-          <div className="col-span-12">
-            <h3 className="text-h4 mb-6">
-              {t("Research.relatedProjectsTitle")}
-            </h3>
-            <div className="w-full">
-              <Carousel>
-                {() =>
-                  item.projects?.map((project) => (
-                    <div
-                      key={project.id}
-                      className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
-                    >
-                      <CardProject
-                        project={{
-                          slug: project.slug,
-                          title: project.title,
-                          image: project.image.url,
-                        }}
-                        type="flat"
-                      />
-                    </div>
-                  ))
-                }
-              </Carousel>
+      {!!item.projects?.length && (
+        <Container>
+          <section className="grid grid-cols-12 gap-x-8 gap-y-6">
+            <div className="col-span-12">
+              <h3 className="text-h4 mb-6">
+                {t("Research.relatedProjectsTitle")}
+              </h3>
+              <div className="w-full">
+                <Carousel>
+                  {() =>
+                    item.projects?.map((project) => (
+                      <div
+                        key={project.id}
+                        className="embla__slide flex flex-[0_0_100%] lg:flex-[0_0_33.3333%] pl-[2rem] min-w-0 "
+                      >
+                        <CardProject
+                          project={{
+                            slug: project.slug,
+                            title: project.title,
+                            image: project.image.url,
+                          }}
+                          type="flat"
+                        />
+                      </div>
+                    ))
+                  }
+                </Carousel>
+              </div>
             </div>
-          </div>
-        </section>
-      </Container>
+          </section>
+        </Container>
+      )}
     </div>
   );
 };

@@ -90,7 +90,7 @@ export default function History() {
   if (!historySection || !history || !homeSection)
     return (
       <div className="py-20">
-        <NoResults text={t("History.empty")} />;
+        <NoResults text={t("History.empty")} />
       </div>
     );
 
@@ -172,7 +172,7 @@ export default function History() {
             </div>
           </div>
         )}
-        <NewsletterBanner className="mt-10" />
+        <NewsletterBanner className="mt-20" />
       </Container>
     </main>
   );
@@ -242,19 +242,19 @@ type HistorySectionIllustration = {
 
 const historyIllustrations: HistorySectionIllustration[] = [
   {
-    illustration1: "/assets/illustrations/history.svg",
+    illustration1: "/assets/illustrations/history-step-1.svg",
   },
   {
-    illustration1: "/assets/illustrations/history.svg",
+    illustration1: "/assets/illustrations/history-step-2.svg",
   },
   {
-    illustration1: "/assets/illustrations/history.svg",
+    illustration1: "/assets/illustrations/history-step-3.svg",
   },
   {
-    illustration1: "/assets/illustrations/history.svg",
+    illustration1: "/assets/illustrations/history-step-4.svg",
   },
   {
-    illustration1: "/assets/illustrations/history.svg",
-    illustration2: "/assets/illustrations/history.svg",
+    illustration1: "/assets/illustrations/history-step-5-1.svg",
+    illustration2: "/assets/illustrations/history-step-5-2.svg",
   },
 ];

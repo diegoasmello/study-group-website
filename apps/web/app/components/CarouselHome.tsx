@@ -94,11 +94,11 @@ const Item = ({ item }: { item: CarouselHomeItem }) => {
         <section className="grid grid-cols-12 gap-8">
           <div className="col-span-12 lg:col-span-4">
             <div className="flex flex-col gap-8 items-start">
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 w-full">
                 <span className="text-primary font-medium">
                   {t(`Home.mainCarousel.${item.type}`)}
                 </span>
-                <span className="text-h1-display line-clamp-4">
+                <span className="text-h1-display line-clamp-4 text-ellipsis">
                   {item.title}
                 </span>
                 <p className="text-lead-1 text-gray-800 line-clamp-5">
@@ -112,7 +112,7 @@ const Item = ({ item }: { item: CarouselHomeItem }) => {
                     : `/events/${item.slug}`
                 }
               >
-                See more
+                {t("Home.mainCarousel.buttonLabel")}
               </ButtonLink>
             </div>
           </div>

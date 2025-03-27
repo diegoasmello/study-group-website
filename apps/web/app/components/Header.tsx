@@ -57,6 +57,12 @@ export function Header() {
   const searchInputDefaultValue =
     location.pathname === "/search" ? (searchParams.get("q") ?? "") : "";
 
+  const onSearchButton = () => {
+    setTimeout(() => {
+      document.getElementById("search-input")?.focus();
+    });
+  };
+
   useEffect(() => {
     setIsMobileSidebarOpen(false);
     setIsAboutMenuOpen(checkIsAboutMenuOpen(location.pathname));
@@ -111,12 +117,6 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const onSearchButton = () => {
-    setTimeout(() => {
-      document.getElementById("search-input")?.focus();
-    });
-  };
-
   return (
     <header
       className={twMerge(
@@ -128,9 +128,11 @@ export function Header() {
       )}
     >
       <Container>
-        <div className="grid grid-flow-col items-center justify-between">
-          <button
-            className="lg:hidden h-[5rem] w-[3.5rem] -ml-4 flex items-center justify-center"
+        <div className="grid grid-cols-[1fr_2fr_1fr] items-center justify-between">
+          <Button
+            size="md"
+            skin="ghost"
+            className="w-[2.75rem] px-0 lg:hidden"
             onClick={() => setIsMobileSidebarOpen((prevValue) => !prevValue)}
           >
             {isMobileSidebarOpen ? (
@@ -138,9 +140,9 @@ export function Header() {
             ) : (
               <IconMenu />
             )}
-          </button>
+          </Button>
 
-          <Link to="./">
+          <Link to="./" className="flex justify-center lg:justify-start">
             <img
               src="/assets/logo-dark.png"
               alt="Logo"
@@ -148,9 +150,7 @@ export function Header() {
             />
           </Link>
 
-          <div className="w-[3.5rem] lg:hidden" />
-
-          <nav className="relative hidden lg:block" ref={navRef}>
+          <nav className="relative hidden lg:flex justify-center" ref={navRef}>
             <ul className="flex flex-row items-center gap-8">
               {navLinks.map((navLink, index) => (
                 <li key={index} className="font-medium">
@@ -196,7 +196,7 @@ export function Header() {
             />
           </nav>
 
-          <nav className="hidden lg:flex justify-end w-[8.75rem]">
+          <nav className="flex justify-end">
             <ul className="flex flex-row items-center gap-2">
               {flags.INTERNATIONALIZATION_ENABLED && (
                 <li>
@@ -280,6 +280,11 @@ function MobileSidebar({
 }) {
   const { t } = useTranslation();
 
+  const onMobileNavLinkClick = () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  };
+
   return (
     <Transition show={isMobileSidebarOpen} as={Fragment}>
       <Dialog
@@ -328,6 +333,7 @@ function MobileSidebar({
                                   <NavLink
                                     key={item.href}
                                     to={item.href}
+                                    onClick={onMobileNavLinkClick}
                                     className={({ isActive }) =>
                                       twMerge(
                                         "h-[2.75rem] w-full px-4 flex items-center rounded-lg",
@@ -346,6 +352,7 @@ function MobileSidebar({
                         </Disclosure>
                       ) : (
                         <NavLink
+                          onClick={onMobileNavLinkClick}
                           className={({ isActive }) =>
                             twMerge(
                               "h-[2.75rem] w-full px-4 flex items-center rounded-lg",

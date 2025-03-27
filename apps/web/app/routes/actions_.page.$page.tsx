@@ -132,7 +132,7 @@ export default function ActionsPage() {
   if (!heroSection)
     return (
       <div className="py-20">
-        <NoResults text={t("ActionList.empty")} />;
+        <NoResults text={t("ActionList.empty")} />
       </div>
     );
 

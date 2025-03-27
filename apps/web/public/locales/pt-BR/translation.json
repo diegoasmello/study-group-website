@@ -2,7 +2,8 @@
   "Home": {
     "mainCarousel": {
       "event": "Evento",
-      "action": "Ação"
+      "action": "Ação",
+      "buttonLabel": "Ver mais"
     },
     "aboutSection": {
       "title": "Sobre o grupo",

@@ -3408,7 +3408,7 @@ export const ResearchPageDocument = gql`
     title
     content
   }
-  researchAreas {
+  researchAreas(where: {status: {equals: published}}) {
     title
     image {
       url
