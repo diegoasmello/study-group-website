@@ -281,8 +281,10 @@ function MobileSidebar({
   const { t } = useTranslation();
 
   const onMobileNavLinkClick = () => {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+    setTimeout(() => {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    });
   };
 
   return (
