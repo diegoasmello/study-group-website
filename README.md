@@ -18,7 +18,7 @@ Copy env files and set environment variables
 
 Start the dev server
 
-`npm start`
+`npm run dev`
 
 ## Future features
 
