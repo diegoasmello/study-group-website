@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { CardAction } from "~/components/CardAction";
 import { Container } from "~/components/Container";
-import { TextInput } from "~/components/form-fields/TextInput";
+import { TextInput } from "~/components/TextInput";
 import { IconSearch } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { NoResults } from "~/components/NoResults";

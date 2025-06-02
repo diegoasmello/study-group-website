@@ -13,7 +13,7 @@ export function useIsMobile() {
     return false;
   }, []);
 
-  const [isMobile, setIsMobile] = useState(getIsMobile);
+  const [isMobile, setIsMobile] = useState<boolean>(getIsMobile());
 
   useEffect(() => {
     const handleResize = () => setIsMobile(getIsMobile());

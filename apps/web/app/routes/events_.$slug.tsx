@@ -23,7 +23,7 @@ import { client } from "~/lib/graphql-client.server";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { useLocale } from "~/lib/useLocale";
+import { useLocale } from "~/hooks/useLocale";
 
 const EVENT_QUERY = gql`
   query Event($slug: String) {

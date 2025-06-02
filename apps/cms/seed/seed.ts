@@ -167,7 +167,7 @@ async function main() {
 
   await context.db.Company.createOne({
     data: {
-      title: "study-group-site",
+      title: "study-group-website",
       address:
         "The Cupboard under the Stair, 4 Privet Drive, Little Whinging, Surrey.",
       email: faker.internet.email(),

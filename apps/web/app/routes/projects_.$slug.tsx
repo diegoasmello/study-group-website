@@ -24,7 +24,7 @@ import { client } from "~/lib/graphql-client.server";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { useLocale } from "~/lib/useLocale";
+import { useLocale } from "~/hooks/useLocale";
 
 const PROJECT_QUERY = gql`
   query Project($slug: String) {

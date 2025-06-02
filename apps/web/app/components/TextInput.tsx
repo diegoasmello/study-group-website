@@ -2,7 +2,7 @@ import { SVGProps } from "react";
 import { FormControl, FormControlProps } from "./FormControl";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
-import { IconErrorCircle } from "../icons";
+import { IconErrorCircle } from "./icons";
 
 interface TextInputProps
   extends React.ComponentProps<"input">,

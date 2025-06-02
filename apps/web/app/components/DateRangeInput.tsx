@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { useLocale } from "~/lib/useLocale";
-import { FormControl, FormControlProps } from "./FormControl";
+import { useLocale } from "~/hooks/useLocale";
+import { FormControlProps, FormControl } from "./FormControl";
 import { TextInput } from "./TextInput";
 
 interface DateRangeInputProps

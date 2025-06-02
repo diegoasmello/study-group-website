@@ -1,6 +1,6 @@
 import { Checkbox, Field, Label } from "@headlessui/react";
-import { IconCheck } from "../icons";
 import { FormControlProps } from "./FormControl";
+import { IconCheck } from "./icons";
 
 interface CheckboxInputProps
   extends Omit<React.ComponentProps<"input">, "type" | "className" | "ref">,

@@ -3,7 +3,7 @@ import { ButtonLink } from "./ButtonLink";
 import { IconCalendar, IconSignature } from "./icons";
 import { listFormat } from "~/utils";
 import { useTranslation } from "react-i18next";
-import { useLocale } from "~/lib/useLocale";
+import { useLocale } from "~/hooks/useLocale";
 
 interface CardPublicationProps
   extends Pick<React.ComponentProps<"div">, "className">,

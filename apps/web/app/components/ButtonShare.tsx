@@ -1,10 +1,10 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { Button, ButtonProps } from "./Button";
-import { TextInput } from "./form-fields/TextInput";
 import { Fragment } from "react/jsx-runtime";
 import { useEffect, useState } from "react";
 import { Tooltip } from "./Tooltip";
 import { flags } from "~/flags";
+import { TextInput } from "./TextInput";
 
 interface ButtonShareProps extends ButtonProps {}
 

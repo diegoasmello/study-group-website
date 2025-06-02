@@ -28,31 +28,30 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-import { TextInput } from "./form-fields/TextInput";
 import { IconMenu } from "./icons/IconMenu";
 import clsx from "clsx";
 import { flags } from "~/flags";
 import { useTranslation } from "react-i18next";
-import { useIsMobile } from "~/utils/use-mobile";
+import { TextInput } from "./TextInput";
+import { useIsMobile } from "~/hooks/useMobile";
+import { useHeader } from "~/hooks/useHeader";
 
 export function Header() {
   const location = useLocation();
   const navRef = useRef<HTMLDivElement | null>(null);
-  const lastScrollY = useRef(0);
   const submit = useSubmit();
   const [indicatorStyle, setIndicatorStyle] = useState<{
     width?: string;
     left?: string;
   }>({});
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [isPageOnTop, setIsPageOnTop] = useState(true);
   const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(
     checkIsAboutMenuOpen(location.pathname),
   );
   const [searchParams] = useSearchParams();
   const { t } = useTranslation();
   const isMobile = useIsMobile();
+  const { isHeaderVisible, isPageOnTop } = useHeader();
 
   const searchInputDefaultValue =
     location.pathname === "/search" ? (searchParams.get("q") ?? "") : "";
@@ -97,25 +96,6 @@ export function Header() {
       setIsMobileSidebarOpen(false);
     }
   }, [isMobile]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      setIsPageOnTop(currentScrollY === 0);
-
-      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
-        setIsHeaderVisible(false);
-      } else {
-        setIsHeaderVisible(true);
-      }
-
-      lastScrollY.current = currentScrollY;
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <header

@@ -1,15 +1,15 @@
 import { Form } from "@remix-run/react";
 import { flags } from "~/flags";
 import { Button } from "./Button";
-import { CheckboxInput } from "./form-fields/CheckboxInput";
-import { DateRange, DateRangeInput } from "./form-fields/DateRangeInput";
-import { FormControl } from "./form-fields/FormControl";
-import { TextInput } from "./form-fields/TextInput";
+import { DateRange, DateRangeInput } from "./DateRangeInput";
 import { IconSearch } from "./icons";
 import { RemixFormProps } from "@remix-run/react/dist/components";
-import { ComboboxInput, ComboboxItem } from "./form-fields/ComboboxInput";
 import { twMerge } from "tailwind-merge";
 import { useTranslation } from "react-i18next";
+import { CheckboxInput } from "./CheckboxInput";
+import { ComboboxInput, ComboboxItem } from "./ComboboxInput";
+import { FormControl } from "./FormControl";
+import { TextInput } from "./TextInput";
 
 interface FilterFormProps extends RemixFormProps {
   researchAreas: { id: string; title: string }[];

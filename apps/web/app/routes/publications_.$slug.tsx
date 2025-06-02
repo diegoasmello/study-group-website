@@ -26,7 +26,7 @@ import { client } from "~/lib/graphql-client.server";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { useLocale } from "~/lib/useLocale";
+import { useLocale } from "~/hooks/useLocale";
 
 const PUBLICATION_QUERY = gql`
   query Publication($slug: String) {

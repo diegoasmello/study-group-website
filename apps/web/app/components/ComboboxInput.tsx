@@ -6,8 +6,8 @@ import {
   ComboboxInput as HUIComboboxInput,
 } from "@headlessui/react";
 import { useState } from "react";
-import { FormControl, FormControlProps } from "./FormControl";
-import { IconChevronDown } from "../icons";
+import { FormControlProps, FormControl } from "./FormControl";
+import { IconChevronDown } from "./icons";
 
 export type ComboboxItem = { label: string; value: string };
 

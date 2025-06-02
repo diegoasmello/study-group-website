@@ -10,7 +10,7 @@ import { CardContainer } from "~/components/Card";
 import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
 import { Container } from "~/components/Container";
-import { ComboboxItem } from "~/components/form-fields/ComboboxInput";
+import { ComboboxItem } from "~/components/ComboboxInput";
 import { IconChevronDown } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { PageBanner } from "~/components/PageBanner";

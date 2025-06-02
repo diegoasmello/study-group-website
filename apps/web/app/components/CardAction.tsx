@@ -2,7 +2,7 @@ import { Card, CardProps, CardSize } from "./Card";
 import { ButtonLink } from "./ButtonLink";
 import { IconCalendar } from "./icons";
 import { useTranslation } from "react-i18next";
-import { useLocale } from "~/lib/useLocale";
+import { useLocale } from "~/hooks/useLocale";
 
 interface CardActionProps extends Pick<CardProps, "hideShadow" | "className"> {
   size: CardSize;

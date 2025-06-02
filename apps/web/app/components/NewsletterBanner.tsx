@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { Button } from "./Button";
-import { TextInput } from "./form-fields/TextInput";
+import { TextInput } from "./TextInput";
 import { useEffect, useState } from "react";
 import { IconSuccess } from "./icons/IconSuccess";
 import { IconCancel } from "./icons/IconCancel";
