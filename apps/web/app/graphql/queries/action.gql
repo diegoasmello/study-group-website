@@ -1,0 +1,16 @@
+query Action($slug: String) {
+  action(where: { slug: $slug }) {
+    id
+    slug
+    title
+    resume
+    keywords
+    status
+    image {
+      url
+    }
+    content {
+      document
+    }
+  }
+}

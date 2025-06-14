@@ -1,0 +1,16 @@
+query TeamPaginated($take: Int, $skip: Int) {
+  data: teamMembers(
+    take: $take
+    skip: $skip
+    where: { status: { equals: published } }
+  ) {
+    id
+    name
+    role
+    link
+    image {
+      url
+    }
+  }
+  count: teamMembersCount(where: { status: { equals: published } })
+}

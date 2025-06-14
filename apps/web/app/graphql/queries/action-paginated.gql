@@ -1,0 +1,25 @@
+query ActionPaginated($query: String, $take: Int, $skip: Int) {
+  data: actions(
+    take: $take
+    skip: $skip
+    where: {
+      status: { equals: published }
+      title: { contains: $query, mode: insensitive }
+    }
+    orderBy: { publishedAt: desc }
+  ) {
+    id
+    slug
+    title
+    date
+    image {
+      url
+    }
+  }
+  count: actionsCount(
+    where: {
+      status: { equals: published }
+      title: { contains: $query, mode: insensitive }
+    }
+  )
+}

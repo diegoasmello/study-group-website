@@ -1,0 +1,20 @@
+query Event($slug: String) {
+  event(where: { slug: $slug }) {
+    id
+    slug
+    title
+    resume
+    keywords
+    link
+    workload
+    date
+    locale
+    status
+    image {
+      url
+    }
+    content {
+      document
+    }
+  }
+}

@@ -7,7 +7,6 @@ import {
   useSubmit,
 } from "@remix-run/react";
 import { parseISO } from "date-fns";
-import { gql } from "graphql-request";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { CardEvent } from "~/components/CardEvent";
@@ -18,54 +17,8 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import {
-  EventsPageQuery,
-  EventsPaginatedQuery,
-  EventsPaginatedQueryVariables,
-} from "~/graphql/generated";
-import { client } from "~/lib/graphql-client.server";
 import { checkPageNotFound, getRootMatch, metaTags } from "~/utils";
-import { paginate } from "~/utils/paginator.server";
-
-const EVENTS_QUERY = gql`
-  query EventsPaginated($query: String, $take: Int, $skip: Int) {
-    data: events(
-      take: $take
-      skip: $skip
-      where: {
-        status: { equals: published }
-        title: { contains: $query, mode: insensitive }
-      }
-      orderBy: { publishedAt: desc }
-    ) {
-      id
-      slug
-      title
-      date
-      locale
-      link
-      image {
-        url
-      }
-    }
-    count: eventsCount(
-      where: {
-        status: { equals: published }
-        title: { contains: $query, mode: insensitive }
-      }
-    )
-  }
-`;
-
-const PAGE_QUERY = gql`
-  query EventsPage {
-    eventsSection {
-      id
-      title
-      content
-    }
-  }
-`;
+import { getEventPaginated, getEventSection } from "~/api/events";
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -89,24 +42,14 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const q = url.searchParams.get("q");
   const page = params.page ? Number(params.page) : 1;
 
-  const paginatedEvents = await paginate<
-    EventsPaginatedQuery["data"],
-    EventsPaginatedQueryVariables
-  >({
-    query: EVENTS_QUERY,
-    pageInfo: {
-      currentPage: page,
-      perPage: 6,
-    },
-    variables: { query: q ?? "" },
-  });
+  const paginatedEvents = await getEventPaginated(q, page);
 
-  const { eventsSection } = await client.request<EventsPageQuery>(PAGE_QUERY);
+  const heroSection = await getEventSection();
 
   checkPageNotFound({ page, lastPage: paginatedEvents.meta.lastPage });
 
   return json({
-    heroSection: eventsSection,
+    heroSection,
     paginatedEvents,
     q,
     url: request.url,

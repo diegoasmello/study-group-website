@@ -1,3 +1,4 @@
+import { RequestDocument } from "graphql-request";
 import { client } from "~/lib/graphql-client.server";
 
 export type PageMeta = {
@@ -22,7 +23,7 @@ export async function paginate<ReturnType, Variables, ResponseType = object>({
   variables,
   extract,
 }: {
-  query: string;
+  query: RequestDocument;
   pageInfo: { currentPage: number; perPage: number };
   variables?: Omit<Variables, "take" | "skip">;
   extract?: (response: ResponseType) => { data: ReturnType; count: number };

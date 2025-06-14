@@ -1,0 +1,16 @@
+query ProjectPaginated($take: Int, $skip: Int) {
+  data: projects(
+    take: $take
+    skip: $skip
+    where: { status: { equals: published } }
+    orderBy: { publishedAt: desc }
+  ) {
+    id
+    slug
+    title
+    image {
+      url
+    }
+  }
+  count: projectsCount(where: { status: { equals: published } })
+}

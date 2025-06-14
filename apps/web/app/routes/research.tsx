@@ -9,43 +9,12 @@ import clsx from "clsx";
 import { twJoin } from "tailwind-merge";
 import { getRootMatch, metaTags } from "~/utils";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { gql } from "graphql-request";
-import { client } from "~/lib/graphql-client.server";
-import { ResearchPageQuery } from "~/graphql/generated";
+import { ResearchQuery } from "~/graphql/generated";
 import { ArrayElement } from "~/types";
 import { DocumentRenderer } from "~/components/DocumentRenderer";
 import { NoResults } from "~/components/NoResults";
 import { useTranslation } from "react-i18next";
-
-const RESEARCH_QUERY = gql`
-  query ResearchPage {
-    researchSection {
-      id
-      title
-      content
-    }
-    researchAreas(where: { status: { equals: published } }) {
-      title
-      image {
-        url
-      }
-      icon {
-        url
-      }
-      content {
-        document
-      }
-      projects {
-        id
-        slug
-        title
-        image {
-          url
-        }
-      }
-    }
-  }
-`;
+import { getResearch } from "~/api/research";
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -65,8 +34,7 @@ export const meta: MetaFunction<typeof loader> = ({
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { researchAreas, researchSection } =
-    await client.request<ResearchPageQuery>(RESEARCH_QUERY);
+  const { researchAreas, researchSection } = await getResearch();
 
   return json({
     heroSection: researchSection,
@@ -107,9 +75,7 @@ export default function Research() {
           <ResearchItemSection
             key={index}
             index={index}
-            item={
-              researchArea as ArrayElement<ResearchPageQuery["researchAreas"]>
-            }
+            item={researchArea as ArrayElement<ResearchQuery["researchAreas"]>}
           />
         ))}
       </div>
@@ -129,7 +95,7 @@ const ResearchItemSection = ({
   item,
   index,
 }: {
-  item: ArrayElement<ResearchPageQuery["researchAreas"]>;
+  item: ArrayElement<ResearchQuery["researchAreas"]>;
   index: number;
 }) => {
   const { t } = useTranslation();

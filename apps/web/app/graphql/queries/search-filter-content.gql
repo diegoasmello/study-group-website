@@ -1,0 +1,12 @@
+query SearchFilterContent {
+  researchAreas(where: { status: { equals: published } }) {
+    id
+    title
+  }
+  researchers(
+    where: { publications: { every: { status: { equals: published } } } }
+  ) {
+    id
+    name
+  }
+}

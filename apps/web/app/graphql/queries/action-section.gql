@@ -1,0 +1,7 @@
+query ActionSection {
+  actionsSection {
+    id
+    title
+    content
+  }
+}

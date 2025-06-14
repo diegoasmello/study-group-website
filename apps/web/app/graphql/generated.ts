@@ -2833,15 +2833,27 @@ export type UserWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type RootQueryVariables = Exact<{ [key: string]: never; }>;
+export type ActionPaginatedQueryVariables = Exact<{
+  query?: InputMaybe<Scalars['String']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+}>;
 
 
-export type RootQuery = { __typename?: 'Query', homeSection?: { __typename?: 'HomeSection', id: string, title: string, content: string } | null, company?: { __typename?: 'Company', id: string, title: string, address: string, email: string, phone: string, facebookUrl: string, instagramUrl: string, youtubeUrl: string } | null };
+export type ActionPaginatedQuery = { __typename?: 'Query', count?: number | null, data?: Array<{ __typename?: 'Action', id: string, slug: string, title: string, date: any, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
 
-export type HomePageQueryVariables = Exact<{ [key: string]: never; }>;
+export type ActionRelatedQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']['input']>;
+  terms?: InputMaybe<Array<ActionWhereInput> | ActionWhereInput>;
+}>;
 
 
-export type HomePageQuery = { __typename?: 'Query', homeSection?: { __typename?: 'HomeSection', id: string, title: string, content: string, image: { __typename?: 'ImageFieldOutput', url: string } } | null, researchAreas?: Array<{ __typename?: 'ResearchArea', id: string, title: string, resume: string, icon: { __typename?: 'ImageFieldOutput', url: string } }> | null, events?: Array<{ __typename?: 'Event', id: string, slug: string, title: string, resume: string, date: any, locale: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null, actions?: Array<{ __typename?: 'Action', id: string, slug: string, title: string, resume: string, date: any, image: { __typename?: 'ImageFieldOutput', url: string } }> | null, publications?: Array<{ __typename?: 'Publication', id: string, slug: string, title: string, resume: string, date: any, link: string, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null }> | null };
+export type ActionRelatedQuery = { __typename?: 'Query', actions?: Array<{ __typename?: 'Action', id: string, slug: string, title: string, date: any, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
+
+export type ActionSectionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ActionSectionQuery = { __typename?: 'Query', actionsSection?: { __typename?: 'ActionsSection', id: string, title: string, content: string } | null };
 
 export type ActionQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -2850,33 +2862,27 @@ export type ActionQueryVariables = Exact<{
 
 export type ActionQuery = { __typename?: 'Query', action?: { __typename?: 'Action', id: string, slug: string, title: string, resume: string, keywords: string, status: ActionStatusType, image: { __typename?: 'ImageFieldOutput', url: string }, content: { __typename?: 'Action_content_Document', document: any } } | null };
 
-export type ActionRelatedQueryVariables = Exact<{
-  where?: InputMaybe<ActionWhereInput>;
-}>;
-
-
-export type ActionRelatedQuery = { __typename?: 'Query', actions?: Array<{ __typename?: 'Action', id: string, slug: string, title: string, date: any, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
-
-export type ActionsPaginatedQueryVariables = Exact<{
+export type EventPaginatedQueryVariables = Exact<{
   query?: InputMaybe<Scalars['String']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type ActionsPaginatedQuery = { __typename?: 'Query', count?: number | null, data?: Array<{ __typename?: 'Action', id: string, slug: string, title: string, date: any, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
+export type EventPaginatedQuery = { __typename?: 'Query', count?: number | null, data?: Array<{ __typename?: 'Event', id: string, slug: string, title: string, date: any, locale: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
 
-export type ActionsPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ActionsPageQuery = { __typename?: 'Query', actionsSection?: { __typename?: 'ActionsSection', id: string, title: string, content: string } | null };
-
-export type AddNewsletterListMutationVariables = Exact<{
-  data: NewsletterListCreateInput;
+export type EventRelatedQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']['input']>;
+  terms?: InputMaybe<Array<EventWhereInput> | EventWhereInput>;
 }>;
 
 
-export type AddNewsletterListMutation = { __typename?: 'Mutation', createNewsletterList?: { __typename?: 'NewsletterList', id: string } | null };
+export type EventRelatedQuery = { __typename?: 'Query', events?: Array<{ __typename?: 'Event', id: string, slug: string, title: string, date: any, locale: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
+
+export type EventSectionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EventSectionQuery = { __typename?: 'Query', eventsSection?: { __typename?: 'EventsSection', id: string, title: string, content: string } | null };
 
 export type EventQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -2885,31 +2891,36 @@ export type EventQueryVariables = Exact<{
 
 export type EventQuery = { __typename?: 'Query', event?: { __typename?: 'Event', id: string, slug: string, title: string, resume: string, keywords: string, link: string, workload: number, date: any, locale: string, status: EventStatusType, image: { __typename?: 'ImageFieldOutput', url: string }, content: { __typename?: 'Event_content_Document', document: any } } | null };
 
-export type EventRelatedQueryVariables = Exact<{
-  where?: InputMaybe<EventWhereInput>;
-}>;
+export type HistoryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EventRelatedQuery = { __typename?: 'Query', events?: Array<{ __typename?: 'Event', id: string, slug: string, title: string, date: any, locale: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
+export type HistoryQuery = { __typename?: 'Query', historySection?: { __typename?: 'HistorySection', id: string, title: string, content: string } | null, homeSection?: { __typename?: 'HomeSection', id: string, title: string, content: string } | null, history?: { __typename?: 'History', id: string, titleOne: string, contentOne: string, titleTwo: string, contentTwo: string, titleThree: string, contentThree: string, titleFour: string, contentFour: string, titleFive: string, contentFive: string } | null, teamMembers?: Array<{ __typename?: 'TeamMember', id: string, name: string, role: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
 
-export type EventsPaginatedQueryVariables = Exact<{
-  query?: InputMaybe<Scalars['String']['input']>;
+export type HomeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomeQuery = { __typename?: 'Query', homeSection?: { __typename?: 'HomeSection', id: string, title: string, content: string, image: { __typename?: 'ImageFieldOutput', url: string } } | null, researchAreas?: Array<{ __typename?: 'ResearchArea', id: string, title: string, resume: string, icon: { __typename?: 'ImageFieldOutput', url: string } }> | null, events?: Array<{ __typename?: 'Event', id: string, slug: string, title: string, resume: string, date: any, locale: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null, actions?: Array<{ __typename?: 'Action', id: string, slug: string, title: string, resume: string, date: any, image: { __typename?: 'ImageFieldOutput', url: string } }> | null, publications?: Array<{ __typename?: 'Publication', id: string, slug: string, title: string, resume: string, date: any, link: string, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null }> | null };
+
+export type ProjectPaginatedQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type EventsPaginatedQuery = { __typename?: 'Query', count?: number | null, data?: Array<{ __typename?: 'Event', id: string, slug: string, title: string, date: any, locale: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
+export type ProjectPaginatedQuery = { __typename?: 'Query', count?: number | null, data?: Array<{ __typename?: 'Project', id: string, slug: string, title: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
 
-export type EventsPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type EventsPageQuery = { __typename?: 'Query', eventsSection?: { __typename?: 'EventsSection', id: string, title: string, content: string } | null };
-
-export type HistoryPageQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProjectRelatedQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']['input']>;
+  terms?: InputMaybe<Array<ProjectWhereInput> | ProjectWhereInput>;
+}>;
 
 
-export type HistoryPageQuery = { __typename?: 'Query', historySection?: { __typename?: 'HistorySection', id: string, title: string, content: string } | null, homeSection?: { __typename?: 'HomeSection', id: string, title: string, content: string } | null, history?: { __typename?: 'History', id: string, titleOne: string, contentOne: string, titleTwo: string, contentTwo: string, titleThree: string, contentThree: string, titleFour: string, contentFour: string, titleFive: string, contentFive: string } | null, teamMembers?: Array<{ __typename?: 'TeamMember', id: string, name: string, role: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
+export type ProjectRelatedQuery = { __typename?: 'Query', projects?: Array<{ __typename?: 'Project', id: string, slug: string, title: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
+
+export type ProjectSectionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProjectSectionQuery = { __typename?: 'Query', projectsSection?: { __typename?: 'ProjectsSection', id: string, title: string, content: string } | null };
 
 export type ProjectQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -2918,25 +2929,31 @@ export type ProjectQueryVariables = Exact<{
 
 export type ProjectQuery = { __typename?: 'Query', project?: { __typename?: 'Project', id: string, slug: string, title: string, keywords: string, link: string, startDate: any, endDate: any, status: ProjectStatusType, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null, image: { __typename?: 'ImageFieldOutput', url: string }, content: { __typename?: 'Project_content_Document', document: any } } | null };
 
-export type ProjectRelatedQueryVariables = Exact<{
-  where?: InputMaybe<ProjectWhereInput>;
-}>;
+export type PublicationPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProjectRelatedQuery = { __typename?: 'Query', projects?: Array<{ __typename?: 'Project', id: string, slug: string, title: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
+export type PublicationPageQuery = { __typename?: 'Query', publicationsSection?: { __typename?: 'PublicationsSection', id: string, title: string, content: string } | null, researchAreas?: Array<{ __typename?: 'ResearchArea', id: string, title: string }> | null, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null };
 
-export type ProjectsPaginatedQueryVariables = Exact<{
+export type PublicationPaginatedQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
+  researcher?: InputMaybe<Scalars['ID']['input']>;
+  researchAreas?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  startDate?: InputMaybe<Scalars['CalendarDay']['input']>;
+  endDate?: InputMaybe<Scalars['CalendarDay']['input']>;
 }>;
 
 
-export type ProjectsPaginatedQuery = { __typename?: 'Query', count?: number | null, data?: Array<{ __typename?: 'Project', id: string, slug: string, title: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
+export type PublicationPaginatedQuery = { __typename?: 'Query', count?: number | null, data?: Array<{ __typename?: 'Publication', id: string, slug: string, title: string, link: string, date: any, resume: string, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null }> | null };
 
-export type ProjectsPageQueryVariables = Exact<{ [key: string]: never; }>;
+export type PublicationRelatedQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']['input']>;
+  terms?: InputMaybe<Array<PublicationWhereInput> | PublicationWhereInput>;
+}>;
 
 
-export type ProjectsPageQuery = { __typename?: 'Query', projectsSection?: { __typename?: 'ProjectsSection', id: string, title: string, content: string } | null };
+export type PublicationRelatedQuery = { __typename?: 'Query', publications?: Array<{ __typename?: 'Publication', id: string, slug: string, title: string, resume: string, date: any, link: string, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null }> | null };
 
 export type PublicationQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -2945,33 +2962,17 @@ export type PublicationQueryVariables = Exact<{
 
 export type PublicationQuery = { __typename?: 'Query', publication?: { __typename?: 'Publication', id: string, slug: string, title: string, keywords: string, resume: string, date: any, doi: string, magazine: string, link: string, license: string, status: PublicationStatusType, content: { __typename?: 'Publication_content_Document', document: any }, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null } | null };
 
-export type PublicationRelatedQueryVariables = Exact<{
-  where?: InputMaybe<PublicationWhereInput>;
-}>;
+export type ResearchQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PublicationRelatedQuery = { __typename?: 'Query', publications?: Array<{ __typename?: 'Publication', id: string, slug: string, title: string, resume: string, date: any, link: string, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null }> | null };
+export type ResearchQuery = { __typename?: 'Query', researchSection?: { __typename?: 'ResearchSection', id: string, title: string, content: string } | null, researchAreas?: Array<{ __typename?: 'ResearchArea', title: string, image: { __typename?: 'ImageFieldOutput', url: string }, icon: { __typename?: 'ImageFieldOutput', url: string }, content: { __typename?: 'ResearchArea_content_Document', document: any }, projects?: Array<{ __typename?: 'Project', id: string, slug: string, title: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null }> | null };
 
-export type PublicationsPaginatedQueryVariables = Exact<{
-  where?: InputMaybe<PublicationWhereInput>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-}>;
+export type SearchFilterContentQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PublicationsPaginatedQuery = { __typename?: 'Query', count?: number | null, data?: Array<{ __typename?: 'Publication', id: string, slug: string, title: string, link: string, date: any, resume: string, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null }> | null };
+export type SearchFilterContentQuery = { __typename?: 'Query', researchAreas?: Array<{ __typename?: 'ResearchArea', id: string, title: string }> | null, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null };
 
-export type PublicationsPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PublicationsPageQuery = { __typename?: 'Query', publicationsSection?: { __typename?: 'PublicationsSection', id: string, title: string, content: string } | null, researchAreas?: Array<{ __typename?: 'ResearchArea', id: string, title: string }> | null, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null };
-
-export type ResearchPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ResearchPageQuery = { __typename?: 'Query', researchSection?: { __typename?: 'ResearchSection', id: string, title: string, content: string } | null, researchAreas?: Array<{ __typename?: 'ResearchArea', title: string, image: { __typename?: 'ImageFieldOutput', url: string }, icon: { __typename?: 'ImageFieldOutput', url: string }, content: { __typename?: 'ResearchArea_content_Document', document: any }, projects?: Array<{ __typename?: 'Project', id: string, slug: string, title: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null }> | null };
-
-export type SearchQueryVariables = Exact<{
+export type SearchPaginatedQueryVariables = Exact<{
   query?: InputMaybe<Scalars['String']['input']>;
   researchAreas?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
   researcher?: InputMaybe<Scalars['ID']['input']>;
@@ -2980,48 +2981,206 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename?: 'Query', actions?: Array<{ __typename: 'Action', id: string, slug: string, title: string, date: any, image: { __typename?: 'ImageFieldOutput', url: string } }> | null, publications?: Array<{ __typename: 'Publication', id: string, slug: string, title: string, resume: string, date: any, link: string, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null }> | null, events?: Array<{ __typename: 'Event', id: string, slug: string, title: string, date: any, locale: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null, projects?: Array<{ __typename: 'Project', id: string, slug: string, title: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
+export type SearchPaginatedQuery = { __typename?: 'Query', actions?: Array<{ __typename: 'Action', id: string, slug: string, title: string, date: any, image: { __typename?: 'ImageFieldOutput', url: string } }> | null, publications?: Array<{ __typename: 'Publication', id: string, slug: string, title: string, resume: string, date: any, link: string, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null }> | null, events?: Array<{ __typename: 'Event', id: string, slug: string, title: string, date: any, locale: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null, projects?: Array<{ __typename: 'Project', id: string, slug: string, title: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
 
-export type SearchFilterContentQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SearchFilterContentQuery = { __typename?: 'Query', researchAreas?: Array<{ __typename?: 'ResearchArea', id: string, title: string }> | null, researchers?: Array<{ __typename?: 'Researcher', id: string, name: string }> | null };
-
-export type TeamMembersPaginatedQueryVariables = Exact<{
+export type TeamPaginatedQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type TeamMembersPaginatedQuery = { __typename?: 'Query', count?: number | null, data?: Array<{ __typename?: 'TeamMember', id: string, name: string, role: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
+export type TeamPaginatedQuery = { __typename?: 'Query', count?: number | null, data?: Array<{ __typename?: 'TeamMember', id: string, name: string, role: string, link: string, image: { __typename?: 'ImageFieldOutput', url: string } }> | null };
 
-export type TeamMembersPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type TeamMembersPageQuery = { __typename?: 'Query', teamSection?: { __typename?: 'TeamSection', id: string, title: string, content: string } | null };
+export type TeamSectionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export const RootDocument = gql`
-    query Root {
+export type TeamSectionQuery = { __typename?: 'Query', teamSection?: { __typename?: 'TeamSection', id: string, title: string, content: string } | null };
+
+export type RootQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RootQuery = { __typename?: 'Query', homeSection?: { __typename?: 'HomeSection', id: string, title: string, content: string } | null, company?: { __typename?: 'Company', id: string, title: string, address: string, email: string, phone: string, facebookUrl: string, instagramUrl: string, youtubeUrl: string } | null };
+
+export type AddNewsletterListMutationVariables = Exact<{
+  data: NewsletterListCreateInput;
+}>;
+
+
+export type AddNewsletterListMutation = { __typename?: 'Mutation', createNewsletterList?: { __typename?: 'NewsletterList', id: string } | null };
+
+
+export const ActionPaginatedDocument = gql`
+    query ActionPaginated($query: String, $take: Int, $skip: Int) {
+  data: actions(
+    take: $take
+    skip: $skip
+    where: {status: {equals: published}, title: {contains: $query, mode: insensitive}}
+    orderBy: {publishedAt: desc}
+  ) {
+    id
+    slug
+    title
+    date
+    image {
+      url
+    }
+  }
+  count: actionsCount(
+    where: {status: {equals: published}, title: {contains: $query, mode: insensitive}}
+  )
+}
+    `;
+export const ActionRelatedDocument = gql`
+    query ActionRelated($id: ID, $terms: [ActionWhereInput!]) {
+  actions(
+    where: {status: {equals: published}, id: {not: {equals: $id}}, OR: $terms}
+  ) {
+    id
+    slug
+    title
+    date
+    image {
+      url
+    }
+  }
+}
+    `;
+export const ActionSectionDocument = gql`
+    query ActionSection {
+  actionsSection {
+    id
+    title
+    content
+  }
+}
+    `;
+export const ActionDocument = gql`
+    query Action($slug: String) {
+  action(where: {slug: $slug}) {
+    id
+    slug
+    title
+    resume
+    keywords
+    status
+    image {
+      url
+    }
+    content {
+      document
+    }
+  }
+}
+    `;
+export const EventPaginatedDocument = gql`
+    query EventPaginated($query: String, $take: Int, $skip: Int) {
+  data: events(
+    take: $take
+    skip: $skip
+    where: {status: {equals: published}, title: {contains: $query, mode: insensitive}}
+    orderBy: {publishedAt: desc}
+  ) {
+    id
+    slug
+    title
+    date
+    locale
+    link
+    image {
+      url
+    }
+  }
+  count: eventsCount(
+    where: {status: {equals: published}, title: {contains: $query, mode: insensitive}}
+  )
+}
+    `;
+export const EventRelatedDocument = gql`
+    query EventRelated($id: ID, $terms: [EventWhereInput!]) {
+  events(
+    where: {status: {equals: published}, id: {not: {equals: $id}}, OR: $terms}
+  ) {
+    id
+    slug
+    title
+    date
+    locale
+    link
+    image {
+      url
+    }
+  }
+}
+    `;
+export const EventSectionDocument = gql`
+    query EventSection {
+  eventsSection {
+    id
+    title
+    content
+  }
+}
+    `;
+export const EventDocument = gql`
+    query Event($slug: String) {
+  event(where: {slug: $slug}) {
+    id
+    slug
+    title
+    resume
+    keywords
+    link
+    workload
+    date
+    locale
+    status
+    image {
+      url
+    }
+    content {
+      document
+    }
+  }
+}
+    `;
+export const HistoryDocument = gql`
+    query History {
+  historySection {
+    id
+    title
+    content
+  }
   homeSection {
     id
     title
     content
   }
-  company(where: {id: 1}) {
+  history {
     id
-    title
-    address
-    email
-    phone
-    facebookUrl
-    instagramUrl
-    youtubeUrl
+    titleOne
+    contentOne
+    titleTwo
+    contentTwo
+    titleThree
+    contentThree
+    titleFour
+    contentFour
+    titleFive
+    contentFive
+  }
+  teamMembers(take: 9, where: {status: {equals: published}}) {
+    id
+    name
+    role
+    link
+    image {
+      url
+    }
   }
 }
     `;
-export const HomePageDocument = gql`
-    query HomePage {
+export const HomeDocument = gql`
+    query Home {
   homeSection {
     id
     title
@@ -3086,176 +3245,44 @@ export const HomePageDocument = gql`
   }
 }
     `;
-export const ActionDocument = gql`
-    query Action($slug: String) {
-  action(where: {slug: $slug}) {
-    id
-    slug
-    title
-    resume
-    keywords
-    status
-    image {
-      url
-    }
-    content {
-      document
-    }
-  }
-}
-    `;
-export const ActionRelatedDocument = gql`
-    query ActionRelated($where: ActionWhereInput) {
-  actions(where: $where) {
-    id
-    slug
-    title
-    date
-    image {
-      url
-    }
-  }
-}
-    `;
-export const ActionsPaginatedDocument = gql`
-    query ActionsPaginated($query: String, $take: Int, $skip: Int) {
-  data: actions(
+export const ProjectPaginatedDocument = gql`
+    query ProjectPaginated($take: Int, $skip: Int) {
+  data: projects(
     take: $take
     skip: $skip
-    where: {status: {equals: published}, title: {contains: $query, mode: insensitive}}
+    where: {status: {equals: published}}
     orderBy: {publishedAt: desc}
   ) {
     id
     slug
     title
-    date
     image {
       url
     }
   }
-  count: actionsCount(
-    where: {status: {equals: published}, title: {contains: $query, mode: insensitive}}
-  )
+  count: projectsCount(where: {status: {equals: published}})
 }
     `;
-export const ActionsPageDocument = gql`
-    query ActionsPage {
-  actionsSection {
-    id
-    title
-    content
-  }
-}
-    `;
-export const AddNewsletterListDocument = gql`
-    mutation AddNewsletterList($data: NewsletterListCreateInput!) {
-  createNewsletterList(data: $data) {
-    id
-  }
-}
-    `;
-export const EventDocument = gql`
-    query Event($slug: String) {
-  event(where: {slug: $slug}) {
-    id
-    slug
-    title
-    resume
-    keywords
-    link
-    workload
-    date
-    locale
-    status
-    image {
-      url
-    }
-    content {
-      document
-    }
-  }
-}
-    `;
-export const EventRelatedDocument = gql`
-    query EventRelated($where: EventWhereInput) {
-  events(where: $where) {
-    id
-    slug
-    title
-    date
-    locale
-    link
-    image {
-      url
-    }
-  }
-}
-    `;
-export const EventsPaginatedDocument = gql`
-    query EventsPaginated($query: String, $take: Int, $skip: Int) {
-  data: events(
-    take: $take
-    skip: $skip
-    where: {status: {equals: published}, title: {contains: $query, mode: insensitive}}
-    orderBy: {publishedAt: desc}
+export const ProjectRelatedDocument = gql`
+    query ProjectRelated($id: ID, $terms: [ProjectWhereInput!]) {
+  projects(
+    where: {status: {equals: published}, id: {not: {equals: $id}}, OR: $terms}
   ) {
     id
     slug
     title
-    date
-    locale
-    link
     image {
       url
     }
   }
-  count: eventsCount(
-    where: {status: {equals: published}, title: {contains: $query, mode: insensitive}}
-  )
 }
     `;
-export const EventsPageDocument = gql`
-    query EventsPage {
-  eventsSection {
+export const ProjectSectionDocument = gql`
+    query ProjectSection {
+  projectsSection {
     id
     title
     content
-  }
-}
-    `;
-export const HistoryPageDocument = gql`
-    query HistoryPage {
-  historySection {
-    id
-    title
-    content
-  }
-  homeSection {
-    id
-    title
-    content
-  }
-  history {
-    id
-    titleOne
-    contentOne
-    titleTwo
-    contentTwo
-    titleThree
-    contentThree
-    titleFour
-    contentFour
-    titleFive
-    contentFive
-  }
-  teamMembers(take: 9, where: {status: {equals: published}}) {
-    id
-    name
-    role
-    link
-    image {
-      url
-    }
   }
 }
     `;
@@ -3283,42 +3310,62 @@ export const ProjectDocument = gql`
   }
 }
     `;
-export const ProjectRelatedDocument = gql`
-    query ProjectRelated($where: ProjectWhereInput) {
-  projects(where: $where) {
+export const PublicationPageDocument = gql`
+    query PublicationPage {
+  publicationsSection {
     id
-    slug
     title
-    image {
-      url
-    }
+    content
+  }
+  researchAreas(where: {status: {equals: published}}) {
+    id
+    title
+  }
+  researchers(where: {publications: {every: {status: {equals: published}}}}) {
+    id
+    name
   }
 }
     `;
-export const ProjectsPaginatedDocument = gql`
-    query ProjectsPaginated($take: Int, $skip: Int) {
-  data: projects(
+export const PublicationPaginatedDocument = gql`
+    query PublicationPaginated($take: Int, $skip: Int, $query: String, $researcher: ID, $researchAreas: [ID!], $startDate: CalendarDay, $endDate: CalendarDay) {
+  data: publications(
     take: $take
     skip: $skip
-    where: {status: {equals: published}}
+    where: {status: {equals: published}, researchers: {some: {id: {equals: $researcher}}}, title: {contains: $query, mode: insensitive}, researchArea: {id: {in: $researchAreas}}, date: {gte: $startDate, lte: $endDate}}
     orderBy: {publishedAt: desc}
   ) {
     id
     slug
     title
-    image {
-      url
+    link
+    date
+    resume
+    researchers {
+      id
+      name
     }
   }
-  count: projectsCount(where: {status: {equals: published}})
+  count: publicationsCount(
+    where: {status: {equals: published}, researchers: {some: {id: {equals: $researcher}}}, title: {contains: $query, mode: insensitive}, researchArea: {id: {in: $researchAreas}}, date: {gte: $startDate, lte: $endDate}}
+  )
 }
     `;
-export const ProjectsPageDocument = gql`
-    query ProjectsPage {
-  projectsSection {
+export const PublicationRelatedDocument = gql`
+    query PublicationRelated($id: ID, $terms: [PublicationWhereInput!]) {
+  publications(
+    where: {status: {equals: published}, id: {not: {equals: $id}}, OR: $terms}
+  ) {
     id
+    slug
     title
-    content
+    resume
+    date
+    link
+    researchers {
+      id
+      name
+    }
   }
 }
     `;
@@ -3346,63 +3393,8 @@ export const PublicationDocument = gql`
   }
 }
     `;
-export const PublicationRelatedDocument = gql`
-    query PublicationRelated($where: PublicationWhereInput) {
-  publications(where: $where) {
-    id
-    slug
-    title
-    resume
-    date
-    link
-    researchers {
-      id
-      name
-    }
-  }
-}
-    `;
-export const PublicationsPaginatedDocument = gql`
-    query PublicationsPaginated($where: PublicationWhereInput, $take: Int, $skip: Int) {
-  data: publications(
-    take: $take
-    skip: $skip
-    where: $where
-    orderBy: {publishedAt: desc}
-  ) {
-    id
-    slug
-    title
-    link
-    date
-    resume
-    researchers {
-      id
-      name
-    }
-  }
-  count: publicationsCount(where: $where)
-}
-    `;
-export const PublicationsPageDocument = gql`
-    query PublicationsPage {
-  publicationsSection {
-    id
-    title
-    content
-  }
-  researchAreas(where: {status: {equals: published}}) {
-    id
-    title
-  }
-  researchers(where: {publications: {every: {status: {equals: published}}}}) {
-    id
-    name
-  }
-}
-    `;
-export const ResearchPageDocument = gql`
-    query ResearchPage {
+export const ResearchDocument = gql`
+    query Research {
   researchSection {
     id
     title
@@ -3430,8 +3422,20 @@ export const ResearchPageDocument = gql`
   }
 }
     `;
-export const SearchDocument = gql`
-    query Search($query: String, $researchAreas: [ID!], $researcher: ID, $startDate: CalendarDay, $endDate: CalendarDay) {
+export const SearchFilterContentDocument = gql`
+    query SearchFilterContent {
+  researchAreas(where: {status: {equals: published}}) {
+    id
+    title
+  }
+  researchers(where: {publications: {every: {status: {equals: published}}}}) {
+    id
+    name
+  }
+}
+    `;
+export const SearchPaginatedDocument = gql`
+    query SearchPaginated($query: String, $researchAreas: [ID!], $researcher: ID, $startDate: CalendarDay, $endDate: CalendarDay) {
   actions(
     where: {status: {equals: published}, title: {contains: $query, mode: insensitive}, date: {gte: $startDate, lte: $endDate}}
   ) {
@@ -3486,20 +3490,8 @@ export const SearchDocument = gql`
   }
 }
     `;
-export const SearchFilterContentDocument = gql`
-    query SearchFilterContent {
-  researchAreas(where: {status: {equals: published}}) {
-    id
-    title
-  }
-  researchers(where: {publications: {every: {status: {equals: published}}}}) {
-    id
-    name
-  }
-}
-    `;
-export const TeamMembersPaginatedDocument = gql`
-    query TeamMembersPaginated($take: Int, $skip: Int) {
+export const TeamPaginatedDocument = gql`
+    query TeamPaginated($take: Int, $skip: Int) {
   data: teamMembers(
     take: $take
     skip: $skip
@@ -3516,12 +3508,38 @@ export const TeamMembersPaginatedDocument = gql`
   count: teamMembersCount(where: {status: {equals: published}})
 }
     `;
-export const TeamMembersPageDocument = gql`
-    query TeamMembersPage {
+export const TeamSectionDocument = gql`
+    query TeamSection {
   teamSection {
     id
     title
     content
+  }
+}
+    `;
+export const RootDocument = gql`
+    query Root {
+  homeSection {
+    id
+    title
+    content
+  }
+  company(where: {id: 1}) {
+    id
+    title
+    address
+    email
+    phone
+    facebookUrl
+    instagramUrl
+    youtubeUrl
+  }
+}
+    `;
+export const AddNewsletterListDocument = gql`
+    mutation AddNewsletterList($data: NewsletterListCreateInput!) {
+  createNewsletterList(data: $data) {
+    id
   }
 }
     `;
@@ -3533,80 +3551,80 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    Root(variables?: RootQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<RootQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<RootQuery>(RootDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Root', 'query', variables);
-    },
-    HomePage(variables?: HomePageQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<HomePageQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<HomePageQuery>(HomePageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'HomePage', 'query', variables);
-    },
-    Action(variables?: ActionQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ActionQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ActionQuery>(ActionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Action', 'query', variables);
+    ActionPaginated(variables?: ActionPaginatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ActionPaginatedQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ActionPaginatedQuery>(ActionPaginatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ActionPaginated', 'query', variables);
     },
     ActionRelated(variables?: ActionRelatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ActionRelatedQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ActionRelatedQuery>(ActionRelatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ActionRelated', 'query', variables);
     },
-    ActionsPaginated(variables?: ActionsPaginatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ActionsPaginatedQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ActionsPaginatedQuery>(ActionsPaginatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ActionsPaginated', 'query', variables);
+    ActionSection(variables?: ActionSectionQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ActionSectionQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ActionSectionQuery>(ActionSectionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ActionSection', 'query', variables);
     },
-    ActionsPage(variables?: ActionsPageQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ActionsPageQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ActionsPageQuery>(ActionsPageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ActionsPage', 'query', variables);
+    Action(variables?: ActionQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ActionQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ActionQuery>(ActionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Action', 'query', variables);
     },
-    AddNewsletterList(variables: AddNewsletterListMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AddNewsletterListMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AddNewsletterListMutation>(AddNewsletterListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AddNewsletterList', 'mutation', variables);
-    },
-    Event(variables?: EventQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<EventQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<EventQuery>(EventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Event', 'query', variables);
+    EventPaginated(variables?: EventPaginatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<EventPaginatedQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<EventPaginatedQuery>(EventPaginatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'EventPaginated', 'query', variables);
     },
     EventRelated(variables?: EventRelatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<EventRelatedQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<EventRelatedQuery>(EventRelatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'EventRelated', 'query', variables);
     },
-    EventsPaginated(variables?: EventsPaginatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<EventsPaginatedQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<EventsPaginatedQuery>(EventsPaginatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'EventsPaginated', 'query', variables);
+    EventSection(variables?: EventSectionQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<EventSectionQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<EventSectionQuery>(EventSectionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'EventSection', 'query', variables);
     },
-    EventsPage(variables?: EventsPageQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<EventsPageQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<EventsPageQuery>(EventsPageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'EventsPage', 'query', variables);
+    Event(variables?: EventQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<EventQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<EventQuery>(EventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Event', 'query', variables);
     },
-    HistoryPage(variables?: HistoryPageQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<HistoryPageQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<HistoryPageQuery>(HistoryPageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'HistoryPage', 'query', variables);
+    History(variables?: HistoryQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<HistoryQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<HistoryQuery>(HistoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'History', 'query', variables);
     },
-    Project(variables?: ProjectQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ProjectQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ProjectQuery>(ProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Project', 'query', variables);
+    Home(variables?: HomeQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<HomeQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<HomeQuery>(HomeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Home', 'query', variables);
+    },
+    ProjectPaginated(variables?: ProjectPaginatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ProjectPaginatedQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ProjectPaginatedQuery>(ProjectPaginatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ProjectPaginated', 'query', variables);
     },
     ProjectRelated(variables?: ProjectRelatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ProjectRelatedQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ProjectRelatedQuery>(ProjectRelatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ProjectRelated', 'query', variables);
     },
-    ProjectsPaginated(variables?: ProjectsPaginatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ProjectsPaginatedQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ProjectsPaginatedQuery>(ProjectsPaginatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ProjectsPaginated', 'query', variables);
+    ProjectSection(variables?: ProjectSectionQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ProjectSectionQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ProjectSectionQuery>(ProjectSectionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ProjectSection', 'query', variables);
     },
-    ProjectsPage(variables?: ProjectsPageQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ProjectsPageQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ProjectsPageQuery>(ProjectsPageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ProjectsPage', 'query', variables);
+    Project(variables?: ProjectQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ProjectQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ProjectQuery>(ProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Project', 'query', variables);
     },
-    Publication(variables?: PublicationQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<PublicationQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PublicationQuery>(PublicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Publication', 'query', variables);
+    PublicationPage(variables?: PublicationPageQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<PublicationPageQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PublicationPageQuery>(PublicationPageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'PublicationPage', 'query', variables);
+    },
+    PublicationPaginated(variables?: PublicationPaginatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<PublicationPaginatedQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PublicationPaginatedQuery>(PublicationPaginatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'PublicationPaginated', 'query', variables);
     },
     PublicationRelated(variables?: PublicationRelatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<PublicationRelatedQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PublicationRelatedQuery>(PublicationRelatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'PublicationRelated', 'query', variables);
     },
-    PublicationsPaginated(variables?: PublicationsPaginatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<PublicationsPaginatedQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PublicationsPaginatedQuery>(PublicationsPaginatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'PublicationsPaginated', 'query', variables);
+    Publication(variables?: PublicationQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<PublicationQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PublicationQuery>(PublicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Publication', 'query', variables);
     },
-    PublicationsPage(variables?: PublicationsPageQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<PublicationsPageQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PublicationsPageQuery>(PublicationsPageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'PublicationsPage', 'query', variables);
-    },
-    ResearchPage(variables?: ResearchPageQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ResearchPageQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ResearchPageQuery>(ResearchPageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ResearchPage', 'query', variables);
-    },
-    Search(variables?: SearchQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SearchQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<SearchQuery>(SearchDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Search', 'query', variables);
+    Research(variables?: ResearchQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<ResearchQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ResearchQuery>(ResearchDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Research', 'query', variables);
     },
     SearchFilterContent(variables?: SearchFilterContentQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SearchFilterContentQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<SearchFilterContentQuery>(SearchFilterContentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SearchFilterContent', 'query', variables);
     },
-    TeamMembersPaginated(variables?: TeamMembersPaginatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<TeamMembersPaginatedQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<TeamMembersPaginatedQuery>(TeamMembersPaginatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'TeamMembersPaginated', 'query', variables);
+    SearchPaginated(variables?: SearchPaginatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<SearchPaginatedQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<SearchPaginatedQuery>(SearchPaginatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'SearchPaginated', 'query', variables);
     },
-    TeamMembersPage(variables?: TeamMembersPageQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<TeamMembersPageQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<TeamMembersPageQuery>(TeamMembersPageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'TeamMembersPage', 'query', variables);
+    TeamPaginated(variables?: TeamPaginatedQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<TeamPaginatedQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<TeamPaginatedQuery>(TeamPaginatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'TeamPaginated', 'query', variables);
+    },
+    TeamSection(variables?: TeamSectionQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<TeamSectionQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<TeamSectionQuery>(TeamSectionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'TeamSection', 'query', variables);
+    },
+    Root(variables?: RootQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<RootQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<RootQuery>(RootDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Root', 'query', variables);
+    },
+    AddNewsletterList(variables: AddNewsletterListMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AddNewsletterListMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<AddNewsletterListMutation>(AddNewsletterListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AddNewsletterList', 'mutation', variables);
     }
   };
 }

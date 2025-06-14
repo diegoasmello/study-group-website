@@ -7,7 +7,6 @@ import {
   useSubmit,
 } from "@remix-run/react";
 import { parseISO } from "date-fns";
-import { gql } from "graphql-request";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { CardAction } from "~/components/CardAction";
@@ -18,53 +17,9 @@ import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import {
-  ActionsPageQuery,
-  ActionsPaginatedQuery,
-  ActionsPaginatedQueryVariables,
-} from "~/graphql/generated";
-
-import { client } from "~/lib/graphql-client.server";
 import { checkPageNotFound, getRootMatch, metaTags } from "~/utils";
-import { paginate } from "~/utils/paginator.server";
 
-const ACTIONS_QUERY = gql`
-  query ActionsPaginated($query: String, $take: Int, $skip: Int) {
-    data: actions(
-      take: $take
-      skip: $skip
-      where: {
-        status: { equals: published }
-        title: { contains: $query, mode: insensitive }
-      }
-      orderBy: { publishedAt: desc }
-    ) {
-      id
-      slug
-      title
-      date
-      image {
-        url
-      }
-    }
-    count: actionsCount(
-      where: {
-        status: { equals: published }
-        title: { contains: $query, mode: insensitive }
-      }
-    )
-  }
-`;
-
-const PAGE_QUERY = gql`
-  query ActionsPage {
-    actionsSection {
-      id
-      title
-      content
-    }
-  }
-`;
+import { getActionPaginated, getActionSection } from "~/api/actions";
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -88,24 +43,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const q = url.searchParams.get("q");
   const page = params.page ? Number(params.page) : 1;
 
-  const paginatedActions = await paginate<
-    ActionsPaginatedQuery["data"],
-    ActionsPaginatedQueryVariables
-  >({
-    query: ACTIONS_QUERY,
-    pageInfo: {
-      currentPage: page,
-      perPage: 6,
-    },
-    variables: { query: q ?? "" },
-  });
-
-  const { actionsSection } = await client.request<ActionsPageQuery>(PAGE_QUERY);
+  const paginatedActions = await getActionPaginated(q, page);
+  const heroSection = await getActionSection();
 
   checkPageNotFound({ page, lastPage: paginatedActions.meta.lastPage });
 
   return json({
-    heroSection: actionsSection,
+    heroSection,
     paginatedActions,
     q,
     url: request.url,

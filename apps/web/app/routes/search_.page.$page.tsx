@@ -7,131 +7,33 @@ import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData, useSearchParams } from "@remix-run/react";
 import clsx from "clsx";
 import { parseISO } from "date-fns";
-import { gql } from "graphql-request";
 import { useTranslation } from "react-i18next";
 import { Fragment } from "react/jsx-runtime";
+import { getSearchFilterContent, getSearchPaginated } from "~/api/search";
 import { CardContainer } from "~/components/Card";
 import { CardAction } from "~/components/CardAction";
 import { CardEvent } from "~/components/CardEvent";
 import { CardProject } from "~/components/CardProject";
 import { CardPublication } from "~/components/CardPublication";
 import { CardResearch } from "~/components/CardResearch";
+import { ComboboxItem } from "~/components/ComboboxInput";
 import { Container } from "~/components/Container";
-import { FilterForm, parseSearchParams } from "~/components/FilterForm";
+import { FilterForm } from "~/components/FilterForm";
 import { IconChevronDown } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import {
-  SearchFilterContentQuery,
-  SearchQuery,
-  SearchQueryVariables,
-} from "~/graphql/generated";
-import { client } from "~/lib/graphql-client.server";
-import { ArrayElement } from "~/types";
 
 import { getRootMatch } from "~/utils";
-import { paginate } from "~/utils/paginator.server";
 
-const SEARCH_QUERY = gql`
-  query Search(
-    $query: String
-    $researchAreas: [ID!]
-    $researcher: ID
-    $startDate: CalendarDay
-    $endDate: CalendarDay
-  ) {
-    actions(
-      where: {
-        status: { equals: published }
-        title: { contains: $query, mode: insensitive }
-        date: { gte: $startDate, lte: $endDate }
-      }
-    ) {
-      id
-      slug
-      title
-      image {
-        url
-      }
-      date
-      __typename
-    }
-    publications(
-      where: {
-        status: { equals: published }
-        title: { contains: $query, mode: insensitive }
-        researchers: { some: { id: { equals: $researcher } } }
-        researchArea: { id: { in: $researchAreas } }
-        date: { gte: $startDate, lte: $endDate }
-      }
-    ) {
-      id
-      slug
-      title
-      resume
-      date
-      link
-      researchers {
-        id
-        name
-      }
-      __typename
-    }
-    events(
-      where: {
-        status: { equals: published }
-        title: { contains: $query, mode: insensitive }
-        date: { gte: $startDate, lte: $endDate }
-      }
-    ) {
-      id
-      slug
-      title
-      date
-      locale
-      link
-      image {
-        url
-      }
-      __typename
-    }
-    projects(
-      where: {
-        status: { equals: published }
-        title: { contains: $query, mode: insensitive }
-        researchers: { some: { id: { equals: $researcher } } }
-        researchArea: { id: { in: $researchAreas } }
-        startDate: { gte: $startDate }
-        endDate: { lte: $endDate }
-      }
-    ) {
-      id
-      slug
-      title
-      image {
-        url
-      }
-      __typename
-    }
-  }
-`;
-
-const FILTER_CONTENT_QUERY = gql`
-  query SearchFilterContent {
-    researchAreas(where: { status: { equals: published } }) {
-      id
-      title
-    }
-    researchers(
-      where: { publications: { every: { status: { equals: published } } } }
-    ) {
-      id
-      name
-    }
-  }
-`;
+export type SearchParams = {
+  query: string | undefined;
+  researchAreas: string[] | undefined;
+  researcher: ComboboxItem;
+  startDate: string | undefined;
+  endDate: string | undefined;
+};
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const {
@@ -140,64 +42,14 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   return [{ title: "Search | " + company?.title }];
 };
 
-type SearchReturnType = Array<
-  | ArrayElement<SearchQuery["actions"]>
-  | ArrayElement<SearchQuery["events"]>
-  | ArrayElement<SearchQuery["publications"]>
-  | ArrayElement<SearchQuery["projects"]>
->;
-
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const searchParams = parseSearchParams(url.searchParams);
   const page = params.page ? Number(params.page) : 1;
 
-  const items = await paginate<
-    SearchReturnType,
-    SearchQueryVariables,
-    SearchQuery
-  >({
-    query: SEARCH_QUERY,
-    pageInfo: {
-      currentPage: page,
-      perPage: 5,
-    },
-    variables: {
-      researcher: searchParams.researcher?.value,
-      researchAreas: searchParams.researchAreas,
-      query: searchParams.query,
-      startDate: searchParams.startDate || undefined,
-      endDate: searchParams.endDate || undefined,
-    },
-    extract: (response) => ({
-      count:
-        (response.actions ?? [])?.length +
-        (response.events ?? [])?.length +
-        (response.publications ?? [])?.length +
-        (response.projects ?? [])?.length,
-      data: [
-        ...(response.actions ?? []).map((item) => ({
-          ...item,
-          __typename: "Action",
-        })),
-        ...(response.publications ?? []).map((item) => ({
-          ...item,
-          __typename: "Publication",
-        })),
-        ...(response.events ?? []).map((item) => ({
-          ...item,
-          __typename: "Event",
-        })),
-        ...(response.projects ?? []).map((item) => ({
-          ...item,
-          __typename: "Project",
-        })),
-      ] as SearchReturnType,
-    }),
-  });
+  const items = await getSearchPaginated(page, searchParams);
 
-  const { researchAreas, researchers } =
-    await client.request<SearchFilterContentQuery>(FILTER_CONTENT_QUERY);
+  const { researchAreas, researchers } = await getSearchFilterContent();
 
   return json({ items, researchAreas, researchers });
 }
@@ -358,4 +210,21 @@ export default function Search() {
       </Container>
     </main>
   );
+}
+
+function parseSearchParams(searchParams: URLSearchParams): SearchParams {
+  const researcher: ComboboxItem = JSON.parse(
+    decodeURIComponent(searchParams.get("researcher")!),
+  );
+  const startDate = searchParams.get("startDate") ?? undefined;
+  const endDate = searchParams.get("endDate") ?? undefined;
+  const researchAreas = searchParams.getAll("researchAreas[]");
+
+  return {
+    query: searchParams.get("q") ?? undefined,
+    researchAreas: researchAreas.length ? researchAreas : undefined,
+    researcher: researcher,
+    startDate: startDate,
+    endDate: endDate,
+  };
 }

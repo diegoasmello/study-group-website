@@ -1,0 +1,22 @@
+query Publication($slug: String) {
+  publication(where: { slug: $slug }) {
+    id
+    slug
+    title
+    keywords
+    resume
+    date
+    doi
+    magazine
+    link
+    license
+    status
+    content {
+      document
+    }
+    researchers {
+      id
+      name
+    }
+  }
+}

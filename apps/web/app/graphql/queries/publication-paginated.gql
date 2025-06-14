@@ -1,0 +1,42 @@
+query PublicationPaginated(
+  $take: Int
+  $skip: Int
+  $query: String
+  $researcher: ID
+  $researchAreas: [ID!]
+  $startDate: CalendarDay
+  $endDate: CalendarDay
+) {
+  data: publications(
+    take: $take
+    skip: $skip
+    where: {
+      status: { equals: published }
+      researchers: { some: { id: { equals: $researcher } } }
+      title: { contains: $query, mode: insensitive }
+      researchArea: { id: { in: $researchAreas } }
+      date: { gte: $startDate, lte: $endDate }
+    }
+    orderBy: { publishedAt: desc }
+  ) {
+    id
+    slug
+    title
+    link
+    date
+    resume
+    researchers {
+      id
+      name
+    }
+  }
+  count: publicationsCount(
+    where: {
+      status: { equals: published }
+      researchers: { some: { id: { equals: $researcher } } }
+      title: { contains: $query, mode: insensitive }
+      researchArea: { id: { in: $researchAreas } }
+      date: { gte: $startDate, lte: $endDate }
+    }
+  )
+}

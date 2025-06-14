@@ -99,20 +99,3 @@ export function FilterForm(props: FilterFormProps) {
     </Form>
   );
 }
-
-export function parseSearchParams(searchParams: URLSearchParams) {
-  const researcher: ComboboxItem = JSON.parse(
-    decodeURIComponent(searchParams.get("researcher")!),
-  );
-  const startDate = searchParams.get("startDate") ?? undefined;
-  const endDate = searchParams.get("endDate") ?? undefined;
-  const researchAreas = searchParams.getAll("researchAreas[]");
-
-  return {
-    query: searchParams.get("q") ?? undefined,
-    researchAreas: researchAreas.length ? researchAreas : undefined,
-    researcher: researcher,
-    startDate: startDate,
-    endDate: endDate,
-  };
-}

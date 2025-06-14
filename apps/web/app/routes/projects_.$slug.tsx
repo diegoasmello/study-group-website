@@ -1,6 +1,5 @@
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
-import { gql } from "graphql-request";
 import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
@@ -12,57 +11,12 @@ import { IconArrowForward } from "~/components/icons";
 import { ExternalLink } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { DocumentRenderer } from "~/components/DocumentRenderer";
-import {
-  ProjectQuery,
-  ProjectQueryVariables,
-  ProjectRelatedQuery,
-  ProjectRelatedQueryVariables,
-  ProjectStatusType,
-  QueryMode,
-} from "~/graphql/generated";
-import { client } from "~/lib/graphql-client.server";
+import { ProjectStatusType } from "~/graphql/generated";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { useLocale } from "~/hooks/useLocale";
-
-const PROJECT_QUERY = gql`
-  query Project($slug: String) {
-    project(where: { slug: $slug }) {
-      id
-      slug
-      title
-      keywords
-      link
-      startDate
-      endDate
-      status
-      researchers {
-        id
-        name
-      }
-      image {
-        url
-      }
-      content {
-        document
-      }
-    }
-  }
-`;
-
-const RELATED_QUERY = gql`
-  query ProjectRelated($where: ProjectWhereInput) {
-    projects(where: $where) {
-      id
-      slug
-      title
-      image {
-        url
-      }
-    }
-  }
-`;
+import { getProject, getProjectRelated } from "~/api/projects";
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   return metaTags({
@@ -74,46 +28,14 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const { project } = await client.request<ProjectQuery, ProjectQueryVariables>(
-    PROJECT_QUERY,
-    { slug: params.slug },
-  );
+  const project = await getProject(params.slug!);
 
   handleNotFound(project, project?.status === ProjectStatusType.Published);
 
-  const { terms } = getRelatedTerms(project?.title, project?.keywords);
-
-  const { projects: related } = await client.request<
-    ProjectRelatedQuery,
-    ProjectRelatedQueryVariables
-  >(RELATED_QUERY, {
-    where: {
-      status: {
-        equals: ProjectStatusType.Published,
-      },
-      id: {
-        not: {
-          equals: project?.id,
-        },
-      },
-      OR: terms.map((term) => ({
-        OR: [
-          {
-            title: {
-              contains: term,
-              mode: QueryMode.Insensitive,
-            },
-          },
-          {
-            keywords: {
-              contains: term,
-              mode: QueryMode.Insensitive,
-            },
-          },
-        ],
-      })),
-    },
-  });
+  const related = await getProjectRelated(
+    project!.id,
+    getRelatedTerms(project?.title, project?.keywords),
+  );
 
   return json({ project, related, url: request.url });
 }

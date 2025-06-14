@@ -1,57 +1,17 @@
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
 import { parseISO } from "date-fns";
-import { gql } from "graphql-request";
 import { useTranslation } from "react-i18next";
+import { getAction, getActionRelated } from "~/api/actions";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardAction } from "~/components/CardAction";
 import { Carousel } from "~/components/Carousel";
 import { Container } from "~/components/Container";
 import { DocumentRenderer } from "~/components/DocumentRenderer";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
-import {
-  ActionQuery,
-  ActionQueryVariables,
-  ActionRelatedQuery,
-  ActionRelatedQueryVariables,
-  ActionStatusType,
-  QueryMode,
-} from "~/graphql/generated";
-import { client } from "~/lib/graphql-client.server";
+import { ActionStatusType } from "~/graphql/generated";
+
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
-
-const ACTION_QUERY = gql`
-  query Action($slug: String) {
-    action(where: { slug: $slug }) {
-      id
-      slug
-      title
-      resume
-      keywords
-      status
-      image {
-        url
-      }
-      content {
-        document
-      }
-    }
-  }
-`;
-
-const RELATED_QUERY = gql`
-  query ActionRelated($where: ActionWhereInput) {
-    actions(where: $where) {
-      id
-      slug
-      title
-      date
-      image {
-        url
-      }
-    }
-  }
-`;
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   return metaTags({
@@ -63,46 +23,14 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const { action } = await client.request<ActionQuery, ActionQueryVariables>(
-    ACTION_QUERY,
-    { slug: params.slug },
-  );
+  const action = await getAction(params.slug!);
 
   handleNotFound(action, action?.status === ActionStatusType.Published);
 
-  const { terms } = getRelatedTerms(action?.title, action?.keywords);
-
-  const { actions: related } = await client.request<
-    ActionRelatedQuery,
-    ActionRelatedQueryVariables
-  >(RELATED_QUERY, {
-    where: {
-      status: {
-        equals: ActionStatusType.Published,
-      },
-      id: {
-        not: {
-          equals: action?.id,
-        },
-      },
-      OR: terms.map((term) => ({
-        OR: [
-          {
-            title: {
-              contains: term,
-              mode: QueryMode.Insensitive,
-            },
-          },
-          {
-            keywords: {
-              contains: term,
-              mode: QueryMode.Insensitive,
-            },
-          },
-        ],
-      })),
-    },
-  });
+  const related = await getActionRelated(
+    action!.id,
+    getRelatedTerms(action?.title, action?.keywords),
+  );
 
   return json({ action, related, url: request.url });
 }

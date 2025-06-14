@@ -1,0 +1,22 @@
+query Project($slug: String) {
+  project(where: { slug: $slug }) {
+    id
+    slug
+    title
+    keywords
+    link
+    startDate
+    endDate
+    status
+    researchers {
+      id
+      name
+    }
+    image {
+      url
+    }
+    content {
+      document
+    }
+  }
+}

@@ -1,0 +1,19 @@
+query EventRelated($id: ID, $terms: [EventWhereInput!]) {
+  events(
+    where: {
+      status: { equals: published }
+      id: { not: { equals: $id } }
+      OR: $terms
+    }
+  ) {
+    id
+    slug
+    title
+    date
+    locale
+    link
+    image {
+      url
+    }
+  }
+}

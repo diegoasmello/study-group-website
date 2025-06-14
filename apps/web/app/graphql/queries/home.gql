@@ -1,0 +1,64 @@
+query Home {
+  homeSection {
+    id
+    title
+    content
+    image {
+      url
+    }
+  }
+  researchAreas(where: { status: { equals: published } }) {
+    id
+    title
+    resume
+    icon {
+      url
+    }
+  }
+  events(
+    take: 9
+    orderBy: { publishedAt: desc }
+    where: { status: { equals: published } }
+  ) {
+    id
+    slug
+    title
+    resume
+    date
+    locale
+    link
+    image {
+      url
+    }
+  }
+  actions(
+    take: 9
+    orderBy: { publishedAt: desc }
+    where: { status: { equals: published } }
+  ) {
+    id
+    slug
+    title
+    resume
+    date
+    image {
+      url
+    }
+  }
+  publications(
+    take: 5
+    orderBy: { publishedAt: desc }
+    where: { status: { equals: published } }
+  ) {
+    id
+    slug
+    title
+    resume
+    date
+    link
+    researchers {
+      id
+      name
+    }
+  }
+}

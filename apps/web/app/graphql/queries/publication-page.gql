@@ -1,0 +1,17 @@
+query PublicationPage {
+  publicationsSection {
+    id
+    title
+    content
+  }
+  researchAreas(where: { status: { equals: published } }) {
+    id
+    title
+  }
+  researchers(
+    where: { publications: { every: { status: { equals: published } } } }
+  ) {
+    id
+    name
+  }
+}

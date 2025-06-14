@@ -1,0 +1,27 @@
+query EventPaginated($query: String, $take: Int, $skip: Int) {
+  data: events(
+    take: $take
+    skip: $skip
+    where: {
+      status: { equals: published }
+      title: { contains: $query, mode: insensitive }
+    }
+    orderBy: { publishedAt: desc }
+  ) {
+    id
+    slug
+    title
+    date
+    locale
+    link
+    image {
+      url
+    }
+  }
+  count: eventsCount(
+    where: {
+      status: { equals: published }
+      title: { contains: $query, mode: insensitive }
+    }
+  )
+}

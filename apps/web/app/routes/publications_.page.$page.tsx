@@ -24,65 +24,20 @@ import {
 import { Fragment } from "react/jsx-runtime";
 import clsx from "clsx";
 import { checkPageNotFound, getRootMatch, metaTags } from "~/utils";
-import { gql } from "graphql-request";
-import { client } from "~/lib/graphql-client.server";
-import {
-  PublicationsPageQuery,
-  PublicationsPaginatedQuery,
-  PublicationsPaginatedQueryVariables,
-  PublicationStatusType,
-  QueryMode,
-} from "~/graphql/generated";
-import { paginate } from "~/utils/paginator.server";
 import { FilterForm } from "~/components/FilterForm";
 import { useTranslation } from "react-i18next";
+import {
+  getPublicationPage,
+  getPublicationPaginated,
+} from "~/api/publications";
 
-const PUBLICATIONS_QUERY = gql`
-  query PublicationsPaginated(
-    $where: PublicationWhereInput
-    $take: Int
-    $skip: Int
-  ) {
-    data: publications(
-      take: $take
-      skip: $skip
-      where: $where
-      orderBy: { publishedAt: desc }
-    ) {
-      id
-      slug
-      title
-      link
-      date
-      resume
-      researchers {
-        id
-        name
-      }
-    }
-    count: publicationsCount(where: $where)
-  }
-`;
-
-const PAGE_QUERY = gql`
-  query PublicationsPage {
-    publicationsSection {
-      id
-      title
-      content
-    }
-    researchAreas(where: { status: { equals: published } }) {
-      id
-      title
-    }
-    researchers(
-      where: { publications: { every: { status: { equals: published } } } }
-    ) {
-      id
-      name
-    }
-  }
-`;
+export type PublicationParams = {
+  query: string | undefined;
+  researchAreas: string[] | undefined;
+  researcher: ComboboxItem;
+  startDate: string | undefined;
+  endDate: string | undefined;
+};
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -106,50 +61,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const searchParams = parseSearchParams(url.searchParams);
   const page = params.page ? Number(params.page) : 1;
 
-  const paginatedPublications = await paginate<
-    PublicationsPaginatedQuery["data"],
-    PublicationsPaginatedQueryVariables
-  >({
-    query: PUBLICATIONS_QUERY,
-    pageInfo: {
-      currentPage: page,
-      perPage: 6,
-    },
-    variables: {
-      where: {
-        status: {
-          equals: PublicationStatusType.Published,
-        },
-        researchers: {
-          some: searchParams.researcher?.value
-            ? {
-                id: {
-                  equals: searchParams.researcher
-                    ? searchParams.researcher.value
-                    : undefined,
-                },
-              }
-            : undefined,
-        },
-        title: {
-          contains: searchParams.query ?? "",
-          mode: QueryMode.Insensitive,
-        },
-        researchArea: {
-          id: {
-            in: searchParams.researchAreas,
-          },
-        },
-        date: {
-          ...(searchParams.startDate ? { gte: searchParams.startDate } : {}),
-          ...(searchParams.endDate ? { lte: searchParams.endDate } : {}),
-        },
-      },
-    },
-  });
+  const paginatedPublications = await getPublicationPaginated(
+    page,
+    searchParams,
+  );
 
   const { publicationsSection, researchAreas, researchers } =
-    await client.request<PublicationsPageQuery>(PAGE_QUERY);
+    await getPublicationPage();
 
   checkPageNotFound({ page, lastPage: paginatedPublications.meta.lastPage });
 
@@ -288,7 +206,7 @@ export default function PublicationsPage() {
   );
 }
 
-function parseSearchParams(searchParams: URLSearchParams) {
+function parseSearchParams(searchParams: URLSearchParams): PublicationParams {
   const researcher: ComboboxItem = JSON.parse(
     decodeURIComponent(searchParams.get("researcher")!),
   );

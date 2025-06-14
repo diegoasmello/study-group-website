@@ -1,7 +1,6 @@
 import { DocumentRenderer } from "~/components/DocumentRenderer";
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
-import { gql } from "graphql-request";
 import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
 import { CardContainer } from "~/components/Card";
@@ -11,58 +10,12 @@ import { Container } from "~/components/Container";
 import { IconArrowForward } from "~/components/icons";
 import { ExternalLink } from "~/components/Link";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
-import {
-  EventQuery,
-  EventQueryVariables,
-  EventRelatedQuery,
-  EventRelatedQueryVariables,
-  EventStatusType,
-  QueryMode,
-} from "~/graphql/generated";
-import { client } from "~/lib/graphql-client.server";
+import { EventStatusType } from "~/graphql/generated";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { useLocale } from "~/hooks/useLocale";
-
-const EVENT_QUERY = gql`
-  query Event($slug: String) {
-    event(where: { slug: $slug }) {
-      id
-      slug
-      title
-      resume
-      keywords
-      link
-      workload
-      date
-      locale
-      status
-      image {
-        url
-      }
-      content {
-        document
-      }
-    }
-  }
-`;
-
-const RELATED_QUERY = gql`
-  query EventRelated($where: EventWhereInput) {
-    events(where: $where) {
-      id
-      slug
-      title
-      date
-      locale
-      link
-      image {
-        url
-      }
-    }
-  }
-`;
+import { getEvent, getEventRelated } from "~/api/events";
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   return metaTags({
@@ -74,46 +27,14 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const { event } = await client.request<EventQuery, EventQueryVariables>(
-    EVENT_QUERY,
-    { slug: params.slug },
-  );
+  const event = await getEvent(params.slug!);
 
   handleNotFound(event, event?.status === EventStatusType.Published);
 
-  const { terms } = getRelatedTerms(event?.title, event?.keywords);
-
-  const { events: related } = await client.request<
-    EventRelatedQuery,
-    EventRelatedQueryVariables
-  >(RELATED_QUERY, {
-    where: {
-      status: {
-        equals: EventStatusType.Published,
-      },
-      id: {
-        not: {
-          equals: event?.id,
-        },
-      },
-      OR: terms.map((term) => ({
-        OR: [
-          {
-            title: {
-              contains: term,
-              mode: QueryMode.Insensitive,
-            },
-          },
-          {
-            keywords: {
-              contains: term,
-              mode: QueryMode.Insensitive,
-            },
-          },
-        ],
-      })),
-    },
-  });
+  const related = await getEventRelated(
+    event!.id,
+    getRelatedTerms(event?.title, event?.keywords),
+  );
 
   return json({ event, related, url: request.url });
 }

@@ -1,0 +1,81 @@
+query SearchPaginated(
+  $query: String
+  $researchAreas: [ID!]
+  $researcher: ID
+  $startDate: CalendarDay
+  $endDate: CalendarDay
+) {
+  actions(
+    where: {
+      status: { equals: published }
+      title: { contains: $query, mode: insensitive }
+      date: { gte: $startDate, lte: $endDate }
+    }
+  ) {
+    id
+    slug
+    title
+    image {
+      url
+    }
+    date
+    __typename
+  }
+  publications(
+    where: {
+      status: { equals: published }
+      title: { contains: $query, mode: insensitive }
+      researchers: { some: { id: { equals: $researcher } } }
+      researchArea: { id: { in: $researchAreas } }
+      date: { gte: $startDate, lte: $endDate }
+    }
+  ) {
+    id
+    slug
+    title
+    resume
+    date
+    link
+    researchers {
+      id
+      name
+    }
+    __typename
+  }
+  events(
+    where: {
+      status: { equals: published }
+      title: { contains: $query, mode: insensitive }
+      date: { gte: $startDate, lte: $endDate }
+    }
+  ) {
+    id
+    slug
+    title
+    date
+    locale
+    link
+    image {
+      url
+    }
+    __typename
+  }
+  projects(
+    where: {
+      status: { equals: published }
+      title: { contains: $query, mode: insensitive }
+      researchers: { some: { id: { equals: $researcher } } }
+      researchArea: { id: { in: $researchAreas } }
+      startDate: { gte: $startDate }
+      endDate: { lte: $endDate }
+    }
+  ) {
+    id
+    slug
+    title
+    image {
+      url
+    }
+    __typename
+  }
+}

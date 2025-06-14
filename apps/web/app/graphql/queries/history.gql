@@ -1,0 +1,34 @@
+query History {
+  historySection {
+    id
+    title
+    content
+  }
+  homeSection {
+    id
+    title
+    content
+  }
+  history {
+    id
+    titleOne
+    contentOne
+    titleTwo
+    contentTwo
+    titleThree
+    contentThree
+    titleFour
+    contentFour
+    titleFive
+    contentFive
+  }
+  teamMembers(take: 9, where: { status: { equals: published } }) {
+    id
+    name
+    role
+    link
+    image {
+      url
+    }
+  }
+}

@@ -12,78 +12,9 @@ import { CarouselHome, CarouselHomeItem } from "~/components/CarouselHome";
 import { ButtonLink } from "~/components/ButtonLink";
 import { useLoaderData } from "@remix-run/react";
 import { getRootMatch, metaTags } from "~/utils";
-import { gql } from "graphql-request";
-import { client } from "~/lib/graphql-client.server";
-import { HomePageQuery } from "~/graphql/generated";
 import { parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
-
-const HOME_PAGE_QUERY = gql`
-  query HomePage {
-    homeSection {
-      id
-      title
-      content
-      image {
-        url
-      }
-    }
-    researchAreas(where: { status: { equals: published } }) {
-      id
-      title
-      resume
-      icon {
-        url
-      }
-    }
-    events(
-      take: 9
-      orderBy: { publishedAt: desc }
-      where: { status: { equals: published } }
-    ) {
-      id
-      slug
-      title
-      resume
-      date
-      locale
-      link
-      image {
-        url
-      }
-    }
-    actions(
-      take: 9
-      orderBy: { publishedAt: desc }
-      where: { status: { equals: published } }
-    ) {
-      id
-      slug
-      title
-      resume
-      date
-      image {
-        url
-      }
-    }
-    publications(
-      take: 5
-      orderBy: { publishedAt: desc }
-      where: { status: { equals: published } }
-    ) {
-      id
-      slug
-      title
-      resume
-      date
-      link
-      researchers {
-        id
-        name
-      }
-    }
-  }
-`;
+import { getHome } from "~/api/home";
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -104,7 +35,7 @@ export const meta: MetaFunction<typeof loader> = ({
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { actions, events, publications, researchAreas, homeSection } =
-    await client.request<HomePageQuery>(HOME_PAGE_QUERY);
+    await getHome();
 
   return json({
     heroSection: homeSection,

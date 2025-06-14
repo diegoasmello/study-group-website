@@ -8,48 +8,9 @@ import { IconArrowForward } from "~/components/icons";
 import clsx from "clsx";
 import { getRootMatch, metaTags } from "~/utils";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { gql } from "graphql-request";
-import { client } from "~/lib/graphql-client.server";
-import { HistoryPageQuery } from "~/graphql/generated";
 import { NoResults } from "~/components/NoResults";
 import { useTranslation } from "react-i18next";
-
-const HISTORY_PAGE_QUERY = gql`
-  query HistoryPage {
-    historySection {
-      id
-      title
-      content
-    }
-    homeSection {
-      id
-      title
-      content
-    }
-    history {
-      id
-      titleOne
-      contentOne
-      titleTwo
-      contentTwo
-      titleThree
-      contentThree
-      titleFour
-      contentFour
-      titleFive
-      contentFive
-    }
-    teamMembers(take: 9, where: { status: { equals: published } }) {
-      id
-      name
-      role
-      link
-      image {
-        url
-      }
-    }
-  }
-`;
+import { getHistory } from "~/api/history";
 
 export const meta: MetaFunction<typeof loader> = ({
   data: dbData,
@@ -70,7 +31,7 @@ export const meta: MetaFunction<typeof loader> = ({
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { history, historySection, homeSection, teamMembers } =
-    await client.request<HistoryPageQuery>(HISTORY_PAGE_QUERY);
+    await getHistory();
 
   return json({
     history,

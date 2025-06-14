@@ -1,0 +1,27 @@
+query Research {
+  researchSection {
+    id
+    title
+    content
+  }
+  researchAreas(where: { status: { equals: published } }) {
+    title
+    image {
+      url
+    }
+    icon {
+      url
+    }
+    content {
+      document
+    }
+    projects {
+      id
+      slug
+      title
+      image {
+        url
+      }
+    }
+  }
+}

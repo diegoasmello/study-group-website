@@ -1,50 +1,14 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
-import { gql } from "graphql-request";
 import { useTranslation } from "react-i18next";
+import { getTeamPaginated, getTeamSection } from "~/api/team";
 import { CardTeamMember } from "~/components/CardTeamMember";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import {
-  TeamMembersPaginatedQuery,
-  TeamMembersPaginatedQueryVariables,
-  TeamMembersPageQuery,
-} from "~/graphql/generated";
-import { client } from "~/lib/graphql-client.server";
 import { checkPageNotFound, getRootMatch, metaTags } from "~/utils";
-import { paginate } from "~/utils/paginator.server";
-
-const TEAM_MEMBERS_QUERY = gql`
-  query TeamMembersPaginated($take: Int, $skip: Int) {
-    data: teamMembers(
-      take: $take
-      skip: $skip
-      where: { status: { equals: published } }
-    ) {
-      id
-      name
-      role
-      link
-      image {
-        url
-      }
-    }
-    count: teamMembersCount(where: { status: { equals: published } })
-  }
-`;
-
-const PAGE_QUERY = gql`
-  query TeamMembersPage {
-    teamSection {
-      id
-      title
-      content
-    }
-  }
-`;
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -65,26 +29,15 @@ export const meta: MetaFunction<typeof loader> = ({
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
-
-  const paginatedTeamMembers = await paginate<
-    TeamMembersPaginatedQuery["data"],
-    TeamMembersPaginatedQueryVariables
-  >({
-    query: TEAM_MEMBERS_QUERY,
-    pageInfo: {
-      currentPage: page,
-      perPage: 9,
-    },
-  });
+  const paginatedTeamMembers = await getTeamPaginated(page);
 
   checkPageNotFound({ page, lastPage: paginatedTeamMembers.meta.lastPage });
 
-  const { teamSection } =
-    await client.request<TeamMembersPageQuery>(PAGE_QUERY);
+  const heroSection = await getTeamSection();
 
   return json({
     paginatedTeamMembers,
-    heroSection: teamSection,
+    heroSection,
     url: request.url,
   });
 }

@@ -1,7 +1,6 @@
 import { DocumentRenderer } from "~/components/DocumentRenderer";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
-import { gql } from "graphql-request";
 import { Button } from "~/components/Button";
 import { ButtonLink } from "~/components/ButtonLink";
 import { ButtonShare } from "~/components/ButtonShare";
@@ -13,62 +12,12 @@ import { Container } from "~/components/Container";
 import { IconCalendar, IconContract, IconSignature } from "~/components/icons";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { Tooltip } from "~/components/Tooltip";
-import {
-  PublicationQuery,
-  PublicationQueryVariables,
-  PublicationRelatedQuery,
-  PublicationRelatedQueryVariables,
-  PublicationStatusType,
-  QueryMode,
-} from "~/graphql/generated";
-
-import { client } from "~/lib/graphql-client.server";
+import { PublicationQuery, PublicationStatusType } from "~/graphql/generated";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { useLocale } from "~/hooks/useLocale";
-
-const PUBLICATION_QUERY = gql`
-  query Publication($slug: String) {
-    publication(where: { slug: $slug }) {
-      id
-      slug
-      title
-      keywords
-      resume
-      date
-      doi
-      magazine
-      link
-      license
-      status
-      content {
-        document
-      }
-      researchers {
-        id
-        name
-      }
-    }
-  }
-`;
-
-const RELATED_QUERY = gql`
-  query PublicationRelated($where: PublicationWhereInput) {
-    publications(where: $where) {
-      id
-      slug
-      title
-      resume
-      date
-      link
-      researchers {
-        id
-        name
-      }
-    }
-  }
-`;
+import { getPublication, getPublicationRelated } from "~/api/publications";
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   return metaTags({
@@ -80,49 +29,17 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const { publication } = await client.request<
-    PublicationQuery,
-    PublicationQueryVariables
-  >(PUBLICATION_QUERY, { slug: params.slug });
+  const publication = await getPublication(params.slug!);
 
   handleNotFound(
     publication,
     publication?.status === PublicationStatusType.Published,
   );
 
-  const { terms } = getRelatedTerms(publication?.title, publication?.keywords);
-
-  const { publications: related } = await client.request<
-    PublicationRelatedQuery,
-    PublicationRelatedQueryVariables
-  >(RELATED_QUERY, {
-    where: {
-      status: {
-        equals: PublicationStatusType.Published,
-      },
-      id: {
-        not: {
-          equals: publication?.id,
-        },
-      },
-      OR: terms.map((term) => ({
-        OR: [
-          {
-            title: {
-              contains: term,
-              mode: QueryMode.Insensitive,
-            },
-          },
-          {
-            keywords: {
-              contains: term,
-              mode: QueryMode.Insensitive,
-            },
-          },
-        ],
-      })),
-    },
-  });
+  const related = await getPublicationRelated(
+    publication!.id,
+    getRelatedTerms(publication?.title, publication?.keywords),
+  );
 
   return json({ publication, related, url: request.url });
 }

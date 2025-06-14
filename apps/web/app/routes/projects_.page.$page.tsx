@@ -1,50 +1,14 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, MetaFunction, useLoaderData } from "@remix-run/react";
-import { gql } from "graphql-request";
 import { useTranslation } from "react-i18next";
+import { getProjectPaginated, getProjectSection } from "~/api/projects";
 import { CardProject } from "~/components/CardProject";
 import { Container } from "~/components/Container";
 import { NewsletterBanner } from "~/components/NewsletterBanner";
 import { NoResults } from "~/components/NoResults";
 import { PageBanner } from "~/components/PageBanner";
 import { Paginator } from "~/components/Paginator";
-import {
-  ProjectsPageQuery,
-  ProjectsPaginatedQuery,
-  ProjectsPaginatedQueryVariables,
-} from "~/graphql/generated";
-import { client } from "~/lib/graphql-client.server";
 import { checkPageNotFound, getRootMatch, metaTags } from "~/utils";
-import { paginate } from "~/utils/paginator.server";
-
-const PROJECTS_QUERY = gql`
-  query ProjectsPaginated($take: Int, $skip: Int) {
-    data: projects(
-      take: $take
-      skip: $skip
-      where: { status: { equals: published } }
-      orderBy: { publishedAt: desc }
-    ) {
-      id
-      slug
-      title
-      image {
-        url
-      }
-    }
-    count: projectsCount(where: { status: { equals: published } })
-  }
-`;
-
-const PAGE_QUERY = gql`
-  query ProjectsPage {
-    projectsSection {
-      id
-      title
-      content
-    }
-  }
-`;
 
 export const meta: MetaFunction<typeof loader> = ({
   data,
@@ -65,26 +29,14 @@ export const meta: MetaFunction<typeof loader> = ({
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const page = params.page ? Number(params.page) : 1;
-
-  const paginatedProjects = await paginate<
-    ProjectsPaginatedQuery["data"],
-    ProjectsPaginatedQueryVariables
-  >({
-    query: PROJECTS_QUERY,
-    pageInfo: {
-      currentPage: page,
-      perPage: 9,
-    },
-  });
-
-  const { projectsSection } =
-    await client.request<ProjectsPageQuery>(PAGE_QUERY);
+  const paginatedProjects = await getProjectPaginated(page);
+  const heroSection = await getProjectSection();
 
   checkPageNotFound({ page, lastPage: paginatedProjects.meta.lastPage });
 
   return json({
     paginatedProjects: paginatedProjects,
-    heroSection: projectsSection,
+    heroSection,
     url: request.url,
   });
 }
