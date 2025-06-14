@@ -33,8 +33,8 @@ import clsx from "clsx";
 import { flags } from "~/flags";
 import { useTranslation } from "react-i18next";
 import { TextInput } from "./TextInput";
-import { useIsMobile } from "~/hooks/useMobile";
-import { useHeader } from "~/hooks/useHeader";
+import { useIsMobile } from "~/hooks/use-is-mobile";
+import { useHeader } from "~/hooks/use-header";
 
 export function Header() {
   const location = useLocation();

@@ -16,7 +16,7 @@ import { PublicationQuery, PublicationStatusType } from "~/graphql/generated";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { useLocale } from "~/hooks/useLocale";
+import { useLocale } from "~/hooks/use-locale";
 import { getPublication, getPublicationRelated } from "~/api/publications";
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {

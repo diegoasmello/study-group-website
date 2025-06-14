@@ -15,7 +15,7 @@ import { ProjectStatusType } from "~/graphql/generated";
 import { listFormat, getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { useLocale } from "~/hooks/useLocale";
+import { useLocale } from "~/hooks/use-locale";
 import { getProject, getProjectRelated } from "~/api/projects";
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {

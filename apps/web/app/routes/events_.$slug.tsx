@@ -14,7 +14,7 @@ import { EventStatusType } from "~/graphql/generated";
 import { getRelatedTerms, handleNotFound, metaTags } from "~/utils";
 import { parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { useLocale } from "~/hooks/useLocale";
+import { useLocale } from "~/hooks/use-locale";
 import { getEvent, getEventRelated } from "~/api/events";
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
